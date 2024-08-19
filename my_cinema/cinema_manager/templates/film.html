@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block filmDetail %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
+<div class="swiper-container" style="width: 1500px; height: 400px;">
+    <div class="swiper-wrapper" >
+        <!-- Slides will be created dynamically -->
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+
+
+
+<div id="film-detail">
+
+</div>
+
+<div id="category-film-list">
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+<script>
+    // Get the film ID from the URL
+    const url = new URL(window.location.href);
+    const filmId = url.pathname.split('/')[2];
+
+    // Fetch the film details
+    fetch(`/api/films/${filmId}/`)
+    .then(response => response.json())
+    .then(data => {
+        const filmDetailContainer = document.getElementById('film-detail');
+        filmDetailContainer.innerHTML = `
+            <div class="container my-5">
+                <h1 id="film-name">${data.name}</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img id="film-image" class="img-fluid" src="${data.poster}" alt="Film Image">
+                    </div>
+                    <div class="col-md-6">
+                        <p id="film-description">${data.description}</p>
+                    </div>
+                    <div class="row" id="category-${data.id}">
+                      
+                    </div>
+                    <button class="btn btn-success btn-booking" data-film-id="${data.id}">Đặt vé</button>
+                </div>
+            </div>
+        `;
+        
+        getCategoryByFilmId(data.id,`category-${data.id}`);
+        getMultimediaData(data.id);
+        filmDetailContainer.querySelector('.btn-booking').addEventListener('click', () => {
+            window.location.href = `/bookfilm/${data.id}/`
+        });
+
+    })
+    .catch(error => {
+        console.error('Error fetching film details:', error);
+    });
+
+    function getCategoryByFilmId(filmIdCategory, categoryListId) {
+        fetch(`/api/categoryfilms/?film=${filmIdCategory}`)
+        .then(response => response.json())
+        .then(data => {
+          const categoryFilmList = document.getElementById(categoryListId);
+          categoryFilmList.innerHTML = ''; // Xóa nội dung cũ
+    
+          data.results.forEach(categoryFilm => {
+            const categoryFilmItem = document.createElement('div');
+            categoryFilmItem.classList.add('category-film-title');
+            categoryFilmItem.innerHTML = `
+              
+                
+                  <span class="">${categoryFilm.category.name}</span>
+
+             
+            `;
+            categoryFilmList.appendChild(categoryFilmItem);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching categoryfilm list:', error);
+        });
+
+    }
+
+
+
+   
+
+    let dataArray = [];
+
+    function getMultimediaData(filmIdListImg) {
+        fetch(`/api/videos/?film=${filmIdListImg}`)
+            .then(response => response.json())
+            .then(videoData => {
+                videoData.results.forEach(video => {
+                    dataArray.push({
+                        type: 'video',
+                        src: video.video,
+                        videoType: video.video_type
+                    });
+                });
+
+                fetch(`/api/images/?film=${filmIdListImg}`)
+                    .then(response => response.json())
+                    .then(imageData => {
+                        imageData.results.forEach(image => {
+                            dataArray.push({
+                                type: 'image',
+                                src: image.image,
+                                alt: image.id
+                            });
+                        });
+                        
+                        initSwiper(dataArray);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching image data:', error);
+                    });
+            })
+            .catch(error => {
+                console.error('Error fetching video data:', error);
+            });
+    }
+
+    function initSwiper(dataArray) {
+        const swiperContainer = document.querySelector('.swiper-container');
+        const swiperWrapper = swiperContainer.querySelector('.swiper-wrapper');
+    
+        dataArray.forEach(data => {
+            const swiperSlide = document.createElement('div');
+            swiperSlide.classList.add('swiper-slide');
+    
+            if (data.type === 'image') {
+                swiperSlide.innerHTML = `
+                    <img src="${data.src}" alt="${data.alt}" style="width: 100%; height: 400px; object-fit: cover;">
+                `;
+            } else if (data.type === 'video') {
+                swiperSlide.innerHTML = `
+                    <video controls style="width: 100%; height: 400px; object-fit: cover;">
+                        <source src="${data.src}" type="${data.videoType}">
+                    </video>
+                `;
+            }
+    
+            swiperWrapper.appendChild(swiperSlide);
+        });
+    
+        new Swiper('.swiper-container', {
+            loop: true,
+
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+
+    }
+
+
+
+
+    
+
+</script>
+{% endblock filmDetail %}

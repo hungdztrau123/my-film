@@ -1,0 +1,213 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block sliderHome %} 
+    <!-- <link rel="stylesheet" href="/static/css/home.css"> -->
+    <link href="{% static 'css/home.css' %}" rel="stylesheet" />
+    <div>
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner">
+                <!-- Nội dung các slide sẽ được tạo động bằng JavaScript -->
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        // Lấy danh sách phim từ API
+        fetch('/api/films/?status__iexact=Now')
+            .then(response => response.json())
+            .then(data => {
+                const carouselInner = document.querySelector('.carousel-inner');
+
+                // Tạo các slide từ dữ liệu phim
+                data.results.forEach((film, index) => {
+                    const carouselItem = document.createElement('div');
+                    carouselItem.classList.add('carousel-item');
+                    if (index === 0) {
+                        carouselItem.classList.add('active');
+                    }
+                    carouselItem.innerHTML = `
+                        <img src="${film.banner}" style="width: 100%; height: 300px;" alt="${film.name}">
+                    `;
+                    carouselItem.addEventListener('click', () => {
+                        window.location.href = `/film/${film.id}/`;
+                    });
+                    carouselInner.appendChild(carouselItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching film data:', error);
+            });
+
+
+
+
+        // Tự động dừng carousel khi di chuột vào, chạy lại khi di chuột ra
+        const carousel = document.getElementById('carouselExampleInterval');
+        carousel.addEventListener('mouseenter', () => {
+            carousel.pause();
+        });
+        carousel.addEventListener('mouseleave', () => {
+            carousel.cycle();
+        });
+    </script>
+
+{% endblock sliderHome %}
+
+{% block contentHome %}
+    <div class="container">
+        <h2>Film List</h2>
+        <div class="row" id="film-list">
+        <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+        </div>
+    </div>
+
+    <script>
+    // Lấy danh sách phim từ API
+    fetch('/api/films/?status__iexact=Now')
+    .then(response => response.json())
+    .then(data => {
+    const filmList = document.getElementById('film-list');
+
+    // Tạo các phần tử phim
+    data.results.forEach(film => {
+        const filmItem = document.createElement('div');
+        filmItem.classList.add('col-md-3', 'mb-4');
+        filmItem.innerHTML = `
+            <div class="card">
+                <img src="${film.poster}" class="card-img-top" alt="${film.name}">
+                <div class="card-body">
+                    <h5 class="card-title">${film.name}</h5>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary btn-film-details" data-film-id="${film.id}">Xem chi tiết</button>
+                        <button class="btn btn-success btn-booking" data-film-id="${film.id}">Đặt vé</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
+            window.location.href = `/film/${film.id}/`;
+        });
+        filmItem.querySelector('.btn-booking').addEventListener('click', () => {
+            window.location.href = `/bookfilm/${film.id}/`;
+        });
+        filmList.appendChild(filmItem);
+    });
+    })
+    .catch(error => {
+    console.error('Error fetching film data:', error);
+    });
+
+    
+
+    </script>
+
+{% endblock contentHome %}
+
+
+{% block topFilm %}
+<div id="top-film">
+
+</div>
+
+<script>
+    // Lấy danh sách phim từ API
+    fetch('/api/films/?status__iexact=Now&ordering=-imdb')
+    .then(response => response.json())
+    .then(data => {
+    const filmList = document.getElementById('top-film');
+
+    // Tạo các phần tử phim
+    data.results.forEach(film => {
+        const filmItem = document.createElement('div');
+        filmItem.classList.add('col-md-3', 'mb-4');
+        filmItem.innerHTML = `
+            <div class="film"> 
+                    <span class="film-age">${film.age}</span>
+                    <span class="film-name">${film.name}</span>
+                    <span class="film-imdb">${film.imdb}</span>
+                    <span class="film-release">${film.release}</span>
+
+
+            </div>
+        `;
+        filmItem.addEventListener('click', () => {
+            window.location.href = `/film/${film.id}/`;
+
+        });
+        filmList.appendChild(filmItem);
+    });
+    })
+    .catch(error => {
+    console.error('Error fetching film data:', error);
+    });
+
+    
+</script>
+
+
+{% endblock topFilm %}
+
+
+{% block promotionHome %}
+
+<div id="promotion-list" style="display: flex; justify-content: center;">
+
+</div>
+
+
+
+<script>
+    // Lấy danh sách phim từ API
+    fetch('/api/promotions/')
+    .then(response => response.json())
+    .then(data => {
+    const promotionList = document.getElementById('promotion-list');
+    
+    // Tạo các phần tử phim
+    data.results.forEach(promotion => {
+        const promotionItem = document.createElement('div');
+        promotionItem.classList.add('box');
+        promotionItem.innerHTML = `
+            <div class="promotion">
+                <div class="promotion-body">
+                    <img src="${promotion.image}" style="width: 200px; height: 200px;" alt="${promotion.name}">
+         
+                    
+                </div>
+            </div>
+        `;
+        promotionItem.addEventListener('click', () => {
+            window.location.href = `/promotion/${promotion.id}/`;
+        });
+        promotionList.appendChild(promotionItem);
+    });
+    })
+    .catch(error => {
+    console.error('Error fetching promotion list data:', error);
+    });
+
+    
+
+</script>
+
+{% endblock promotionHome %}
+
+
+
+
+
+
+
+
+
+
+
+

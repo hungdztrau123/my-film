@@ -1,0 +1,110 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block booking %} 
+
+<div class="booking-content">
+    this is booking
+    <div id="schedule-detail-ticket">
+
+    </div>
+    <div id="booking">
+
+    </div>
+
+    <div id="booking-detail-list">
+
+    </div>
+
+    <div>
+        <h3>Tổng giá trị các ticket:</h3>
+        <p id="total-price"></p>
+    </div>
+</div>
+
+<script>
+    
+    
+    
+
+    const url = new URL(window.location.href);
+    const bookingId = url.pathname.split('/')[2];
+
+    const params = new URLSearchParams(url.search); // Lấy các tham số trong query string
+    const scheduleId = params.get('scheduleId'); // Lấy giá trị của scheduleId
+
+    console.log('Booking ID:', bookingId);
+    console.log('Schedule ID:', scheduleId);
+
+    let totalPrice = 0;
+    getBookingDetail(bookingId, totalPrice);
+    
+    fetch(`/api/schedules/${scheduleId}/`)
+    .then(response => response.json())
+    .then(data => {
+        const scheduleDetailContainer = document.getElementById('schedule-detail-ticket');
+
+        const date = new Date(data.dayshow.day);
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const formattedDate = date.toLocaleDateString('vi-VN', options);
+
+        scheduleDetailContainer.innerHTML = `
+            <div class="container my-5">
+                <p class="card-text">${data.film.age}</p>
+                <p class="card-text">${data.film.name}</p>
+                <p class="card-text">${formattedDate}</p>
+                <p class="card-text">${data.start_time}</p>
+                <p class="card-text">${data.end_time}</p>
+                <p class="card-text">${data.place.name}</p>
+                <p class="card-text">${data.room.name}</p>
+
+            </div>
+        `;
+        
+        
+
+    })
+    .catch(error => {
+        console.error('Error fetching schedule details:', error);
+    });
+
+
+    function getBookingDetail(bookingId, totalPrice) {
+        fetch(`/api/bookingdetails/?booking=${bookingId}`)
+        .then(response => response.json())
+        .then(data => {
+            const bookingDetailList = document.getElementById('booking-detail-list');
+            bookingDetailList.innerHTML = ''; // Xóa nội dung cũ
+
+            data.results.forEach(bookingDetail => {
+                const bookingDetailItem = document.createElement('div');
+                bookingDetailItem.classList.add('col-md-3', 'mb-4');
+
+                const date = new Date(bookingDetail.ticket.schedule.dayshow.day);
+                const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                const formattedDate = date.toLocaleDateString('vi-VN', options);
+
+                bookingDetailItem.innerHTML = `
+                    <div class="card">
+                        <p class="card">${bookingDetail.seat.name}</p>
+                    </div>
+                `;
+                
+                bookingDetailList.appendChild(bookingDetailItem);
+
+                // Cộng dồn tổng giá trị các ticket
+                totalPrice += parseInt(bookingDetail.ticket.price);
+            });
+
+            // Hiển thị tổng giá trị các ticket
+            const totalPriceElement = document.getElementById('total-price');
+            totalPriceElement.textContent = `${totalPrice} VND`;
+
+        })
+        .catch(error => {
+            console.error('Error fetching area details:', error);
+        });
+    }
+</script>
+
+{% endblock booking %} 

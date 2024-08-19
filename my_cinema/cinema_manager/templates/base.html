@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+  <div class="header">This is base </div>
+
+  {% block sliderHome %} 
+  {% endblock sliderHome %}
+
+  {% block contentHome %} 
+  {% endblock contentHome %}
+
+  {% block topFilm %}
+  {% endblock topFilm %}
+
+  {% block promotionHome %}
+  {% endblock promotionHome %}
+
+
+  {% block slider %} 
+  {% endblock slider %}
+
+  {% block content %} 
+  {% endblock content %}
+  
+  {% block filmDetail %}
+  {% endblock filmDetail %}
+
+  {% block bookFilm %}
+  {% endblock bookFilm %}
+
+  {% block promotionList %}
+  {% endblock promotionList %}
+
+  {% block promotionDetail %}
+  {% endblock promotionDetail %}
+
+  {% block area %} 
+  {% endblock area %}
+
+  {% block roomDetail %}
+  {% endblock roomDetail %}
+  
+  {% block contact %} 
+  {% endblock contact %} 
+
+  {% block booking %} 
+  {% endblock booking %} 
+
+  <div>
+    <div class="col" id="promotion-banner">
+    <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+    </div>
+  </div>
+
+  <script>
+      // Lấy danh sách promotions từ API
+      fetch('/api/promotions/')
+      .then(response => response.json())
+      .then(data => {
+          const promotionList = document.getElementById('promotion-banner');
+      
+          // Tạo các phần tử promotion
+          data.results.slice(0, 2).forEach(promotion => {
+              const promotionItem = document.createElement('div');
+              promotionItem.classList.add('item-promotion');
+              promotionItem.innerHTML = `
+                  <div class="card">
+                      <img src="${promotion.image}" class="card-img-top" style="height:300px;" alt="${promotion.name}">
+                  </div>
+              `;
+              promotionItem.addEventListener('click', () => {
+                  window.location.href = `/promotion/${promotion.id}/`;
+              });
+              promotionList.appendChild(promotionItem);
+          });
+      })
+      .catch(error => {
+          console.error('Error fetching promotion data:', error);
+      });
+
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

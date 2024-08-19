@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block bookFilm %}
+<div class="container">
+    <h2>bookingfilm</h2>
+
+    <div id="day-show-list">
+
+    </div>
+    <div class="row" id="area-list">
+    <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+    </div>
+    <div class="row" id="place-list">
+        <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+    </div>
+
+    <div id="place-detail">
+
+    </div>
+
+    
+
+    
+    <div  id="film-list">
+      
+    </div>
+    
+
+
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+<script>
+// Lấy danh sách phim từ API
+const url = new URL(window.location.href);
+var filmIdTrans = url.pathname.split('/')[2];
+getFilms
+fetch('/api/areas/')
+.then(response => response.json())
+.then(data => {
+const areaList = document.getElementById('area-list');
+
+// Tạo các phần tử phim
+data.results.forEach(area => {
+    const areaItem = document.createElement('div');
+    areaItem.classList.add('col-md-3', 'mb-4');
+    areaItem.innerHTML = `
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">${area.name}</h5>
+            </div>
+        </div>
+    `;
+    areaItem.addEventListener('click', () => {
+        getAreaDetails(area.id);
+    });
+    areaList.appendChild(areaItem);
+});
+})
+.catch(error => {
+console.error('Error fetching area data:', error);
+});
+
+function getAreaDetails(areaId) {
+    fetch(`/api/places/?area=${areaId}`)
+      .then(response => response.json())
+      .then(data => {
+        const placeList = document.getElementById('place-list');
+        placeList.innerHTML = ''; // Xóa nội dung cũ
+  
+        data.results.forEach(place => {
+          const placeItem = document.createElement('div');
+          placeItem.classList.add('col-md-3', 'mb-4');
+          placeItem.innerHTML = `
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">${place.name}</h5>
+                <p class="card-text">${place.address}</p>
+              </div>
+            </div>
+          `;
+          placeItem.addEventListener('click', () => {
+            getPlaceDetails(place.id);
+            getDayShows(place.id);
+          });
+          placeList.appendChild(placeItem);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching area details:', error);
+      });
+}
+function getPlaceDetails(placeId) {
+fetch(`/api/places/${placeId}/`)
+.then(response => response.json())
+.then(data => {
+    const placeDetailContainer = document.getElementById('place-detail');
+    placeDetailContainer.innerHTML = `
+        <div class="container my-5">
+            <h1 id="place-name">${data.name}</h1>
+            <div class="row">
+                <div class="col-md-6">
+                    <img id="place-image" class="img-fluid" src="${data.image}" alt="Place Image">
+                </div>
+                <div class="col-md-6">
+                    <p id="place-address">${data.address}</p>
+                    <div id="map" style="height: 400px; width: 1000px;"></div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Create the map
+    const map = L.map('map').setView([data.latitude, data.longitude], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add a marker for the place
+    const marker = L.marker([data.latitude, data.longitude])
+    marker.addTo(map);
+
+    marker.bindPopup(data.name)
+    .on('mouseover', function() {
+        this.openPopup();
+    })
+    .on('mouseout', function() {
+        this.closePopup();
+    })
+    .closePopup();
+
+})
+.catch(error => {
+    console.error('Error fetching place details:', error);
+});
+}
+function getDayShows(placeDetailId){
+    fetch(`/api/dayshows/?place=${placeDetailId}`)
+    .then(response => response.json())
+    .then(data => {
+    const dayShowList = document.getElementById('day-show-list');
+    dayShowList.innerHTML = ''; // Xóa nội dung cũ
+
+    data.results.forEach(dayshow => {
+        const dayShowItem = document.createElement('div');
+        dayShowItem.classList.add('col-md-3', 'mb-4');
+
+        const date = new Date(dayshow.day);
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const formattedDate = date.toLocaleDateString('vi-VN', options);
+
+        dayShowItem.innerHTML = `
+        <div class="card">
+            <div class="card-body">
+            
+            <p class="card-text">${formattedDate}</p>
+            </div>
+        </div>
+        `;
+        dayShowItem.addEventListener('click', () => {
+        getFilms(dayshow.id, filmIdTrans, placeDetailId);
+        });
+        dayShowList.appendChild(dayShowItem);
+    });
+    })
+    .catch(error => {
+    console.error('Error fetching film details:', error);
+    });
+}
+function getFilms(dayShowId,filmIdTrans,placeDetailId){
+fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}`)
+.then(response => response.json())
+.then(data => {
+    const filmList = document.getElementById('film-list');
+    filmList.innerHTML = ''; // Xóa nội dung cũ
+
+    data.results.forEach(film => {
+    const filmItem = document.createElement('div');
+    filmItem.classList.add('card', 'mb-3');
+    filmItem.innerHTML = `
+        <div class="card-body">
+        <h5 class="card-title">${film.name}</h5>
+        <div class="row" id="schedule-${film.id}">
+            <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
+        </div>
+        </div>
+    `;
+    getSchedules(film.id, dayShowId, placeDetailId, `schedule-${film.id}`);
+    filmList.appendChild(filmItem);
+
+    });
+})
+.catch(error => {
+    console.error('Error fetching film details:', error);
+});
+}
+function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
+    fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}`)
+    .then(response => response.json())
+    .then(data => {
+        const scheduleList = document.getElementById(scheduleListId);
+        scheduleList.innerHTML = '';
+
+        data.results.forEach(schedule => {
+        const scheduleItem = document.createElement('div');
+        scheduleItem.classList.add('col-md-4', 'mb-2');
+        scheduleItem.innerHTML = `
+            <div class="card">
+            <div class="card-body">
+                <p class="card-text">${schedule.start_time}</p>
+                <p class="card-text">${schedule.end_time}</p>
+            </div>
+            </div>
+        `;
+        scheduleItem.addEventListener('click', () => {
+            window.location.href = `/room/${schedule.id}/`;
+
+        });
+        scheduleList.appendChild(scheduleItem);
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching area details:', error);
+    });
+}
+
+                
+             
+      
+</script>
+{% endblock bookFilm %}

@@ -1,0 +1,272 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block contact %} 
+
+<div class="row" id="service-list-auto">
+    <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+</div>
+
+<div class="row" id="service-detail">
+    <!-- Nội dung các sẽ được tạo động bằng JavaScript -->
+</div>
+
+
+<div class="row" id="contact-detail">
+    <div class="form-group">
+        <label for="name">Tên</label>
+        <input type="text" class="form-control" id="name" placeholder="Nhập tên">
+    </div>
+    <div class="form-group">
+        <label for="phone">Số điện thoại</label>
+        <input type="text" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" placeholder="Nhập email">
+    </div>
+    <div class="form-group">
+        <label for="service">Dịch vụ</label>
+        <input type="text" class="form-control" id="service" placeholder="Chọn dịch vụ" readonly>
+        <input type="hidden" id="service-id" value="">
+        <div id="service-list" class="dropdown-menu"></div>
+    </div>
+    <div class="form-group">
+        <label for="area">Khu vực</label>
+        <input type="text" class="form-control" id="area" placeholder="Chọn khu vực" readonly>
+        <input type="hidden" id="area-id" value="">
+        <div id="area-list" class="dropdown-menu"></div>
+    </div>
+    <div class="form-group">
+        <label for="place">Địa điểm</label>
+        <input type="text" class="form-control" id="place" placeholder="Chọn địa điểm" readonly>
+        <input type="hidden" id="place-id" value="">
+        <div id="place-list" class="dropdown-menu"></div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" id="create-btn">Tạo</button>
+    </div>
+    
+</div>
+
+<script>
+ 
+    // Lấy dữ liệu từ API /api/services/
+    fetch('/api/services/')
+        .then(response => response.json())
+        .then(data => {
+            const serviceList = document.getElementById('service-list');
+            data.results.forEach(service => {
+                const option = document.createElement('a');
+                option.classList.add('dropdown-item');
+                option.href = '#';
+                option.textContent = service.name;
+                option.dataset.serviceId = service.id; // Lưu ID của dịch vụ vào thuộc tính data-service-id
+                option.addEventListener('click', () => {
+                    document.getElementById('service').value = service.name;
+                    document.getElementById('service-id').value = service.id; // Gán giá trị ID vào trường ẩn
+                    getServiceDisplay(service.id);
+                });
+                serviceList.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+
+    // Thêm sự kiện click vào ô "Dịch vụ" để hiển thị danh sách dịch vụ
+    document.getElementById('service').addEventListener('click', () => {
+        document.getElementById('service-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách dịch vụ khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#service, #service-list a')) {
+            document.getElementById('service-list').classList.remove('show');
+        }
+    });
+
+    function getServiceDisplay(serviceIdItem) {
+        fetch(`/api/services/${serviceIdItem}/`)
+          .then(response => response.json())
+          .then(data => {
+            const serviceDetailContainer = document.getElementById('service-detail');
+            serviceDetailContainer.innerHTML = `
+                <div class="container my-5">
+                    <span id="service-name-detail">${data.name}</span>
+                    <span id="service-title-detail">${data.title}</span>
+                    <span id="service-description-detail">${data.description}</span>
+                    <img id="service-image-detail" class="img-fluid" src="${data.image}" alt="service Image">
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Error fetching service details:', error);
+        });
+    }
+
+
+
+    // Lấy dữ liệu từ API /api/areas/
+    fetch('/api/areas/')
+        .then(response => response.json())
+        .then(data => {
+            const areaList = document.getElementById('area-list');
+            data.results.forEach(area => {
+                const option = document.createElement('a');
+                option.classList.add('dropdown-item');
+                option.href = '#';
+                option.textContent = area.name;
+                option.dataset.areaId = area.id; // Lưu ID của dịch vụ vào thuộc tính data-area-id
+                option.addEventListener('click', () => {
+                    document.getElementById('area').value = area.name;
+                    document.getElementById('area-id').value = area.id; // Gán giá trị ID vào trường ẩn
+                    
+                    // Lấy dữ liệu về danh sách địa điểm theo khu vực đã chọn
+                    fetch(`/api/places/?area=${area.id}`)
+                        .then(response => response.json())
+                        .then(placeData => {
+                            const placeList = document.getElementById('place-list');
+                            placeList.innerHTML = ''; // Xóa danh sách địa điểm cũ
+
+                            if (placeData.results.length > 0) {
+                                const firstPlace = placeData.results[0];
+                                document.getElementById('place').value = firstPlace.name; // Điền giá trị địa điểm đầu tiên
+                                document.getElementById('place-id').value = firstPlace.id; // Gán giá trị ID vào trường ẩn
+                            }
+
+                            placeData.results.forEach(place => {
+                                const placeOption = document.createElement('a');
+                                placeOption.classList.add('dropdown-item');
+                                placeOption.href = '#';
+                                placeOption.textContent = place.name;
+                                placeOption.dataset.placeId = place.id; // Lưu ID của địa điểm vào thuộc tính data-place-id
+                                placeOption.addEventListener('click', () => {
+                                    document.getElementById('place').value = place.name;
+                                    document.getElementById('place-id').value = place.id; // Gán giá trị ID vào trường ẩn
+                                });
+                                placeList.appendChild(placeOption);
+                            });
+                        })
+                        .catch(error => console.error(error));
+                
+                });
+                areaList.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+
+    // Thêm sự kiện click vào ô "area" để hiển thị danh sách area
+    document.getElementById('area').addEventListener('click', () => {
+        document.getElementById('area-list').classList.toggle('show');
+    });
+
+    // Thêm sự kiện click vào ô "Địa điểm" để hiển thị danh sách địa điểm
+    document.getElementById('place').addEventListener('click', () => {
+        document.getElementById('place-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách area khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#area, #area-list a')) {
+            document.getElementById('area-list').classList.remove('show');
+        }
+    });
+
+    // Đóng danh sách place khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#place, #place-list a')) {
+            document.getElementById('place-list').classList.remove('show');
+        }
+    });
+
+
+
+    // Thêm sự kiện click vào nút "Tạo"
+    document.getElementById('create-btn').addEventListener('click', () => {
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        const email = document.getElementById('email').value;
+        const serviceId = document.getElementById('service-id').value; // Lấy giá trị ID của dịch vụ đã chọn
+        const areaId = document.getElementById('area-id').value; // Lấy giá trị ID của area đã chọn
+        const placeId = document.getElementById('place-id').value;
+
+        // Gửi yêu cầu POST đến API /api/contacts/
+        fetch('/api/contacts/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                phone,
+                email,
+                service: serviceId, // Gửi ID của dịch vụ thay vì tên
+                area: areaId,
+                place: placeId,
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Bản ghi mới đã được tạo:', data);
+            // Thực hiện các hành động tiếp theo sau khi tạo bản ghi thành công
+        })
+        .catch(error => console.error(error));
+    });
+
+</script>
+
+<script>
+    // Lấy danh sách phim từ API
+    fetch('/api/services/')
+    .then(response => response.json())
+    .then(data => {
+    const serviceList = document.getElementById('service-list-auto');
+    
+    // Tạo các phần tử phim
+    data.results.forEach(service => {
+        const serviceItem = document.createElement('div');
+        serviceItem.classList.add('col-md-3', 'mb-4');
+        serviceItem.innerHTML = `
+            <div class="card">
+                <div class="card-body">
+                    <span id="service-name-list">${service.name}</span>
+                    <span id="service-title-list">${service.title}</span>
+                    <img id="service-image-list" class="img-fluid" src="${service.image}" alt="Service Image">
+
+
+                </div>
+            </div>
+        `;
+        serviceItem.addEventListener('click', () => {
+            getServiceDetails(service.id);
+        });
+        serviceList.appendChild(serviceItem);
+    });
+    })
+    .catch(error => {
+    console.error('Error fetching service data:', error);
+    });
+    
+    function getServiceDetails(serviceId) {
+        fetch(`/api/services/${serviceId}/`)
+          .then(response => response.json())
+          .then(data => {
+
+            document.getElementById('service').value = data.name;
+            document.getElementById('service-id').value = data.id;
+            
+            const serviceDetailContainer = document.getElementById('service-detail');
+            serviceDetailContainer.innerHTML = `
+                <div class="container my-5">
+                    <span id="service-name-detail">${data.name}</span>
+                    <span id="service-title-detail">${data.title}</span>
+                    <span id="service-description-detail">${data.description}</span>
+                    <img id="service-image-detail" class="img-fluid" src="${data.image}" alt="service Image">
+                </div>
+            `;
+        })
+        .catch(error => {
+            console.error('Error fetching service details:', error);
+        });
+    }
+</script>
+{% endblock contact %} 

@@ -1,0 +1,13 @@
+djangorestframework==3.14.0; python_version >= '3.6'
+djangorestframework-guardian==0.3.0
+django-filter==24.2
+djangorestframework-simplejwt==5.3.1
+django-cors-headers==4.4.0
+drf-yasg==1.21.7
+django-debug-toolbar==4.4.6
+django-oauth2-provider==0.2.6.1
+django-allauth==0.63.6
+python-dotenv==1.0.1
+requests==2.32.3
+psycopg2==2.9.9
+python-decouple==3.8

@@ -1,0 +1,185 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block slider %} 
+    <!-- <link rel="stylesheet" href="/static/css/home.css"> -->
+    <link href="{% static 'css/home.css' %}" rel="stylesheet" />
+    <div>
+        <h1>homehome</h1>
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner">
+                <!-- Nội dung các slide sẽ được tạo động bằng JavaScript -->
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <script>
+        // Lấy danh sách phim từ API
+        fetch('/api/films/')
+            .then(response => response.json())
+            .then(data => {
+                const carouselInner = document.querySelector('.carousel-inner');
+
+                // Tạo các slide từ dữ liệu phim
+                data.results.slice(0, 5).forEach((film, index) => {
+                    const carouselItem = document.createElement('div');
+                    carouselItem.classList.add('carousel-item');
+                    if (index === 0) {
+                        carouselItem.classList.add('active');
+                    }
+                    carouselItem.innerHTML = `
+                        <img src="${film.banner}" style="width: 100%; height: 300px;" alt="${film.name}">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>${film.name}</h5>
+                           
+                        </div>
+                    `;
+                    carouselItem.addEventListener('click', () => {
+                        window.location.href = `/film/${film.id}/`;
+                        
+                    });
+                    carouselInner.appendChild(carouselItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching film data:', error);
+            });
+
+
+
+
+        // Tự động dừng carousel khi di chuột vào, chạy lại khi di chuột ra
+        const carousel = document.getElementById('carouselExampleInterval');
+        carousel.addEventListener('mouseenter', () => {
+            carousel.pause();
+        });
+        carousel.addEventListener('mouseleave', () => {
+            carousel.cycle();
+        });
+    </script>
+
+{% endblock slider %}
+
+{% block content %}
+    <div class="container">
+        <h2>Film List</h2>
+        <div class="d-flex justify-content-end mb-4">
+            <button class="btn btn-primary mr-2" id="btn-now">Now</button>
+            <button class="btn btn-primary" id="btn-coming">Coming</button>
+        </div>
+        <div class="row" id="film-list">
+        <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+        </div>
+        <div class="pagination">
+            <button class="btn btn-primary prev-page" disabled>Trang trước</button>
+            <button class="btn btn-primary next-page">Trang sau</button>
+        </div>
+    </div>
+
+    <script>
+
+
+    const filmList = document.getElementById('film-list');
+    const prevPageBtn = document.querySelector('.prev-page');
+    const nextPageBtn = document.querySelector('.next-page');
+    let currentPage = 1;
+    let totalPages;
+    let status = null
+
+    function renderFilms(films) {
+        filmList.innerHTML = '';
+        films.forEach(film => {
+            const filmItem = document.createElement('div');
+            filmItem.classList.add('col-md-3', 'mb-4');
+            filmItem.innerHTML = `
+                <div class="card">
+                    <img src="${film.poster}" class="card-img-top" alt="${film.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${film.name}</h5>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary btn-film-details" data-film-id="${film.id}">Xem chi tiết</button>
+                            <button class="btn btn-success btn-booking" data-film-id="${film.id}">Đặt vé</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
+                window.location.href = `/film/${film.id}/`;
+            });
+            filmItem.querySelector('.btn-booking').addEventListener('click', () => {
+                window.location.href = `/bookfilm/${film.id}/`;
+            });
+            filmList.appendChild(filmItem);
+        });
+    }
+
+    function getFilms( page = 1) {
+        let url = `/api/films/?page=${page}`;
+        if (status) {
+            url += `&status__iexact=${status}`;
+        }
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderFilms(data.results);
+            totalPages = Math.ceil(data.count / data.results.length);
+            currentPage = page;
+            updatePaginationButtons();
+        })
+        .catch(error => {
+            console.error('Error fetching film data:', error);
+        });
+    }
+
+    function updatePaginationButtons() {
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = currentPage === totalPages;
+    }
+    
+    prevPageBtn.addEventListener('click', () => {
+        getFilms( currentPage - 1);
+    });
+    
+    nextPageBtn.addEventListener('click', () => {
+        getFilms( currentPage + 1);
+    });
+    
+
+    document.getElementById('btn-now').addEventListener('click', () => {
+        status = 'Now';
+        getFilms();
+    });
+
+    document.getElementById('btn-coming').addEventListener('click', () => {
+        status = 'Coming';
+        getFilms();
+    });
+
+    getFilms();
+
+
+    </script>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

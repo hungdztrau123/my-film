@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block roomDetail %}
+
+<style>
+  .seat-selected {
+    background-color: black !important; /* Đổi màu ghế khi được chọn */
+    color: white; /* Đổi màu chữ cho dễ nhìn */
+}
+</style>
+
+<div id="film-detail">
+</div>
+<div id="schedule-detail">
+</div>
+<div id="place-detail">
+
+</div>
+<div id="room-detail">
+
+</div>
+
+<div id="ticket-list">
+
+</div>
+
+<div>
+  <div id="seat-list-regural">
+
+  </div>
+  <br>
+  <div id="seat-list-vip">
+  
+  </div>
+</div>
+
+<div id="total-price" style="font-size: 20px; margin-top: 20px;">
+  Tổng giá: <span id="total-amount">0</span> VNĐ
+</div>
+<button id="book-tickets" class="btn btn-primary">Đặt Vé</button>
+
+
+
+<script>
+    // Get the room ID from the URL
+    const url = new URL(window.location.href);
+    const scheduleId = url.pathname.split('/')[2];
+
+    // Fetch the schedule details
+    fetch(`/api/schedules/${scheduleId}/`)
+    .then(response => response.json())
+    .then(data => {
+        const scheduleDetailContainer = document.getElementById('schedule-detail');
+
+        const date = new Date(data.dayshow.day);
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const formattedDate = date.toLocaleDateString('vi-VN', options);
+
+        scheduleDetailContainer.innerHTML = `
+            <div class="container my-5">
+                <p class="card-text">${data.film.age}</p>
+                <p class="card-text">${data.film.name}</p>
+                <p class="card-text">${data.place.name}</p>
+                <p class="card-text">${formattedDate}</p>
+                <p class="card-text">${data.start_time}</p>
+                <p class="card-text">${data.end_time}</p>
+                <p class="card-text">${data.room.name}</p>
+
+            </div>
+        `;
+        
+        const idRoom = data.room.id
+        getSeatsRegural(idRoom);
+        getSeatsVip(idRoom);
+        
+
+    })
+    .catch(error => {
+        console.error('Error fetching schedule details:', error);
+    });
+
+    
+    getTicketList(`/api/tickets/?schedule=${scheduleId}`);
+    let ticketData = null;
+    let totalPrice = 0; // Biến để lưu tổng giá vé
+    let selectedSeats = [];
+    function getTicketList(url){
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          ticketData = data;
+          const ticketList = document.getElementById('ticket-list');
+
+          // Tạo các phần tử phim
+          data.results.forEach(ticket => {
+              const ticketItem = document.createElement('div');
+              ticketItem.classList.add('col-md-3', 'mb-4');
+              ticketItem.innerHTML = `
+                  <h5 class="card-title">${ticket.price}</h5>
+                  <h5 class="card-title">${ticket.type}</h5>
+                
+              `;
+              
+              ticketList.appendChild(ticketItem);
+          });
+        })
+      .catch(error => {
+      console.error('Error fetching ticket data:', error);
+      });
+    }
+
+    function getSeatsRegural(idRoom) {
+        fetch(`/api/seats/?room=${idRoom}&type__iexact=Regural`)
+        .then(response => response.json())
+        .then(data => {
+            const seatList = document.getElementById('seat-list-regural');
+            seatList.innerHTML = ''; // Xóa nội dung cũ
+            
+            // Gọi API để lấy thông tin đặt ghế
+            fetch('/api/bookingdetails/')
+            .then(response => response.json())
+            .then(bookingData => {
+                const existingBookings = bookingData.results;
+    
+                data.results.forEach(seat => {
+                    const seatItem = document.createElement('div');
+                    seatItem.classList.add('col-md-3', 'mb-4');
+                    seatItem.innerHTML = `
+                    <div class="card" style="background-color: #ccc;">
+                        <div class="card-body">
+                            <h5 class="card-title">${seat.name}</h5>
+                        </div>
+                    </div>
+                    `;
+    
+                    // Kiểm tra xem ghế đã được đặt chưa
+                    const isBooked = existingBookings.some(booking =>
+                        booking.seat.id === seat.id && booking.ticket.schedule.id === parseInt(scheduleId, 10)
+                    );
+    
+                    if (isBooked) {
+                        seatItem.style.opacity = 0.5; // Làm mờ ghế đã đặt
+                    }
+    
+                    seatItem.addEventListener('click', () => {
+                        const regularTicket = ticketData.results.find(ticket => ticket.type === 'Regural');
+                        const regulartTicketId = regularTicket ? regularTicket.id : null;
+    
+                        if (seatItem.classList.contains('seat-selected')) {
+                            seatItem.classList.remove('seat-selected');
+                            const index = selectedSeats.findIndex(item => item.seatId === seat.id);
+                            if (index > -1) {
+                                selectedSeats.splice(index, 1); // Xóa ghế khỏi mảng
+                            }
+                            getSeatReguralClick(seat.id, regularTicket.price, regulartTicketId, false);
+                        } else {
+                            seatItem.classList.add('seat-selected');
+                            selectedSeats.push({ seatId: seat.id, ticketId: regulartTicketId });
+                            getSeatReguralClick(seat.id, regularTicket.price, regulartTicketId, true);
+                        }
+                    });
+                    seatList.appendChild(seatItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching booking details:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching seat regural:', error);
+        });
+    }
+
+    function getSeatReguralClick(seatId, ticketReguralPrice, regulartTicketId, isAdding= true ) {
+      
+      if (isAdding) {
+        totalPrice += parseInt(ticketReguralPrice); // Cộng dồn giá vé
+      } else {
+        totalPrice -= parseInt(ticketReguralPrice); // Trừ giá vé
+      }
+
+      updateTotalPriceDisplay(); // Cập nhật hiển thị tổng giá
+      console.log('Seat ID:', seatId);
+      console.log('ReguralTicketId ID:', regulartTicketId);
+      console.log('Ticket Price:', ticketReguralPrice);
+      console.log('Total Price:', totalPrice);
+    
+    }
+
+    function getSeatsVip(idRoom) {
+        fetch(`/api/seats/?room=${idRoom}&type__iexact=Vip`)
+        .then(response => response.json())
+        .then(data => {
+            const seatList = document.getElementById('seat-list-vip');
+            seatList.innerHTML = ''; // Xóa nội dung cũ
+            
+            // Gọi API để lấy thông tin đặt ghế
+            fetch('/api/bookingdetails/')
+            .then(response => response.json())
+            .then(bookingData => {
+                const existingBookings = bookingData.results;
+    
+                data.results.forEach(seat => {
+                    const seatItem = document.createElement('div');
+                    seatItem.classList.add('col-md-3', 'mb-4');
+                    seatItem.innerHTML = `
+                    <div class="card" style="background-color: violet;">
+                        <div class="card-body">
+                            <h5 class="card-title">${seat.name}</h5>
+                        </div>
+                    </div>
+                    `;
+    
+                    // Kiểm tra xem ghế đã được đặt chưa
+                    const isBooked = existingBookings.some(booking =>
+                        booking.seat.id === seat.id && booking.ticket.schedule.id === parseInt(scheduleId, 10)
+                    );
+    
+                    if (isBooked) {
+                        seatItem.style.opacity = 0.5; // Làm mờ ghế đã đặt
+                    }
+    
+                    seatItem.addEventListener('click', () => {
+                        const vipTicket = ticketData.results.find(ticket => ticket.type === 'Vip');
+                        const vipTicketId = vipTicket ? vipTicket.id : null;
+    
+                        if (seatItem.classList.contains('seat-selected')) {
+                            seatItem.classList.remove('seat-selected');
+                            const index = selectedSeats.findIndex(item => item.seatId === seat.id);
+                            if (index > -1) {
+                                selectedSeats.splice(index, 1); // Xóa ghế khỏi mảng
+                            }
+                            getSeatVipClick(seat.id, vipTicket.price, vipTicketId, false);
+                        } else {
+                            seatItem.classList.add('seat-selected');
+                            selectedSeats.push({ seatId: seat.id, ticketId: vipTicketId });
+                            getSeatVipClick(seat.id, vipTicket.price, vipTicketId, true);
+                        }
+                    });
+                    seatList.appendChild(seatItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching booking details:', error);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching seat vip:', error);
+        });
+    }
+
+
+    function getSeatVipClick(seatId,ticketVipPrice, vipTicketId, isAdding = true) {
+
+      if (isAdding) {
+        totalPrice += parseInt(ticketVipPrice); // Cộng dồn giá vé
+      } else {
+        totalPrice -= parseInt(ticketVipPrice); // Trừ giá vé
+      }
+      
+      updateTotalPriceDisplay(); // Cập nhật hiển thị tổng giá
+      console.log('Seat ID:', seatId);
+      console.log('VipTicket ID:', vipTicketId);
+      console.log('Ticket Price:', ticketVipPrice);
+      console.log('Total Price:', totalPrice);
+    }
+
+    function updateTotalPriceDisplay() {  
+      const totalAmountElement = document.getElementById('total-amount');
+      totalAmountElement.textContent = totalPrice; // Cập nhật số tiền vào thẻ
+    }
+
+
+    document.getElementById('book-tickets').addEventListener('click', () => {
+        fetch('/api/bookingdetails/')
+            .then(response => response.json())
+            .then(data => {
+                const existingBookings = data.results;
+                const scheduleIdInt = parseInt(scheduleId, 10);
+                
+                const hasConflict = selectedSeats.some(seat => {
+                    return existingBookings.some(booking => {
+                      console.log("booking.seat.id:", booking.seat.id, " === ", "seat.seatId: ", seat.seatId);
+                      console.log("booking.ticket.schedule.id:", booking.ticket.schedule.id, " === ", "scheduleId:", scheduleIdInt);
+                        return booking.seat.id === seat.seatId && booking.ticket.schedule.id === scheduleIdInt;
+                              
+                    });
+                });
+    
+                if (hasConflict) {
+                    alert('Ghế đã được đặt. Vui lòng chọn ghế khác.');
+                    return; // Không thực hiện bước tiếp theo
+                }
+    
+                
+                fetch('/api/bookings/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        // Gửi thêm thông tin nếu cần
+                    }),
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to create booking');
+                    return response.json();
+                })
+                .then(bookingData => {
+                    const bookingId = bookingData.id; // Lấy ID của Booking vừa tạo
+    
+                    // Tạo BookingDetail cho từng ghế
+                    const bookingDetailsPromises = selectedSeats.map(seat => {
+                        const data = {
+                            booking: bookingId,
+                            seat: seat.seatId,
+                            ticket: seat.ticketId
+                        };
+                        return fetch('/api/bookingdetails/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        });
+                    });
+    
+                    return Promise.all(bookingDetailsPromises).then(() => bookingId);
+                })
+                .then(bookingId => {
+                    console.log('Tất cả vé đã được đặt thành công');
+                    window.location.href = `/booking/${bookingId}/?scheduleId=${scheduleIdInt}`;
+                    selectedSeats = [];
+                    updateTotalPriceDisplay();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+    });
+
+    
+</script>
+{% endblock roomDetail %}

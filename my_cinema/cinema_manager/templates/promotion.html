@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block promotionDetail %}
+
+<div id="promotion-detail">
+
+</div>
+
+
+<script>
+    // Get the promotion ID from the URL
+    const url = new URL(window.location.href);
+    const promotionId = url.pathname.split('/')[2];
+
+    // Fetch the promotion details
+    fetch(`/api/promotions/${promotionId}/`)
+    .then(response => response.json())
+    .then(data => {
+        const promotionDetailContainer = document.getElementById('promotion-detail');
+        promotionDetailContainer.innerHTML = `
+            <div class="container my-5">
+                <h1 id="promotion-name">${data.name}</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img id="promotion-image" class="img-fluid" src="${data.image}" alt="Promotion Image">
+                    </div>
+                    <div class="col-md-6">
+                        <p id="promotion-description">${data.description}</p>
+                        <p>Start Date: <span id="promotion-start-date">${data.start_date}</span></p>
+                        <p>End Date: <span id="promotion-end-date">${data.end_date}</span></p>
+                    </div>
+                </div>
+            </div>
+        `;
+    })
+    .catch(error => {
+        console.error('Error fetching promotion details:', error);
+    });
+</script>
+{% endblock promotionDetail %}
