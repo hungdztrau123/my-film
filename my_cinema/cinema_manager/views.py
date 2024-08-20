@@ -47,6 +47,8 @@ from cinema_manager.models import CategoryFilm
 from cinema_manager.models import Tickets
 from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
+from cinema_manager.models import Comments
+
 
 
 from cinema_manager.serializers import FilmSerializer
@@ -67,6 +69,8 @@ from cinema_manager.serializers import CategoryFilmSerializer
 from cinema_manager.serializers import TicketSerializer
 from cinema_manager.serializers import BookingSerializer
 from cinema_manager.serializers import BookingDetailSerializer
+from cinema_manager.serializers import CommentSerializer
+
 
 
 from cinema_manager.filters import FilmFilterSet
@@ -86,11 +90,13 @@ from cinema_manager.filters import CategoryFilmFilterSet
 from cinema_manager.filters import TicketFilterSet
 from cinema_manager.filters import BookingFilterSet
 from cinema_manager.filters import BookingDetailFilterSet
+from cinema_manager.filters import CommentFilterSet
 
 
 
-
-
+def login(request):
+    context = {}
+    return render(request, '../templates/login.html', context)
 
 def home(request):
     context = {}
@@ -186,7 +192,7 @@ class SeatViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = SeatFilterSet
-    ordering_fields = ("id","name","room","type",)
+    ordering_fields = ("id","name","room","type","kind")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -322,6 +328,21 @@ class CategoryFilmViewSet(ModelViewSet):
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
 
+class CommentViewSet(ModelViewSet):
+    model = Comments
+    queryset = Comments.objects.all()
+    serializer_class = CommentSerializer
+    pagination_class = StandardPagination
+    permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = CommentFilterSet
+    ordering_fields = ("id","user", "film", "rate", )
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
 
 class ServiceViewSet(ModelViewSet):
     model = Service

@@ -111,7 +111,7 @@
     }
 
     function getSeatsRegural(idRoom) {
-        fetch(`/api/seats/?room=${idRoom}&type__iexact=Regural`)
+        fetch(`/api/seats/?room=${idRoom}&type__iexact=Regural&kind__in=A,B,C,D`)
         .then(response => response.json())
         .then(data => {
             const seatList = document.getElementById('seat-list-regural');
@@ -189,7 +189,7 @@
     }
 
     function getSeatsVip(idRoom) {
-        fetch(`/api/seats/?room=${idRoom}&type__iexact=Vip`)
+        fetch(`/api/seats/?room=${idRoom}&type__iexact=Vip&kind__in=E,F,G,H,I,K,L`)
         .then(response => response.json())
         .then(data => {
             const seatList = document.getElementById('seat-list-vip');

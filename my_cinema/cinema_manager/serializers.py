@@ -17,6 +17,8 @@ from cinema_manager.models import CategoryFilm
 from cinema_manager.models import Tickets
 from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
+from cinema_manager.models import Comments
+
 
 from auth_manager.serializers import UserSerializer
 
@@ -60,7 +62,12 @@ class CategoryFilmSerializer(serializers.ModelSerializer):
         if instance.film: 
             data['film'] = FilmSerializer(instance.film).data 
         return data
-
+    
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = '__all__'
+        
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service

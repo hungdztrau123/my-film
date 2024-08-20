@@ -32,6 +32,7 @@ from django.views.static import serve
 from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 from cinema_manager.views import base
+from cinema_manager.views import login
 from cinema_manager.views import home
 from cinema_manager.views import homepage
 from cinema_manager.views import area
@@ -69,7 +70,7 @@ from cinema_manager.views import CategoryFilmViewSet
 from cinema_manager.views import TicketViewSet
 from cinema_manager.views import BookingViewSet
 from cinema_manager.views import BookingDetailViewSet
-
+from cinema_manager.views import CommentViewSet
 
 api_router = DefaultRouter()
 
@@ -92,15 +93,14 @@ api_router.register(r"categoryfilms", CategoryFilmViewSet)
 api_router.register(r"tickets", TicketViewSet)
 api_router.register(r"bookings", BookingViewSet)
 api_router.register(r"bookingdetails", BookingDetailViewSet)
-
-
-
-
+api_router.register(r"comments", CommentViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('base/', base, name = "base"),
+    path('login/', login, name = "login"),
+    
     path('home/', home, name = "home"),
     path('homepage/', homepage, name = "homepage"),
     path('area/', area, name = "area"),
@@ -113,7 +113,7 @@ urlpatterns = [
     path('booking/<int:id>/', booking, name = "booking"),
     
     
-    
+
     
     re_path(
         r"^api/",

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block logIn %}
+     this is login 
+    <div class="login-container">
+        <form id="login-form">
+            <h2>Đăng Nhập</h2>
+            <div>
+                <label for="username">Tên người dùng:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Mật khẩu:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Đăng Nhập</button>
+            <div id="message"></div>
+        </form>
+    </div>
+
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/api/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    // Lưu token vào localStorage
+                    localStorage.setItem('access_token', data.access);
+                    document.getElementById('message').innerText = data.message;
+
+                    // Chuyển hướng đến giao diện tiếp theo (ví dụ: dashboard)
+                    window.location.href = '/home/';
+                } else {
+                    document.getElementById('message').innerText = data.message || 'Đăng nhập không thành công';
+                }
+            })
+            .catch(error => {
+                document.getElementById('message').innerText = 'Có lỗi xảy ra. Vui lòng thử lại.';
+            });
+        });
+    </script>
+{% endblock logIn %}

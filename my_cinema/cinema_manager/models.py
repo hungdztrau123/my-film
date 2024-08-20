@@ -33,6 +33,22 @@ class ChoiceTypeSeat(Enum):
     regural = 'Regural'
     vip = 'Vip'
 
+class ChoiceKindSeat(Enum):
+    a = 'A'
+    b = 'B'
+    c = 'C'
+    d = 'D'
+    e = 'E'
+    f = 'F'
+    g = 'G'
+    h = 'H'
+    i = 'I'
+    k = 'K'
+    l = 'L'
+    
+    
+    
+
 class ChoiceGender(Enum):
     male = 'Male'
     female = 'Female'
@@ -90,7 +106,8 @@ class Seats(Base):
     name = models.CharField(max_length=10, null=True, blank=True)
     type = models.CharField(max_length=100, null=True, blank=True, choices=[(tag.value, tag.name) for tag in ChoiceTypeSeat], default=ChoiceTypeSeat.regural.value)
     status = models.BooleanField(default=True)
-
+    kind = models.CharField(max_length=100, null=True, blank=True, choices=[(tag.value, tag.name) for tag in ChoiceKindSeat], default=ChoiceKindSeat.a.value)
+    
 class Films(Base):
     place = models.ManyToManyField(Place,null=True, blank=True)
     dayshow = models.ManyToManyField(DayShow,null=True, blank=True)
@@ -117,8 +134,8 @@ class Video(Base):
     video_type = models.CharField(max_length=20, null=True, blank=True)
     
 class Comments(Base):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    film = models.ForeignKey(Films, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    film = models.ForeignKey(Films, null=True, on_delete=models.SET_NULL)
     rate = models.CharField(max_length=100, null=True, blank=True)
     content = models.CharField(max_length=500, null=True, blank=True)
 

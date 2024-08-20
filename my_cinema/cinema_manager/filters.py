@@ -18,13 +18,15 @@ from cinema_manager.models import CategoryFilm
 from cinema_manager.models import Tickets
 from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
+from cinema_manager.models import Comments
 
 
 
 
 
 
-CHAR_KWARGS = ["istartswith", "iendswith", "icontains", "iexact"]
+
+CHAR_KWARGS = ["istartswith", "iendswith", "icontains", "iexact", "in"]
 ID_KWARGS = ["in", "exact"]
 INT_KWARGS = ["exact", "gt", "gte", "lt", "lte", "isnull"]
 DATE_KWARGS = ["year", "month", "day", "date__gt", "gt", "date__lt", "lt"]
@@ -91,7 +93,18 @@ class CategoryFilmFilterSet(FilterSet):
             "id": ID_KWARGS,
             "category": ID_KWARGS,
             "film": ID_KWARGS,
-        }       
+        }      
+
+class CommentFilterSet(FilterSet):
+    class Meta:
+        model = Comments
+        fields = {
+            "id": ID_KWARGS,
+            "user": ID_KWARGS,
+            "film": ID_KWARGS,
+            "rate": CHAR_KWARGS,
+        }    
+
 
 class ServiceFilterSet(FilterSet):
     class Meta:
@@ -146,6 +159,7 @@ class SeatFilterSet(FilterSet):
             "room": ID_KWARGS,
             "name": CHAR_KWARGS,
             "type": CHAR_KWARGS,
+            "kind": CHAR_KWARGS,
             "status": BOOL_KWARGS,
         }
 

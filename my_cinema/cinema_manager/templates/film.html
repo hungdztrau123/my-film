@@ -22,11 +22,25 @@
 
 </div>
 
+<div id="comment-post">
+    <input type="text" id="comment-rate" placeholder="Nhập đánh giá" />
+    <textarea id="comment-content" placeholder="Nội dung bình luận"></textarea>
+    <button id="submit-comment">Gửi bình luận</button>
+</div>
+
+<div id="comment-list">
+
+</div>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script>
     // Get the film ID from the URL
     const url = new URL(window.location.href);
     const filmId = url.pathname.split('/')[2];
+
+    getComment(filmId);
 
     // Fetch the film details
     fetch(`/api/films/${filmId}/`)
@@ -84,6 +98,76 @@
         })
         .catch(error => {
           console.error('Error fetching categoryfilm list:', error);
+        });
+
+    }
+
+    
+    document.getElementById('submit-comment').addEventListener('click', function() {
+        const token = localStorage.getItem('access_token');
+        const rate = document.getElementById('comment-rate').value;
+        const content = document.getElementById('comment-content').value;
+        
+        // Gửi bình luận lên server
+        fetch(`/api/comments/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                film: filmId,
+                rate: rate,
+                content: content,
+            }),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            // Làm sạch ô nhập liệu sau khi gửi
+            document.getElementById('comment-rate').value = '';
+            document.getElementById('comment-content').value = '';
+            // Cập nhật danh sách bình luận
+            getComment(filmId);
+        })
+        .catch(error => {
+            console.error('Error posting comment:', error);
+        });
+    });
+
+    
+    function getComment(filmId) {
+        const token = localStorage.getItem('access_token');
+        fetch(`/api/comments/?film=${filmId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+          const commentList = document.getElementById('comment-list');
+          commentList.innerHTML = ''; // Xóa nội dung cũ
+    
+          data.results.forEach(comment => {
+            const commentItem = document.createElement('div');
+            commentItem.classList.add('comment-box');
+            commentItem.innerHTML = `
+            
+                  <span class="comment-rate">${comment.rate}</span>
+                  <span class="comment-content">${comment.content}</span>
+
+             
+            `;
+            commentList.appendChild(commentItem);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching comment list:', error);
         });
 
     }
