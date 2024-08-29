@@ -1,0 +1,180 @@
+{% extends 'adminmanager.html' %} 
+{% load static %}
+
+{% block dayShowManage %} 
+
+<button id="insert-manage">Thêm</button>
+<div id="manage-list">
+
+</div>
+<div class="pagination">
+    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
+    <button class="btn btn-primary next-page">Trang sau</button>
+</div>
+
+
+<script>
+
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        const isAdmin = localStorage.getItem('is_admin');
+
+        if (!accessToken && isAdmin === 'false') {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('session_name');
+                localStorage.removeItem('is_admin');
+
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+    const dayShowManageList = document.getElementById('manage-list');
+    const prevPageBtn = document.querySelector('.prev-page');
+    const nextPageBtn = document.querySelector('.next-page');
+    let currentPage = 1;
+    let totalPages;
+    
+    document.getElementById('insert-manage').addEventListener('click', function() {
+        window.location.href = '/dayshowinsert/';
+    });
+
+    function renderDayShowManage(dayShowManages) {
+        const dayShowManageTable = document.createElement('table');
+        dayShowManageTable.classList.add('table');
+
+        // Tạo hàng tiêu đề
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `
+            <th>Địa điểm</th>
+            <th>Ngày chiếu</th>
+            
+            <th>Thao tác</th>
+
+        `;
+        dayShowManageTable.appendChild(headerRow);
+
+        // Tạo các hàng dữ liệu
+        dayShowManages.forEach(dayShowManage => {
+            const dataRow = document.createElement('tr');
+            dataRow.innerHTML = `
+                <td>${dayShowManage.place_names}</td>
+                <td>${dayShowManage.day}</td>
+
+            
+                <td>
+                    <button id="dayshow-update" class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                    <button id="dayshow-delete" class="btn btn-danger btn-sm">Xóa</button>
+                </td>
+            `;
+
+            dataRow.querySelector('#dayshow-delete').addEventListener('click', function() {
+                if (confirm('Bạn có chắc chắn muốn xóa dayshow này?')) {
+                    getDeleteDayShow(dayShowManage.id);
+                }
+            });
+            
+            dataRow.querySelector('#dayshow-update').addEventListener('click', function() {
+                window.location.href = `/dayshowupdate/?dayShowId=${dayShowManage.id}`;
+            });
+
+            dayShowManageTable.appendChild(dataRow);
+        });
+
+        // Thêm bảng vào DOM
+        const dayShowManageList = document.getElementById('manage-list');
+        dayShowManageList.innerHTML = '';
+        dayShowManageList.appendChild(dayShowManageTable);
+    }
+
+
+    function updatePaginationButtons() {
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = !totalPages || currentPage === totalPages;
+    }
+
+    
+    function getDayShowManage( page = 1) {
+        let url = `/api/dayshows/?page=${page}`;
+        
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderDayShowManage(data.results);
+            totalPages = Math.ceil(data.count / data.results.length);
+            currentPage = page;
+            updatePaginationButtons();
+
+            // Nếu không có next, ẩn nút next
+            nextPageBtn.disabled = !data.next;
+        })
+        .catch(error => {
+            console.error('Error fetching dayshow data:', error);
+        });
+    }
+
+    
+    prevPageBtn.addEventListener('click', () => {
+        getDayShowManage( currentPage - 1);
+    });
+    
+    nextPageBtn.addEventListener('click', () => {
+        getDayShowManage( currentPage + 1);
+    });
+
+    getDayShowManage();
+
+
+
+    function getDeleteDayShow(dayShowId) {
+        const accessToken = localStorage.getItem('access_token');
+        fetch(`/api/dayshows/${dayShowId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Đã xóa dayShow có ID ${dayShowId} thành công!`);
+                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                getDayShowManage();
+            } else {
+                console.error(`Lỗi khi xóa dayShow có ID ${dayShowId}: ${response.status} - ${response.statusText}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Lỗi khi xóa dayShow có ID ${dayShowId}: ${error}`);
+        });
+    }
+
+</script>
+
+{% endblock dayShowManage %} 

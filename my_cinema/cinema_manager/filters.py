@@ -19,10 +19,7 @@ from cinema_manager.models import Tickets
 from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
 from cinema_manager.models import Comments
-
-
-
-
+from cinema_manager.models import Combo
 
 
 
@@ -104,6 +101,15 @@ class CommentFilterSet(FilterSet):
             "film": ID_KWARGS,
             "rate": CHAR_KWARGS,
         }    
+        
+class ComboFilterSet(FilterSet):
+    class Meta:
+        model = Combo
+        fields = {
+            "id": ID_KWARGS,
+            "name": CHAR_KWARGS,
+            "price": CHAR_KWARGS,
+        }   
 
 
 class ServiceFilterSet(FilterSet):

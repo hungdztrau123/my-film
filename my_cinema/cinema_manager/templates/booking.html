@@ -8,11 +8,12 @@
     <div id="schedule-detail-ticket">
 
     </div>
-    <div id="booking">
+
+    <div id="booking-detail-list">
 
     </div>
 
-    <div id="booking-detail-list">
+    <div id="combo-list">
 
     </div>
 
@@ -24,8 +25,39 @@
 
 <script>
     
-    
-    
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
 
     const url = new URL(window.location.href);
     const bookingId = url.pathname.split('/')[2];
@@ -36,8 +68,11 @@
     console.log('Booking ID:', bookingId);
     console.log('Schedule ID:', scheduleId);
 
-    let totalPrice = 0;
-    getBookingDetail(bookingId, totalPrice);
+    let totalPrice = 0; // Tổng giá trị các ticket
+    let totalComboPrice = 0; // Tổng giá trị các combo
+    const comboQuantities = {}; // Để theo dõi số lượng combo
+
+    getBookingDetail(bookingId);
     
     fetch(`/api/schedules/${scheduleId}/`)
     .then(response => response.json())
@@ -69,20 +104,16 @@
     });
 
 
-    function getBookingDetail(bookingId, totalPrice) {
+    function getBookingDetail(bookingId) {
         fetch(`/api/bookingdetails/?booking=${bookingId}`)
         .then(response => response.json())
         .then(data => {
             const bookingDetailList = document.getElementById('booking-detail-list');
-            bookingDetailList.innerHTML = ''; // Xóa nội dung cũ
+            bookingDetailList.innerHTML = ''; 
 
             data.results.forEach(bookingDetail => {
                 const bookingDetailItem = document.createElement('div');
                 bookingDetailItem.classList.add('col-md-3', 'mb-4');
-
-                const date = new Date(bookingDetail.ticket.schedule.dayshow.day);
-                const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-                const formattedDate = date.toLocaleDateString('vi-VN', options);
 
                 bookingDetailItem.innerHTML = `
                     <div class="card">
@@ -91,20 +122,70 @@
                 `;
                 
                 bookingDetailList.appendChild(bookingDetailItem);
-
-                // Cộng dồn tổng giá trị các ticket
                 totalPrice += parseInt(bookingDetail.ticket.price);
             });
 
-            // Hiển thị tổng giá trị các ticket
-            const totalPriceElement = document.getElementById('total-price');
-            totalPriceElement.textContent = `${totalPrice} VND`;
-
+            updateTotalPrice(); // Cập nhật tổng giá trị
         })
         .catch(error => {
             console.error('Error fetching area details:', error);
         });
     }
+    
+    getComboList('/api/combos/');
+    
+    function getComboList(url) {
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const comboList = document.getElementById('combo-list');
+            comboList.innerHTML = ''; // Xóa nội dung cũ
+
+            data.results.forEach(combo => {
+                comboQuantities[combo.id] = 0; // Khởi tạo số lượng
+
+                const comboItem = document.createElement('div');
+                comboItem.classList.add('col-md-3', 'mb-4');
+                comboItem.innerHTML = `
+                    <img id="combo-image" class="img-fluid" src="${combo.image}" alt="${combo.name}">
+                    <h5 class="card-title">${combo.name}</h5>
+                    <h5 class="card-title">${combo.content}</h5>
+                    <h5 class="card-title" id="combo-price-${combo.id}">${combo.price} VND</h5>
+                    <button onclick="updateComboPrice(${combo.price}, 1, ${combo.id})">+</button>
+                    <span style="padding: 0px 5px;" id="combo-quantity-${combo.id}">0</span> <!-- Thẻ hiển thị số lượng -->
+                    <button onclick="updateComboPrice(${combo.price}, -1, ${combo.id})">-</button>
+                `;
+                comboList.appendChild(comboItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching combo data:', error);
+        });
+    }
+
+    function updateComboPrice(price, change, comboId) {
+        const currentQuantity = comboQuantities[comboId];
+
+        // Kiểm tra điều kiện trước khi cập nhật
+        if (change > 0 || (change < 0 && currentQuantity > 0)) {
+            totalComboPrice += parseInt(price) * change;
+            comboQuantities[comboId] += change; // Cập nhật số lượng
+            
+            // Cập nhật hiển thị số lượng
+            const quantityElement = document.getElementById(`combo-quantity-${comboId}`);
+            quantityElement.textContent = `${comboQuantities[comboId]}`;
+            
+            updateTotalPrice(); // Cập nhật tổng giá trị hiển thị
+        }
+    }
+
+    function updateTotalPrice() {
+        const overallTotalPrice = totalPrice + totalComboPrice; // Tổng giá trị
+        const totalPriceElement = document.getElementById('total-price');
+        totalPriceElement.textContent = `${overallTotalPrice} VND`;
+    }
+
+
 </script>
 
 {% endblock booking %} 

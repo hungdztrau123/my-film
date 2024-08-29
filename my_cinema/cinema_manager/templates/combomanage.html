@@ -1,0 +1,181 @@
+{% extends 'adminmanager.html' %} 
+{% load static %}
+
+{% block comboManage %} 
+
+<button id="insert-manage">Thêm</button>
+<div id="manage-list">
+
+</div>
+<div class="pagination">
+    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
+    <button class="btn btn-primary next-page">Trang sau</button>
+</div>
+
+
+<script>
+
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        const isAdmin = localStorage.getItem('is_admin');
+
+        if (!accessToken && isAdmin === 'false') {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('session_name');
+                localStorage.removeItem('is_admin');
+
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+    const comboManageList = document.getElementById('manage-list');
+    const prevPageBtn = document.querySelector('.prev-page');
+    const nextPageBtn = document.querySelector('.next-page');
+    let currentPage = 1;
+    let totalPages;
+    
+    document.getElementById('insert-manage').addEventListener('click', function() {
+        window.location.href = '/comboinsert/';
+    });
+
+    function renderComboManage(comboManages) {
+        const comboManageTable = document.createElement('table');
+        comboManageTable.classList.add('table');
+
+        // Tạo hàng tiêu đề
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `
+            <th>Tên</th>
+            <th>Ảnh</th>
+            <th>Nội dung</th>
+            <th>Giá</th>
+            <th>Thao tác</th>
+
+        `;
+        comboManageTable.appendChild(headerRow);
+
+        // Tạo các hàng dữ liệu
+        comboManages.forEach(comboManage => {
+            const dataRow = document.createElement('tr');
+            dataRow.innerHTML = `
+                <td>${comboManage.name}</td>
+                <td><img id="combo-manage-image" class="img-fluid" src="${comboManage.image}" alt="${comboManage.name}"></td>
+                <td>${comboManage.content}</td>
+                <td>${comboManage.price}</td>
+                <td>
+                    <button id="combo-update" class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                    <button id="combo-delete" class="btn btn-danger btn-sm">Xóa</button>
+                </td>
+            `;
+
+            dataRow.querySelector('#combo-delete').addEventListener('click', function() {
+                if (confirm('Bạn có chắc chắn muốn xóa combo này?')) {
+                    getDeleteCombo(comboManage.id);
+                }
+            });
+            
+            dataRow.querySelector('#combo-update').addEventListener('click', function() {
+                window.location.href = `/comboupdate/?comboId=${comboManage.id}`;
+            });
+
+            comboManageTable.appendChild(dataRow);
+        });
+
+        // Thêm bảng vào DOM
+        const comboManageList = document.getElementById('manage-list');
+        comboManageList.innerHTML = '';
+        comboManageList.appendChild(comboManageTable);
+    }
+
+
+    function updatePaginationButtons() {
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = !totalPages || currentPage === totalPages;
+    }
+
+    
+    function getComboManage( page = 1) {
+        let url = `/api/combos/?page=${page}`;
+        
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderComboManage(data.results);
+            totalPages = Math.ceil(data.count / data.results.length);
+            currentPage = page;
+            updatePaginationButtons();
+
+            // Nếu không có next, ẩn nút next
+            nextPageBtn.disabled = !data.next;
+        })
+        .catch(error => {
+            console.error('Error fetching combo data:', error);
+        });
+    }
+
+    
+    prevPageBtn.addEventListener('click', () => {
+        getComboManage( currentPage - 1);
+    });
+    
+    nextPageBtn.addEventListener('click', () => {
+        getComboManage( currentPage + 1);
+    });
+
+    getComboManage();
+
+
+
+    function getDeleteCombo(comboId) {
+        const accessToken = localStorage.getItem('access_token');
+        fetch(`/api/combos/${comboId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Đã xóa combo có ID ${comboId} thành công!`);
+                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                getComboManage();
+            } else {
+                console.error(`Lỗi khi xóa combo có ID ${comboId}: ${response.status} - ${response.statusText}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Lỗi khi xóa combo có ID ${comboId}: ${error}`);
+        });
+    }
+
+</script>
+
+{% endblock comboManage %} 

@@ -1,0 +1,201 @@
+{% extends 'adminmanager.html' %} 
+{% load static %}
+
+{% block filmManage %} 
+
+<button id="insert-manage">Thêm</button>
+<div id="manage-list">
+
+</div>
+<div class="pagination">
+    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
+    <button class="btn btn-primary next-page">Trang sau</button>
+</div>
+
+
+<script>
+
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        const isAdmin = localStorage.getItem('is_admin');
+
+        if (!accessToken && isAdmin === 'false') {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('session_name');
+                localStorage.removeItem('is_admin');
+
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+    const filmManageList = document.getElementById('manage-list');
+    const prevPageBtn = document.querySelector('.prev-page');
+    const nextPageBtn = document.querySelector('.next-page');
+    let currentPage = 1;
+    let totalPages;
+    
+    document.getElementById('insert-manage').addEventListener('click', function() {
+        window.location.href = '/filminsert/';
+    });
+
+    function renderFilmManage(filmManages) {
+        const filmManageTable = document.createElement('table');
+        filmManageTable.classList.add('table');
+
+        // Tạo hàng tiêu đề
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `
+            <th>Địa điểm</th>
+            <th>Ngày chiếu</th>
+            <th>Độ tuổi</th>
+            <th>Tên</th>
+            <th>Poster</th>
+            <th>Banner</th>
+            <th>Imdb</th>
+            <th>Producer</th>
+            <th>Duration</th>
+            <th>Release</th>
+            <th>View</th>
+            <th>Description</th>
+            <th>Country</th>
+            <th>Status</th>
+            <th>Thao tác</th>
+
+        `;
+        filmManageTable.appendChild(headerRow);
+
+        // Tạo các hàng dữ liệu
+        filmManages.forEach(filmManage => {
+            const dataRow = document.createElement('tr');
+            dataRow.innerHTML = `
+                <td>${filmManage.place_names}</td>
+                <td>${filmManage.dayshow_days}</td>
+                <td>${filmManage.age}</td>
+                <td>${filmManage.name}</td>
+                <td><img id="film-manage-poster" class="img-fluid" src="${filmManage.poster}" alt="${filmManage.name}"></td>
+                <td><img id="film-manage-banner" class="img-fluid" src="${filmManage.banner}" alt="${filmManage.name}"></td>
+                <td>${filmManage.imdb}</td>
+                <td>${filmManage.producer}</td>
+                <td>${filmManage.duration}</td>
+                <td>${filmManage.release}</td>
+                <td>${filmManage.view}</td>
+                <td>${filmManage.description}</td>
+                <td>${filmManage.country}</td>
+                <td>${filmManage.status}</td>
+                <td>
+                    <button id="film-update" class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                    <button id="film-delete" class="btn btn-danger btn-sm">Xóa</button>
+                </td>
+            `;
+
+            dataRow.querySelector('#film-delete').addEventListener('click', function() {
+                if (confirm('Bạn có chắc chắn muốn xóa film này?')) {
+                    getDeleteFilm(filmManage.id);
+                }
+            });
+            
+            dataRow.querySelector('#film-update').addEventListener('click', function() {
+                window.location.href = `/filmupdate/?filmId=${filmManage.id}`;
+            });
+
+            filmManageTable.appendChild(dataRow);
+        });
+
+        // Thêm bảng vào DOM
+        const filmManageList = document.getElementById('manage-list');
+        filmManageList.innerHTML = '';
+        filmManageList.appendChild(filmManageTable);
+    }
+
+
+    function updatePaginationButtons() {
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = !totalPages || currentPage === totalPages;
+    }
+
+    
+    function getFilmManage( page = 1) {
+        let url = `/api/films/?page=${page}`;
+        
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderFilmManage(data.results);
+            totalPages = Math.ceil(data.count / data.results.length);
+            currentPage = page;
+            updatePaginationButtons();
+
+            // Nếu không có next, ẩn nút next
+            nextPageBtn.disabled = !data.next;
+        })
+        .catch(error => {
+            console.error('Error fetching combo data:', error);
+        });
+    }
+
+    
+    prevPageBtn.addEventListener('click', () => {
+        getFilmManage( currentPage - 1);
+    });
+    
+    nextPageBtn.addEventListener('click', () => {
+        getFilmManage( currentPage + 1);
+    });
+
+    getFilmManage();
+
+
+
+    function getDeleteFilm(filmId) {
+        const accessToken = localStorage.getItem('access_token');
+        fetch(`/api/films/${filmId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Đã xóa film có ID ${filmId} thành công!`);
+                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                getFilmManage();
+            } else {
+                console.error(`Lỗi khi xóa film có ID ${filmId}: ${response.status} - ${response.statusText}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Lỗi khi xóa film có ID ${filmId}: ${error}`);
+        });
+    }
+
+</script>
+
+{% endblock filmManage %} 

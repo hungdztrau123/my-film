@@ -178,12 +178,20 @@ function getAreaDetails(areaId) {
                 filmItem.classList.add('card', 'mb-3');
                 filmItem.innerHTML = `
                   <div class="card-body">
+                    <div id="card-box-film">
+                    <h5 class="card-title">${film.age}</h5>
                     <h5 class="card-title">${film.name}</h5>
+                    </div>
                     <div class="row" id="schedule-${film.id}">
                       <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
                     </div>
                   </div>
                 `;
+
+                filmItem.querySelector('#card-box-film').addEventListener('click', function() {
+                  window.location.href = `/film/${film.id}/`;
+                });
+
                 getSchedules(film.id, dayShowId, placeDetailId, `schedule-${film.id}`);
                 filmList.appendChild(filmItem);
         
@@ -206,6 +214,7 @@ function getAreaDetails(areaId) {
                     scheduleItem.innerHTML = `
                       <div class="card">
                         <div class="card-body">
+                          <p class="card-text">${schedule.room.name}</p>
                           <p class="card-text">${schedule.start_time}</p>
                           <p class="card-text">${schedule.end_time}</p>
                         </div>

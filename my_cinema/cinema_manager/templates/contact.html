@@ -207,7 +207,18 @@
         .then(response => response.json())
         .then(data => {
             console.log('Bản ghi mới đã được tạo:', data);
+            alert('Lien he thanh cong');
             // Thực hiện các hành động tiếp theo sau khi tạo bản ghi thành công
+            document.getElementById('name').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('service').value = '';
+            document.getElementById('service-id').value = '';
+            document.getElementById('area').value = '';
+            document.getElementById('area-id').value = '';
+            document.getElementById('place').value = '';
+            document.getElementById('place-id').value = '';
+            
         })
         .catch(error => console.error(error));
     });

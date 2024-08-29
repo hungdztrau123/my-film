@@ -20,6 +20,7 @@
         </div>
     </div>
     <script>
+        
         // Lấy danh sách phim từ API
         fetch('/api/films/?status__iexact=Now')
             .then(response => response.json())
@@ -119,23 +120,29 @@
 
 <script>
     // Lấy danh sách phim từ API
-    fetch('/api/films/?status__iexact=Now&ordering=-imdb')
+    fetch('/api/films/?status__iexact=Now&ordering=-view')
     .then(response => response.json())
     .then(data => {
     const filmList = document.getElementById('top-film');
 
     // Tạo các phần tử phim
-    data.results.forEach(film => {
+    data.results.forEach((film, index) => {
         const filmItem = document.createElement('div');
         filmItem.classList.add('col-md-3', 'mb-4');
+
+        const date = new Date(film.release);
+        const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+        const year = date.getFullYear(); // Lấy năm
+        const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+
         filmItem.innerHTML = `
             <div class="film"> 
+                    <span class="film-index">${index + 1}.</span>
                     <span class="film-age">${film.age}</span>
                     <span class="film-name">${film.name}</span>
-                    <span class="film-imdb">${film.imdb}</span>
-                    <span class="film-release">${film.release}</span>
-
-
+                    <span class="film-imdb">${film.duration} Phút</span>
+                    <span class="film-release">${formattedDate}</span>
             </div>
         `;
         filmItem.addEventListener('click', () => {

@@ -16,6 +16,8 @@
             </div>
             <button type="submit">Đăng Nhập</button>
             <div id="message"></div>
+            <br>
+            <button id="btn-register" class="btn btn-danger" >Đăng Ký</button>
         </form>
     </div>
 
@@ -43,6 +45,10 @@
     </style>
 
     <script>
+        document.getElementById('btn-register').addEventListener('click', function() {
+            window.location.href = '/register/';
+        })
+
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -61,10 +67,22 @@
                 if (data.status === 200) {
                     // Lưu token vào localStorage
                     localStorage.setItem('access_token', data.access);
+                    localStorage.setItem('refresh_token', data.refresh);
+                    localStorage.setItem('session_name', data.name);
+                    localStorage.setItem('is_admin', data.is_admin);
+                    
                     document.getElementById('message').innerText = data.message;
 
-                    // Chuyển hướng đến giao diện tiếp theo (ví dụ: dashboard)
-                    window.location.href = '/home/';
+                    // Chuyển hướng đến trang tương ứng
+                    if (data.is_admin) {
+                        // Nếu người dùng là admin, chuyển hướng đến trang admin
+                        window.location.href = '/adminmanager/';
+                    } else {
+                        // Nếu người dùng là user thông thường, chuyển hướng đến trang người dùng
+                        window.location.href = '/home/';
+                    }
+
+
                 } else {
                     document.getElementById('message').innerText = data.message || 'Đăng nhập không thành công';
                 }

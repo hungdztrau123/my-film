@@ -32,6 +32,7 @@ from django.views.static import serve
 from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 from cinema_manager.views import base
+from cinema_manager.views import register
 from cinema_manager.views import login
 from cinema_manager.views import home
 from cinema_manager.views import homepage
@@ -44,6 +45,46 @@ from cinema_manager.views import promotionlist
 from cinema_manager.views import contact
 from cinema_manager.views import booking
 
+from cinema_manager.views import adminmanager
+from cinema_manager.views import combomanage
+from cinema_manager.views import comboinsert
+from cinema_manager.views import comboupdate
+
+from cinema_manager.views import filmmanage
+from cinema_manager.views import filminsert
+from cinema_manager.views import filmupdate
+
+from cinema_manager.views import schedulemanage
+from cinema_manager.views import scheduleinsert
+from cinema_manager.views import scheduleupdate
+
+from cinema_manager.views import areamanage
+from cinema_manager.views import areainsert
+from cinema_manager.views import areaupdate
+
+from cinema_manager.views import placemanage
+from cinema_manager.views import placeinsert
+from cinema_manager.views import placeupdate
+
+from cinema_manager.views import dayshowmanage
+from cinema_manager.views import dayshowinsert
+from cinema_manager.views import dayshowupdate
+
+from cinema_manager.views import roommanage
+from cinema_manager.views import roominsert
+from cinema_manager.views import roomupdate
+
+from cinema_manager.views import seatmanage
+from cinema_manager.views import seatinsert
+from cinema_manager.views import seatupdate
+
+from cinema_manager.views import imagemanage
+from cinema_manager.views import imageinsert
+from cinema_manager.views import imageupdate
+
+from cinema_manager.views import videomanage
+from cinema_manager.views import videoinsert
+from cinema_manager.views import videoupdate
 
 
 # from cinema_manager.views import map_view
@@ -71,6 +112,8 @@ from cinema_manager.views import TicketViewSet
 from cinema_manager.views import BookingViewSet
 from cinema_manager.views import BookingDetailViewSet
 from cinema_manager.views import CommentViewSet
+from cinema_manager.views import ComboViewSet
+
 
 api_router = DefaultRouter()
 
@@ -94,11 +137,14 @@ api_router.register(r"tickets", TicketViewSet)
 api_router.register(r"bookings", BookingViewSet)
 api_router.register(r"bookingdetails", BookingDetailViewSet)
 api_router.register(r"comments", CommentViewSet)
+api_router.register(r"combos", ComboViewSet)
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('base/', base, name = "base"),
+    path('register/', register, name = "register"),
     path('login/', login, name = "login"),
     
     path('home/', home, name = "home"),
@@ -111,6 +157,48 @@ urlpatterns = [
     path('promotionlist/', promotionlist, name = "promotionlist"),
     path('contact/', contact, name = "contact"),
     path('booking/<int:id>/', booking, name = "booking"),
+    
+    
+    path('adminmanager/', adminmanager, name = "adminmanager"),
+    path('combomanage/', combomanage, name = "combomanage"),
+    path('comboinsert/', comboinsert, name = "comboinsert"),
+    path('comboupdate/', comboupdate, name = "comboupdate"),
+    
+    path('filmmanage/', filmmanage, name = "filmmanage"),
+    path('filminsert/', filminsert, name = "filminsert"),
+    path('filmupdate/', filmupdate, name = "filmupdate"),
+    
+    path('schedulemanage/', schedulemanage, name = "schedulemanage"),
+    path('scheduleinsert/', scheduleinsert, name = "scheduleinsert"),
+    path('scheduleupdate/', scheduleupdate, name = "scheduleupdate"),
+    
+    path('areamanage/', areamanage, name = "areamanage"),
+    path('areainsert/', areainsert, name = "areainsert"),
+    path('areaupdate/', areaupdate, name = "areaupdate"),
+    
+    path('placemanage/', placemanage, name = "placemanage"),
+    path('placeinsert/', placeinsert, name = "placeinsert"),
+    path('placeupdate/', placeupdate, name = "placeupdate"),
+    
+    path('dayshowmanage/', dayshowmanage, name = "dayshowmanage"),
+    path('dayshowinsert/', dayshowinsert, name = "dayshowinsert"),
+    path('dayshowupdate/', dayshowupdate, name = "dayshowupdate"),
+    
+    path('roommanage/', roommanage, name = "roommanage"),
+    path('roominsert/', roominsert, name = "roominsert"),
+    path('roomupdate/', roomupdate, name = "roomupdate"),
+    
+    path('seatmanage/', seatmanage, name = "seatmanage"),
+    path('seatinsert/', seatinsert, name = "seatinsert"),
+    path('seatupdate/', seatupdate, name = "seatupdate"),
+    
+    path('imagemanage/', imagemanage, name = "imagemanage"),
+    path('imageinsert/', imageinsert, name = "imageinsert"),
+    path('imageupdate/', imageupdate, name = "imageupdate"),
+    
+    path('videomanage/', videomanage, name = "videomanage"),
+    path('videoinsert/', videoinsert, name = "videoinsert"),
+    path('videoupdate/', videoupdate, name = "videoupdate"),
     
     
 

@@ -15,9 +15,7 @@
         <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
     </div>
 
-    <div id="place-detail">
-
-    </div>
+    
 
     
 
@@ -84,7 +82,6 @@ function getAreaDetails(areaId) {
             </div>
           `;
           placeItem.addEventListener('click', () => {
-            getPlaceDetails(place.id);
             getDayShows(place.id);
           });
           placeList.appendChild(placeItem);
@@ -94,50 +91,7 @@ function getAreaDetails(areaId) {
         console.error('Error fetching area details:', error);
       });
 }
-function getPlaceDetails(placeId) {
-fetch(`/api/places/${placeId}/`)
-.then(response => response.json())
-.then(data => {
-    const placeDetailContainer = document.getElementById('place-detail');
-    placeDetailContainer.innerHTML = `
-        <div class="container my-5">
-            <h1 id="place-name">${data.name}</h1>
-            <div class="row">
-                <div class="col-md-6">
-                    <img id="place-image" class="img-fluid" src="${data.image}" alt="Place Image">
-                </div>
-                <div class="col-md-6">
-                    <p id="place-address">${data.address}</p>
-                    <div id="map" style="height: 400px; width: 1000px;"></div>
-                </div>
-            </div>
-        </div>
-    `;
 
-    // Create the map
-    const map = L.map('map').setView([data.latitude, data.longitude], 16);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Add a marker for the place
-    const marker = L.marker([data.latitude, data.longitude])
-    marker.addTo(map);
-
-    marker.bindPopup(data.name)
-    .on('mouseover', function() {
-        this.openPopup();
-    })
-    .on('mouseout', function() {
-        this.closePopup();
-    })
-    .closePopup();
-
-})
-.catch(error => {
-    console.error('Error fetching place details:', error);
-});
-}
 function getDayShows(placeDetailId){
     fetch(`/api/dayshows/?place=${placeDetailId}`)
     .then(response => response.json())
@@ -183,12 +137,20 @@ fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}
     filmItem.classList.add('card', 'mb-3');
     filmItem.innerHTML = `
         <div class="card-body">
+        <div id="card-box-film">
+        <h5 class="card-title">${film.age}</h5>
         <h5 class="card-title">${film.name}</h5>
+        </div>
         <div class="row" id="schedule-${film.id}">
             <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
         </div>
         </div>
     `;
+        
+    filmItem.querySelector('#card-box-film').addEventListener('click', function() {
+        window.location.href = `/film/${film.id}/`;
+    });
+
     getSchedules(film.id, dayShowId, placeDetailId, `schedule-${film.id}`);
     filmList.appendChild(filmItem);
 
@@ -211,6 +173,7 @@ function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
         scheduleItem.innerHTML = `
             <div class="card">
             <div class="card-body">
+                <p class="card-text">${schedule.room.name}</p>
                 <p class="card-text">${schedule.start_time}</p>
                 <p class="card-text">${schedule.end_time}</p>
             </div>

@@ -1,0 +1,189 @@
+{% extends 'adminmanager.html' %} 
+{% load static %}
+
+{% block videoManage %} 
+
+<button id="insert-manage">Thêm</button>
+<div id="manage-list">
+
+</div>
+<div class="pagination">
+    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
+    <button class="btn btn-primary next-page">Trang sau</button>
+</div>
+
+
+<script>
+
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        const isAdmin = localStorage.getItem('is_admin');
+
+        if (!accessToken && isAdmin === 'false') {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('session_name');
+                localStorage.removeItem('is_admin');
+
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+    const videoManageList = document.getElementById('manage-list');
+    const prevPageBtn = document.querySelector('.prev-page');
+    const nextPageBtn = document.querySelector('.next-page');
+    let currentPage = 1;
+    let totalPages;
+    
+    document.getElementById('insert-manage').addEventListener('click', function() {
+        window.location.href = '/videoinsert/';
+    });
+
+    function renderVideoManage(videoManages) {
+        const videoManageTable = document.createElement('table');
+        videoManageTable.classList.add('table');
+
+        // Tạo hàng tiêu đề
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `
+            <th>film</th>
+            <th>video</th>
+            <th>video-type</th>
+
+            
+        `;
+        videoManageTable.appendChild(headerRow);
+
+        // Tạo các hàng dữ liệu
+        videoManages.forEach(videoManage => {
+            const dataRow = document.createElement('tr');
+            dataRow.innerHTML = `
+            
+               
+                <td>${videoManage.film ? videoManage.film.name : ''}</td>
+                
+                <td>
+                <video controls id="video-manage-video" style="width: 100%; height: 400px; object-fit: cover;">
+                        <source src="${videoManage.video}" type="${videoManage.video_type}">
+                </video>
+                </td>
+                
+                <td>${videoManage.video_type}</td>
+                
+               
+                <td>
+                    <button id="video-update" class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                    <button id="video-delete" class="btn btn-danger btn-sm">Xóa</button>
+                </td>
+            `;
+
+            dataRow.querySelector('#video-delete').addEventListener('click', function() {
+                if (confirm('Bạn có chắc chắn muốn xóa video này?')) {
+                    getDeleteVideo(videoManage.id);
+                }
+            });
+            
+            dataRow.querySelector('#video-update').addEventListener('click', function() {
+                window.location.href = `/videoupdate/?videoId=${videoManage.id}`;
+            });
+
+            videoManageTable.appendChild(dataRow);
+        });
+
+        // Thêm bảng vào DOM
+        const videoManageList = document.getElementById('manage-list');
+        videoManageList.innerHTML = '';
+        videoManageList.appendChild(videoManageTable);
+    }
+
+
+    function updatePaginationButtons() {
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = !totalPages || currentPage === totalPages;
+    }
+
+    
+    function getVideoManage( page = 1) {
+        let url = `/api/videos/?page=${page}`;
+        
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderVideoManage(data.results);
+            totalPages = Math.ceil(data.count / data.results.length);
+            currentPage = page;
+            updatePaginationButtons();
+
+            // Nếu không có next, ẩn nút next
+            nextPageBtn.disabled = !data.next;
+        })
+        .catch(error => {
+            console.error('Error fetching video data:', error);
+        });
+    }
+
+    
+    prevPageBtn.addEventListener('click', () => {
+        getVideoManage( currentPage - 1);
+    });
+    
+    nextPageBtn.addEventListener('click', () => {
+        getVideoManage( currentPage + 1);
+    });
+
+    getVideoManage();
+
+
+
+    function getDeleteVideo(videoId) {
+        const accessToken = localStorage.getItem('access_token');
+        fetch(`/api/videos/${videoId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Đã xóa video có ID ${videoId} thành công!`);
+                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                getVideoManage();
+            } else {
+                console.error(`Lỗi khi xóa video có ID ${videoId}: ${response.status} - ${response.statusText}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Lỗi khi xóa video có ID ${videoId}: ${error}`);
+        });
+    }
+
+</script>
+
+{% endblock videoManage %} 

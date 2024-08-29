@@ -56,6 +56,10 @@ class ChoiceGender(Enum):
 class ChoiceStatus(Enum):
     now = 'Now'
     comming = 'Coming'
+    
+class ChoiceVideoType(Enum):
+    mp4 = 'video/mp4'
+    
 
 class Base(models.Model):
     id = models.AutoField(primary_key=True)
@@ -100,6 +104,8 @@ class Rooms(Base):
     place = models.ForeignKey(Place, null=True,on_delete=models.SET_NULL)
     name = models.CharField(max_length=255, null=True, blank=True)
     status = models.BooleanField(default=True)
+    def __str__(self): 
+        return self.name
 
 class Seats(Base):
     room = models.ForeignKey(Rooms, null=True, on_delete=models.CASCADE)
@@ -124,6 +130,9 @@ class Films(Base):
     country = models.CharField(max_length=100, choices=[(tag.value, tag.name) for tag in ChoiceCountries], default=ChoiceCountries.america.value )
     status = models.CharField(max_length=100, null=True, choices=[(tag.value, tag.name) for tag in ChoiceStatus], default=ChoiceStatus.now.value )
 
+    def __str__(self): 
+        return self.name
+    
 class Image(Base):
     film = models.ForeignKey(Films, null=True, on_delete=models.CASCADE)
     image = models.FileField(upload_to='files/',null=True)
@@ -131,7 +140,7 @@ class Image(Base):
 class Video(Base):
     film = models.ForeignKey(Films, null=True, on_delete=models.CASCADE)
     video = models.FileField(upload_to='files/',null=True,blank=True)
-    video_type = models.CharField(max_length=20, null=True, blank=True)
+    video_type = models.CharField(max_length=20, null=True, blank=True, choices=[(tag.value, tag.name) for tag in ChoiceVideoType], default=ChoiceVideoType.mp4.value)
     
 class Comments(Base):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
@@ -199,10 +208,19 @@ class Contact(Base):
     service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
     area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)
     place = models.ForeignKey(Place,null=True, on_delete=models.SET_NULL)
+
+class Combo(Base):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    image = models.FileField(upload_to='files/',null=True)
+    content = models.CharField(max_length=500, null=True, blank=True)
+    price = models.CharField(max_length=255, null=True, blank=True)
+
+
     
     
 class Pay(Base):
-    pass
+    booking = models.ForeignKey(Bookings,null=True, on_delete=models.CASCADE)
+    
     
     
 

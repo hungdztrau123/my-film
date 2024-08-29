@@ -18,6 +18,8 @@ from cinema_manager.models import Tickets
 from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
 from cinema_manager.models import Comments
+from cinema_manager.models import Combo
+
 
 
 from auth_manager.serializers import UserSerializer
@@ -25,24 +27,67 @@ from auth_manager.serializers import UserSerializer
 from django.contrib.auth.models import User
 
 class DayShowSerializer(serializers.ModelSerializer):
+    place_names = serializers.SerializerMethodField()
     class Meta:
         model = DayShow
         fields = '__all__'
+        
+    def get_place_names(self, obj):
+        return ', '.join(place.name for place in obj.place.all())
+        
+    
+
+
+class PlaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Place
+        fields = '__all__'
+    
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.area: 
+            data['area'] = AreaSerializer(instance.area).data 
+        return data
+    
 
 class FilmSerializer(serializers.ModelSerializer):
+    place_names = serializers.SerializerMethodField()
+    dayshow_days = serializers.SerializerMethodField()
     class Meta:
         model = Films
         fields = '__all__'
+        
+    def get_place_names(self, obj):
+        return ', '.join(place.name for place in obj.place.all())
+    
+    def get_dayshow_days(self, obj):
+        return ', '.join(dayshow.day.strftime("%Y-%m-%dT%H:%M:%SZ") for dayshow in obj.dayshow.all())
+        
+    
+        
+    
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
         fields = '__all__'
         
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.film: 
+            data['film'] = FilmSerializer(instance.film).data 
+        return data 
+        
 class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = '__all__'
+    
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.film: 
+            data['film'] = FilmSerializer(instance.film).data 
+        return data 
         
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -67,7 +112,20 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = '__all__'
-        
+    
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.user: 
+            data['user'] = UserSerializer(instance.user).data 
+        if instance.film: 
+            data['film'] = FilmSerializer(instance.film).data 
+        return data
+
+class ComboSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Combo
+        fields = '__all__'
+ 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
@@ -112,6 +170,12 @@ class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seats
         fields = '__all__'
+        
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.room: 
+            data['room'] = RoomSerializer(instance.room).data 
+        return data   
         
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
@@ -159,11 +223,9 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = '__all__'
+        
+    
 
-class PlaceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Place
-        fields = '__all__'
         
 
 class BulkEditObjectsSerializer(serializers.Serializer):
@@ -192,8 +254,9 @@ class BulkEditObjectsSerializer(serializers.Serializer):
             "seats",
             "bookingdetails",
             "bookings",
-            
-            
+            "comments",
+            "combos",
+        
         ],
         label="Object Type",
         write_only=True,
@@ -224,6 +287,10 @@ class BulkEditObjectsSerializer(serializers.Serializer):
             object_class = BookingDetail
         elif object_type == "bookings":
             object_class = Bookings
+        elif object_type == "comments":
+            object_class = Comments
+        elif object_type == "combos":
+            object_class = Combo
         elif object_type == "users":
             object_class = User
         

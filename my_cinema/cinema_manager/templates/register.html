@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block register %}
+<div class="container">
+    <h2>Đăng Ký</h2>
+    <form id="register-form">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="username">Tên người dùng:</label>
+            <input type="text" id="username" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Mật khẩu:</label>
+            <input type="password" id="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">Số điện thoại:</label>
+            <input type="text" id="phone" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Đăng Ký</button>
+    </form>
+    <div id="response-message"></div>
+</div>
+
+<script>
+    document.getElementById('register-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const phone = document.getElementById('phone').value;
+
+        fetch('/api/register/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                username: username,
+                password: password,
+                phone: phone
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageElement = document.getElementById('response-message');
+            if (data.message) {
+                messageElement.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                // Chuyển hướng đến trang đăng nhập
+                window.location.href = '/login/';
+            } else if (data.error_messages) {
+                messageElement.innerHTML = `<div class="alert alert-danger">${data.error_messages.email || data.error_messages.username || 'Có lỗi xảy ra.'}</div>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+</script>
+
+<style>
+    .container {
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+    }
+    .form-control {
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock register %}

@@ -43,6 +43,43 @@
 
 
 <script>
+
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+    let filmId;
+
     // Get the room ID from the URL
     const url = new URL(window.location.href);
     const scheduleId = url.pathname.split('/')[2];
@@ -73,6 +110,8 @@
         const idRoom = data.room.id
         getSeatsRegural(idRoom);
         getSeatsVip(idRoom);
+
+        filmId = data.film.id;  
         
 
     })
@@ -99,7 +138,7 @@
               ticketItem.innerHTML = `
                   <h5 class="card-title">${ticket.price}</h5>
                   <h5 class="card-title">${ticket.type}</h5>
-                
+
               `;
               
               ticketList.appendChild(ticketItem);
@@ -273,6 +312,14 @@
 
 
     document.getElementById('book-tickets').addEventListener('click', () => {
+
+        if (!isAccessTokenValid()) {
+            alert('Token đã hết hạn. Vui lòng đăng nhập.');
+            localStorage.removeItem('access_token');
+            window.location.href = '/login/';
+            return; // Dừng hàm nếu token không hợp lệ
+        }
+
         fetch('/api/bookingdetails/')
             .then(response => response.json())
             .then(data => {
@@ -330,9 +377,28 @@
                 })
                 .then(bookingId => {
                     console.log('Tất cả vé đã được đặt thành công');
-                    window.location.href = `/booking/${bookingId}/?scheduleId=${scheduleIdInt}`;
-                    selectedSeats = [];
-                    updateTotalPriceDisplay();
+
+                    // Cập nhật view cho film
+                    return fetch(`/api/films/${filmId}/`)
+                        .then(response => response.json())
+                        .then(filmData => {
+                            const currentViewCount = parseInt(filmData.view, 10) || 0;
+                            const updatedViewCount = currentViewCount + 1;
+
+                            return fetch(`/api/films/${filmId}/`, {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ view: updatedViewCount }),
+                            });
+                        })
+                        .then(() => {
+                            // Chuyển hướng đến trang booking
+                            window.location.href = `/booking/${bookingId}/?scheduleId=${scheduleIdInt}`;
+                            selectedSeats = [];
+                            updateTotalPriceDisplay();
+                        });
                 })
                 .catch(error => {
                     console.error('Error:', error);

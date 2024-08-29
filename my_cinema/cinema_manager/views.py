@@ -48,7 +48,7 @@ from cinema_manager.models import Tickets
 from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
 from cinema_manager.models import Comments
-
+from cinema_manager.models import Combo
 
 
 from cinema_manager.serializers import FilmSerializer
@@ -70,6 +70,7 @@ from cinema_manager.serializers import TicketSerializer
 from cinema_manager.serializers import BookingSerializer
 from cinema_manager.serializers import BookingDetailSerializer
 from cinema_manager.serializers import CommentSerializer
+from cinema_manager.serializers import ComboSerializer
 
 
 
@@ -91,8 +92,180 @@ from cinema_manager.filters import TicketFilterSet
 from cinema_manager.filters import BookingFilterSet
 from cinema_manager.filters import BookingDetailFilterSet
 from cinema_manager.filters import CommentFilterSet
+from cinema_manager.filters import ComboFilterSet
+
+from cinema_manager.models import ChoiceCountries, ChoiceStatus
+from cinema_manager.models import ChoiceTypeSeat, ChoiceKindSeat
+from cinema_manager.models import ChoiceVideoType
 
 
+
+
+def adminmanager(request):
+    context = {}
+    return render(request, '../templates/adminmanager.html', context)
+
+def combomanage(request):
+    context = {}
+    return render(request, '../templates/combomanage.html', context)
+
+def comboinsert(request):
+    context = {}
+    return render(request, '../templates/comboinsert.html', context)
+
+def comboupdate(request):
+    context = {}
+    return render(request, '../templates/comboupdate.html', context)
+
+
+def filmmanage(request):
+    context = {}
+    return render(request, '../templates/filmmanage.html', context)
+
+def filminsert(request):
+    countries = [c.value for c in ChoiceCountries]
+    statuses = [s.value for s in ChoiceStatus]
+    context = {
+        'countries': countries,
+        'statuses': statuses,
+    }
+    return render(request, '../templates/filminsert.html', context)
+
+def filmupdate(request):
+    countries = [c.value for c in ChoiceCountries]
+    statuses = [s.value for s in ChoiceStatus]
+    context = {
+        'countries': countries,
+        'statuses': statuses,
+    }
+    return render(request, '../templates/filmupdate.html', context)
+
+
+def schedulemanage(request):
+    context = {}
+    return render(request, '../templates/schedulemanage.html', context)
+
+def scheduleinsert(request):
+    context = {}
+    return render(request, '../templates/scheduleinsert.html', context)
+
+def scheduleupdate(request):
+    context = {}
+    return render(request, '../templates/scheduleupdate.html', context)
+
+
+def areamanage(request):
+    context = {}
+    return render(request, '../templates/areamanage.html', context)
+
+def areainsert(request):
+    context = {}
+    return render(request, '../templates/areainsert.html', context)
+
+def areaupdate(request):
+    context = {}
+    return render(request, '../templates/areaupdate.html', context)
+
+
+def placemanage(request):
+    context = {}
+    return render(request, '../templates/placemanage.html', context)
+
+def placeinsert(request):
+    context = {}
+    return render(request, '../templates/placeinsert.html', context)
+
+def placeupdate(request):
+    context = {}
+    return render(request, '../templates/placeupdate.html', context)
+
+
+def dayshowmanage(request):
+    context = {}
+    return render(request, '../templates/dayshowmanage.html', context)
+
+def dayshowinsert(request):
+    context = {}
+    return render(request, '../templates/dayshowinsert.html', context)
+
+def dayshowupdate(request):
+    context = {}
+    return render(request, '../templates/dayshowupdate.html', context)
+
+
+def roommanage(request):
+    context = {}
+    return render(request, '../templates/roommanage.html', context)
+
+def roominsert(request):
+    context = {}
+    return render(request, '../templates/roominsert.html', context)
+
+def roomupdate(request):
+    context = {}
+    return render(request, '../templates/roomupdate.html', context)
+
+
+def seatmanage(request):
+    context = {}
+    return render(request, '../templates/seatmanage.html', context)
+
+def seatinsert(request):
+    types = [t.value for t in ChoiceTypeSeat]
+    kinds = [k.value for k in ChoiceKindSeat]
+    context = {
+        'types': types,
+        'kinds': kinds,
+    }
+    return render(request, '../templates/seatinsert.html', context)
+
+def seatupdate(request):
+    types = [t.value for t in ChoiceTypeSeat]
+    kinds = [k.value for k in ChoiceKindSeat]
+    context = {
+        'types': types,
+        'kinds': kinds,
+    }
+    return render(request, '../templates/seatupdate.html', context)
+
+
+
+def imagemanage(request):
+    context = {}
+    return render(request, '../templates/imagemanage.html', context)
+
+def imageinsert(request):
+    context = {}
+    return render(request, '../templates/imageinsert.html', context)
+
+def imageupdate(request):
+    context = {}
+    return render(request, '../templates/imageupdate.html', context)
+
+
+def videomanage(request):
+    context = {}
+    return render(request, '../templates/videomanage.html', context)
+
+def videoinsert(request):
+    video_types = [v.value for v in ChoiceVideoType]
+    context = {
+        'video_types': video_types,
+    }
+    return render(request, '../templates/videoinsert.html', context)
+
+def videoupdate(request):
+    video_types = [v.value for v in ChoiceVideoType]
+    context = {
+        'video_types': video_types,
+    }
+    return render(request, '../templates/videoupdate.html', context)
+
+
+
+def register(request):
+    context = {}
+    return render(request, '../templates/register.html', context)
 
 def login(request):
     context = {}
@@ -105,6 +278,8 @@ def home(request):
 def base(request):
     context = {}
     return render(request, '../templates/base.html', context)
+
+
 
 def homepage(request):
     context = {}
@@ -333,13 +508,34 @@ class CommentViewSet(ModelViewSet):
     queryset = Comments.objects.all()
     serializer_class = CommentSerializer
     pagination_class = StandardPagination
-    permission_classes = [AdminPermission]
+    # permission_classes = [AccessTokenPermission]
     filter_backends = (
         DjangoFilterBackend,
         OrderingFilter,
     )
     filterset_class = CommentFilterSet
     ordering_fields = ("id","user", "film", "rate", )
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user, user=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+
+class ComboViewSet(ModelViewSet):
+    model = Combo
+    queryset = Combo.objects.all()
+    serializer_class = ComboSerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = ComboFilterSet
+    ordering_fields = ("id","name", "price")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -365,7 +561,7 @@ class ContactViewSet(ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
     pagination_class = StandardPagination
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     # permission_classes = [AdminPermission]
     filter_backends = (
         DjangoFilterBackend,

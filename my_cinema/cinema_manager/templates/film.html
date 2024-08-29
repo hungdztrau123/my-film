@@ -28,19 +28,39 @@
     <button id="submit-comment">Gửi bình luận</button>
 </div>
 
-<div id="comment-list">
-
+<div id="box-comment">
+    <div id="comment-list">
+    </div>
+    <div class="pagination">
+        <button class="btn btn-primary prev-page" disabled>Trang trước</button>
+        <button class="btn btn-primary next-page">Trang sau</button>
+    </div>
 </div>
+
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script>
+
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
     // Get the film ID from the URL
     const url = new URL(window.location.href);
     const filmId = url.pathname.split('/')[2];
 
-    getComment(filmId);
+    
 
     // Fetch the film details
     fetch(`/api/films/${filmId}/`)
@@ -104,15 +124,43 @@
 
     
     document.getElementById('submit-comment').addEventListener('click', function() {
-        const token = localStorage.getItem('access_token');
+
+        
+
+        const accessToken = localStorage.getItem('access_token');
+
+        if (!accessToken) {
+            window.location.href = '/login/';
+        }
+        
+        else if (!isAccessTokenValid()) {
+            alert('Token đã hết hạn. Vui lòng đăng nhập.');
+            localStorage.removeItem('access_token');
+            window.location.href = '/login/';
+            return; // Dừng hàm nếu token không hợp lệ
+        }
+
         const rate = document.getElementById('comment-rate').value;
         const content = document.getElementById('comment-content').value;
+
+        if (!rate && !content) {
+            alert('Vui lòng nhập thông tin đánh giá và bình luận.');
+            return;
+        }
+        if (!rate) {
+            alert('Vui lòng nhập thông tin đánh giá.');
+            return;
+        }
+        if (!content) {
+            alert('Vui lòng nhập bình luận.');
+            return;
+        }
         
         // Gửi bình luận lên server
         fetch(`/api/comments/`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -132,46 +180,87 @@
             document.getElementById('comment-rate').value = '';
             document.getElementById('comment-content').value = '';
             // Cập nhật danh sách bình luận
-            getComment(filmId);
+            getComments(filmId,page = 1);
         })
         .catch(error => {
             console.error('Error posting comment:', error);
         });
     });
 
+
+    const commentList = document.getElementById('comment-list');
+    const prevPageBtn = document.querySelector('.prev-page');
+    const nextPageBtn = document.querySelector('.next-page');
+    let currentPage = 1;
+    let totalPages;
     
-    function getComment(filmId) {
-        const token = localStorage.getItem('access_token');
-        fetch(`/api/comments/?film=${filmId}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-          const commentList = document.getElementById('comment-list');
-          commentList.innerHTML = ''; // Xóa nội dung cũ
-    
-          data.results.forEach(comment => {
+
+    function renderComments(comments) {
+        commentList.innerHTML = '';
+        comments.forEach(comment => {
             const commentItem = document.createElement('div');
-            commentItem.classList.add('comment-box');
+            commentItem.classList.add('col-md-3', 'mb-4');
+
+            const date = new Date(comment.created_at);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+
             commentItem.innerHTML = `
-            
-                  <span class="comment-rate">${comment.rate}</span>
-                  <span class="comment-content">${comment.content}</span>
+                <div class="">
+                   
+                    <span class="card-title">${comment.user.username}</span>
+                    <span class="card-title">${comment.rate}</span>
+                    <span class="card-title">${comment.content}</span>
+                    <span class="card-title">${formattedDate}</span>
 
-             
+
+                  
+                </div>
             `;
+           
+            
             commentList.appendChild(commentItem);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching comment list:', error);
         });
-
     }
 
+
+    function updatePaginationButtons() {
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = !totalPages || currentPage === totalPages;
+    }
+
+    getComments(filmId);
+    function getComments(filmId, page = 1) {
+        let url = `/api/comments/?page=${page}&film=${filmId}`;
+        
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderComments(data.results);
+            totalPages = Math.ceil(data.count / data.results.length);
+            currentPage = page;
+            updatePaginationButtons();
+
+            // Nếu không có next, ẩn nút next
+            nextPageBtn.disabled = !data.next;
+        })
+        .catch(error => {
+            console.error('Error fetching comment data:', error);
+        });
+    }
+
+    
+    prevPageBtn.addEventListener('click', () => {
+        getComments(filmId, currentPage - 1);
+    });
+    
+    nextPageBtn.addEventListener('click', () => {
+        getComments(filmId, currentPage + 1);
+    });
+
+    getComments(filmId);
 
 
    
