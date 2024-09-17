@@ -2,10 +2,10 @@
 {% load static %}
 
 {% block logIn %}
-     this is login 
-    <div class="login-container">
-        <form id="login-form">
-            <h2>Đăng Nhập</h2>
+
+    <div class="container-login">
+        <form id="login-form" class="box-login">
+            <span class="login-title">Đăng Nhập</span>
             <div>
                 <label for="username">Tên người dùng:</label>
                 <input type="text" id="username" name="username" required>
@@ -14,34 +14,110 @@
                 <label for="password">Mật khẩu:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">Đăng Nhập</button>
+            <div class="box-btn-login">
+                <button type="submit" class="btn-login-main">Đăng Nhập</button>
+            </div>
+            
             <div id="message"></div>
             <br>
-            <button id="btn-register" class="btn btn-danger" >Đăng Ký</button>
+
+            <div class="box-btn-register">
+                <span id="btn-register" class="btn-register" >Đăng Ký</span>
+            </div>
+            
         </form>
     </div>
 
     <style>
-        .login-container {
-            max-width: 400px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .container-login{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0px; 
+        }
+
+        .box-login{
+            width: 23%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid #d5a12c;
+            padding: 30px;
+            border-radius: 3px;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+
+
+        }
+
+        .login-title{
+            font-size: 28px;
+            font-weight: 1000;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         input {
             width: 100%;
             margin: 10px 0;
-            padding: 10px;
+            padding: 5px 10px;
+            color: #d5a12c;
+            text-shadow: 1px 1px 1px #000;
+            outline-color: #cdc197;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            border: 1px solid #d5a12c;
+            border-radius: 3px;
         }
-        button {
+
+        .box-btn-login{
             width: 100%;
-            padding: 10px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 30px;
+            
         }
+        .box-btn-register{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+
+        }
+
+        .btn-login-main{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px ;
+            min-width: 130px;
+
+            font-weight: bold;
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            border-radius: 3px;
+            cursor: pointer;
+            background-color: transparent;
+            color: #d5a12c;
+            text-shadow: 1px 1px 1px #000;
+
+
+        }
+        .btn-register{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px ;
+            min-width: 130px;
+            font-weight: bold;
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
     </style>
 
     <script>
@@ -69,6 +145,7 @@
                     localStorage.setItem('access_token', data.access);
                     localStorage.setItem('refresh_token', data.refresh);
                     localStorage.setItem('session_name', data.name);
+                    localStorage.setItem('session_id', data.id);
                     localStorage.setItem('is_admin', data.is_admin);
                     
                     document.getElementById('message').innerText = data.message;

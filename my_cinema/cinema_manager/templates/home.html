@@ -4,6 +4,7 @@
 {% block sliderHome %} 
     <!-- <link rel="stylesheet" href="/static/css/home.css"> -->
     <link href="{% static 'css/home.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="../font/fontawesome-free-6.6.0-web/fontawesome-free-6.6.0-web/css/all.css">
     <div>
         <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
             <div class="carousel-inner">
@@ -35,7 +36,7 @@
                         carouselItem.classList.add('active');
                     }
                     carouselItem.innerHTML = `
-                        <img src="${film.banner}" style="width: 100%; height: 300px;" alt="${film.name}">
+                        <img src="${film.banner}" style="width: 100%; height: 420px; cursor: pointer;" alt="${film.name}">
                     `;
                     carouselItem.addEventListener('click', () => {
                         window.location.href = `/film/${film.id}/`;
@@ -63,10 +64,188 @@
 {% endblock sliderHome %}
 
 {% block contentHome %}
-    <div class="container">
-        <h2>Film List</h2>
-        <div class="row" id="film-list">
-        <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+
+
+    <style>
+        .container-film-list{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid #cdc197;
+            border-bottom: 1px solid #cdc197;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            padding: 20px 0px;
+        }
+
+        .film-list-home-img
+        {
+            width: 7%;
+           
+        }
+        
+        .box-film-list{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0px;
+
+        }
+
+        .film-list{
+            width: 70%;
+            display: flex;
+            flex-wrap: wrap;
+            
+            
+        }
+        
+        
+        .film-item{
+            width: 24%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d5a12c;
+            margin: 5px;
+        }
+
+        .film-item:hover{
+            box-shadow: 0px 0px 3px 2px#d5a12c ;
+        }
+        .film-item:hover .box-film-item-operation{
+            display: flex;
+            
+        }
+
+
+        .box-film-item-img{
+            width: 100%;
+            height: 348px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+        }
+
+        .film-item-img{
+            width: 100%;
+            height: 100%;
+            
+            
+        }
+        .box-film-item-operation{
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0,0,0,0.5);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+        .btn-booking{
+            padding: 5px 10px; 
+            min-width: 100px;
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            
+
+        }
+
+        .btn-booking:hover{
+            background-color: rgb(0,0,0,0.7);
+        }
+
+        .btn-film-details{
+            padding: 5px 10px; 
+            min-width: 100px;
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .btn-film-details:hover{
+            background-color: rgb(0,0,0,0.7);
+        }
+
+        .film-item-content{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .box-film-item-info{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            padding: 7px;
+            border-bottom: 1px solid #d5a12c;
+            border-top: 1px solid #d5a12c;
+            font-size: 14px;
+
+        }
+        .film-item-age{
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #d5a12c;
+            border-radius: 50%;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            
+
+        }
+        .film-item-name{
+            text-transform: uppercase;
+            margin-left: 7px;
+        }
+        .box-film-time{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px;
+            font-size: 13px;
+            
+
+        }
+        .film-item-duration{
+            border-right: 1px solid #d5a12c;
+            padding-right: 7px;
+        }
+        .film-item-release{
+            border-left: 1px solid #d5a12c;
+            padding-left: 7px;
+        }
+
+    </style>
+
+    <div class="container-film-list">
+        <img src="../static/images/—Pngtree—golden color 4k ultra hd_8329759.png" alt="" class="film-list-home-img">
+        
+        <div class="box-film-list">
+            <div class="film-list" id="film-list">
+                <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+            </div>
         </div>
     </div>
 
@@ -80,25 +259,47 @@
     // Tạo các phần tử phim
     data.results.forEach(film => {
         const filmItem = document.createElement('div');
-        filmItem.classList.add('col-md-3', 'mb-4');
+        filmItem.classList.add('film-item');
+
+        const date = new Date(film.release);
+        const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+        const year = date.getFullYear(); // Lấy năm
+        const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+
         filmItem.innerHTML = `
-            <div class="card">
-                <img src="${film.poster}" class="card-img-top" alt="${film.name}">
-                <div class="card-body">
-                    <h5 class="card-title">${film.name}</h5>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-primary btn-film-details" data-film-id="${film.id}">Xem chi tiết</button>
-                        <button class="btn btn-success btn-booking" data-film-id="${film.id}">Đặt vé</button>
+                
+                    <div class="box-film-item-img">
+                        <img src="${film.poster}" class="film-item-img" alt="${film.name}">
+                        <div class="box-film-item-operation">
+                            <span class="btn-booking" data-film-id="${film.id}">Đặt vé</span>
+                            <span class="btn-film-details" data-film-id="${film.id}">Chi tiết</span>
+                        </div>
                     </div>
-                </div>
-            </div>
+
+                    <div class="film-item-content">
+                        <div class="box-film-item-info">
+                            <span class="film-item-age">${film.age}</span>
+                            <span class="film-item-name">${film.name}</span>
+                        </div>
+
+                        <div class="box-film-time">
+                            <span class="film-item-duration">${film.duration} Phút</span>
+                            <span class="film-item-release">${formattedDate}</span>
+                        </div>
+                        
+                    </div>
+                
+            
         `;
+
         filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
             window.location.href = `/film/${film.id}/`;
         });
         filmItem.querySelector('.btn-booking').addEventListener('click', () => {
             window.location.href = `/bookfilm/${film.id}/`;
         });
+        
         filmList.appendChild(filmItem);
     });
     })
@@ -114,9 +315,148 @@
 
 
 {% block topFilm %}
-<div id="top-film">
+    <style>
+        .box-top-film-main{
+            display: flex;
+            position: fixed;
+            right: 2px;
+            top: 245px; 
+            border: 1px solid #cdc197;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            z-index: 1000;
+            background-color: rgb(0,0,0,0.7);
+              
+        }
 
-</div>
+        .button-click-top-film{
+            padding: 2px 3px;
+            border: 1px solid #cdc197;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            cursor: pointer;
+        }
+        .box-top-film{
+            width: 290px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .box-office{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            box-shadow: 0px 2px 3px 0px #d5a12c;
+
+        }
+        .box-office-img{
+            width: 80%;
+        }
+        .top-film{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            
+            justify-content: center;
+            padding: 20px 10px;
+
+        }
+        .top-film-item{
+            display: flex;
+            width: 100%;
+            cursor: pointer;
+
+        }
+        .content-top-film-item{
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .box-info-top-film{
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .box-time-top-film{
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .film-index{
+            font-size: 20px;
+
+        }
+        .film-age{
+            font-size: 14px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #d5a12c;
+            border-radius: 50%;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            margin: 0px 7px;
+
+        }
+        .film-name{
+            font-size: 14px;
+            text-transform: uppercase;
+            white-space: nowrap; 
+            max-width: 150px; 
+            overflow: hidden;
+            text-overflow: ellipsis; 
+
+        }
+        .film-duration{
+            margin-right: 7px;
+
+        }
+        .film-release{
+
+        }
+        
+    </style>
+    <div class="box-top-film-main">
+        <div class="button-click-top-film" id="button-click-top-film">
+             <i class="fa-solid fa-computer-mouse"></i>
+        </div>
+        <div class="box-top-film" id="box-top-film">
+            <div class="box-office">
+                <img class="box-office-img" src="../static/images/Box-office-logo.png" alt="">
+            </div>
+            <div id="top-film" class="top-film">
+    
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const button = document.getElementById('button-click-top-film');
+            const boxTopFilm = document.getElementById('box-top-film');
+    
+            button.addEventListener('click', function() {
+                if (boxTopFilm.style.display === 'none' || boxTopFilm.style.display === '') {
+                    boxTopFilm.style.display = 'block';  
+                } else {
+                    boxTopFilm.style.display = 'none'; 
+                }
+            });
+    
+            // Thiết lập trạng thái ban đầu cho box-top-film
+            boxTopFilm.style.display = 'flex'; 
+        });
+    </script>
+    
 
 <script>
     // Lấy danh sách phim từ API
@@ -126,9 +466,9 @@
     const filmList = document.getElementById('top-film');
 
     // Tạo các phần tử phim
-    data.results.forEach((film, index) => {
+    data.results.slice(0,5).forEach((film, index) => {
         const filmItem = document.createElement('div');
-        filmItem.classList.add('col-md-3', 'mb-4');
+        filmItem.classList.add('top-film-item');
 
         const date = new Date(film.release);
         const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
@@ -137,12 +477,16 @@
         const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
 
         filmItem.innerHTML = `
-            <div class="film"> 
+            <div class="content-top-film-item">
+                <div class="box-info-top-film">
                     <span class="film-index">${index + 1}.</span>
                     <span class="film-age">${film.age}</span>
                     <span class="film-name">${film.name}</span>
-                    <span class="film-imdb">${film.duration} Phút</span>
+                </div>
+                <div class="box-time-top-film">
+                    <span class="film-duration">${film.duration} Phút</span>
                     <span class="film-release">${formattedDate}</span>
+                </div>
             </div>
         `;
         filmItem.addEventListener('click', () => {
@@ -156,6 +500,8 @@
     console.error('Error fetching film data:', error);
     });
 
+
+
     
 </script>
 
@@ -165,9 +511,119 @@
 
 {% block promotionHome %}
 
-<div id="promotion-list" style="display: flex; justify-content: center;">
+<style>
 
+    .box-promotion-all-box{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        border-top: 1px solid #cdc197;
+        border-bottom: 1px solid #cdc197;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+
+        padding: 25px 0px;
+
+    }
+
+    .event-img{
+        width: 15%;
+        margin-bottom: 15px;
+    }
+
+
+    .box-promotion-list-home{
+        width: 70%;
+        display: flex;
+        justify-content: center;
+
+    }
+
+    .box-promotion-list-home-left{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+    .box-promotion-list-home-left-top{
+        display: flex;
+        justify-content: center;
+
+    }
+    .box-promotion-list-home-left-bottom{
+        display: flex;
+    }
+    .box-promotion-list-home-right{
+        display: flex;
+    }
+
+    .promotion-list-home{
+        display: flex;
+        flex-direction: column;
+    }
+    .promotion-list-home1{
+        display: flex;
+        flex-direction: column;
+    }
+    .promotion-list-home2{
+        display: flex;
+    }
+    .promotion-list-home3{
+        display: flex;
+        flex-direction: column;
+    }
+    .promotion-item-home{
+        margin: 7px;
+        border: 1px solid #d5a12c;
+        
+    }
+
+    .promotion-item-home:hover{
+        box-shadow: 0px 0px 3px 2px#d5a12c ;
+        cursor: pointer;
+    }
+    .promotion-item-img-home{
+        width: 100%;
+        height: 100%;
+    }
+
+</style>
+
+<div class="box-promotion-all-box">
+    <img src="../static/images/fast-event.png" alt="" class="event-img">
+    <div class="box-promotion-list-home">
+
+        <div class="box-promotion-list-home-left">
+            <div class="box-promotion-list-home-left-top">
+                <div id="promotion-list-home" class="promotion-list-home">
+    
+                </div>
+        
+                <div id="promotion-list-home1" class="promotion-list-home1">
+            
+                </div>
+            </div>
+            <div class="box-promotion-list-home-left-bottom">
+                <div id="promotion-list-home2" class="promotion-list-home2">
+    
+                </div>
+            </div>
+
+        </div>
+
+    
+
+        <div class="box-promotion-list-home-right">
+            <div id="promotion-list-home3" class="promotion-list-home3">
+    
+            </div>
+
+        </div>
+    </div>
 </div>
+
 
 
 
@@ -176,30 +632,71 @@
     fetch('/api/promotions/')
     .then(response => response.json())
     .then(data => {
-    const promotionList = document.getElementById('promotion-list');
-    
+    const promotionList = document.getElementById('promotion-list-home');
+    const promotionList1 = document.getElementById('promotion-list-home1');
+    const promotionList2 = document.getElementById('promotion-list-home2');
+    const promotionList3 = document.getElementById('promotion-list-home3');
+
     // Tạo các phần tử phim
-    data.results.forEach(promotion => {
+    data.results.slice(0,2).forEach(promotion => {
         const promotionItem = document.createElement('div');
-        promotionItem.classList.add('box');
+        promotionItem.classList.add('promotion-item-home');
         promotionItem.innerHTML = `
-            <div class="promotion">
-                <div class="promotion-body">
-                    <img src="${promotion.image}" style="width: 200px; height: 200px;" alt="${promotion.name}">
-         
-                    
-                </div>
-            </div>
+                    <img class="promotion-item-img-home" src="${promotion.image}" alt="${promotion.name}">
         `;
         promotionItem.addEventListener('click', () => {
             window.location.href = `/promotion/${promotion.id}/`;
         });
         promotionList.appendChild(promotionItem);
     });
+
+    data.results.slice(2,4).forEach(promotion => {
+        const promotionItem = document.createElement('div');
+        promotionItem.classList.add('promotion-item-home');
+        promotionItem.innerHTML = `
+                    <img class="promotion-item-img-home" src="${promotion.image}" alt="${promotion.name}">
+        `;
+        promotionItem.addEventListener('click', () => {
+            window.location.href = `/promotion/${promotion.id}/`;
+        });
+        promotionList1.appendChild(promotionItem);
+    });
+
+    data.results.slice(4,5).forEach(promotion => {
+        const promotionItem = document.createElement('div');
+        promotionItem.classList.add('promotion-item-home');
+        promotionItem.innerHTML = `
+                    <img class="promotion-item-img-home" src="${promotion.image}" alt="${promotion.name}">
+        `;
+        promotionItem.addEventListener('click', () => {
+            window.location.href = `/promotion/${promotion.id}/`;
+        });
+        promotionList2.appendChild(promotionItem);
+    });
+
+    data.results.slice(5,7).forEach(promotion => {
+        const promotionItem = document.createElement('div');
+        promotionItem.classList.add('promotion-item-home');
+        promotionItem.innerHTML = `
+                    <img class="promotion-item-img-home" src="${promotion.image}" alt="${promotion.name}">
+        `;
+        promotionItem.addEventListener('click', () => {
+            window.location.href = `/promotion/${promotion.id}/`;
+        });
+        promotionList3.appendChild(promotionItem);
+    });
+
+
     })
     .catch(error => {
     console.error('Error fetching promotion list data:', error);
     });
+
+
+    
+
+
+    
 
     
 

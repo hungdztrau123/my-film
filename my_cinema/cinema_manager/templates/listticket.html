@@ -1,0 +1,184 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block listTicket %} 
+
+<style>
+
+    .container-ticket{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .box-ticket-all{
+        width: 60%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .box-ticket-list{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .ticket-item{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+   
+
+</style>
+
+<div class="container-ticket">
+   
+    <div class="box-ticket-all">
+        <div id="ticket-list" class="box-ticket-list">
+
+        </div>
+    </div>
+    
+</div>
+
+<script>
+
+    
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+    const url = new URL(window.location.href);
+    const sessionIdUser = url.pathname.split('/')[2];
+
+    
+    fetch(`/api/bills/?user=${sessionIdUser}`)
+        .then(response => response.json())
+        .then(data => {
+            const ticketList = document.getElementById('ticket-list');
+            ticketList.innerHTML = ''; 
+
+            data.results.forEach(ticket => {
+                const ticketItem = document.createElement('div');
+                ticketItem.classList.add('ticket-item');
+
+                ticketItem.innerHTML = `
+                        <span class="ticket-item-place">${ticket.pay.schedule.place.name} </span>
+
+                        <span class="ticket-item-name">${ticket.pay.schedule.film.name} </span>
+                        <div class="box-ticket-list-seat-all">
+                            <span class="ticket-label-seat">Ghế: </span>
+                            <div id="ticket-list-seat" class="box-ticket-list-seat">
+    
+                            </div>
+
+                            
+                        </div>
+
+            
+                `;
+                 
+                getSeatList(ticket.pay.booking.id);
+                
+                ticketList.appendChild(ticketItem);
+            });
+
+            
+        })
+        .catch(error => {
+            console.error('Error fetching area details:', error);
+        });
+
+
+    
+
+    function getSeatList(bookingId) {
+        fetch(`/api/bookingdetails/?booking=${bookingId}`)
+        .then(response => response.json())
+        .then(data => {
+            const bookingDetailList = document.getElementById('ticket-list-seat');
+            bookingDetailList.innerHTML = ''; 
+
+            data.results.forEach(bookingDetail => {
+                const bookingDetailItem = document.createElement('div');
+                bookingDetailItem.classList.add('seat-item');
+
+                bookingDetailItem.innerHTML = `
+                    
+                        <span class="seat-item-name">${bookingDetail.seat.name}, </span>
+            
+                `;
+                 
+                
+                
+                bookingDetailList.appendChild(bookingDetailItem);
+            });
+
+            
+        })
+        .catch(error => {
+            console.error('Error fetching area details:', error);
+        });
+    }
+
+
+    
+
+
+</script>
+
+<script>
+    document.getElementById('btn-booking-continue').addEventListener('click', () => {
+        
+        const accessToken = localStorage.getItem('access_token');
+    
+        if (!isAccessTokenValid()) {
+            alert('Token đã hết hạn. Vui lòng đăng nhập.');
+            localStorage.removeItem('access_token');
+            window.location.href = '/login/';
+            return; // Dừng hàm nếu token không hợp lệ
+        }
+
+
+    });    
+</script>
+
+{% endblock listTicket %} 

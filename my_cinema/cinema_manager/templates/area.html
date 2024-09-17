@@ -2,29 +2,295 @@
 {% load static %}
 
 {% block area %} 
-<div class="container">
-    <h2>area List</h2>
-    <div class="row" id="area-list">
-    <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
-    </div>
-    <div class="row" id="place-list">
-        <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
-    </div>
+<style>
+  .container-area{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .box-area-list-area{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    background-color: #efebdb;
 
-    <div id="place-detail">
 
-    </div>
+  }
+  .area-list-area{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    <div id="day-show-list">
+  }
 
-    </div>
-
+  .area-item{
+    padding: 4px 14px;
+    margin: 0px 5px;
+    border: 1px solid #d5a12c;
+    box-shadow: 0px 0px 0px 2px #cdc197;
+    cursor: pointer;
+    text-shadow: 1px 1px 1px #000;
     
-    <div  id="film-list">
+  }
+  .area-name{
+
+  }
+
+
+  .box-place-list-area{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(0,0,0,0.5);
+
+  }
+  .place-list-area{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .place-item{
+    padding: 4px 14px;
+    border: 1px solid #d5a12c;
+    box-shadow: 0px 0px 0px 2px #cdc197;
+    cursor: pointer;
+    margin: 10px 5px;
+
+  }
+  .place-name{
+    
+  }
+
+
+  .box-place-detail-area{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  .place-detail-area{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+  .box-place-image{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .place-image{
+    width: 100%;
+  }
+
+  .box-place-info{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+
+  }
+  .box-place-info .place-name{
+    font-size: 28px;
+    font-weight: bold;
+
+  }
+  .place-address{
+    font-size: 14px;
+
+  }
+  .box-place-map{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    
+
+  }
+  .place-map{
+    width: 100%;
+    height: 400px;
+    border: 1px solid #cdc197;
+    box-shadow: 0px 0px 3px 2px #d5a12c;
+
+  }
+
+
+  .box-day-show-list-area{
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #efebdb;
+    text-shadow: 1px 1px 1px #000;
+
+  }
+  .day-show-list-area{
+    width: 100%;
+    overflow-x: scroll;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+  }
+  .day-show-item{
+    padding: 4px 14px;
+    border: 1px solid #d5a12c;
+    box-shadow: 0px 0px 0px 2px #cdc197;
+    cursor: pointer;
+    margin: 20px 5px;
+
+  }
+  .day-show-day{
+
+  }
+
+  .box-film-list-area{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  .film-list-area{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+
+  .film-day-show-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-top: 1px solid #d5a12c;
+    padding: 10px 10px 30px 10px;
+    
+  }
+
+  .box-info-film-day-show{
+    display: flex;
+    align-items: center;
+    padding: 10px 0px;
+    cursor: pointer;
+
+  }
+  .film-day-show-age{
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #d5a12c;
+    border-radius: 50%;
+    box-shadow: 0px 0px 3px 2px #d5a12c;
+    
+
+
+  }
+  .film-day-show-name{
+    margin: 0px 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+
+  }
+  .box-list-film-day-show-schedule{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    
+  }
+
+  .schedule-item{
+    cursor: pointer;
+    margin: 10px 0px;
+
+  }
+  .box-schedule-room{
+    font-size: 13px;
+    border: 1px solid #d5a12c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+
+  }
+  .schedule-room-name{
+
+  }
+  .box-schedule-time{
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid #d5a12c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px 15px;
+
+
+  }
+  .schedule-start-time{
+    margin-right: 3px;
+  }
+  .schedule-end-time{
+    margin-left: 3px;
+  }
+
+</style>
+
+<div class="container-area">
+
+    <div class="box-area-list-area">
+      <div class="area-list-area"  id="area-list">
+
+      </div>
+    </div>
+    
+    <div class="box-place-list-area">
+      <div class="place-list-area" id="place-list">
+        
+      </div>
+
+    </div>
+    
+    <div class="box-place-detail-area">
+      <div class="place-detail-area" id="place-detail">
+
+      </div>
+    </div>
+    
+
+    <div class="box-day-show-list-area">
+      <div class="day-show-list-area" id="day-show-list">
+
+      </div>
+    </div>
+
+    <div class="box-film-list-area">
+      <div class="film-list-area"  id="film-list">
       
+      </div>
     </div>
+   
     
-
 
 
 </div>
@@ -42,13 +308,11 @@ const areaList = document.getElementById('area-list');
 // Tạo các phần tử phim
 data.results.forEach(area => {
     const areaItem = document.createElement('div');
-    areaItem.classList.add('col-md-3', 'mb-4');
+    areaItem.classList.add('area-item');
     areaItem.innerHTML = `
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${area.name}</h5>
-            </div>
-        </div>
+        
+        <span class="area-name">${area.name}</span>
+           
     `;
     areaItem.addEventListener('click', () => {
         getAreaDetails(area.id);
@@ -69,14 +333,9 @@ function getAreaDetails(areaId) {
   
         data.results.forEach(place => {
           const placeItem = document.createElement('div');
-          placeItem.classList.add('col-md-3', 'mb-4');
+          placeItem.classList.add('place-item');
           placeItem.innerHTML = `
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">${place.name}</h5>
-                <p class="card-text">${place.address}</p>
-              </div>
-            </div>
+                <span class="place-name">${place.name}</span>
           `;
           placeItem.addEventListener('click', () => {
             getPlaceDetails(place.id);
@@ -95,18 +354,23 @@ function getAreaDetails(areaId) {
         .then(data => {
             const placeDetailContainer = document.getElementById('place-detail');
             placeDetailContainer.innerHTML = `
-                <div class="container my-5">
-                    <h1 id="place-name">${data.name}</h1>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img id="place-image" class="img-fluid" src="${data.image}" alt="Place Image">
-                        </div>
-                        <div class="col-md-6">
-                            <p id="place-address">${data.address}</p>
-                            <div id="map" style="height: 400px; width: 1000px;"></div>
-                        </div>
+
+                    <div class="box-place-image">
+                      <img id="place-image" class="place-image" src="${data.image}" alt="${data.name}">
+
                     </div>
-                </div>
+
+                    <div class="box-place-info">
+                      <span id="place-name" class="place-name" >${data.name}</span>
+                      <span id="place-address" class="place-address" >${data.address}</span>
+
+                    </div>
+
+                    <div class="box-place-map">
+                      <div id="map" class="place-map" ></div>
+                      
+                    </div>
+                
             `;
         
             // Create the map
@@ -133,6 +397,7 @@ function getAreaDetails(areaId) {
             console.error('Error fetching place details:', error);
         });
       }
+
         function getDayShows(placeDetailId){
           fetch(`/api/dayshows/?place=${placeDetailId}`)
           .then(response => response.json())
@@ -142,19 +407,14 @@ function getAreaDetails(areaId) {
       
             data.results.forEach(dayshow => {
               const dayShowItem = document.createElement('div');
-              dayShowItem.classList.add('col-md-3', 'mb-4');
+              dayShowItem.classList.add('day-show-item');
               
               const date = new Date(dayshow.day);
               const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
               const formattedDate = date.toLocaleDateString('vi-VN', options);
 
               dayShowItem.innerHTML = `
-                <div class="card">
-                  <div class="card-body">
-                  
-                    <p class="card-text">${formattedDate}</p>
-                  </div>
-                </div>
+                    <span class="day-show-day">${formattedDate}</span>
               `;
               dayShowItem.addEventListener('click', () => {
                 getFilms(dayshow.id, placeDetailId);
@@ -163,7 +423,7 @@ function getAreaDetails(areaId) {
             });
           })
           .catch(error => {
-            console.error('Error fetching film details:', error);
+            console.error('Error fetching dayshow details:', error);
           });
         }
           function getFilms(dayShowId, placeDetailId){
@@ -175,20 +435,21 @@ function getAreaDetails(areaId) {
         
               data.results.forEach(film => {
                 const filmItem = document.createElement('div');
-                filmItem.classList.add('card', 'mb-3');
+                filmItem.classList.add('film-day-show-item');
                 filmItem.innerHTML = `
-                  <div class="card-body">
-                    <div id="card-box-film">
-                    <h5 class="card-title">${film.age}</h5>
-                    <h5 class="card-title">${film.name}</h5>
+                  
+                    <div id="box-info-film-day-show" class="box-info-film-day-show" >
+                        <span class="film-day-show-age">${film.age}</span>
+                        <span class="film-day-show-name">${film.name}</span>
                     </div>
-                    <div class="row" id="schedule-${film.id}">
-                      <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
+
+                    <div class="box-list-film-day-show-schedule" id="schedule-${film.id}">
+                        <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
                     </div>
-                  </div>
+                  
                 `;
 
-                filmItem.querySelector('#card-box-film').addEventListener('click', function() {
+                filmItem.querySelector('#box-info-film-day-show').addEventListener('click', function() {
                   window.location.href = `/film/${film.id}/`;
                 });
 
@@ -202,22 +463,33 @@ function getAreaDetails(areaId) {
             });
           }
             function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
-              fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}`)
+              fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}&status__iexact=Có hiệu lực`)
                 .then(response => response.json())
                 .then(data => {
                   const scheduleList = document.getElementById(scheduleListId);
+                  
                   scheduleList.innerHTML = '';
             
                   data.results.forEach(schedule => {
                     const scheduleItem = document.createElement('div');
-                    scheduleItem.classList.add('col-md-4', 'mb-2');
+                    scheduleItem.classList.add('schedule-item');
+
+                    const startTime = new Date(schedule.start_time);
+                    const endTime = new Date(schedule.end_time);
+                    
+                    const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+                    const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+                    
+                    
                     scheduleItem.innerHTML = `
-                      <div class="card">
-                        <div class="card-body">
-                          <p class="card-text">${schedule.room.name}</p>
-                          <p class="card-text">${schedule.start_time}</p>
-                          <p class="card-text">${schedule.end_time}</p>
-                        </div>
+                      <div class="box-schedule-room">
+                        <span class="schedule-room-name">${schedule.room.name}</span>
+                      </div>
+                      <div class="box-schedule-time">
+                          
+                          <span class="schedule-start-time">${formattedStartTime}</span>
+                          ~
+                          <span class="schedule-end-time">${formattedEndTime}</span>
                       </div>
                     `;
                     scheduleItem.addEventListener('click', () => {
@@ -227,7 +499,7 @@ function getAreaDetails(areaId) {
                   });
                 })
                 .catch(error => {
-                  console.error('Error fetching area details:', error);
+                  console.error('Error fetching schedule details:', error);
                 });
 
                 

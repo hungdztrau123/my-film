@@ -4,41 +4,427 @@
 {% block roomDetail %}
 
 <style>
-  .seat-selected {
-    background-color: black !important; /* Đổi màu ghế khi được chọn */
-    color: white; /* Đổi màu chữ cho dễ nhìn */
-}
+    .seat-selected {
+        background-color: black !important; /* Đổi màu ghế khi được chọn */
+        color: white; /* Đổi màu chữ cho dễ nhìn */
+    }
+
+    .background-gray{
+        background-color: #cde0ff;
+    }
+    .background-purple{
+        background-color: #6355e5;
+    }
+
+    .box-room-all{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+
+    .box-room-cinema{
+        width: 60%;
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+        padding: 40px 0px 30px 0px;
+
+    }
+    .schedule-room-detail{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+
+    }
+
+    
+    .room-film-age{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        border: 1px solid #cdc197;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+        font-size: 24px;
+        
+    }
+
+    .box-room-info{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px 10px;
+
+    }
+
+    .box-room-info-top{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+
+    }
+    
+    .room-film-name{
+        font-weight: 1000;
+        text-transform: uppercase;
+        margin-right: 7px;
+
+    }
+    .room-place-name{
+        margin: 0px 7px;
+    }
+
+    .box-room-info-bottom{
+        width: 100%;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+
+    }
+    
+    .room-start{
+        font-weight: bold;
+        margin-right: 3px;
+
+    }
+    .room-end{
+        font-weight: bold;
+        margin-left: 3px;
+        margin-right: 7px;
+
+    }
+    .room-day{
+        margin-left: 7px;
+        margin-right: 7px;
+
+    }
+    .room-name{
+        margin-left: 7px;
+        font-weight: bold;
+
+
+    }
+
+    .box-screen-cinema-all{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+
+    .box-screen-room-cinema{
+        width: 88%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 7px 7px 0px #d5a12c;
+
+    }
+
+    .screen-room-cinema-left{
+        width: 50%;
+        height: 30px;
+        background-color: gray;
+        border-bottom: 1px solid #cdc197;
+        border-top-left-radius: 90%;
+        
+    }
+
+    .screen-room-cinema-right{
+        width: 50%;
+        height: 30px;
+        background-color: gray;
+        border-bottom: 1px solid #cdc197;
+        border-top-right-radius: 90%;
+    }
+
+    .box-list-seat-room{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 0px;
+        margin: 20px;
+    }
+
+    .box-list-seat-regural{
+        width: 65%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        
+    }
+
+    .seat-regural-item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 0px;
+        min-width: 42px;
+        font-size: 15px;
+        border: 1px solid #d5a12c;
+        margin: 3px;
+        border-radius: 3px;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px #000;
+        cursor: pointer;
+        
+
+
+    }
+    .seat-regural-name{
+
+    }
+
+    
+
+    .box-list-seat-vip{
+        width: 65%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+    }
+
+    .seat-vip-item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 0px;
+        min-width: 42px;
+        font-size: 15px;
+        border: 1px solid #d5a12c;
+        margin: 3px;
+        border-radius: 3px;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px #000;
+        cursor: pointer;
+        
+    }
+    .seat-vip-name{
+        
+    }
+
+    .box-type-seat{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        font-size: 14px;
+        padding: 30px 0px;
+        border-top: 1px solid #d5a12c;
+        border-bottom: 1px solid #d5a12c;
+    
+    }
+    .box-type-seat-regural{
+        display: flex;
+        align-items: center;
+    }
+    .type-seat-regural{
+        border: 1px solid #d5a12c;
+        padding: 9px;
+        border-radius: 3px;
+        background-color: #cde0ff;
+        margin-right: 5px;
+
+    }
+    .box-type-seat-vip{
+        display: flex;
+        align-items: center;
+
+    }
+    .type-seat-vip{
+        border: 1px solid #d5a12c;
+        padding: 9px;
+        border-radius: 3px;
+        background-color: #6355e5;
+        margin-right: 5px;
+
+    }
+    .box-type-seat-choosing{
+        display: flex;
+        align-items: center;
+    }
+    .type-seat-choosing{
+        border: 1px solid #d5a12c;
+        padding: 9px;
+        border-radius: 3px;
+        background-color: #000;
+        margin-right: 5px;
+
+    }
+    .box-type-seat-choosed{
+        display: flex;
+        align-items: center;
+    }
+    .type-seat-choosed{
+        border: 1px solid #d5a12c;
+        padding: 9px;
+        border-radius: 3px;
+        background-color: rgb(0,0,0,0.1);
+        opacity: 0.5;
+        margin-right: 5px;
+    }
+
+    .box-ticket-all{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 10px 0px;
+        border-bottom: 1px solid #d5a12c;
+    }
+
+    .ticket-title{
+        font-weight: bold;
+        width: 15%;
+        font-size: 20px;
+
+    }
+
+    .box-ticket-list{
+        width: 85%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .tiket-item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+
+
+
+    }
+    .tiket-price{
+        font-weight: bold;
+        margin: 0px 3px 0px 5px;
+    }
+    .tiket-name{
+        margin-right: 3px;
+
+    }
+
+    .box-total-price{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        padding: 20px 0px;
+        border-bottom: 1px solid #d5a12c;
+
+
+    }
+    .total-amount{
+        font-weight: bold;
+        margin: 0px 3px 0px 5px;
+
+    }
+    .box-book-ticket{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 0px; 
+        
+
+    }
+    .btn-book-ticket{
+        padding: 5px 10px; 
+        min-width: 300px;
+        font-weight: bold;
+        font-size: 18px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+    }
+
+
+
 </style>
 
-<div id="film-detail">
-</div>
-<div id="schedule-detail">
-</div>
-<div id="place-detail">
 
+
+<div class="box-room-all">
+    <div class="box-room-cinema">
+        <div id="schedule-detail" class="schedule-room-detail">
+    
+        </div>
+
+        <div class="box-screen-cinema-all">
+            <div class="box-screen-room-cinema">
+                <div class="screen-room-cinema-left"></div>
+                <div class="screen-room-cinema-right"></div>
+            </div>
+
+        </div>
+        
+        
+        <div class="box-list-seat-room">
+        
+          <div id="seat-list-regural" class="box-list-seat-regural">
+        
+          </div>
+        
+          <div id="seat-list-vip" class="box-list-seat-vip">
+          
+          </div>
+        
+        </div>
+
+        <div class="box-type-seat">
+            <div class="box-type-seat-regural">
+                <div class="type-seat-regural"></div>
+                <span>Thường</span>
+            </div>
+            <div class="box-type-seat-vip">
+                <div class="type-seat-vip"></div>
+                <span>VIP</span>
+            </div>
+            <div class="box-type-seat-choosing">
+                <div class="type-seat-choosing"></div>
+                <span>Đang chọn</span>
+
+            </div>
+            <div class="box-type-seat-choosed">
+                <div class="type-seat-choosed"></div>
+                <span>Đã đặt</span>
+            </div>
+        </div>
+        
+        <div class="box-ticket-all">
+            <div class="ticket-title">Giá vé</div>
+            <div id="ticket-list" class="box-ticket-list">
+        
+            </div>
+        </div>
+        
+        <div id="total-price" class="box-total-price">
+            Tổng tiền:<span id="total-amount" class="total-amount" >0</span>
+        </div>
+    
+        <div class="box-book-ticket">
+            <span id="book-tickets" class="btn-book-ticket">Tiếp tục</span>
+        </div>
+    
+    </div>
 </div>
-<div id="room-detail">
-
-</div>
-
-<div id="ticket-list">
-
-</div>
-
-<div>
-  <div id="seat-list-regural">
-
-  </div>
-  <br>
-  <div id="seat-list-vip">
-  
-  </div>
-</div>
-
-<div id="total-price" style="font-size: 20px; margin-top: 20px;">
-  Tổng giá: <span id="total-amount">0</span> VNĐ
-</div>
-<button id="book-tickets" class="btn btn-primary">Đặt Vé</button>
 
 
 
@@ -94,17 +480,37 @@
         const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         const formattedDate = date.toLocaleDateString('vi-VN', options);
 
-        scheduleDetailContainer.innerHTML = `
-            <div class="container my-5">
-                <p class="card-text">${data.film.age}</p>
-                <p class="card-text">${data.film.name}</p>
-                <p class="card-text">${data.place.name}</p>
-                <p class="card-text">${formattedDate}</p>
-                <p class="card-text">${data.start_time}</p>
-                <p class="card-text">${data.end_time}</p>
-                <p class="card-text">${data.room.name}</p>
+        const startTime = new Date(data.start_time);
+        const endTime = new Date(data.end_time);
+        
+        const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        
 
-            </div>
+        scheduleDetailContainer.innerHTML = `
+                <span class="room-film-age">${data.film.age}</span>
+
+                <div class="box-room-info">
+                    
+                    <div class="box-room-info-top">
+                        <span class="room-film-name">${data.film.name}</span>
+                        -
+                        <span class="room-place-name">${data.place.name}</span>
+                    </div>
+                    
+                    <div class="box-room-info-bottom">
+                        <span class="room-start">${formattedStartTime}</span>
+                        ~
+                        <span class="room-end">${formattedEndTime}</span>
+                        -
+                        <span class="room-day">${formattedDate}</span>
+                        -
+                        <span class="room-name">${data.room.name}</span>
+                    </div>
+
+                </div>
+
+                
         `;
         
         const idRoom = data.room.id
@@ -131,13 +537,18 @@
           ticketData = data;
           const ticketList = document.getElementById('ticket-list');
 
+          function formatCurrency(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+          }   
+
           // Tạo các phần tử phim
           data.results.forEach(ticket => {
               const ticketItem = document.createElement('div');
-              ticketItem.classList.add('col-md-3', 'mb-4');
+              ticketItem.classList.add('tiket-item');
               ticketItem.innerHTML = `
-                  <h5 class="card-title">${ticket.price}</h5>
-                  <h5 class="card-title">${ticket.type}</h5>
+                  <span class="tiket-name">${ticket.type}</span>
+                  :
+                  <span class="tiket-price">${formatCurrency(ticket.price)}</span>đ
 
               `;
               
@@ -164,28 +575,19 @@
     
                 data.results.forEach(seat => {
                     const seatItem = document.createElement('div');
-                    seatItem.classList.add('col-md-3', 'mb-4');
+                    seatItem.classList.add('seat-regural-item');
+                    seatItem.classList.add('background-gray');
                     seatItem.innerHTML = `
-                    <div class="card" style="background-color: #ccc;">
-                        <div class="card-body">
-                            <h5 class="card-title">${seat.name}</h5>
-                        </div>
-                    </div>
+                    
+                        <span class="seat-regural-name">${seat.name}</span>
+                        
                     `;
     
-                    // Kiểm tra xem ghế đã được đặt chưa
-                    const isBooked = existingBookings.some(booking =>
-                        booking.seat.id === seat.id && booking.ticket.schedule.id === parseInt(scheduleId, 10)
-                    );
-    
-                    if (isBooked) {
-                        seatItem.style.opacity = 0.5; // Làm mờ ghế đã đặt
-                    }
-    
-                    seatItem.addEventListener('click', () => {
+                    // Định nghĩa hàm handleSeatRegularClick
+                    function handleSeatRegularClick(seatItem, seat, ticketData, selectedSeats) {
                         const regularTicket = ticketData.results.find(ticket => ticket.type === 'Regural');
                         const regulartTicketId = regularTicket ? regularTicket.id : null;
-    
+
                         if (seatItem.classList.contains('seat-selected')) {
                             seatItem.classList.remove('seat-selected');
                             const index = selectedSeats.findIndex(item => item.seatId === seat.id);
@@ -198,7 +600,20 @@
                             selectedSeats.push({ seatId: seat.id, ticketId: regulartTicketId });
                             getSeatReguralClick(seat.id, regularTicket.price, regulartTicketId, true);
                         }
-                    });
+                    }
+
+                    // Kiểm tra xem ghế đã được đặt chưa
+                    const isBooked = existingBookings.some(booking =>
+                        booking.seat.id === seat.id && booking.ticket.schedule.id === parseInt(scheduleId, 10)
+                    );
+
+                    if (isBooked) {
+                        seatItem.style.opacity = 0.5; // Làm mờ ghế đã đặt
+                        seatItem.style.cursor = 'not-allowed'; // Thay đổi con trỏ
+                    } else {
+                        seatItem.addEventListener('click', () => handleSeatRegularClick(seatItem, seat, ticketData, selectedSeats));
+                    }
+
                     seatList.appendChild(seatItem);
                 });
             })
@@ -242,28 +657,19 @@
     
                 data.results.forEach(seat => {
                     const seatItem = document.createElement('div');
-                    seatItem.classList.add('col-md-3', 'mb-4');
+                    seatItem.classList.add('seat-vip-item');
+                    seatItem.classList.add('background-purple');
+
                     seatItem.innerHTML = `
-                    <div class="card" style="background-color: violet;">
-                        <div class="card-body">
-                            <h5 class="card-title">${seat.name}</h5>
-                        </div>
-                    </div>
+                    
+                        <span class="seat-vip-name">${seat.name}</span>
+                        
                     `;
     
-                    // Kiểm tra xem ghế đã được đặt chưa
-                    const isBooked = existingBookings.some(booking =>
-                        booking.seat.id === seat.id && booking.ticket.schedule.id === parseInt(scheduleId, 10)
-                    );
-    
-                    if (isBooked) {
-                        seatItem.style.opacity = 0.5; // Làm mờ ghế đã đặt
-                    }
-    
-                    seatItem.addEventListener('click', () => {
+                    function handleSeatClick(seatItem, seat, ticketData, selectedSeats) {
                         const vipTicket = ticketData.results.find(ticket => ticket.type === 'Vip');
                         const vipTicketId = vipTicket ? vipTicket.id : null;
-    
+                    
                         if (seatItem.classList.contains('seat-selected')) {
                             seatItem.classList.remove('seat-selected');
                             const index = selectedSeats.findIndex(item => item.seatId === seat.id);
@@ -276,7 +682,20 @@
                             selectedSeats.push({ seatId: seat.id, ticketId: vipTicketId });
                             getSeatVipClick(seat.id, vipTicket.price, vipTicketId, true);
                         }
-                    });
+                    }
+                    
+                    // Kiểm tra xem ghế đã được đặt chưa
+                    const isBooked = existingBookings.some(booking =>
+                        booking.seat.id === seat.id && booking.ticket.schedule.id === parseInt(scheduleId, 10)
+                    );
+                    
+                    if (isBooked) {
+                        seatItem.style.opacity = 0.5; // Làm mờ ghế đã đặt
+                        seatItem.style.cursor = 'not-allowed'; // Thay đổi con trỏ
+                    } else {
+                        seatItem.addEventListener('click', () => handleSeatClick(seatItem, seat, ticketData, selectedSeats));
+                    }
+                    
                     seatList.appendChild(seatItem);
                 });
             })
@@ -307,11 +726,17 @@
 
     function updateTotalPriceDisplay() {  
       const totalAmountElement = document.getElementById('total-amount');
-      totalAmountElement.textContent = totalPrice; // Cập nhật số tiền vào thẻ
+      const formatter = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND',
+      });
+      totalAmountElement.textContent = formatter.format(totalPrice); // Cập nhật số tiền vào thẻ
     }
 
 
     document.getElementById('book-tickets').addEventListener('click', () => {
+
+        const accessToken = localStorage.getItem('access_token');
 
         if (!isAccessTokenValid()) {
             alert('Token đã hết hạn. Vui lòng đăng nhập.');
@@ -344,10 +769,11 @@
                 fetch('/api/bookings/', {
                     method: 'POST',
                     headers: {
+                        'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        // Gửi thêm thông tin nếu cần
+                        
                     }),
                 })
                 .then(response => {
@@ -367,6 +793,7 @@
                         return fetch('/api/bookingdetails/', {
                             method: 'POST',
                             headers: {
+                                'Authorization': `Bearer ${accessToken}`,
                                 'Content-Type': 'application/json',
                             },
                             body: JSON.stringify(data),
@@ -378,27 +805,10 @@
                 .then(bookingId => {
                     console.log('Tất cả vé đã được đặt thành công');
 
-                    // Cập nhật view cho film
-                    return fetch(`/api/films/${filmId}/`)
-                        .then(response => response.json())
-                        .then(filmData => {
-                            const currentViewCount = parseInt(filmData.view, 10) || 0;
-                            const updatedViewCount = currentViewCount + 1;
-
-                            return fetch(`/api/films/${filmId}/`, {
-                                method: 'PATCH',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ view: updatedViewCount }),
-                            });
-                        })
-                        .then(() => {
-                            // Chuyển hướng đến trang booking
-                            window.location.href = `/booking/${bookingId}/?scheduleId=${scheduleIdInt}`;
-                            selectedSeats = [];
-                            updateTotalPriceDisplay();
-                        });
+                    window.location.href = `/bookcombo/${bookingId}/?scheduleId=${scheduleIdInt}`;
+                    selectedSeats = [];
+                    updateTotalPriceDisplay();
+                        
                 })
                 .catch(error => {
                     console.error('Error:', error);

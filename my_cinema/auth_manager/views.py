@@ -73,8 +73,8 @@ class UserLoginView(APIView):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
             'name':user.username,
+            'id':user.id,
             'is_admin': user.is_staff,
-            'user':user.id,
             'message':'Login Success'}, status=status.HTTP_200_OK)
         
         

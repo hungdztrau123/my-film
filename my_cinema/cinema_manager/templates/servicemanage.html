@@ -1,0 +1,247 @@
+{% extends 'adminmanager.html' %} 
+{% load static %}
+
+{% block serviceManage %} 
+
+<button id="insert-manage">Thêm</button>
+<button id="delete-multi-manage">Xóa nhiều</button>
+<div id="manage-list">
+
+</div>
+<div class="pagination">
+    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
+    <button class="btn btn-primary next-page">Trang sau</button>
+</div>
+
+
+<script>
+
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        const isAdmin = localStorage.getItem('is_admin');
+
+        if (!accessToken && isAdmin === 'false') {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('session_name');
+                localStorage.removeItem('is_admin');
+
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+    const selectedIds = new Set();
+    // Thêm nút "Xóa nhiều"
+    
+    const deleteMultiBtn = document.getElementById('delete-multi-manage');
+    deleteMultiBtn.classList.add('btn', 'btn-danger');
+    deleteMultiBtn.disabled = true; // Bắt đầu là vô hiệu hóa
+
+
+    const serviceManageList = document.getElementById('manage-list');
+    const prevPageBtn = document.querySelector('.prev-page');
+    const nextPageBtn = document.querySelector('.next-page');
+    let currentPage = 1;
+    let totalPages;
+    
+    document.getElementById('insert-manage').addEventListener('click', function() {
+        window.location.href = '/serviceinsert/';
+    });
+
+    function renderServiceManage(serviceManages) {
+        const serviceManageTable = document.createElement('table');
+        serviceManageTable.classList.add('table');
+
+        // Tạo hàng tiêu đề
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `
+            <th>name</th>
+            <th>title</th>
+            <th>image</th>
+            <th>description</th>
+            <th>Thao tác</th>
+
+        `;
+        serviceManageTable.appendChild(headerRow);
+
+        // Tạo các hàng dữ liệu
+        serviceManages.forEach(serviceManage => {
+            const dataRow = document.createElement('tr');
+            dataRow.innerHTML = `
+                <td>${serviceManage.name}</td>
+                <td>${serviceManage.title}</td>
+                <td><img id="service-manage-image" class="img-fluid" src="${serviceManage.image}" alt="${serviceManage.name}"></td>
+                <td>${serviceManage.description }</td>
+                <td>
+                    <button id="service-update" class="btn btn-primary btn-sm">Chỉnh sửa</button>
+                    <button id="service-delete" class="btn btn-danger btn-sm">Xóa</button>
+                </td>
+            `;
+
+            // Sự kiện toggle chọn
+            dataRow.addEventListener('click', function() {
+                const id = serviceManage.id;
+                if (selectedIds.has(id)) {
+                    selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
+                    console.log("delete id:",selectedIds.delete(id))
+                    dataRow.classList.remove('selected');
+                } else {
+                    selectedIds.add(id); // Nếu chưa chọn, thêm vào
+                    console.log("add id:",selectedIds.add(id))
+                    dataRow.classList.add('selected');
+                }
+                deleteMultiBtn.disabled = selectedIds.size === 0; // Bật/tắt nút xóa nhiều
+            });
+
+            dataRow.querySelector('#service-delete').addEventListener('click', function() {
+                if (confirm('Bạn có chắc chắn muốn xóa service này?')) {
+                    getDeleteService(serviceManage.id);
+                }
+            });
+            
+            dataRow.querySelector('#service-update').addEventListener('click', function() {
+                window.location.href = `/serviceupdate/?serviceId=${serviceManage.id}`;
+            });
+
+            serviceManageTable.appendChild(dataRow);
+        });
+
+        // Thêm bảng vào DOM
+        const serviceManageList = document.getElementById('manage-list');
+        serviceManageList.innerHTML = '';
+        serviceManageList.appendChild(serviceManageTable);
+    }
+
+
+    function updatePaginationButtons() {
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = !totalPages || currentPage === totalPages;
+    }
+
+    
+    function getServiceManage( page = 1) {
+        let url = `/api/services/?page=${page}`;
+        
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            renderServiceManage(data.results);
+            totalPages = Math.ceil(data.count / data.results.length);
+            currentPage = page;
+            updatePaginationButtons();
+
+            // Nếu không có next, ẩn nút next
+            nextPageBtn.disabled = !data.next;
+        })
+        .catch(error => {
+            console.error('Error fetching service data:', error);
+        });
+    }
+
+    
+    prevPageBtn.addEventListener('click', () => {
+        getServiceManage( currentPage - 1);
+    });
+    
+    nextPageBtn.addEventListener('click', () => {
+        getServiceManage( currentPage + 1);
+    });
+
+    getServiceManage();
+
+
+
+    function getDeleteService(serviceId) {
+        const accessToken = localStorage.getItem('access_token');
+        fetch(`/api/services/${serviceId}/`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log(`Đã xóa service có ID ${serviceId} thành công!`);
+                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                getServiceManage();
+                selectedIds.clear(); // Xóa danh sách đã chọn
+                deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
+            } else {
+                console.error(`Lỗi khi xóa service có ID ${serviceId}: ${response.status} - ${response.statusText}`);
+            }
+        })
+        .catch(error => {
+            console.error(`Lỗi khi xóa service có ID ${serviceId}: ${error}`);
+        });
+    }
+
+
+    // Sự kiện cho nút "Xóa nhiều"
+    
+    deleteMultiBtn.addEventListener('click', () => {
+
+        const accessToken = localStorage.getItem('access_token');
+
+        if (confirm('Bạn có chắc chắn muốn xóa các service này?')) {
+            if (selectedIds.size > 0) {
+                const objects = Array.from(selectedIds); // Chuyển Set thành mảng
+                const body = {
+                    objects: objects,
+                    object_type: "services",
+                    operation: "delete"
+                };
+                
+                fetch('/api/bulk_edit_objects/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Đã xóa các service thành công!`);
+                        getServiceManage(); // Tải lại danh sách
+                        selectedIds.clear(); // Xóa danh sách đã chọn
+                        deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
+                    } else {
+                        alert('Có lỗi xảy ra!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting service:', error);
+                });
+            }
+        }
+    });
+
+</script>
+
+{% endblock serviceManage %} 

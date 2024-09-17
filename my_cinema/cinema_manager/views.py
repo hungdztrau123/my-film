@@ -49,6 +49,14 @@ from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
 from cinema_manager.models import Comments
 from cinema_manager.models import Combo
+from cinema_manager.models import Actors
+from cinema_manager.models import UserProfile
+from cinema_manager.models import Pay
+from cinema_manager.models import Bill
+from cinema_manager.models import Logo
+from cinema_manager.models import Background
+from cinema_manager.models import ComboDetail
+
 
 
 from cinema_manager.serializers import FilmSerializer
@@ -71,6 +79,15 @@ from cinema_manager.serializers import BookingSerializer
 from cinema_manager.serializers import BookingDetailSerializer
 from cinema_manager.serializers import CommentSerializer
 from cinema_manager.serializers import ComboSerializer
+from cinema_manager.serializers import ActorSerializer
+from cinema_manager.serializers import UserProfileSerializer
+from cinema_manager.serializers import PaySerializer
+from cinema_manager.serializers import BillSerializer
+from cinema_manager.serializers import LogoSerializer
+from cinema_manager.serializers import BackgroundSerializer
+from cinema_manager.serializers import ComboDetailSerializer
+
+
 
 
 
@@ -93,10 +110,23 @@ from cinema_manager.filters import BookingFilterSet
 from cinema_manager.filters import BookingDetailFilterSet
 from cinema_manager.filters import CommentFilterSet
 from cinema_manager.filters import ComboFilterSet
+from cinema_manager.filters import ActorFilterSet
+from cinema_manager.filters import UserProfileFilterSet
+from cinema_manager.filters import PayFilterSet
+from cinema_manager.filters import BillFilterSet
+from cinema_manager.filters import LogoFilterSet
+from cinema_manager.filters import BackgroundFilterSet
+from cinema_manager.filters import ComboDetailFilterSet
+
+
+
 
 from cinema_manager.models import ChoiceCountries, ChoiceStatus
 from cinema_manager.models import ChoiceTypeSeat, ChoiceKindSeat
 from cinema_manager.models import ChoiceVideoType
+from cinema_manager.models import ChoiceTypeTicket
+from cinema_manager.models import ChoiceStatusPay
+from cinema_manager.models import ChoiceStatusSchedule
 
 
 
@@ -146,11 +176,19 @@ def schedulemanage(request):
     return render(request, '../templates/schedulemanage.html', context)
 
 def scheduleinsert(request):
-    context = {}
+    statuses = [s.value for s in ChoiceStatusSchedule]
+    context = {
+        
+        'statuses': statuses,
+    }
     return render(request, '../templates/scheduleinsert.html', context)
 
 def scheduleupdate(request):
-    context = {}
+    statuses = [s.value for s in ChoiceStatusSchedule]
+    context = {
+        
+        'statuses': statuses,
+    }
     return render(request, '../templates/scheduleupdate.html', context)
 
 
@@ -262,6 +300,118 @@ def videoupdate(request):
     return render(request, '../templates/videoupdate.html', context)
 
 
+def ticketmanage(request):
+    context = {}
+    return render(request, '../templates/ticketmanage.html', context)
+
+def ticketinsert(request):
+    types = [t.value for t in ChoiceTypeTicket]
+    context = {
+        'types': types,
+    }
+    return render(request, '../templates/ticketinsert.html', context)
+
+def ticketupdate(request):
+    types = [t.value for t in ChoiceTypeTicket]
+    context = {
+        'types': types,
+    }
+    return render(request, '../templates/ticketupdate.html', context)
+
+
+def actormanage(request):
+    context = {}
+    return render(request, '../templates/actormanage.html', context)
+
+def actorinsert(request):
+    context = {}
+    return render(request, '../templates/actorinsert.html', context)
+
+def actorupdate(request):
+    context = {}
+    return render(request, '../templates/actorupdate.html', context)
+
+
+def categorymanage(request):
+    context = {}
+    return render(request, '../templates/categorymanage.html', context)
+
+def categoryinsert(request):
+    context = {}
+    return render(request, '../templates/categoryinsert.html', context)
+
+def categoryupdate(request):
+    context = {}
+    return render(request, '../templates/categoryupdate.html', context)
+
+
+def categoryfilmmanage(request):
+    context = {}
+    return render(request, '../templates/categoryfilmmanage.html', context)
+
+def categoryfilminsert(request):
+    context = {}
+    return render(request, '../templates/categoryfilminsert.html', context)
+
+def categoryfilmupdate(request):
+    context = {}
+    return render(request, '../templates/categoryfilmupdate.html', context)
+
+
+def bookingmanage(request):
+    context = {}
+    return render(request, '../templates/bookingmanage.html', context)
+
+def bookinginsert(request):
+    context = {}
+    return render(request, '../templates/bookinginsert.html', context)
+
+def bookingupdate(request):
+    context = {}
+    return render(request, '../templates/bookingupdate.html', context)
+
+
+def promotionmanage(request):
+    context = {}
+    return render(request, '../templates/promotionmanage.html', context)
+
+def promotioninsert(request):
+    context = {}
+    return render(request, '../templates/promotioninsert.html', context)
+
+def promotionupdate(request):
+    context = {}
+    return render(request, '../templates/promotionupdate.html', context)
+
+
+
+def servicemanage(request):
+    context = {}
+    return render(request, '../templates/servicemanage.html', context)
+
+def serviceinsert(request):
+    context = {}
+    return render(request, '../templates/serviceinsert.html', context)
+
+def serviceupdate(request):
+    context = {}
+    return render(request, '../templates/serviceupdate.html', context)
+
+
+
+def contactmanage(request):
+    context = {}
+    return render(request, '../templates/contactmanage.html', context)
+
+def contactinsert(request):
+    context = {}
+    return render(request, '../templates/contactinsert.html', context)
+
+def contactupdate(request):
+    context = {}
+    return render(request, '../templates/contactupdate.html', context)
+
+
 
 def register(request):
     context = {}
@@ -303,6 +453,11 @@ def bookfilm(request, id):
     book_film_object = Films.objects.get(id=id)
     return render(request, '../templates/bookfilm.html', {'bookfilm': book_film_object})
 
+def bookcombo(request, id):
+    book_combo_object = Bookings.objects.get(id=id)
+    return render(request, '../templates/bookcombo.html', {'bookcombo': book_combo_object})
+
+
 def area(request):
     context = {}
     return render(request, '../templates/area.html', context)
@@ -318,6 +473,123 @@ def contact(request):
 def booking(request, id):
     booking_object = Bookings.objects.get(id=id)
     return render(request, '../templates/booking.html', {'booking': booking_object})
+
+def bill(request, id):
+    bill_object = Pay.objects.get(id=id)
+    return render(request, '../templates/bill.html', {'bill': bill_object})
+
+def listticket(request, id):
+    listticket_object = User.objects.get(id=id)
+    return render(request, '../templates/listticket.html', {'listticket': listticket_object})
+
+class BackgroundViewSet(ModelViewSet):
+    model = Background
+    queryset = Background.objects.all()
+    serializer_class = BackgroundSerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = BackgroundFilterSet
+    ordering_fields = ("id","name")
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+
+class LogoViewSet(ModelViewSet):
+    model = Logo
+    queryset = Logo.objects.all()
+    serializer_class = LogoSerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = LogoFilterSet
+    ordering_fields = ("id","name")
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+
+class PayViewSet(ModelViewSet):
+    model = Pay
+    queryset = Pay.objects.all()
+    serializer_class = PaySerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = PayFilterSet
+    ordering_fields = ("id","booking","status","schedule","total_amount" )
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+        
+
+class BillViewSet(ModelViewSet):
+    model = Bill
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = BillFilterSet
+    ordering_fields = ("id","pay","user","status")
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user, user=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+
+
+class UserProfileViewSet(ModelViewSet):
+    model = UserProfile
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = UserProfileFilterSet
+    ordering_fields = ("id","user","gender","phone","address")
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user,user=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+
+
 
 class BookingViewSet(ModelViewSet):
     model = Bookings
@@ -335,10 +607,10 @@ class BookingViewSet(ModelViewSet):
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
     
-    # def perform_create(self, serializer):
-    #     serializer.save(create_by=self.request.user,user=self.request.user)
-    # def perform_update(self, serializer):
-    #     serializer.save(editor=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user,user=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
     
 class BookingDetailViewSet(ModelViewSet):
     model = BookingDetail
@@ -355,6 +627,11 @@ class BookingDetailViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 class SeatViewSet(ModelViewSet):
     model = Seats
@@ -372,6 +649,11 @@ class SeatViewSet(ModelViewSet):
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
     
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+    
 
 class TicketViewSet(ModelViewSet):
     model = Tickets
@@ -388,6 +670,11 @@ class TicketViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
     
 class RoomViewSet(ModelViewSet):
@@ -405,6 +692,11 @@ class RoomViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 
 class DayShowViewSet(ModelViewSet):
@@ -422,22 +714,33 @@ class DayShowViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 class FilmViewSet(ModelViewSet):
     model = Films
     queryset = Films.objects.all()
     serializer_class = FilmSerializer
     pagination_class = StandardPagination
-    # permission_classes = [AdminPermission]
+    # permission_classes = [AccessTokenPermission]
+    
     filter_backends = (
         DjangoFilterBackend,
         OrderingFilter,
     )
     filterset_class = FilmFilterSet
-    ordering_fields = ("id","name","producer","duration","description", "country","imdb","age","view")
+    ordering_fields = ("id","name","producer","duration","description", "country","imdb","age","view","created_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
     
 class ImageViewSet(ModelViewSet):
     model = Image
@@ -455,6 +758,11 @@ class ImageViewSet(ModelViewSet):
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
     
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+    
 class VideoViewSet(ModelViewSet):
     model = Video
     queryset = Video.objects.all()
@@ -471,6 +779,11 @@ class VideoViewSet(ModelViewSet):
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
     
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+    
 class CategoryViewSet(ModelViewSet):
     model = Categories
     queryset = Categories.objects.all()
@@ -486,6 +799,11 @@ class CategoryViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 class CategoryFilmViewSet(ModelViewSet):
     model = CategoryFilm
@@ -502,6 +820,33 @@ class CategoryFilmViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+        
+        
+class ActorViewSet(ModelViewSet):
+    model = Actors
+    queryset = Actors.objects.all()
+    serializer_class = ActorSerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = ActorFilterSet
+    ordering_fields = ("id","name","description","film",)
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 class CommentViewSet(ModelViewSet):
     model = Comments
@@ -514,7 +859,7 @@ class CommentViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = CommentFilterSet
-    ordering_fields = ("id","user", "film", "rate", )
+    ordering_fields = ("id","user", "film", "rate","created_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -539,6 +884,33 @@ class ComboViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+        
+class ComboDetailViewSet(ModelViewSet):
+    model = ComboDetail
+    queryset = ComboDetail.objects.all()
+    serializer_class = ComboDetailSerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = ComboDetailFilterSet
+    ordering_fields = ("id","booking", "combo")
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+        
 
 class ServiceViewSet(ModelViewSet):
     model = Service
@@ -555,6 +927,11 @@ class ServiceViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 class ContactViewSet(ModelViewSet):
     model = Contact
@@ -572,10 +949,11 @@ class ContactViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
-    # def perform_create(self, serializer):
-    #     serializer.save(create_by=self.request.user)
-    # def perform_update(self, serializer):
-    #     serializer.save(editor=self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 class ScheduleViewSet(ModelViewSet):
     model = Schedules
@@ -588,10 +966,15 @@ class ScheduleViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = ScheduleFilterSet
-    ordering_fields = ("id","film","room","start_time","end_time")
+    ordering_fields = ("id","film","room","start_time","end_time", "status",)
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
    
 class PromotionViewSet(ModelViewSet):
     model = Promotion
@@ -604,10 +987,15 @@ class PromotionViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = PromotionFilterSet
-    ordering_fields = ("id","name")
+    ordering_fields = ("id","name", "created_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 
 class AreaViewSet(ModelViewSet):
@@ -625,6 +1013,11 @@ class AreaViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 
 class PlaceViewSet(ModelViewSet):
@@ -642,6 +1035,11 @@ class PlaceViewSet(ModelViewSet):
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
 
 
 class BulkEditObjectsView(APIView):

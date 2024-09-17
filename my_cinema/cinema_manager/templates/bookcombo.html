@@ -1,0 +1,457 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block bookCombo %}
+
+<style>
+    .container-booking{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .box-booking-all{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 0px;
+
+    }
+  
+    .box-booking-detail-all{
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+    }
+    .booking-label-detail-seat{
+        font-weight: 1000;
+    }
+    .box-booking-detail-list{
+        display: flex;
+        align-items: center;
+        margin-left: 7px;
+    }
+
+    
+    .box-combo-list{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 30px 0px;
+
+    }
+
+    
+
+    .combo-item{
+        width: 100%;
+        display: flex;
+        align-items: start;
+        margin: 10px 0px;
+        border: 1px solid ;
+        border-radius: 10px;
+
+    }
+    .box-combo-image{
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d5a12c;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+
+    }
+    .combo-item-image{
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        width: 100%;
+        object-fit: cover;
+
+    }
+    .box-combo-content{
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 30px;
+
+    }
+    .combo-name{
+        font-size: 24px;
+        font-weight: 1000;
+        width: 100%;
+
+    }
+    .combo-content{
+        margin: 10px 0px 20px 0px;
+        width: 100%;
+
+
+    }
+    .box-combo-info{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+    }
+    .combo-price{
+        font-size: 18px;
+        font-weight: bold;
+
+    }
+    .box-combo-amount{
+        display: flex;
+        align-items: center;
+
+    }
+    .btn-amount-add{
+        padding: 0px 5px;   
+        border-radius: 50%;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        cursor: pointer;
+
+    }
+    .combo-amount{
+        margin: 0px 10px;
+        font-size: 18px;
+        font-weight: bold;
+
+    }
+    .btn-amount-leave{
+        padding: 0px 5px;   
+        border-radius: 50%;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        cursor: pointer;
+
+    }
+
+    .box-booking-total-price{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #d5a12c;
+
+    }
+
+    .title-price{
+        
+    
+    }
+    .total-price{
+        margin-left: 7px;
+        font-weight: bold;
+
+
+    }
+
+
+    .box-booking-continue{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 30px;
+        
+
+    }
+    .btn-booking-continue{
+        padding: 5px 10px; 
+        min-width: 300px;
+        font-weight: bold;
+        font-size: 18px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+    }
+
+</style>
+
+<div class="container-booking">
+    <div class="box-booking-all">
+
+        
+        <div class="box-booking-detail-all">
+            <span class="booking-label-detail-seat">Ghế :</span>
+            <div id="booking-detail-list" class="box-booking-detail-list">
+
+            </div>
+            
+        </div>
+
+    
+        <div id="combo-list" class="box-combo-list">
+            
+        </div>
+    
+        <div class="box-booking-total-price">
+            <span class="title-price">Tổng tiền:</span>
+            <span id="total-price" class="total-price"></span>
+        </div>
+
+        <div class="box-booking-continue">
+            <span id="btn-booking-continue" class="btn-booking-continue">Tiếp tục</span>
+        </div>
+
+    </div>
+    
+    
+</div>
+
+<script>
+    
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+    const url = new URL(window.location.href);
+    const bookingId = url.pathname.split('/')[2];
+
+    const params = new URLSearchParams(url.search); // Lấy các tham số trong query string
+    const scheduleId = params.get('scheduleId'); // Lấy giá trị của scheduleId
+
+    console.log('Booking ID:', bookingId);
+    console.log('Schedule ID:', scheduleId);
+
+    
+
+    let totalPrice = 0; // Tổng giá trị các ticket
+    let totalComboPrice = 0; // Tổng giá trị các combo
+    const comboQuantities = {}; // Để theo dõi số lượng combo
+
+    getBookingDetail(bookingId);
+    
+
+    
+
+    function getBookingDetail(bookingId) {
+        fetch(`/api/bookingdetails/?booking=${bookingId}`)
+        .then(response => response.json())
+        .then(data => {
+            const bookingDetailList = document.getElementById('booking-detail-list');
+            bookingDetailList.innerHTML = ''; 
+
+            data.results.forEach(bookingDetail => {
+                const bookingDetailItem = document.createElement('div');
+                bookingDetailItem.classList.add('seat-item');
+
+                bookingDetailItem.innerHTML = `
+                    
+                        <span class="seat-item-name">${bookingDetail.seat.name}, </span>
+            
+                `;
+                 
+                
+                
+                bookingDetailList.appendChild(bookingDetailItem);
+                totalPrice += parseInt(bookingDetail.ticket.price);
+
+                
+            });
+
+            updateTotalPrice(); // Cập nhật tổng giá trị
+        })
+        .catch(error => {
+            console.error('Error fetching area details:', error);
+        });
+    }
+
+    
+    getComboList('/api/combos/');
+    
+    function getComboList(url) {
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const comboList = document.getElementById('combo-list');
+            comboList.innerHTML = ''; // Xóa nội dung cũ
+
+            data.results.forEach(combo => {
+                comboQuantities[combo.id] = 0; // Khởi tạo số lượng
+
+                function formatCurrency(value) {
+                    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                } 
+
+                const comboItem = document.createElement('div');
+                comboItem.classList.add('combo-item');
+                comboItem.innerHTML = `
+                    <div class="box-combo-image">
+                        <img id="combo-image" class="combo-item-image" src="${combo.image}" alt="${combo.name}">
+                    </div>
+
+                    <div class="box-combo-content">
+                        <span class="combo-name">${combo.name}</span>
+
+                        <p class="combo-content">${combo.content}</p>
+
+                        <div class="box-combo-info">
+                            <span class="combo-price" id="combo-price-${combo.id}">${formatCurrency(combo.price)}đ</span>
+
+                            <div class="box-combo-amount">
+                                <span class="btn-amount-add" onclick="updateComboPrice(${combo.price}, 1, ${combo.id})"><i class="fa-solid fa-plus"></i></span>
+                                <span class="combo-amount" id="combo-quantity-${combo.id}">0</span>
+                                <span class="btn-amount-leave" onclick="updateComboPrice(${combo.price}, -1, ${combo.id})"><i class="fa-solid fa-minus"></i></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+
+                    
+                `;
+                comboList.appendChild(comboItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching combo data:', error);
+        });
+    }
+
+    function updateComboPrice(price, change, comboId) {
+        const currentQuantity = comboQuantities[comboId];
+
+        // Kiểm tra điều kiện trước khi cập nhật
+        if (change > 0 || (change < 0 && currentQuantity > 0)) {
+            totalComboPrice += parseInt(price) * change;
+            comboQuantities[comboId] += change; // Cập nhật số lượng
+            
+            // Cập nhật hiển thị số lượng
+            const quantityElement = document.getElementById(`combo-quantity-${comboId}`);
+            quantityElement.textContent = `${comboQuantities[comboId]}`;
+            
+            updateTotalPrice(); // Cập nhật tổng giá trị hiển thị
+        }
+    }
+
+    function updateTotalPrice() {
+        const overallTotalPrice = totalPrice + totalComboPrice; // Tổng giá trị
+        const totalPriceElement = document.getElementById('total-price');
+
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          });
+
+        totalPriceElement.textContent = formatter.format(overallTotalPrice);
+    }
+
+
+    document.getElementById('btn-booking-continue').addEventListener('click', () => {
+        const accessToken = localStorage.getItem('access_token');
+    
+        if (!isAccessTokenValid()) {
+            alert('Token đã hết hạn. Vui lòng đăng nhập.');
+            localStorage.removeItem('access_token');
+            window.location.href = '/login/';
+            return; // Dừng hàm nếu token không hợp lệ
+        }
+    
+        // Lặp qua các combo để gửi thông tin từng combo đã chọn
+        const comboPromises = []; // Mảng để lưu các Promise
+    
+        for (const comboId in comboQuantities) {
+            const quantity = comboQuantities[comboId];
+            if (quantity > 0) {
+                // Gửi yêu cầu POST cho từng combo theo số lượng đã chọn
+                for (let i = 0; i < quantity; i++) {
+                    const data = {
+                        booking: bookingId, // Lấy booking ID từ biến đã định nghĩa
+                        combo: comboId // ID của combo
+                    };
+    
+                    // Gọi API POST cho từng combo
+                    comboPromises.push(
+                        fetch('/api/combodetails/', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`,
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data),
+                        })
+                    );
+                    
+                }
+            }
+        }
+    
+        // Chờ tất cả các Promise hoàn thành
+        Promise.all(comboPromises)
+            .then(responses => {
+                // Kiểm tra xem tất cả các phản hồi đều ok
+                responses.forEach(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                });
+                return Promise.all(responses.map(response => response.json()));
+            })
+            .then(results => {
+                console.log('Success:', results);
+                // Chuyển hướng đến trang booking
+                
+                window.location.href = `/booking/${bookingId}/?scheduleId=${scheduleId}`;
+                
+                updateTotalPrice(); // Cập nhật hiển thị tổng giá trị
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Xử lý lỗi ở đây
+            });
+    });
+
+
+
+
+</script>
+
+{% endblock bookCombo %} 

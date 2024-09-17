@@ -41,6 +41,11 @@ from cinema_manager.views import promotion
 from cinema_manager.views import film
 from cinema_manager.views import room
 from cinema_manager.views import bookfilm
+from cinema_manager.views import bookcombo
+from cinema_manager.views import bill
+from cinema_manager.views import listticket
+
+
 from cinema_manager.views import promotionlist
 from cinema_manager.views import contact
 from cinema_manager.views import booking
@@ -86,6 +91,37 @@ from cinema_manager.views import videomanage
 from cinema_manager.views import videoinsert
 from cinema_manager.views import videoupdate
 
+from cinema_manager.views import ticketmanage
+from cinema_manager.views import ticketinsert
+from cinema_manager.views import ticketupdate
+
+from cinema_manager.views import actormanage
+from cinema_manager.views import actorinsert
+from cinema_manager.views import actorupdate
+
+from cinema_manager.views import categorymanage
+from cinema_manager.views import categoryinsert
+from cinema_manager.views import categoryupdate
+
+from cinema_manager.views import categoryfilmmanage
+from cinema_manager.views import categoryfilminsert
+from cinema_manager.views import categoryfilmupdate
+
+from cinema_manager.views import bookingmanage
+from cinema_manager.views import bookinginsert
+from cinema_manager.views import bookingupdate
+
+from cinema_manager.views import promotionmanage
+from cinema_manager.views import promotioninsert
+from cinema_manager.views import promotionupdate
+
+from cinema_manager.views import servicemanage
+from cinema_manager.views import serviceinsert
+from cinema_manager.views import serviceupdate
+
+from cinema_manager.views import contactmanage
+from cinema_manager.views import contactinsert
+from cinema_manager.views import contactupdate
 
 # from cinema_manager.views import map_view
 
@@ -113,10 +149,25 @@ from cinema_manager.views import BookingViewSet
 from cinema_manager.views import BookingDetailViewSet
 from cinema_manager.views import CommentViewSet
 from cinema_manager.views import ComboViewSet
+from cinema_manager.views import ActorViewSet
+from cinema_manager.views import UserProfileViewSet
+from cinema_manager.views import PayViewSet
+from cinema_manager.views import BillViewSet
+from cinema_manager.views import LogoViewSet
+from cinema_manager.views import BackgroundViewSet
+from cinema_manager.views import ComboDetailViewSet
+
+
+
+
+
 
 
 api_router = DefaultRouter()
 
+api_router.register(r"logos", LogoViewSet)
+api_router.register(r"backgrounds", BackgroundViewSet)
+api_router.register(r"userprofiles", UserProfileViewSet)
 api_router.register(r"users", UserViewSet)
 api_router.register(r"user_profiles", UserProfileViewSet)
 api_router.register(r"promotions", PromotionViewSet)
@@ -136,9 +187,12 @@ api_router.register(r"categoryfilms", CategoryFilmViewSet)
 api_router.register(r"tickets", TicketViewSet)
 api_router.register(r"bookings", BookingViewSet)
 api_router.register(r"bookingdetails", BookingDetailViewSet)
+api_router.register(r"combodetails", ComboDetailViewSet)
 api_router.register(r"comments", CommentViewSet)
 api_router.register(r"combos", ComboViewSet)
-
+api_router.register(r"actors", ActorViewSet)
+api_router.register(r"pays", PayViewSet)
+api_router.register(r"bills", BillViewSet)
 
 
 urlpatterns = [
@@ -153,10 +207,16 @@ urlpatterns = [
     path('promotion/<int:id>/', promotion, name = "promotion"),
     path('film/<int:id>/', film, name = "film"),
     path('bookfilm/<int:id>/', bookfilm, name = "bookfilm"),
+    path('bookcombo/<int:id>/', bookcombo, name = "bookcombo"),
+    path('listticket/<int:id>/', listticket, name = "listticket"),
+    
+    
     path('room/<int:id>/', room, name = "room"),
     path('promotionlist/', promotionlist, name = "promotionlist"),
     path('contact/', contact, name = "contact"),
     path('booking/<int:id>/', booking, name = "booking"),
+    path('bill/<int:id>/', bill, name = "bill"),
+    
     
     
     path('adminmanager/', adminmanager, name = "adminmanager"),
@@ -200,8 +260,37 @@ urlpatterns = [
     path('videoinsert/', videoinsert, name = "videoinsert"),
     path('videoupdate/', videoupdate, name = "videoupdate"),
     
+    path('ticketmanage/', ticketmanage, name = "ticketmanage"),
+    path('ticketinsert/', ticketinsert, name = "ticketinsert"),
+    path('ticketupdate/', ticketupdate, name = "ticketupdate"),
     
+    path('actormanage/', actormanage, name = "actormanage"),
+    path('actorinsert/', actorinsert, name = "actorinsert"),
+    path('actorupdate/', actorupdate, name = "actorupdate"),
+    
+    path('categorymanage/', categorymanage, name = "categorymanage"),
+    path('categoryinsert/', categoryinsert, name = "categoryinsert"),
+    path('categoryupdate/', categoryupdate, name = "categoryupdate"),
+    
+    path('categoryfilmmanage/', categoryfilmmanage, name = "categoryfilmmanage"),
+    path('categoryfilminsert/', categoryfilminsert, name = "categoryfilminsert"),
+    path('categoryfilmupdate/', categoryfilmupdate, name = "categoryfilmupdate"),
 
+    path('bookingmanage/', bookingmanage, name = "bookingmanage"),
+    path('bookinginsert/', bookinginsert, name = "bookinginsert"),
+    path('bookingupdate/', bookingupdate, name = "bookingupdate"),
+    
+    path('promotionmanage/', promotionmanage, name = "promotionmanage"),
+    path('promotioninsert/', promotioninsert, name = "promotioninsert"),
+    path('promotionupdate/', promotionupdate, name = "promotionupdate"),
+    
+    path('servicemanage/', servicemanage, name = "servicemanage"),
+    path('serviceinsert/', serviceinsert, name = "serviceinsert"),
+    path('serviceupdate/', serviceupdate, name = "serviceupdate"),
+    
+    path('contactmanage/', contactmanage, name = "contactmanage"),
+    path('contactinsert/', contactinsert, name = "contactinsert"),
+    path('contactupdate/', contactupdate, name = "contactupdate"),
     
     re_path(
         r"^api/",

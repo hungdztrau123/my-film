@@ -20,6 +20,16 @@ from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
 from cinema_manager.models import Comments
 from cinema_manager.models import Combo
+from cinema_manager.models import Actors
+from cinema_manager.models import UserProfile
+from cinema_manager.models import Pay
+from cinema_manager.models import Bill
+from cinema_manager.models import Logo
+from cinema_manager.models import Background
+from cinema_manager.models import ComboDetail
+
+
+
 
 
 
@@ -28,6 +38,38 @@ ID_KWARGS = ["in", "exact"]
 INT_KWARGS = ["exact", "gt", "gte", "lt", "lte", "isnull"]
 DATE_KWARGS = ["year", "month", "day", "date__gt", "gt", "date__lt", "lt"]
 BOOL_KWARGS = ["exact"]
+
+
+
+class LogoFilterSet(FilterSet):
+    class Meta:
+        model = Logo
+        fields = {
+            "id": ID_KWARGS,
+            "name": CHAR_KWARGS,
+            
+        }
+
+class BackgroundFilterSet(FilterSet):
+    class Meta:
+        model = Background
+        fields = {
+            "id": ID_KWARGS,
+            "name": CHAR_KWARGS,
+            
+        }
+
+class UserProfileFilterSet(FilterSet):
+    class Meta:
+        model = UserProfile
+        fields = {
+            "id": ID_KWARGS,
+            "user": ID_KWARGS,
+            "gender": CHAR_KWARGS,
+            "phone": CHAR_KWARGS,
+            "address": CHAR_KWARGS,
+            
+        }
 
 
 class DayShowFilterSet(FilterSet):
@@ -90,6 +132,16 @@ class CategoryFilmFilterSet(FilterSet):
             "id": ID_KWARGS,
             "category": ID_KWARGS,
             "film": ID_KWARGS,
+        }   
+        
+class ActorFilterSet(FilterSet):
+    class Meta:
+        model = Actors
+        fields = {
+            "id": ID_KWARGS,
+            "name": CHAR_KWARGS,
+            "film": ID_KWARGS,
+            "description": CHAR_KWARGS,
         }      
 
 class CommentFilterSet(FilterSet):
@@ -146,6 +198,7 @@ class ScheduleFilterSet(FilterSet):
             "room": ID_KWARGS,
             "start_time": DATE_KWARGS,
             "end_time": DATE_KWARGS,
+            "status": CHAR_KWARGS,
         }
         
 class RoomFilterSet(FilterSet):
@@ -197,6 +250,16 @@ class BookingDetailFilterSet(FilterSet):
             "seat": ID_KWARGS,
             
         }
+
+class ComboDetailFilterSet(FilterSet):
+    class Meta:
+        model = ComboDetail
+        fields = {
+            "id": ID_KWARGS,
+            "booking": ID_KWARGS,
+            "combo": ID_KWARGS,
+           
+        }
    
 class PromotionFilterSet(FilterSet):
     class Meta:
@@ -221,4 +284,28 @@ class PlaceFilterSet(FilterSet):
             "id": ID_KWARGS,
             "name": CHAR_KWARGS,
             "area": ID_KWARGS,
+        }
+        
+class PayFilterSet(FilterSet):
+    class Meta:
+        model = Pay
+        fields = {
+            "id": ID_KWARGS,
+            "booking": ID_KWARGS,
+            "status": CHAR_KWARGS,
+            "schedule": ID_KWARGS,
+            "total_amount": CHAR_KWARGS,
+           
+        }
+        
+class BillFilterSet(FilterSet):
+    class Meta:
+        model = Bill
+        fields = {
+            "id": ID_KWARGS,
+            "pay": ID_KWARGS,
+            "user": ID_KWARGS,
+            "status": CHAR_KWARGS,
+            
+             
         }

@@ -59,7 +59,19 @@ class ChoiceStatus(Enum):
     
 class ChoiceVideoType(Enum):
     mp4 = 'video/mp4'
+
+class ChoiceStatusPay(Enum):
+    watting = 'Đang chờ'
+    done = 'Đã thanh toán'
+
+class ChoiceStatusBill(Enum):
+    valid = 'Có hiệu lực'
+    expire = 'Hết hạn'
     
+class ChoiceStatusSchedule(Enum):
+    valid = 'Có hiệu lực'
+    expire = 'Hết hạn'
+ 
 
 class Base(models.Model):
     id = models.AutoField(primary_key=True)
@@ -164,6 +176,9 @@ class Schedules(Base):
     room = models.ForeignKey(Rooms, null=True, on_delete=models.CASCADE) 
     start_time = models.DateTimeField(null=True,blank=True)
     end_time = models.DateTimeField(null=True,blank=True)
+    status = models.CharField(max_length=100, choices=[(tag.value, tag.name) for tag in ChoiceStatusSchedule], default=ChoiceStatusSchedule.valid.value)
+    
+    
     
 
 class Tickets(Base):
@@ -190,6 +205,7 @@ class Promotion(Base):
     start_date = models.DateTimeField(null=True,blank=True)
     end_date = models.DateTimeField(null=True,blank=True)
     image = models.FileField(upload_to='files/',null=True)
+    banner = models.FileField(upload_to='files/',null=True)
     description = models.CharField(max_length=500, null=True, blank=True)
 
 class Service(Base): 
@@ -215,12 +231,30 @@ class Combo(Base):
     content = models.CharField(max_length=500, null=True, blank=True)
     price = models.CharField(max_length=255, null=True, blank=True)
 
-
+class ComboDetail(Base):
+    booking = models.ForeignKey(Bookings,null=True, on_delete=models.CASCADE)
+    combo = models.ForeignKey(Combo, null=True , blank=True, on_delete=models.CASCADE)
     
+
+class Logo(Base):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    image = models.FileField(upload_to='files/',null=True)
+
+class Background(Base):
+    name = models.CharField(max_length=255, null=True, blank=True)
+    image = models.FileField(upload_to='files/',null=True)
+   
     
 class Pay(Base):
-    booking = models.ForeignKey(Bookings,null=True, on_delete=models.CASCADE)
+    booking = models.ForeignKey(Bookings,null=True, blank=True, on_delete=models.SET_NULL)
+    status = models.CharField(max_length=255, null=True, blank=True, choices=[(tag.value, tag.name) for tag in ChoiceStatusPay], default=ChoiceStatusPay.watting.value)
+    schedule = models.ForeignKey(Schedules, null=True, blank=True, on_delete=models.SET_NULL)
     
+    total_amount = models.CharField(max_length=255, null=True, blank=True)
     
+class Bill(Base):
+    pay = models.ForeignKey(Pay, null=True, blank=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    status = models.CharField(max_length=255, null=True, blank=True, choices=[(tag.value, tag.name) for tag in ChoiceStatusBill], default=ChoiceStatusBill.valid.value)
     
 

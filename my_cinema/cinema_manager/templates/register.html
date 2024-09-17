@@ -2,28 +2,105 @@
 {% load static %}
 
 {% block register %}
-<div class="container">
-    <h2>Đăng Ký</h2>
-    <form id="register-form">
-        <div class="form-group">
+
+<style>
+    .container-register{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 0px; 
+    }
+
+    .box-register{
+        width: 23%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 1px solid #d5a12c;
+        padding: 30px;
+        border-radius: 3px;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+
+
+    }
+
+    .register-title{
+        font-size: 28px;
+        font-weight: 1000;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    input {
+        width: 100%;
+        margin: 10px 0;
+        padding: 5px 10px;
+        color: #d5a12c;
+        text-shadow: 1px 1px 1px #000;
+        outline-color: #cdc197;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+        border: 1px solid #d5a12c;
+        border-radius: 3px;
+    }
+
+    .box-btn-register{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 30px;
+        
+
+    }
+
+    
+    .btn-register{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px ;
+        min-width: 130px;
+        font-weight: bold;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        border-radius: 3px;
+        cursor: pointer;
+        background-color: transparent;
+        color: #d5a12c;
+        text-shadow: 1px 1px 1px #000;
+    }
+
+</style>
+
+<div class="container-register">
+    
+    <form id="register-form" class="box-register">
+        <span class="register-title">Đăng Ký</span>
+        <div>
             <label for="email">Email:</label>
-            <input type="email" id="email" class="form-control" required>
+            <input type="email" id="email" required>
         </div>
-        <div class="form-group">
+        <div>
             <label for="username">Tên người dùng:</label>
-            <input type="text" id="username" class="form-control" required>
+            <input type="text" id="username" required>
         </div>
-        <div class="form-group">
+        <div>
             <label for="password">Mật khẩu:</label>
-            <input type="password" id="password" class="form-control" required>
+            <input type="password" id="password" required>
         </div>
-        <div class="form-group">
+        <div>
             <label for="phone">Số điện thoại:</label>
-            <input type="text" id="phone" class="form-control">
+            <input type="text" id="phone" required>
         </div>
-        <button type="submit" class="btn btn-primary">Đăng Ký</button>
+
+        <div class="box-btn-register">
+            <button type="submit" class="btn-register">Đăng Ký</button>
+        </div>
+        <div id="response-message"></div>
     </form>
-    <div id="response-message"></div>
+    
 </div>
 
 <script>

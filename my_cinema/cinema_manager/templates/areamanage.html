@@ -3,7 +3,10 @@
 
 {% block areaManage %} 
 
+
+
 <button id="insert-manage">Thêm</button>
+<button id="delete-multi-manage">Xóa nhiều</button>
 <div id="manage-list">
 
 </div>
@@ -54,6 +57,13 @@
         return tokenPayload.exp >= currentTime;
     }
 
+    const selectedIds = new Set();
+    // Thêm nút "Xóa nhiều"
+
+    const deleteMultiBtn = document.getElementById('delete-multi-manage');
+    deleteMultiBtn.classList.add('btn', 'btn-danger');
+    deleteMultiBtn.disabled = true; // Bắt đầu là vô hiệu hóa
+
 
     const areaManageList = document.getElementById('manage-list');
     const prevPageBtn = document.querySelector('.prev-page');
@@ -89,6 +99,20 @@
                     <button id="area-delete" class="btn btn-danger btn-sm">Xóa</button>
                 </td>
             `;
+
+            dataRow.addEventListener('click', function() {
+                const id = areaManage.id;
+                if (selectedIds.has(id)) {
+                    selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
+                    console.log("delete id:",selectedIds.delete(id))
+                    dataRow.classList.remove('selected');
+                } else {
+                    selectedIds.add(id); // Nếu chưa chọn, thêm vào
+                    console.log("add id:",selectedIds.add(id))
+                    dataRow.classList.add('selected');
+                }
+                deleteMultiBtn.disabled = selectedIds.size === 0; // Bật/tắt nút xóa nhiều
+            });
 
             dataRow.querySelector('#area-delete').addEventListener('click', function() {
                 if (confirm('Bạn có chắc chắn muốn xóa area này?')) {
@@ -162,6 +186,8 @@
                 console.log(`Đã xóa area có ID ${areaId} thành công!`);
                 // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
                 getAreaManage();
+                selectedIds.clear(); // Xóa danh sách đã chọn
+                deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
             } else {
                 console.error(`Lỗi khi xóa area có ID ${areaId}: ${response.status} - ${response.statusText}`);
             }
@@ -170,6 +196,47 @@
             console.error(`Lỗi khi xóa area có ID ${areaId}: ${error}`);
         });
     }
+
+
+    // Sự kiện cho nút "Xóa nhiều"
+    
+    deleteMultiBtn.addEventListener('click', () => {
+
+        const accessToken = localStorage.getItem('access_token');
+
+        if (confirm('Bạn có chắc chắn muốn xóa các area này?')) {
+            if (selectedIds.size > 0) {
+                const objects = Array.from(selectedIds); // Chuyển Set thành mảng
+                const body = {
+                    objects: objects,
+                    object_type: "areas",
+                    operation: "delete"
+                };
+                
+                fetch('/api/bulk_edit_objects/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log(`Đã xóa các area thành công!`);
+                        getAreaManage(); // Tải lại danh sách
+                        selectedIds.clear(); // Xóa danh sách đã chọn
+                        deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
+                    } else {
+                        alert('Có lỗi xảy ra!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting area :', error);
+                });
+            }
+        }
+    });
 
 </script>
 

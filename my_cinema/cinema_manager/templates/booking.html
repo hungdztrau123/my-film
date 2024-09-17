@@ -3,24 +3,495 @@
 
 {% block booking %} 
 
-<div class="booking-content">
-    this is booking
-    <div id="schedule-detail-ticket">
+<style>
+    .container-booking{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .box-booking-all{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 40px 0px;
+
+    }
+    .box-booking-schedule-detail{
+        width: 100%;
+        display: flex;
+        align-items: start;
+        padding-bottom: 35px;
+        border-bottom: 1px solid #d5a12c;
+
+    }
+
+    .box-booking-image{
+        width: 17%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+    }
+    .booking-image{
+        width: 100%;
+
+
+    }
+    .box-booking-content{
+        width: 83%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 30px;
+
+    }
+    .box-booking-title{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        
+
+    }
+    .booking-age-film{
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #cdc197;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+        font-size: 20px;
+        font-weight: 1000;
+
+    }
+
+    .booking-imdb-built{
+        background-color: #f5c518;
+        font-weight: 1000;
+        color: #000;
+        padding: 0px 5px 3px 5px;
+        border-radius: 3px;
+        text-shadow: none;
+        letter-spacing: -1px;
+        font-size: 17px;
+
+    }
+
+    .booking-imdb-film{
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+
+    }
+    .booking-name-film{
+        font-size: 24px;
+        font-weight: 1000;
+        text-transform: uppercase;
+        padding: 10px 0px;
+
+    }
+    .box-booking-name-place{
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+    }
+    .booking-label-place{
+        font-weight: 1000;
+        
+
+    }
+    .booking-name-place{
+        margin-left: 7px;
+
+    }
+    .box-booking-time{
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+    }
+    .booking-label-time{
+        font-weight: 1000;
+        
+
+    }
+    .booking-day-dayshow{
+        margin: 0px 7px;
+
+
+    }
+    .booking-start{
+        margin: 0px 2px 0px 7px ;
+        font-weight: bold;
+
+    }
+    .booking-end{
+        margin-left: 2px;
+        font-weight: bold;
+        
+
+    }
+    .box-booking-name-room{
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+    }
+    .booking-label-room{
+        font-weight: 1000;
+
+    }
+    .booking-name-room{
+        margin-left: 7px;
+
+    }
+    .box-booking-detail-all{
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+    }
+    .booking-label-detail-seat{
+        font-weight: 1000;
+    }
+    .box-booking-detail-list{
+        display: flex;
+        align-items: center;
+        margin-left: 7px;
+    }
+
+    .box-combo-detail-all{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 0px;
+        border-bottom: 1px solid #d5a12c;
+
+    }
+
+    .box-combo-detail-combo{
+        display: flex;
+        align-items: center;
+
+    }
+
+    .box-combo-detail-amount{
+        display: flex;
+        align-items: center;
+
+    }
+
+    .box-combo-amount-list{
+        margin: 0px 7px;
+    }
+
+    
+
+    .box-combo-detail-list-all{
+        display: flex;
+        align-items: center;
+        margin-left: 7px;
+    }
+
+    
+
+
+    .combo-label-detail{
+        font-weight: 1000;
+
+    }
+
+    .box-combo-detail-list{
+        display: flex;
+        align-items: center;
+        margin-left: 3px;
+        
+
+    }
+
+    .combo-detail-item{
+        display: flex;
+        align-items: center;
+
+    }
+
+    .combo-item-name{
+        margin-right: 3px;
+
+    }
+
+    .box-combo-name-unique-list{
+        display: flex;
+        align-items: center;
+        margin-left: 7px;
+
+    }
+    
+    .combo-name-unique-item{
+        display: flex;
+        align-items: center;
+
+    }
+    .combo-name-unique-item-name{
+        margin-right: 3px;
+    }
+    
+
+
+    .box-user-profile-list{
+        width: 100%;
+        display: flex;
+        align-items: center;
+
+    }
+    .user-profile-item{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 0px;
+        border-bottom: 1px solid #d5a12c;
+
+    }
+    .user-profile-title{
+        font-size: 24px;
+        font-weight: 1000;
+        padding-bottom: 10px;
+
+    }
+    
+    .text-contact-phone{
+        font-size: 15px;
+    }
+    .user-profile-input-phone{
+        width: 20%;
+        margin: 10px 0;
+        padding: 5px 10px;
+        color:#d5a12c;
+        font-size: 18px;
+        text-shadow: 1px 1px 1px #000;
+        outline-color: #cdc197;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+        border: 1px solid #d5a12c;
+        border-radius: 3px;
+    }
+
+    .box-combo-list{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 30px 0px;
+
+    }
+
+    
+
+    .combo-item{
+        width: 100%;
+        display: flex;
+        align-items: start;
+        margin: 10px 0px;
+        border: 1px solid ;
+        border-radius: 10px;
+
+    }
+    .box-combo-image{
+        width: 25%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d5a12c;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+
+    }
+    .combo-item-image{
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        width: 100%;
+        object-fit: cover;
+
+    }
+    .box-combo-content{
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 30px;
+
+    }
+    .combo-name{
+        font-size: 24px;
+        font-weight: 1000;
+        width: 100%;
+
+    }
+    .combo-content{
+        margin: 10px 0px 20px 0px;
+        width: 100%;
+
+
+    }
+    .box-combo-info{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+    }
+    .combo-price{
+        font-size: 18px;
+        font-weight: bold;
+
+    }
+    .box-combo-amount{
+        display: flex;
+        align-items: center;
+
+    }
+    .btn-amount-add{
+        padding: 0px 5px;   
+        border-radius: 50%;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        cursor: pointer;
+
+    }
+    .combo-amount{
+        margin: 0px 10px;
+        font-size: 18px;
+        font-weight: bold;
+
+    }
+    .btn-amount-leave{
+        padding: 0px 5px;   
+        border-radius: 50%;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        cursor: pointer;
+
+    }
+
+    .box-booking-total-price{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        padding: 20px 0px;
+        border-bottom: 1px solid #d5a12c;
+
+    }
+
+    .title-price{
+        
+    
+    }
+    .total-price{
+        margin-left: 7px;
+        font-weight: bold;
+
+
+    }
+
+
+    .box-booking-continue{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 30px;
+        
+
+    }
+    .btn-booking-continue{
+        padding: 5px 10px; 
+        min-width: 300px;
+        font-weight: bold;
+        font-size: 18px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+    }
+
+</style>
+
+<div class="container-booking">
+    <div class="box-booking-all">
+
+        <div id="schedule-detail-ticket" class="box-booking-schedule-detail">
+
+        </div>
+
+        
+
+        <div class="box-combo-detail-all">
+            <div class="box-combo-detail-combo">
+                <span class="combo-label-detail">Combo :</span>
+                <div id="combo-name-unique-list" class="box-combo-name-unique-list">
+
+                </div>
+            </div>
+            
+            <div class="box-combo-detail-amount">
+                <span class="combo-label-detail">Số lượng :</span>
+                <div id="booking-detail-combo-amount" class="box-combo-amount-list">
+
+                </div>
+                -
+                <div class="box-combo-detail-list-all">
+                    (
+                        <div id="combo-detail-list" class="box-combo-detail-list">
+
+                        </div>
+                    )
+                </div>
+                
+
+            </div>
+
+
+            
+            
+            
+        </div>
+
+        
+
+        
+
+        <div id="user-profile-list" class="box-user-profile-list">
+            
+        </div>
+    
+        
+    
+        <div class="box-booking-total-price">
+            <span class="title-price">Tổng tiền:</span>
+            <span id="total-price" class="total-price"></span>
+        </div>
+
+        <div class="box-booking-continue">
+            <span id="btn-booking-continue" class="btn-booking-continue">Tiếp tục</span>
+        </div>
 
     </div>
-
-    <div id="booking-detail-list">
-
-    </div>
-
-    <div id="combo-list">
-
-    </div>
-
-    <div>
-        <h3>Tổng giá trị các ticket:</h3>
-        <p id="total-price"></p>
-    </div>
+    
+    
 </div>
 
 <script>
@@ -40,6 +511,7 @@
                 // Nếu token hết hạn, chuyển hướng về trang đăng nhập
                 alert('token het han vui long login');
                 localStorage.removeItem('access_token');
+                
                 window.location.href = '/login/';
             } 
         }
@@ -68,41 +540,191 @@
     console.log('Booking ID:', bookingId);
     console.log('Schedule ID:', scheduleId);
 
+    
+
     let totalPrice = 0; // Tổng giá trị các ticket
     let totalComboPrice = 0; // Tổng giá trị các combo
     const comboQuantities = {}; // Để theo dõi số lượng combo
 
+    getComboDetail(bookingId);
+    getComboNameUnique(bookingId);
     getBookingDetail(bookingId);
+    getComboAmount(bookingId);
+
+    let filmId;
     
     fetch(`/api/schedules/${scheduleId}/`)
     .then(response => response.json())
     .then(data => {
         const scheduleDetailContainer = document.getElementById('schedule-detail-ticket');
-
+        
         const date = new Date(data.dayshow.day);
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        const formattedDate = date.toLocaleDateString('vi-VN', options);
+        const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+        const year = date.getFullYear(); // Lấy năm
+        const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+
+        const startTime = new Date(data.start_time);
+        const endTime = new Date(data.end_time);
+        
+        const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
 
         scheduleDetailContainer.innerHTML = `
-            <div class="container my-5">
-                <p class="card-text">${data.film.age}</p>
-                <p class="card-text">${data.film.name}</p>
-                <p class="card-text">${formattedDate}</p>
-                <p class="card-text">${data.start_time}</p>
-                <p class="card-text">${data.end_time}</p>
-                <p class="card-text">${data.place.name}</p>
-                <p class="card-text">${data.room.name}</p>
+            <div class="box-booking-image">
+                <img  class="booking-image" src="${data.film.poster}" alt="${data.film.name}">
+            </div>
+            
+
+            <div class="box-booking-content">
+                <div class="box-booking-title">
+                    <span class="booking-age-film">${data.film.age}</span>
+                    <span class="booking-imdb-film"> <span class="booking-imdb-built">IMDb</span> ${data.film.imdb}</span>
+                </div>
+                
+
+                <span class="booking-name-film">${data.film.name}</span>
+
+                <div class="box-booking-name-place">
+                    <span class="booking-label-place">Rạp :</span>
+                    <span class="booking-name-place">${data.place.name}</span>
+                </div>
+                
+                
+                <div class="box-booking-time">
+                    <span class="booking-label-time">Ngày giờ :</span>
+                    <span class="booking-day-dayshow">${formattedDate}</span>
+                    -
+                    <span class="booking-start">${formattedStartTime}</span>
+                    ~
+                    <span class="booking-end">${formattedEndTime}</span>
+
+                </div>
+                
+                <div class="box-booking-name-room">
+                    <span class="booking-label-room">Phòng chiếu :</span>
+                    <span class="booking-name-room">${data.room.name}</span>
+
+                </div>
+
+                <div class="box-booking-detail-all">
+                    <span class="booking-label-detail-seat">Ghế :</span>
+                    <div id="booking-detail-list" class="box-booking-detail-list">
+    
+                    </div>
+                    
+                </div>
+
+                
+
+                
+                
 
             </div>
         `;
         
-        
+        filmId = data.film.id;
 
     })
     .catch(error => {
         console.error('Error fetching schedule details:', error);
     });
 
+
+    function getComboAmount(bookingId){
+        fetch(`/api/bookings/${bookingId}/`)
+        .then(response => response.json())
+        .then(data => {
+            const bookingDetailContainer = document.getElementById('booking-detail-combo-amount');
+    
+            bookingDetailContainer.innerHTML = `
+                <span class="combo-detail-amount">X${data.combo_detail_count}</span>
+            `;
+            
+    
+        })
+        .catch(error => {
+            console.error('Error fetching booking details:', error);
+        });
+    }
+
+
+    function getComboDetail(bookingId) {
+        fetch(`/api/combodetails/?booking=${bookingId}`)
+        .then(response => response.json())
+        .then(data => {
+            const comboDetailList = document.getElementById('combo-detail-list');
+            comboDetailList.innerHTML = ''; 
+
+            data.results.forEach((comboDetail, index) => {
+                const comboDetailItem = document.createElement('div');
+                comboDetailItem.classList.add('combo-detail-item');
+
+                comboDetailItem.innerHTML = `
+                        
+                        <span class="combo-item-name">${comboDetail.combo.name}, </span>
+            
+                `;
+                 
+                
+                
+                
+                comboDetailList.appendChild(comboDetailItem);
+                totalComboPrice += parseInt(comboDetail.combo.price);
+
+                
+            });
+
+            updateTotalPrice(); // Cập nhật tổng giá trị
+            
+        })
+        .catch(error => {
+            console.error('Error fetching combo details:', error);
+        });
+    }
+
+
+    function getComboNameUnique(bookingId) {
+        fetch(`/api/combodetails/?booking=${bookingId}`)
+        .then(response => response.json())
+        .then(data => {
+            const comboNameUniqueList = document.getElementById('combo-name-unique-list');
+            comboNameUniqueList.innerHTML = ''; 
+    
+            // Tập hợp để lưu các tên combo đã gặp
+            const comboNames = new Set();
+    
+            data.results.forEach(comboNameUnique => {
+                const comboName = comboNameUnique.combo.name;
+    
+                // Kiểm tra xem tên combo đã xuất hiện chưa
+                if (!comboNames.has(comboName)) {
+                    comboNames.add(comboName); // Thêm tên combo vào tập hợp
+    
+                    const comboNameUniqueItem = document.createElement('div');
+                    comboNameUniqueItem.classList.add('combo-name-unique-item');
+    
+                    comboNameUniqueItem.innerHTML = `
+                        <span class="combo-name-unique-item-name">${comboName}, </span>
+                    `;
+                    
+                    comboNameUniqueList.appendChild(comboNameUniqueItem);
+                    
+                }
+            });
+    
+           
+        })
+        .catch(error => {
+            console.error('Error fetching combo name unique:', error);
+        });
+    }
+    
+
+
+
+    let userBookingId;
 
     function getBookingDetail(bookingId) {
         fetch(`/api/bookingdetails/?booking=${bookingId}`)
@@ -113,79 +735,192 @@
 
             data.results.forEach(bookingDetail => {
                 const bookingDetailItem = document.createElement('div');
-                bookingDetailItem.classList.add('col-md-3', 'mb-4');
+                bookingDetailItem.classList.add('seat-item');
 
                 bookingDetailItem.innerHTML = `
-                    <div class="card">
-                        <p class="card">${bookingDetail.seat.name}</p>
-                    </div>
+                    
+                        <span class="seat-item-name">${bookingDetail.seat.name}, </span>
+            
                 `;
+                 
+                userBookingId = bookingDetail.booking.user.id
+                
                 
                 bookingDetailList.appendChild(bookingDetailItem);
                 totalPrice += parseInt(bookingDetail.ticket.price);
+
+                
             });
 
             updateTotalPrice(); // Cập nhật tổng giá trị
+            getUserProfile(userBookingId);
         })
         .catch(error => {
             console.error('Error fetching area details:', error);
         });
     }
-    
-    getComboList('/api/combos/');
-    
-    function getComboList(url) {
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const comboList = document.getElementById('combo-list');
-            comboList.innerHTML = ''; // Xóa nội dung cũ
 
-            data.results.forEach(combo => {
-                comboQuantities[combo.id] = 0; // Khởi tạo số lượng
 
-                const comboItem = document.createElement('div');
-                comboItem.classList.add('col-md-3', 'mb-4');
-                comboItem.innerHTML = `
-                    <img id="combo-image" class="img-fluid" src="${combo.image}" alt="${combo.name}">
-                    <h5 class="card-title">${combo.name}</h5>
-                    <h5 class="card-title">${combo.content}</h5>
-                    <h5 class="card-title" id="combo-price-${combo.id}">${combo.price} VND</h5>
-                    <button onclick="updateComboPrice(${combo.price}, 1, ${combo.id})">+</button>
-                    <span style="padding: 0px 5px;" id="combo-quantity-${combo.id}">0</span> <!-- Thẻ hiển thị số lượng -->
-                    <button onclick="updateComboPrice(${combo.price}, -1, ${combo.id})">-</button>
-                `;
-                comboList.appendChild(comboItem);
+    let userProfileId;
+
+    function getUserProfile(userBookingId) {
+        fetch(`/api/userprofiles/?user=${userBookingId}`)
+          .then(response => response.json())
+          .then(data => {
+            const userProfileList = document.getElementById('user-profile-list');
+            userProfileList.innerHTML = ''; // Xóa nội dung cũ
+      
+            data.results.forEach(userProfile => {
+              const userProfileItem = document.createElement('div');
+              userProfileItem.classList.add('user-profile-item');
+              userProfileItem.innerHTML = `
+                    
+                    <span class="user-profile-title">Thông tin người nhận</span>
+                    <span class="text-contact-phone">Chúng tôi sẽ gửi thông tin đặt vé qua SĐT này</span>
+                    <input type="text" class="user-profile-input-phone" id="phone" name="phone" value="${userProfile.phone}" />
+
+              `;
+              
+              userProfileList.appendChild(userProfileItem);
+              userProfileId = userProfile.id;
+              
+
             });
-        })
-        .catch(error => {
-            console.error('Error fetching combo data:', error);
-        });
+          })
+          .catch(error => {
+            console.error('Error fetching user profile:', error);
+          });
     }
 
-    function updateComboPrice(price, change, comboId) {
-        const currentQuantity = comboQuantities[comboId];
 
-        // Kiểm tra điều kiện trước khi cập nhật
-        if (change > 0 || (change < 0 && currentQuantity > 0)) {
-            totalComboPrice += parseInt(price) * change;
-            comboQuantities[comboId] += change; // Cập nhật số lượng
-            
-            // Cập nhật hiển thị số lượng
-            const quantityElement = document.getElementById(`combo-quantity-${comboId}`);
-            quantityElement.textContent = `${comboQuantities[comboId]}`;
-            
-            updateTotalPrice(); // Cập nhật tổng giá trị hiển thị
-        }
-    }
+
+
+
+
+    
 
     function updateTotalPrice() {
         const overallTotalPrice = totalPrice + totalComboPrice; // Tổng giá trị
         const totalPriceElement = document.getElementById('total-price');
-        totalPriceElement.textContent = `${overallTotalPrice} VND`;
+
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+          });
+
+        totalPriceElement.textContent = formatter.format(overallTotalPrice);
+
+        return overallTotalPrice;
+
     }
 
 
+</script>
+
+<script>
+    document.getElementById('btn-booking-continue').addEventListener('click', () => {
+        
+        const accessToken = localStorage.getItem('access_token');
+    
+        if (!isAccessTokenValid()) {
+            alert('Token đã hết hạn. Vui lòng đăng nhập.');
+            localStorage.removeItem('access_token');
+            window.location.href = '/login/';
+            return; // Dừng hàm nếu token không hợp lệ
+        }
+
+
+        const phone = document.getElementById('phone').value;
+        
+        const formData = new FormData();
+
+        formData.append('phone', phone);
+        
+        
+            
+        fetch(`/api/userprofiles/${userProfileId}/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: formData,
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('update phone user profile thanh cong');
+                
+                
+            } else {
+                alert('Lỗi khi cập nhật userprofile. Vui lòng thử lại.');
+            }
+        })
+        .catch(error => {
+            alert('Lỗi khi cập nhật userprofile: ' + error);
+        });
+
+
+        const overallTotalPrice = updateTotalPrice(); // Lấy tổng giá trị
+
+        // Tạo đối tượng data
+        const data = {
+            booking: bookingId,
+            schedule: scheduleId,
+            total_amount: parseInt(overallTotalPrice), // Chuyển đổi thành số nguyên
+        };
+
+        // Gọi API POST để thêm pay
+        fetch('/api/pays/', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                alert('Lỗi khi thanh toan . Vui lòng thử lại.');
+            }
+        })
+
+        
+        .then(payData => {
+            const payId = payData.id; // Lấy ID của pay vừa tạo
+            console.log("payid", payId);
+            alert('Xac thuc thanh toan ! ID của pay: ' + payId); 
+            return fetch(`/api/films/${filmId}/`)
+                        .then(response => response.json())
+                        .then(filmData => {
+                            const currentViewCount = parseInt(filmData.view, 10) || 0;
+                            const updatedViewCount = currentViewCount + 1;
+
+                            return fetch(`/api/films/${filmId}/`, {
+                                method: 'PATCH',
+                                headers: {
+                                    'Authorization': `Bearer ${accessToken}`,
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ view: updatedViewCount }),
+                            });
+                        })
+                        .then(() => {
+                            // Chuyển hướng đến trang booking
+                            window.location.href = `/bill/${payId}/?scheduleId=${scheduleId}`;
+                            
+                            updateTotalPrice();
+                        });
+
+        })
+
+        .catch(error => {
+            alert('Lỗi khi thanh toan: ' + error);
+        });
+
+        
+
+    });
 </script>
 
 {% endblock booking %} 

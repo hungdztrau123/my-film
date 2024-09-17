@@ -3,12 +3,97 @@
 
 {% block promotionList %}
 
-<div id="promotion-list">
+<style>
+
+    .container-promotion-list{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0px 1px 3px 2px #d5a12c;
+
+    }
+
+    .promotion-image-container{
+        width: 12%;
+    }
+
+    .promotion-list{
+        width: 70%;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .promotion-item{
+        width: 24%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d5a12c;
+        margin: 5px;
+        cursor: pointer;
+
+    }
+    .promotion-item:hover{
+        box-shadow: 0px 0px 3px 2px#d5a12c ;
+    }
+
+    .box-promotion-item-cover{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+
+    }
+    .box-promotion-item-img{
+        width: 100%;
+        height: 216px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .promotion-item-img{
+        width: 100%;
+        height: 100%;
+
+    }
+    .box-promotion-time{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px;
+        border-top: 1px solid #d5a12c;
+        font-size: 13px;
+
+    }
+    .promotion-item-start-date{
+        margin-right: 4px;
+    }
+    .promotion-item-start-date{
+        margin-left: 4px;
+    }
+
+</style>
+
+<div class="container-promotion-list">
+    <img src="../static/images/promotionlogo.png" alt="" class="promotion-image-container">
+
+    <div id="promotion-list" class="promotion-list">
+
+    </div>
+
+    <div class="box-pagination">
+        <button class="prev-page" disabled>Trang trước</button>
+        <button class="next-page">Trang sau</button>
+    </div>
+
 </div>
-<div class="pagination">
-    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
-    <button class="btn btn-primary next-page">Trang sau</button>
-</div>
+
 
 
 
@@ -24,13 +109,26 @@
         promotionList.innerHTML = '';
         promotions.forEach(promotion => {
             const promotionItem = document.createElement('div');
-            promotionItem.classList.add('col-md-3', 'mb-4');
+
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+                const year = date.getFullYear(); // Lấy năm
+                return `${day}/${month}/${year}`; // Định dạng ngày
+            }
+
+            promotionItem.classList.add('promotion-item');
             promotionItem.innerHTML = `
-                <div class="card">
-                    <img src="${promotion.image}" class="card-img-top" alt="${promotion.name}">
-                    <div class="card-body">
-                        <span class="card-title">${promotion.start_date}</span>
-                        <span class="card-title">${promotion.end_date}</span>
+                <div class="box-promotion-item-cover">
+                    <div class="box-promotion-item-img">
+                        <img src="${promotion.image}" class="promotion-item-img" alt="${promotion.name}">
+                    </div>
+                    
+                    <div class="box-promotion-time">
+                        <span class="promotion-item-start-date">${formatDate(promotion.start_date)}</span>
+                        ~
+                        <span class="promotion-item-start-date">${formatDate(promotion.end_date)}</span>
                     </div>
                 </div>
             `;
@@ -51,7 +149,7 @@
 
     
     function getPromotions( page = 1) {
-        let url = `/api/promotions/?page=${page}`;
+        let url = `/api/promotions/?page=${page}&ordering=-created_at`;
         
         fetch(url)
         .then(response => response.json())

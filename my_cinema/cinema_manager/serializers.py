@@ -19,12 +19,46 @@ from cinema_manager.models import Bookings
 from cinema_manager.models import BookingDetail
 from cinema_manager.models import Comments
 from cinema_manager.models import Combo
+from cinema_manager.models import Actors
+from cinema_manager.models import UserProfile
+from cinema_manager.models import Pay
+from cinema_manager.models import Bill
+from cinema_manager.models import Logo
+from cinema_manager.models import Background
+from cinema_manager.models import ComboDetail
+from cinema_manager.models import Pay
+
+
 
 
 
 from auth_manager.serializers import UserSerializer
 
 from django.contrib.auth.models import User
+
+
+class LogoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Logo
+        fields = '__all__'
+        
+class BackgroundSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Background
+        fields = '__all__'
+        
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+    
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.user: 
+            data['user'] = UserSerializer(instance.user).data 
+        return data
+        
 
 class DayShowSerializer(serializers.ModelSerializer):
     place_names = serializers.SerializerMethodField()
@@ -107,7 +141,21 @@ class CategoryFilmSerializer(serializers.ModelSerializer):
         if instance.film: 
             data['film'] = FilmSerializer(instance.film).data 
         return data
+
+
+class ActorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Actors
+        fields = '__all__'
     
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.film: 
+            data['film'] = FilmSerializer(instance.film).data 
+        return data
+
+ 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
@@ -125,6 +173,8 @@ class ComboSerializer(serializers.ModelSerializer):
     class Meta:
         model = Combo
         fields = '__all__'
+
+
  
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -135,6 +185,17 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contact
         fields = '__all__'
+    
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.service: 
+            data['service'] = ServiceSerializer(instance.service).data 
+        if instance.area: 
+            data['area'] = AreaSerializer(instance.area).data 
+        if instance.place: 
+            data['place'] = PlaceSerializer(instance.place).data 
+        return data      
+    
 
 class ScheduleSerializer(serializers.ModelSerializer):
 
@@ -191,6 +252,11 @@ class TicketSerializer(serializers.ModelSerializer):
      
         
 class BookingSerializer(serializers.ModelSerializer):
+    combo_detail_count = serializers.SerializerMethodField()
+    
+    def get_combo_detail_count(self, obj):
+        return ComboDetail.objects.filter(booking=obj).count()
+    
     class Meta:
         model = Bookings
         fields = '__all__'  
@@ -212,7 +278,22 @@ class BookingDetailSerializer(serializers.ModelSerializer):
             data['ticket'] = TicketSerializer(instance.ticket).data
         if instance.seat: 
             data['seat'] = SeatSerializer(instance.seat).data 
+        if instance.booking: 
+            data['booking'] = BookingSerializer(instance.booking).data 
         return data 
+
+class ComboDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ComboDetail
+        fields = '__all__'
+    
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.booking: 
+            data['booking'] = BookingSerializer(instance.booking).data 
+        if instance.combo: 
+            data['combo'] = ComboSerializer(instance.combo).data 
+        return data
 
 class PromotionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -223,6 +304,33 @@ class AreaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Area
         fields = '__all__'
+
+class PaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pay
+        fields = '__all__'
+        
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.booking: 
+            data['booking'] = BookingSerializer(instance.booking).data
+        if instance.schedule: 
+            data['schedule'] = ScheduleSerializer(instance.schedule).data 
+        return data 
+    
+class BillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bill
+        fields = '__all__'
+        
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.pay: 
+            data['pay'] = PaySerializer(instance.pay).data
+        if instance.user: 
+            data['user'] = UserSerializer(instance.user).data
+        
+        return data 
         
     
 
@@ -256,7 +364,23 @@ class BulkEditObjectsSerializer(serializers.Serializer):
             "bookings",
             "comments",
             "combos",
-        
+            "categoryfilms",
+            "areas",
+            "actors",
+            "places",
+            "dayshows",
+            "rooms",
+            "images",
+            "videos",
+            "categories",
+            "schedules",
+            "tickets",
+            "services",
+            "combodetails",
+            "pays",
+            
+            
+            
         ],
         label="Object Type",
         write_only=True,
@@ -291,6 +415,35 @@ class BulkEditObjectsSerializer(serializers.Serializer):
             object_class = Comments
         elif object_type == "combos":
             object_class = Combo
+        elif object_type == "categoryfilms":
+            object_class = CategoryFilm
+        elif object_type == "areas":
+            object_class = Area
+        elif object_type == "actors":
+            object_class = Actors
+        elif object_type == "places":
+            object_class = Place
+        elif object_type == "dayshows":
+            object_class = DayShow
+        elif object_type == "rooms":
+            object_class = Rooms
+        elif object_type == "images":
+            object_class = Image    
+        elif object_type == "videos":
+            object_class = Video
+        elif object_type == "categories":
+            object_class = Categories
+        elif object_type == "schedules":
+            object_class = Schedules
+        elif object_type == "tickets":
+            object_class = Tickets
+        elif object_type == "services":
+            object_class = Service
+        elif object_type == "combodetails":
+            object_class = ComboDetail
+        elif object_type == "pays":
+            object_class = Pay
+            
         elif object_type == "users":
             object_class = User
         

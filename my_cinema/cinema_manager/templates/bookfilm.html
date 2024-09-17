@@ -2,31 +2,300 @@
 {% load static %}
 
 {% block bookFilm %}
-<div class="container">
-    <h2>bookingfilm</h2>
 
-    <div id="day-show-list">
+<style>
+    .container-booking-film{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 0px;
 
-    </div>
-    <div class="row" id="area-list">
-    <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
-    </div>
-    <div class="row" id="place-list">
-        <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
-    </div>
+    }
+    .box-booking-film{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
 
+    }
+    .box-position-booking-film{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+    .box-day-show-booking-film{
+        width: 100%;
+        height: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9f6ec;
+        border-bottom: 1px solid #d5a12c;
+        padding-top: 10px;
+    }
+
+    .box-day-show-list-booking-film{
+        width: 100%;
+        z-index: 1000;
+        overflow-x: scroll;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        
+
+    }
+
+    .day-show-item{
+        padding: 4px 14px;
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 0px 2px #cdc197;
+        cursor: pointer;
+        margin: 5px;
+        text-shadow: 1px 1px 1px #000;
     
+    }
+    .day-show-day{
+        margin: 0px;
+    }
 
-    
 
+    .cinema-title{
+        font-size: 24px;
+        font-weight: 1000;
+        padding: 15px 0px;
+        
+
+    }
+    .box-area-place-booking-film{
+        width: 100%;
+        display: flex;
+        align-items: start;
+
+    }
+    .box-area-booking-film{
+        display: flex;
+        width: 20%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-right: 1px solid #d5a12c;
+
+    }
+    .area-booking-film-title{
+        display: flex;
+        width: 100%;
+        font-weight: bold;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0px ;
+
+    }
+    .box-area-list-booking-film{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0px;
+        border-top: 1px solid #d5a12c;
+
+
+
+    }
+
+    .area-item-booking-film{
+        display: flex;
+        min-width: 130px;
+        font-weight: bold;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 0px;
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 0px 2px #cdc197;
+        cursor: pointer;
+        margin: 5px;
+
+
+    }
+
+    .area-booking-film-name{
+
+    }
     
-    <div  id="film-list">
+    .box-place-booking-film{
+        display: flex;
+        width: 80%;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px 20px;
+
+    }
+    .place-booking-film-title{
+        display: flex;
+        width: 100%;
+        font-weight: bold;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0px ;
+
+    }
+    .box-place-list-booking-film{
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 20px 0px;
+        border-top: 1px solid #d5a12c;
+
+
+
+    }
+
+    .place-item-booking-film{
+        display: flex;
+        min-width: 130px;
+        font-weight: bold;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 0px;
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 0px 2px #cdc197;
+        cursor: pointer;
+        margin: 5px;
+        background-color: rgb(0,0,0,0.1);
+
+    }
+    .place-booking-film-name{
+
+    }
+
+    .box-film-list-booking-film{
+        padding: 20px 0px;
+
+    }
+
+
+    .film-day-show-item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-top: 1px solid #d5a12c;
+        padding: 10px 10px 30px 10px;
+        
+    }
+
+    .box-info-film-day-show{
+        display: flex;
+        align-items: center;
+        padding: 10px 0px;
+        cursor: pointer;
+
+    }
+    .film-day-show-age{
+        width: 24px;
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #d5a12c;
+        border-radius: 50%;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+        
+    }
+    .film-day-show-name{
+        margin: 0px 10px;
+        text-transform: uppercase;
+        font-weight: bold;
+
+    }
+    .box-list-film-day-show-schedule{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    
+    }
+
+    .schedule-item{
+        cursor: pointer;
+        margin: 10px 0px;
+
+    }
+    .box-schedule-room{
+        font-size: 13px;
+        border: 1px solid #d5a12c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 3px;
+
+    }
+    .schedule-room-name{
+
+    }
+    .box-schedule-time{
+        font-size: 15px;
+        font-weight: bold;
+        border: 1px solid #d5a12c;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 7px 15px;
+
+
+    }
+    .schedule-start-time{
+        margin-right: 3px;
+    }
+    .schedule-end-time{
+        margin-left: 3px;
+    }
+
+
+</style>
+
+<div class="container-booking-film">
+    <div class="box-booking-film">
+        <div class="box-position-booking-film">
+
+            <div class="box-day-show-booking-film">
+                <div id="day-show-list" class="box-day-show-list-booking-film">
+
+                </div>
+            </div>
+            
+
+            <span class="cinema-title">Rạp</span>
+
+            <div class="box-area-place-booking-film">
+
+                <div class="box-area-booking-film">
+                    <span class="area-booking-film-title">Khu vực</span>
+                    <div  id="area-list" class="box-area-list-booking-film">
+    
+                    </div>
+                </div>
+
+                <div class="box-place-booking-film">
+                    <span class="place-booking-film-title">Địa điểm</span>
+                    <div  id="place-list" class="box-place-list-booking-film">
+                    
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div  id="film-list" class="box-film-list-booking-film">
       
+        </div>
+
     </div>
+
     
-
-
-
 </div>
 
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -45,13 +314,11 @@ const areaList = document.getElementById('area-list');
 // Tạo các phần tử phim
 data.results.forEach(area => {
     const areaItem = document.createElement('div');
-    areaItem.classList.add('col-md-3', 'mb-4');
+    areaItem.classList.add('area-item-booking-film');
     areaItem.innerHTML = `
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${area.name}</h5>
-            </div>
-        </div>
+        
+        <span class="area-booking-film-name">${area.name}</span>
+            
     `;
     areaItem.addEventListener('click', () => {
         getAreaDetails(area.id);
@@ -72,14 +339,11 @@ function getAreaDetails(areaId) {
   
         data.results.forEach(place => {
           const placeItem = document.createElement('div');
-          placeItem.classList.add('col-md-3', 'mb-4');
+          placeItem.classList.add('place-item-booking-film');
           placeItem.innerHTML = `
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">${place.name}</h5>
-                <p class="card-text">${place.address}</p>
-              </div>
-            </div>
+           
+                <span class="place-booking-film-name">${place.name}</span>
+               
           `;
           placeItem.addEventListener('click', () => {
             getDayShows(place.id);
@@ -101,19 +365,16 @@ function getDayShows(placeDetailId){
 
     data.results.forEach(dayshow => {
         const dayShowItem = document.createElement('div');
-        dayShowItem.classList.add('col-md-3', 'mb-4');
+        dayShowItem.classList.add('day-show-item');
 
         const date = new Date(dayshow.day);
         const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
         const formattedDate = date.toLocaleDateString('vi-VN', options);
 
         dayShowItem.innerHTML = `
-        <div class="card">
-            <div class="card-body">
-            
-            <p class="card-text">${formattedDate}</p>
-            </div>
-        </div>
+        
+            <p class="day-show-day">${formattedDate}</p>
+           
         `;
         dayShowItem.addEventListener('click', () => {
         getFilms(dayshow.id, filmIdTrans, placeDetailId);
@@ -134,20 +395,20 @@ fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}
 
     data.results.forEach(film => {
     const filmItem = document.createElement('div');
-    filmItem.classList.add('card', 'mb-3');
+    filmItem.classList.add('film-day-show-item');
     filmItem.innerHTML = `
-        <div class="card-body">
-        <div id="card-box-film">
-        <h5 class="card-title">${film.age}</h5>
-        <h5 class="card-title">${film.name}</h5>
-        </div>
-        <div class="row" id="schedule-${film.id}">
-            <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
-        </div>
-        </div>
+        
+                <div id="box-info-film-day-show" class="box-info-film-day-show" >
+                    <span class="film-day-show-age">${film.age}</span>
+                    <span class="film-day-show-name">${film.name}</span>
+                </div>
+
+                <div class="box-list-film-day-show-schedule" id="schedule-${film.id}">
+                    <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
+                </div>
     `;
         
-    filmItem.querySelector('#card-box-film').addEventListener('click', function() {
+    filmItem.querySelector('#box-info-film-day-show').addEventListener('click', function() {
         window.location.href = `/film/${film.id}/`;
     });
 
@@ -161,7 +422,7 @@ fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}
 });
 }
 function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
-    fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}`)
+    fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}&status__iexact=Có hiệu lực`)
     .then(response => response.json())
     .then(data => {
         const scheduleList = document.getElementById(scheduleListId);
@@ -169,14 +430,24 @@ function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
 
         data.results.forEach(schedule => {
         const scheduleItem = document.createElement('div');
-        scheduleItem.classList.add('col-md-4', 'mb-2');
+        scheduleItem.classList.add('schedule-item');
+
+        const startTime = new Date(schedule.start_time);
+        const endTime = new Date(schedule.end_time);
+        
+        const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        
+
         scheduleItem.innerHTML = `
-            <div class="card">
-            <div class="card-body">
-                <p class="card-text">${schedule.room.name}</p>
-                <p class="card-text">${schedule.start_time}</p>
-                <p class="card-text">${schedule.end_time}</p>
+            <div class="box-schedule-room">
+            <span class="schedule-room-name">${schedule.room.name}</span>
             </div>
+            <div class="box-schedule-time">
+                
+                <span class="schedule-start-time">${formattedStartTime}</span>
+                ~
+                <span class="schedule-end-time">${formattedEndTime}</span>
             </div>
         `;
         scheduleItem.addEventListener('click', () => {

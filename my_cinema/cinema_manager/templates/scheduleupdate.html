@@ -48,6 +48,15 @@
             <input type="text" class="form-control" id="end_time" end_time="end_time" required>
         </div>
 
+        <div class="form-group"></div>
+            <label for="country">Status</label>
+            <select class="form-control" id="status" name="status" required>
+                {% for status in statuses %}
+                <option value="{{ status }}">{{ status }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
@@ -228,7 +237,7 @@
         }
     });
 
-    // Lấy thông tin combo hiện tại
+    // Lấy thông tin schedule hiện tại
     fetch(`/api/schedules/${scheduleId}/`)
         .then(response => response.json())
         .then(data => {
@@ -249,6 +258,8 @@
 
             document.getElementById('start_time').value = data.start_time;
             document.getElementById('end_time').value = data.end_time;
+            document.getElementById('status').value = data.status;
+
             
         })
         .catch(error => {
@@ -271,6 +282,8 @@
         const roomId = document.getElementById('room-id').value;
         const start_time = document.getElementById('start_time').value;
         const end_time = document.getElementById('end_time').value;
+        const status = document.getElementById('status').value;
+
         
         const formData = new FormData();
         
@@ -281,6 +294,8 @@
 
         formData.append('start_time', start_time);
         formData.append('end_time', end_time);
+        formData.append('status', status);
+
         
         
         fetch(`/api/schedules/${scheduleId}/`, {

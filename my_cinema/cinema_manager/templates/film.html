@@ -2,45 +2,564 @@
 {% load static %}
 
 {% block filmDetail %}
+<style>
+    .container-film-detail{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .box-swiper-film{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 500px;
+        padding: 40px 0px;
+        border-bottom: 1px solid #d5a12c;
+        
+    }
+    .swiper-container{
+        width: 100%;
+        height: 100%;
+        
+    }
+    .swiper-wrapper{
+        width: 100%;
+        height: 100%;
+       
+    }
+
+    .image-film-detail{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+
+    }
+    .video-film-detail{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .swiper-button-prev{
+        color: #424242 !important;
+    }
+    .swiper-button-next{
+        color: #424242 !important;
+
+    }
+
+
+    .box-film-detail-content{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .film-detail-content{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 35px 0px;
+
+    }
+
+    .box-film-detail-content-top{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 30px;
+
+    }
+    .box-film-detail-content-poster{
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+
+    }
+    .film-detail-content-poster{
+        width: 100%;
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+
+    }
+    .btn-booking{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 0px 7px 0px; 
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        margin: 10px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: 1000;
+
+
+
+    }
+    .box-film-detail-content-info{
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        padding: 0px 30px;
+        
+
+    
+    }
+
+    .film-detail-content-name{
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        font-weight: 1000;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+
+    }
+
+    .film-detail-content-age{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        border: 1px solid #cdc197;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+        margin-right: 7px;
+
+    }
+
+    .film-detail-content-imdb{
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+
+    }
+    .film-detail-content-imdb-built{
+        background-color: #f5c518;
+        font-weight: 1000;
+        color: #000;
+        padding: 0px 5px 3px 5px;
+        border-radius: 3px;
+        text-shadow: none;
+        letter-spacing: -1px;
+
+    }
+
+
+    .text-infor-film{
+        font-weight: 1000;
+        margin-right: 7px;
+    }
+
+    .film-detail-content-producer{
+        margin-bottom: 5px;
+
+
+    }
+    .film-detail-content-duration{
+        margin-bottom: 5px;
+
+
+    }
+    .film-detail-content-release{
+        margin-bottom: 5px;
+
+
+    }
+    .film-detail-content-view{
+        margin-bottom: 5px;
+
+
+    }
+
+    .box-list-category{
+        display: flex;
+        align-items: center;
+    }
+
+    .box-list-category-film{
+        margin-left: 5px;
+        display: flex;
+        align-items: center;
+
+    }
+
+    .category-film-item{
+
+    }
+    .category-film-name{
+
+    }
+
+    
+
+
+    .box-film-detail-content-bottom{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
+        padding: 20px 0px;
+    }
+
+    .detail-content-description-title{
+        font-size: 24px;
+        font-weight: 1000;
+        margin-bottom: 10px;
+        
+    }
+    .detail-content-description{
+        font-size: 14px;
+        padding-left: 10px;
+        margin: 0px;
+    }
+
+    .list-actor-film-content-bottom{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 0px;
+        border-bottom: 1px solid #d5a12c;
+    }
+    .detail-content-actor-title{
+        font-size: 24px;
+        font-weight: 1000;
+        margin-bottom: 10px;
+    }
+
+
+    .box-list-actor-film{
+        max-width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        align-items: center;
+    }
+
+    .actor-film-item{
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d5a12c;
+        padding-bottom: 4px;
+        border-radius: 3px;
+        margin: 10px 10px 10px 0px;
+
+    }
+    .actor-film-item-img{
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+    
+        
+
+
+    }
+    .actor-film-item-name{
+        font-weight: bold;
+    }
+
+
+    .box-container-comment{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+    .box-comment-post{
+        width: 100%;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+
+    }
+
+    .box-rating-star{
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    .rating-title{
+        font-size: 18px;
+        font-weight: 1000;
+        margin-bottom: 5px;
+
+    }
+
+    .box-choose-star{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2px;
+
+
+    }
+
+    .box-choose-star i{
+        cursor: pointer;
+    }
+
+    .color-star{
+        color: yellow;
+        
+    }
+
+    .box-input-rating{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    
+
+    .comment-input-rate{
+        outline: none;
+        border: none;
+        width: 13px;
+        padding: 0px;
+        color:#d5a12c;
+        text-shadow: 1px 1px 1px #000;
+        background-color: transparent;
+    }
+    .comment-input-text{
+        width: 65%;
+        height: 100%;
+        display: flex;
+        border-left: 2px solid #d5a12c;
+        border-top: none;
+        border-bottom: none;
+        border-right: none;
+        outline: none;
+        padding: 5px 10px; 
+
+    }
+    .btn-comment{
+        width: 15%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        font-weight: bold;
+        font-size: 18px;
+        cursor: pointer;
+            
+
+    }
+    .box-comment-view{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+    }
+    .comment-list{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 30px 0px;
+
+    }
+    .comment-item{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 10px;
+        border-bottom: 1px solid #d5a12c;
+
+    }
+    .box-comment-info-user{
+        font-weight: bold;
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .comment-username{
+        padding: 0px 5px 2px 5px; 
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 2px 1px #d5a12c;
+        border-radius: 3px;
+        margin-right: 20px;
+        
+    }
+
+    .box-comment-rate{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .icon-star-comment{
+        position: absolute;
+        width: 100%;
+        height:100%;
+        font-size: 27px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .comment-rate{
+        position: absolute;
+        font-size: 13px;
+    }
+    .comment-content{
+        padding:10px 7px;
+        margin: 0px;
+
+    }
+    .comment-date{
+        font-size: 13px;
+    }
+
+    .pagination-comment{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 30px;
+
+    }
+    
+
+
+
+
+
+</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 
-<div class="swiper-container" style="width: 1500px; height: 400px;">
-    <div class="swiper-wrapper" >
-        <!-- Slides will be created dynamically -->
+<div class="container-film-detail">
+
+    <div class="box-swiper-film">
+        <div class="swiper-container">
+            <div class="swiper-wrapper" >
+                <!-- Slides will be created dynamically -->
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
     </div>
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-</div>
+    
+    
+    
+    <div class="box-film-detail-content">
+        <div id="film-detail" class="film-detail-content">
+    
+        </div>
 
-
-
-<div id="film-detail">
-
-</div>
-
-<div id="category-film-list">
-
-</div>
-
-<div id="comment-post">
-    <input type="text" id="comment-rate" placeholder="Nhập đánh giá" />
-    <textarea id="comment-content" placeholder="Nội dung bình luận"></textarea>
-    <button id="submit-comment">Gửi bình luận</button>
-</div>
-
-<div id="box-comment">
-    <div id="comment-list">
     </div>
-    <div class="pagination">
-        <button class="btn btn-primary prev-page" disabled>Trang trước</button>
-        <button class="btn btn-primary next-page">Trang sau</button>
+    
+    
+    <div id="category-film-list">
+    
     </div>
+    
+    <div class="box-container-comment">
+        <div id="comment-post" class="box-comment-post">
+            <div class="box-rating-star">
+                <span class="rating-title">Xếp hạng</span>
+                <div class="box-choose-star">
+                    <i class="fa-solid fa-star" data-value="1"></i>
+                    <i class="fa-solid fa-star" data-value="2"></i>
+                    <i class="fa-solid fa-star" data-value="3"></i>
+                    <i class="fa-solid fa-star" data-value="4"></i>
+                    <i class="fa-solid fa-star" data-value="5"></i>
+                </div>
+                <div class="box-input-rating">
+                    <input type="text" id="comment-rate" class="comment-input-rate" placeholder="" readonly/>
+                    <span>điểm</span>
+                </div>
+        
+            </div>
+            
+
+            <textarea id="comment-content" class="comment-input-text" placeholder="Nội dung bình luận"></textarea>
+            <span id="submit-comment" class="btn-comment">Gửi bình luận</span>
+        </div>
+        
+        <div id="box-comment" class="box-comment-view">
+
+            <div id="comment-list" class="comment-list">
+
+            </div>
+
+            <div class="pagination-comment">
+                <button class="prev-page" disabled>Trang trước</button>
+                <button class="next-page">Trang sau</button>
+            </div>
+
+        </div>
+    </div>
+    
+
 </div>
+
 
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+
+
+<script>
+    const stars = document.querySelectorAll('.box-choose-star i');
+    const commentRateInput = document.getElementById('comment-rate');
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const selectedValue = star.getAttribute('data-value');
+
+            // Xóa class color khỏi tất cả các sao
+            stars.forEach(s => s.classList.remove('color-star'));
+
+            // Thêm class color cho sao được chọn và tất cả sao ở phía trước
+            stars.forEach(s => {
+                if (parseInt(s.getAttribute('data-value')) <= parseInt(selectedValue)) {
+                    s.classList.add('color-star');
+                }
+            });
+
+            // Cập nhật giá trị vào ô nhập liệu
+            commentRateInput.value = selectedValue;
+        });
+    });
+</script>
+
+
 <script>
 
 
@@ -67,25 +586,70 @@
     .then(response => response.json())
     .then(data => {
         const filmDetailContainer = document.getElementById('film-detail');
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            return `${day}/${month}/${year}`; // Định dạng ngày
+        }
+
         filmDetailContainer.innerHTML = `
-            <div class="container my-5">
-                <h1 id="film-name">${data.name}</h1>
-                <div class="row">
-                    <div class="col-md-6">
-                        <img id="film-image" class="img-fluid" src="${data.poster}" alt="Film Image">
+            
+                
+                    <div class="box-film-detail-content-top">
+
+                        <div class="box-film-detail-content-poster">
+                            <img id="film-image" class="film-detail-content-poster" src="${data.poster}" alt="${data.name}">
+                            <span class="btn-booking" data-film-id="${data.id}">Đặt vé</span>
+                        </div>
+
+                        <div class="box-film-detail-content-info">
+                            <span id="film-name" class="film-detail-content-name"><span class="film-detail-content-age"> ${data.age}</span> ${data.name}</span>
+                            <span  class="film-detail-content-imdb"> <span class="film-detail-content-imdb-built">IMDb</span> ${data.imdb}</span>
+                            <span  class="film-detail-content-producer"><span class="text-infor-film">Nhà sản xuất :</span>${data.producer}</span>
+                            <span  class="film-detail-content-duration"><span class="text-infor-film">Thời gian :</span>${data.duration} phút</span>
+                            <span  class="film-detail-content-release"><span class="text-infor-film">Ngày phát hành :</span>${formatDate(data.release)}</span>
+                            <span  class="film-detail-content-view"><span class="text-infor-film">Vé đã bán :</span>${data.view}</span>
+
+                            <div class="box-list-category">
+                                <span class="text-infor-film">Thể loại :</span>
+        
+                                <div class="box-list-category-film" id="category-${data.id}">
+                
+                                </div>
+                            </div>
+                            
+
+                        </div> 
+
+
                     </div>
-                    <div class="col-md-6">
-                        <p id="film-description">${data.description}</p>
+
+                   
+                    
+
+                    <div class="box-film-detail-content-bottom">
+                        <div class="detail-content-description-title">Tóm tắt</div>
+                        <p id="film-description" class="detail-content-description" >${data.description}</p>
                     </div>
-                    <div class="row" id="category-${data.id}">
-                      
+
+                    <div class="list-actor-film-content-bottom">
+                        <div class="detail-content-actor-title">Diễn viên</div>
+                        <div class="box-list-actor-film" id="actor-${data.id}">
+                                
+                        </div>
                     </div>
-                    <button class="btn btn-success btn-booking" data-film-id="${data.id}">Đặt vé</button>
+
+                    
                 </div>
             </div>
         `;
         
         getCategoryByFilmId(data.id,`category-${data.id}`);
+        getActorByFilmId(data.id,`actor-${data.id}`);
+
         getMultimediaData(data.id);
         filmDetailContainer.querySelector('.btn-booking').addEventListener('click', () => {
             window.location.href = `/bookfilm/${data.id}/`
@@ -103,24 +667,52 @@
           const categoryFilmList = document.getElementById(categoryListId);
           categoryFilmList.innerHTML = ''; // Xóa nội dung cũ
     
-          data.results.forEach(categoryFilm => {
-            const categoryFilmItem = document.createElement('div');
-            categoryFilmItem.classList.add('category-film-title');
-            categoryFilmItem.innerHTML = `
-              
-                
-                  <span class="">${categoryFilm.category.name}</span>
+          const categoryNames = data.results.map(categoryFilm => categoryFilm.category.name).join(', ');
 
-             
-            `;
-            categoryFilmList.appendChild(categoryFilmItem);
-          });
+          
+          const categoryFilmItem = document.createElement('div');
+          categoryFilmItem.classList.add('category-film-item');
+          categoryFilmItem.innerHTML = `
+                
+                
+                <span class="category-film-name">${categoryNames}</span>
+
+                
+          `;
+          categoryFilmList.appendChild(categoryFilmItem);
+        
         })
         .catch(error => {
           console.error('Error fetching categoryfilm list:', error);
         });
 
     }
+
+
+    function getActorByFilmId(filmIdActor, actorListId) {
+        fetch(`/api/actors/?film=${filmIdActor}`)
+        .then(response => response.json())
+        .then(data => {
+          const actorFilmList = document.getElementById(actorListId);
+          actorFilmList.innerHTML = ''; // Xóa nội dung cũ
+    
+          data.results.forEach(actorFilm => {
+            const actorFilmItem = document.createElement('div');
+            actorFilmItem.classList.add('actor-film-item');
+            actorFilmItem.innerHTML = `
+              
+                <img id="actor-image" class="actor-film-item-img" src="${actorFilm.image}" alt="${actorFilm.name}">
+                <span class="actor-film-item-name">${actorFilm.name}</span>
+             
+            `;
+            actorFilmList.appendChild(actorFilmItem);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching actorfilm list:', error);
+        });
+    }
+
 
     
     document.getElementById('submit-comment').addEventListener('click', function() {
@@ -179,6 +771,10 @@
             // Làm sạch ô nhập liệu sau khi gửi
             document.getElementById('comment-rate').value = '';
             document.getElementById('comment-content').value = '';
+            // Xóa class color-star khỏi tất cả các sao
+            const stars = document.querySelectorAll('.box-choose-star i');
+            stars.forEach(star => star.classList.remove('color-star'));
+
             // Cập nhật danh sách bình luận
             getComments(filmId,page = 1);
         })
@@ -199,7 +795,7 @@
         commentList.innerHTML = '';
         comments.forEach(comment => {
             const commentItem = document.createElement('div');
-            commentItem.classList.add('col-md-3', 'mb-4');
+            commentItem.classList.add('comment-item');
 
             const date = new Date(comment.created_at);
             const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
@@ -208,16 +804,18 @@
             const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
 
             commentItem.innerHTML = `
-                <div class="">
+                    <div class="box-comment-info-user">
+                        <span class="comment-username">${comment.user.username}</span>
+                        <div class="box-comment-rate">
+                            <span class="comment-rate">${comment.rate}</span>
+                            <i class="fa-regular fa-star icon-star-comment"></i>
+                        </div>
+                    </div>
                    
-                    <span class="card-title">${comment.user.username}</span>
-                    <span class="card-title">${comment.rate}</span>
-                    <span class="card-title">${comment.content}</span>
-                    <span class="card-title">${formattedDate}</span>
+                    <p class="comment-content">${comment.content}</p>
+                    <span class="comment-date">${formattedDate}</span>
 
 
-                  
-                </div>
             `;
            
             
@@ -233,7 +831,7 @@
 
     getComments(filmId);
     function getComments(filmId, page = 1) {
-        let url = `/api/comments/?page=${page}&film=${filmId}`;
+        let url = `/api/comments/?page=${page}&film=${filmId}&ordering=-created_at`;
         
         fetch(url)
         .then(response => response.json())
@@ -311,11 +909,11 @@
     
             if (data.type === 'image') {
                 swiperSlide.innerHTML = `
-                    <img src="${data.src}" alt="${data.alt}" style="width: 100%; height: 400px; object-fit: cover;">
+                    <img src="${data.src}" alt="${data.alt}" class="image-film-detail">
                 `;
             } else if (data.type === 'video') {
                 swiperSlide.innerHTML = `
-                    <video controls style="width: 100%; height: 400px; object-fit: cover;">
+                    <video controls class="video-film-detail">
                         <source src="${data.src}" type="${data.videoType}">
                     </video>
                 `;

@@ -5,7 +5,6 @@
     <!-- <link rel="stylesheet" href="/static/css/home.css"> -->
     <link href="{% static 'css/home.css' %}" rel="stylesheet" />
     <div>
-        <h1>homehome</h1>
         <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
             <div class="carousel-inner">
                 <!-- Nội dung các slide sẽ được tạo động bằng JavaScript -->
@@ -35,11 +34,7 @@
                         carouselItem.classList.add('active');
                     }
                     carouselItem.innerHTML = `
-                        <img src="${film.banner}" style="width: 100%; height: 300px;" alt="${film.name}">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>${film.name}</h5>
-                           
-                        </div>
+                        <img src="${film.banner}" style="width: 100%; height: 420px; cursor: pointer;" alt="${film.name}">
                     `;
                     carouselItem.addEventListener('click', () => {
                         window.location.href = `/film/${film.id}/`;
@@ -68,18 +63,208 @@
 {% endblock slider %}
 
 {% block content %}
-    <div class="container">
-        <h2>Film List</h2>
-        <div class="d-flex justify-content-end mb-4">
-            <button class="btn btn-primary mr-2" id="btn-now">Now</button>
-            <button class="btn btn-primary" id="btn-coming">Coming</button>
+    <style>
+        .container-film-list{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            
+        }
+        .box-btn-show{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-size: 16px;
+        
+        }
+        .btn-now{
+            padding: 5px 10px; 
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            margin: 7px ;
+            cursor: pointer;
+        }
+        .btn-comming{
+            padding: 5px 10px; 
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            margin: 7px ;
+            cursor: pointer;
+            
+        }
+        .box-film-list{
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .film-list{
+            width: 70%;
+            display: flex;
+            flex-wrap: wrap;
+            
+            
+        }
+        
+        
+        .film-item{
+            width: 24%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #d5a12c;
+            margin: 5px;
+        }
+
+        .film-item:hover{
+            box-shadow: 0px 0px 3px 2px#d5a12c ;
+        }
+        .film-item:hover .box-film-item-operation{
+            display: flex;
+            
+        }
+
+        
+
+        .box-film-item-img{
+            width: 100%;
+            height:348px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+        }
+
+        .film-item-img{
+            width: 100%;
+            height: 100%;
+            
+            
+        }
+        .box-film-item-operation{
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(0,0,0,0.5);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+        .btn-booking{
+            padding: 5px 10px; 
+            min-width: 100px;
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            cursor: pointer;
+            
+        }
+
+        .btn-booking:hover{
+            background-color: rgb(0,0,0,0.7);
+        }
+
+        .btn-film-details{
+            padding: 5px 10px; 
+            min-width: 100px;
+            border: 2px solid #d5a12c;
+            box-shadow: 0px 0px 0px 3px #cdc197;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .btn-film-details:hover{
+            background-color: rgb(0,0,0,0.7);
+        }
+
+        .film-item-content{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .box-film-item-info{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            padding: 7px;
+            border-bottom: 1px solid #d5a12c;
+            border-top: 1px solid #d5a12c;
+            font-size: 14px;
+
+        }
+        .film-item-age{
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #d5a12c;
+            border-radius: 50%;
+            box-shadow: 0px 0px 3px 2px #d5a12c;
+            
+
+        }
+        .film-item-name{
+            text-transform: uppercase;
+            margin-left: 7px;
+        }
+        .box-film-time{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px;
+            font-size: 13px;
+            
+
+        }
+        .film-item-duration{
+            border-right: 1px solid #d5a12c;
+            padding-right: 7px;
+        }
+        .film-item-release{
+            border-left: 1px solid #d5a12c;
+            padding-left: 7px;
+        }
+
+        
+
+
+        
+    </style>
+    <div class="container-film-list">
+        <div class="box-btn-show">
+            <span class="btn-now" id="btn-now">Phim đang chiếu</span>
+            <span class="btn-comming" id="btn-coming">Phim sắp chiếu</span>
         </div>
-        <div class="row" id="film-list">
-        <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+        <div class="box-film-list">
+            <div class="film-list" id="film-list">
+                <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+            </div>
         </div>
-        <div class="pagination">
-            <button class="btn btn-primary prev-page" disabled>Trang trước</button>
-            <button class="btn btn-primary next-page">Trang sau</button>
+        
+        <div class="box-pagination">
+            <button class="prev-page" disabled>Trang trước</button>
+            <button class="next-page">Trang sau</button>
         </div>
     </div>
 
@@ -97,19 +282,44 @@
         filmList.innerHTML = '';
         films.forEach(film => {
             const filmItem = document.createElement('div');
-            filmItem.classList.add('col-md-3', 'mb-4');
+            filmItem.classList.add('film-item');
+
+            const date = new Date(film.release);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày  
+
             filmItem.innerHTML = `
-                <div class="card">
-                    <img src="${film.poster}" class="card-img-top" alt="${film.name}">
-                    <div class="card-body">
-                        <h5 class="card-title">${film.name}</h5>
-                        <div class="d-flex justify-content-between">
-                            <button class="btn btn-primary btn-film-details" data-film-id="${film.id}">Xem chi tiết</button>
-                            <button class="btn btn-success btn-booking" data-film-id="${film.id}">Đặt vé</button>
+                    
+                        <div class="box-film-item-img">
+                            <img src="${film.poster}" class="film-item-img" alt="${film.name}">
+                            <div class="box-film-item-operation">
+                                <span class="btn-booking" data-film-id="${film.id}">Đặt vé</span>
+                                <span class="btn-film-details" data-film-id="${film.id}">Chi tiết</span>
+                            </div>
                         </div>
-                    </div>
-                </div>
+
+                        <div class="film-item-content">
+                            <div class="box-film-item-info">
+                                <span class="film-item-age">${film.age}</span>
+                                <span class="film-item-name">${film.name}</span>
+                            </div>
+
+                            <div class="box-film-time">
+                                <span class="film-item-duration">${film.duration} Phút</span>
+                                <span class="film-item-release">${formattedDate}</span>
+                            </div>
+                            
+                        </div>
+                    
+
+
+                
             `;
+
+            
+
             filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
                 window.location.href = `/film/${film.id}/`;
             });
@@ -126,7 +336,7 @@
     }
 
     function getFilms( page = 1) {
-        let url = `/api/films/?page=${page}`;
+        let url = `/api/films/?page=${page}&ordering=-created_at`;
         if (status) {
             url += `&status__iexact=${status}`;
         }
@@ -158,13 +368,49 @@
     
 
     document.getElementById('btn-now').addEventListener('click', () => {
-        status = 'Now';
-        getFilms();
+        const btnNow = document.getElementById('btn-now');
+        const btnComing = document.getElementById('btn-coming');
+
+        if (btnNow.style.opacity === '0.5') {
+            // Nếu đang được chọn, bỏ chọn
+            btnNow.style.opacity = '1';
+            status = ''; // Reset status
+            getFilms();
+        } else {
+            // Nếu không được chọn, chọn nó
+            btnNow.style.opacity = '0.5';
+            status = 'Now';
+            getFilms();
+            // Nếu btn-coming đang được chọn, bỏ chọn nó
+            if (btnComing.style.opacity === '0.5') {
+                btnComing.style.opacity = '1';
+                status = ''; // Reset status cho btn-coming
+            }
+    
+        }
     });
 
     document.getElementById('btn-coming').addEventListener('click', () => {
-        status = 'Coming';
-        getFilms();
+        const btnComing = document.getElementById('btn-coming');
+        const btnNow = document.getElementById('btn-now');
+
+        if (btnComing.style.opacity === '0.5') {
+            // Nếu đang được chọn, bỏ chọn
+            btnComing.style.opacity = '1';
+            status = ''; // Reset status
+            getFilms();
+        } else {
+            // Nếu không được chọn, chọn nó
+            btnComing.style.opacity = '0.5';
+            status = 'Coming';
+            getFilms();
+            // Nếu btn-now đang được chọn, bỏ chọn nó
+            if (btnNow.style.opacity === '0.5') {
+                btnNow.style.opacity = '1';
+                status = ''; // Reset status cho btn-now
+            }
+
+        }
     });
 
     getFilms();
