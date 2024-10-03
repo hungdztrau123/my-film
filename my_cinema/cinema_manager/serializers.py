@@ -27,6 +27,8 @@ from cinema_manager.models import Logo
 from cinema_manager.models import Background
 from cinema_manager.models import ComboDetail
 from cinema_manager.models import Pay
+from cinema_manager.models import UserQuery
+
 
 
 
@@ -56,7 +58,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def to_representation(self, instance): 
         data = super().to_representation(instance) 
         if instance.user: 
-            data['user'] = UserSerializer(instance.user).data 
+            data['user'] = UserSerializer(instance.user).data
         return data
         
 
@@ -95,8 +97,14 @@ class FilmSerializer(serializers.ModelSerializer):
         return ', '.join(place.name for place in obj.place.all())
     
     def get_dayshow_days(self, obj):
-        return ', '.join(dayshow.day.strftime("%Y-%m-%dT%H:%M:%SZ") for dayshow in obj.dayshow.all())
+        return ', '.join(str(dayshow.day) for dayshow in obj.dayshow.all())
         
+        # return ', '.join(
+        #     f"{dayshow.day.strftime('%Y-%m-%dT%H:%M:%S')}{dayshow.day.strftime('%z')[:3]}:{dayshow.day.strftime('%z')[3:]}"
+        #     for dayshow in obj.dayshow.all()
+        # ).replace('+00:00', '+07:00')  # Thay thế +00:00 bằng +07:00
+        
+            
     
         
     
@@ -332,7 +340,18 @@ class BillSerializer(serializers.ModelSerializer):
         
         return data 
         
-    
+
+class UserQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserQuery
+        fields = '__all__'
+        
+    def to_representation(self, instance): 
+        data = super().to_representation(instance) 
+        if instance.user: 
+            data['user'] = UserSerializer(instance.user).data
+        
+        return data 
 
         
 
@@ -378,6 +397,13 @@ class BulkEditObjectsSerializer(serializers.Serializer):
             "services",
             "combodetails",
             "pays",
+            "bills",
+            "logos",
+            "backgrounds",
+            "userquerys"
+            
+            
+            
             
             
             
@@ -443,6 +469,16 @@ class BulkEditObjectsSerializer(serializers.Serializer):
             object_class = ComboDetail
         elif object_type == "pays":
             object_class = Pay
+        elif object_type == "bills":
+            object_class = Bill
+        elif object_type == "logos":
+            object_class = Logo
+        elif object_type == "backgrounds":
+            object_class = Background
+        elif object_type == "userquerys":
+            object_class = UserQuery
+            
+        
             
         elif object_type == "users":
             object_class = User
@@ -476,3 +512,4 @@ class BulkEditObjectsSerializer(serializers.Serializer):
         self._validate_is_active(is_active)
 
         return attrs
+    
