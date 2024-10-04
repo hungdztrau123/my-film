@@ -56,6 +56,7 @@ class ChoiceGender(Enum):
 class ChoiceStatus(Enum):
     now = 'Now'
     comming = 'Coming'
+    stop = 'Stop'
     
 class ChoiceVideoType(Enum):
     mp4 = 'video/mp4'
@@ -71,6 +72,10 @@ class ChoiceStatusBill(Enum):
 class ChoiceStatusSchedule(Enum):
     valid = 'Có hiệu lực'
     expire = 'Hết hạn'
+
+class ChoiceConfirm(Enum):
+    confirmed = 'Đã xác nhận'
+    unconfirmed = 'Chưa xác nhận'
  
 
 class Base(models.Model):
@@ -224,6 +229,7 @@ class Contact(Base):
     service = models.ForeignKey(Service, null=True, on_delete=models.SET_NULL)
     area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)
     place = models.ForeignKey(Place,null=True, on_delete=models.SET_NULL)
+    detail = models.TextField(null=True, blank=True)
 
 class Combo(Base):
     name = models.CharField(max_length=255, null=True, blank=True)
@@ -256,5 +262,16 @@ class Bill(Base):
     pay = models.ForeignKey(Pay, null=True, blank=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=255, null=True, blank=True, choices=[(tag.value, tag.name) for tag in ChoiceStatusBill], default=ChoiceStatusBill.valid.value)
+    qr_code = models.CharField(max_length=255, null=True, blank=True)
+    ticket_code = models.CharField(max_length=255, null=True, blank=True)
+    number_transaction = models.CharField(max_length=255, null=True, blank=True)
     
+    confirm = models.CharField(max_length=255, null=True, blank=True, choices=[(tag.value, tag.name) for tag in ChoiceConfirm], default=ChoiceConfirm.unconfirmed.value)
 
+
+class UserQuery(Base):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    query_text = models.TextField()
+    
+    def __str__(self):
+        return self.user.username if self.user else "Anonymous"

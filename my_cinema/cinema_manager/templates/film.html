@@ -17,7 +17,7 @@
         justify-content: center;
         height: 500px;
         padding: 40px 0px;
-        border-bottom: 1px solid #d5a12c;
+        border-bottom: 1px dashed #cdc197;
         
     }
     .swiper-container{
@@ -90,7 +90,7 @@
         box-shadow: 0px 0px 3px 2px #d5a12c;
 
     }
-    .btn-booking{
+    .btn-booking-film-detail{
         display: flex;
         width: 100%;
         align-items: center;
@@ -99,15 +99,23 @@
         border: 2px solid #d5a12c;
         box-shadow: 0px 0px 0px 3px #cdc197;
         margin: 10px;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 7px;
+        border-bottom-right-radius: 7px;
         cursor: pointer;
         font-size: 20px;
         font-weight: 1000;
-
-
+        transition: all 0.2s linear;
 
     }
+
+    .btn-booking-film-detail:hover{
+        color: #cdc197;
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 3px #d5a12c;
+
+    }
+
+
     .box-film-detail-content-info{
         width: 80%;
         display: flex;
@@ -212,8 +220,8 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        border-top: 1px solid;
-        border-bottom: 1px solid;
+        border-top: 1px dashed #cdc197;
+        border-bottom: 1px dashed #cdc197;
         padding: 20px 0px;
     }
 
@@ -235,7 +243,7 @@
         flex-direction: column;
         justify-content: center;
         padding: 20px 0px;
-        border-bottom: 1px solid #d5a12c;
+        border-bottom: 1px dashed #cdc197;
     }
     .detail-content-actor-title{
         font-size: 24px;
@@ -287,10 +295,10 @@
     }
     .box-comment-post{
         width: 100%;
-        height: 100px;
+        height: 90px;
         display: flex;
         align-items: center;
-        border: 1px solid #d5a12c;
+        border: 1px solid #cdc197;
         box-shadow: 0px 0px 3px 2px #d5a12c;
 
     }
@@ -352,7 +360,7 @@
         width: 65%;
         height: 100%;
         display: flex;
-        border-left: 2px solid #d5a12c;
+        border-left: 2px solid #cdc197;
         border-top: none;
         border-bottom: none;
         border-right: none;
@@ -368,12 +376,21 @@
         justify-content: center;
         border: 2px solid #d5a12c;
         box-shadow: 0px 0px 0px 3px #cdc197;
-        font-weight: bold;
-        font-size: 18px;
+        font-weight: 1000;
+        font-size: 25px;
         cursor: pointer;
+        transition: all 0.2s linear;
             
 
     }
+
+    .btn-comment:hover{
+        color: #cdc197;
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 3px #d5a12c;
+    }
+
+
     .box-comment-view{
         width: 100%;
         display: flex;
@@ -395,7 +412,7 @@
         flex-direction: column;
         justify-content: center;
         padding: 20px 10px;
-        border-bottom: 1px solid #d5a12c;
+        border-bottom: 1px dashed #cdc197;
 
     }
     .box-comment-info-user{
@@ -406,7 +423,7 @@
     }
     .comment-username{
         padding: 0px 5px 2px 5px; 
-        border: 1px solid #d5a12c;
+        border: 1px solid #cdc197;
         box-shadow: 0px 0px 2px 1px #d5a12c;
         border-radius: 3px;
         margin-right: 20px;
@@ -438,6 +455,7 @@
     .comment-content{
         padding:10px 7px;
         margin: 0px;
+        font-size: 15px;
 
     }
     .comment-date{
@@ -507,7 +525,7 @@
             
 
             <textarea id="comment-content" class="comment-input-text" placeholder="Nội dung bình luận"></textarea>
-            <span id="submit-comment" class="btn-comment">Gửi bình luận</span>
+            <span id="submit-comment" class="btn-comment"><i class="fa-solid fa-paper-plane"></i></span>
         </div>
         
         <div id="box-comment" class="box-comment-view">
@@ -602,7 +620,7 @@
 
                         <div class="box-film-detail-content-poster">
                             <img id="film-image" class="film-detail-content-poster" src="${data.poster}" alt="${data.name}">
-                            <span class="btn-booking" data-film-id="${data.id}">Đặt vé</span>
+                            <span class="btn-booking-film-detail" data-film-id="${data.id}">Đặt vé</span>
                         </div>
 
                         <div class="box-film-detail-content-info">
@@ -651,7 +669,7 @@
         getActorByFilmId(data.id,`actor-${data.id}`);
 
         getMultimediaData(data.id);
-        filmDetailContainer.querySelector('.btn-booking').addEventListener('click', () => {
+        filmDetailContainer.querySelector('.btn-booking-film-detail').addEventListener('click', () => {
             window.location.href = `/bookfilm/${data.id}/`
         });
 

@@ -17,6 +17,7 @@
     justify-content: center;
     padding: 10px 0px;
     background-color: #efebdb;
+    border-bottom: 1px solid #cdc197;
 
 
   }
@@ -31,11 +32,19 @@
   .area-item{
     padding: 4px 14px;
     margin: 0px 5px;
-    border: 1px solid #d5a12c;
+    font-weight: 1000;
+    border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 2px #cdc197;
     cursor: pointer;
     text-shadow: 1px 1px 1px #000;
+    transition: all 0.2s linear;
     
+  }
+  .area-item:hover{
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    color: #cdc197;
+
   }
   .area-name{
 
@@ -47,7 +56,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(0,0,0,0.5);
+    background-color: rgb(0,0,0,0.05);
+    
 
   }
   .place-list-area{
@@ -59,10 +69,20 @@
 
   .place-item{
     padding: 4px 14px;
-    border: 1px solid #d5a12c;
+    border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 2px #cdc197;
+    font-size: 15px;
+    font-weight: bold;
     cursor: pointer;
     margin: 10px 5px;
+    transition: all 0.2s linear;
+
+  }
+
+  .place-item:hover{
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    color: #cdc197;
 
   }
   .place-name{
@@ -136,9 +156,9 @@
     width: 70%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: #efebdb;
+    border-top: 1px dashed #cdc197;
     text-shadow: 1px 1px 1px #000;
+    margin-top: 20px;
 
   }
   .day-show-list-area{
@@ -146,16 +166,31 @@
     overflow-x: scroll;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 0px 15px;
+    
 
 
   }
   .day-show-item{
-    padding: 4px 14px;
-    border: 1px solid #d5a12c;
+    font-weight: bold;
+    font-size: 14px;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0px;
+    border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 2px #cdc197;
     cursor: pointer;
-    margin: 20px 5px;
+    margin: 20px 5px 5px;
+    transition: all 0.2s linear;
+
+  }
+
+  .day-show-item:hover{
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    color: #cdc197;
 
   }
   .day-show-day{
@@ -181,7 +216,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-top: 1px solid #d5a12c;
+    border-top: 1px solid #cdc197;
     padding: 10px 10px 30px 10px;
     
   }
@@ -197,6 +232,7 @@
     width: 24px;
     height: 24px;
     display: flex;
+    font-weight: 1000;
     justify-content: center;
     align-items: center;
     border: 1px solid #d5a12c;
@@ -209,7 +245,7 @@
   .film-day-show-name{
     margin: 0px 10px;
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 1000;
 
   }
   .box-list-film-day-show-schedule{
@@ -222,11 +258,20 @@
   .schedule-item{
     cursor: pointer;
     margin: 10px 0px;
+    border: 1px solid #cdc197;
+    transition: all 0.2s linear;
 
   }
+
+  .schedule-item:hover {
+      box-shadow: 0px 0px 3px 2px #d5a12c;
+      color: #cdc197;
+      border-color: #d5a12c;
+  }
+  
   .box-schedule-room{
     font-size: 13px;
-    border: 1px solid #d5a12c;
+    border-bottom: 1px dashed #cdc197;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -239,7 +284,7 @@
   .box-schedule-time{
     font-size: 15px;
     font-weight: bold;
-    border: 1px solid #d5a12c;
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -252,6 +297,13 @@
   }
   .schedule-end-time{
     margin-left: 3px;
+  }
+
+  .box-shadow{
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    color: #cdc197;
+    
   }
 
 </style>
@@ -304,6 +356,7 @@ fetch('/api/areas/')
 .then(response => response.json())
 .then(data => {
 const areaList = document.getElementById('area-list');
+let activeAreaItem = null; 
 
 // Tạo các phần tử phim
 data.results.forEach(area => {
@@ -316,6 +369,18 @@ data.results.forEach(area => {
     `;
     areaItem.addEventListener('click', () => {
         getAreaDetails(area.id);
+
+        // Nếu có một areaItem đang được chọn, xóa class khỏi nó
+        if (activeAreaItem && activeAreaItem !== areaItem) {
+            activeAreaItem.classList.remove('box-shadow');
+        }
+
+        // Thêm class vào areaItem được click
+        areaItem.classList.add('box-shadow');
+
+        // Cập nhật activeAreaItem
+        activeAreaItem = areaItem;
+
     });
     areaList.appendChild(areaItem);
 });
@@ -328,8 +393,10 @@ function getAreaDetails(areaId) {
     fetch(`/api/places/?area=${areaId}`)
       .then(response => response.json())
       .then(data => {
+        
         const placeList = document.getElementById('place-list');
         placeList.innerHTML = ''; // Xóa nội dung cũ
+        let activePlaceItem = null; 
   
         data.results.forEach(place => {
           const placeItem = document.createElement('div');
@@ -340,6 +407,19 @@ function getAreaDetails(areaId) {
           placeItem.addEventListener('click', () => {
             getPlaceDetails(place.id);
             getDayShows(place.id);
+
+            
+            if (activePlaceItem && activePlaceItem !== placeItem) {
+                activePlaceItem.classList.remove('box-shadow');
+            }
+
+            // Thêm class vào placeItem được click
+            placeItem.classList.add('box-shadow');
+
+            // Cập nhật activePlaceItem
+            activePlaceItem = placeItem;
+
+
           });
           placeList.appendChild(placeItem);
         });
@@ -404,6 +484,7 @@ function getAreaDetails(areaId) {
           .then(data => {
             const dayShowList = document.getElementById('day-show-list');
             dayShowList.innerHTML = ''; // Xóa nội dung cũ
+            let activeDayShowItem = null;
       
             data.results.forEach(dayshow => {
               const dayShowItem = document.createElement('div');
@@ -418,6 +499,16 @@ function getAreaDetails(areaId) {
               `;
               dayShowItem.addEventListener('click', () => {
                 getFilms(dayshow.id, placeDetailId);
+
+                
+                if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
+                    activeDayShowItem.classList.remove('box-shadow');
+                }
+               
+                dayShowItem.classList.add('box-shadow');
+
+                activeDayShowItem = dayShowItem;
+
               });
               dayShowList.appendChild(dayShowItem);
             });

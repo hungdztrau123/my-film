@@ -2,181 +2,11 @@
 {% load static %}
 
 {% block contact %} 
-<style>
-    .container-contact{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-    }
-    .box-contact-conten-all{
-        width: 65%;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        padding: 30px 0px;
-
-    }
-    .box-service-all{
-        width: 25%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-shadow: 1.5px 1.5px 1.5px #000;
-        font-size: 22px;
-        font-weight: bold;
-
-    }
-    .box-service-list-auto{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .service-list-auto-item{
-        width: 100%;
-        margin: 15px 0px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        cursor: pointer;
-    }
-    .service-image-item{
-        width: 100%;
-        height: 100%;
-    }
-    .box-service-info{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        
-    }
-    .service-name{
-        
-        color: brown;
-
-    }
-    .service-title{
-        color: white;
-
-    }
-
-    .box-contact-content-all{
-        display: flex;
-        width: 60%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-    }
-
-    .box-service-detail{
-        position: relative;
-        display: flex;
-        width: 80%;
-        align-items: center;
-        text-shadow: 1px 1px 1px #000;
-        
-
-    }
-
-    .service-image-detail{
-        width: 100%;
-        height: 100%;
-    }
-    .box-service-detail-info{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        padding: 7% 15%;
-    }
-    .service-detail-name{
-        font-size: 22px;
-        color: brown;
-        font-weight: bold;
-    }
-    .service-detail-title{
-        font-size: 22px;
-        color: white;
-        font-weight: bold;
-
-
-    }
-    .service-detail-description{
-        
-        width: 100%; 
-        max-height: 250px;
-        overflow-y: scroll;
-        font-size: 14px;
-        margin: 0px;
-        
-
-    }
-    
-
-    .box-contact-detail{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 15px 0px 0px 0px;
-    }
-
-    .box-input-contact-detail{
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-
-    }
-
-    .box-input-contact-info{
-        margin: 7px 10px;
-    }
-
-    input {
-        width: 100%;
-        margin: 10px 0;
-        padding: 5px 10px;
-        outline-color: #cdc197;
-        color: #d5a12c !important;
-        text-shadow: 1px 1px 1px #000;
-        box-shadow: 0px 0px 3px 2px #d5a12c;
-        border: 1px solid #d5a12c;
-        border-radius: 3px;
-    }
-
-    .btn-create{
-        padding: 5px; 
-        min-width: 130px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        border-radius: 3px;
-        margin: 7px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-
-</style>
+<link href="{% static 'css/contact.css' %}" rel="stylesheet" />
 
 <div class="container-contact">
 
+    <span class="title-contact">Liên hệ với chúng tôi</span>
     <div class="box-contact-conten-all">
         <div class="box-service-all">
             <div class="box-service-list-auto" id="service-list-auto">
@@ -232,6 +62,14 @@
                         <div id="place-list" class="dropdown-menu"></div>
                     </div>
                 </div>
+
+                <div class="box-input-contact-detail">
+                    <div class="form-group box-input-contact-info-detail">
+                        <label for="detail">Thông tin chi tiết</label>
+                        <input type="text" class="form-control" id="detail" placeholder="" required>
+                    </div>
+                </div>
+
                 <div class="form-group box-input-contact-info">
                     <div class="btn-create" id="create-btn">Gửi</div>
                 </div>
@@ -387,6 +225,8 @@
         const serviceId = document.getElementById('service-id').value; // Lấy giá trị ID của dịch vụ đã chọn
         const areaId = document.getElementById('area-id').value; // Lấy giá trị ID của area đã chọn
         const placeId = document.getElementById('place-id').value;
+        const detail = document.getElementById('detail').value;
+
 
         const accessToken = localStorage.getItem('access_token');
 
@@ -406,6 +246,7 @@
                 service: serviceId, // Gửi ID của dịch vụ thay vì tên
                 area: areaId,
                 place: placeId,
+                detail,
             })
         })
         .then(response => response.json())
@@ -422,6 +263,8 @@
             document.getElementById('area-id').value = '';
             document.getElementById('place').value = '';
             document.getElementById('place-id').value = '';
+            document.getElementById('detail').value = '';
+
             
         })
         .catch(error => console.error(error));

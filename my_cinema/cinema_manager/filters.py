@@ -27,6 +27,8 @@ from cinema_manager.models import Bill
 from cinema_manager.models import Logo
 from cinema_manager.models import Background
 from cinema_manager.models import ComboDetail
+from cinema_manager.models import UserQuery
+
 
 
 
@@ -36,7 +38,7 @@ from cinema_manager.models import ComboDetail
 CHAR_KWARGS = ["istartswith", "iendswith", "icontains", "iexact", "in"]
 ID_KWARGS = ["in", "exact"]
 INT_KWARGS = ["exact", "gt", "gte", "lt", "lte", "isnull"]
-DATE_KWARGS = ["year", "month", "day", "date__gt", "gt", "date__lt", "lt"]
+DATE_KWARGS = ["year", "month", "day","date","date__gt", "gt", "date__lt", "lt"]
 BOOL_KWARGS = ["exact"]
 
 
@@ -266,7 +268,9 @@ class PromotionFilterSet(FilterSet):
         model = Promotion
         fields = {
             "id": ID_KWARGS,
+            "created_at": DATE_KWARGS,
             "name": CHAR_KWARGS,
+            "description": CHAR_KWARGS,
         }
 
 class AreaFilterSet(FilterSet):
@@ -306,6 +310,16 @@ class BillFilterSet(FilterSet):
             "pay": ID_KWARGS,
             "user": ID_KWARGS,
             "status": CHAR_KWARGS,
+            "ticket_code": CHAR_KWARGS,
             
              
         }
+        
+class UserQueryFilterSet(FilterSet):
+    class Meta:
+        model = UserQuery
+        fields = {
+            "id": ID_KWARGS,
+            "user": ID_KWARGS,
+            "query_text": CHAR_KWARGS,
+        }    

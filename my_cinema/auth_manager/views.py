@@ -85,7 +85,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = StandardPagination
-    permission_classes = [AdminPermission]
+    # permission_classes = [AccessTokenPermission]
     filter_backends = (
         DjangoFilterBackend,
         OrderingFilter,
@@ -108,7 +108,7 @@ class UserProfileViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = UserProfileFilterSet
-    ordering_fields = ("id", "phone")
+    ordering_fields = ("id","user","phone","gender","address")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]

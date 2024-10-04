@@ -1,0 +1,208 @@
+{% extends "base_layout.html" %}
+{% block content %}
+
+    <style>
+        .box-btn-pay-continue{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 0px 30px;
+        }
+        .btn-pay-continue{
+            padding: 5px 10px; 
+            min-width: 300px;
+            font-weight: bold;
+            font-size: 18px;
+            border: 2px solid #337ab9;
+            color: #337ab9;
+            text-shadow: 1px 1px 1px #e1e1e1;
+            box-shadow: 0px 0px 0px 3px #e1e1e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            transition: all 0.2s linear;
+
+        }
+
+        .btn-pay-continue:hover{
+            border-color: #e1e1e1;
+            box-shadow: 0px 0px 0px 3px #337ab9;
+            color: rgb(187, 185, 185);
+            text-shadow: 1px 1px 1px #337ab9;
+
+    
+        }
+    </style>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">{{ title }}: {{ result }}</div>
+        <div class="panel-body">
+            <p id="order-id">order_id:{{ order_id }}</p>
+            <p>amount:{{ amount }}</p>
+            <p>order_desc:{{ order_desc }}</p>
+            <p id="transaction-no">vnp_TransactionNo:{{ vnp_TransactionNo }}</p>
+            {% if vnp_ResponseCode == '00' %}
+                <p>vnp_ResponseCode: {{ vnp_ResponseCode }} - Thành công</p>
+            {% else %}
+                <p>vnp_ResponseCode: {{ vnp_ResponseCode }} - Lỗi</p>
+            {% endif %}
+            {% if msg %}
+                <p class="alert-warning"> {{ msg }}</p>
+            {% endif %}
+        </div>
+        
+    </div>
+
+    <div class="box-btn-pay-continue">
+        <span id="btn-pay-continue" class="btn-pay-continue">Xác nhận thanh toán</span>
+    </div>
+
+
+
+
+    <script>
+        // Hàm kiểm tra access token
+        function checkAccessToken() {
+            const accessToken = localStorage.getItem('access_token');
+            if (!accessToken) {
+                // Nếu không có token, chuyển hướng về trang đăng nhập
+                window.location.href = '/login/';
+            } else {
+                const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                // Kiểm tra xem token đã hết hạn chưa
+                if (tokenPayload.exp < currentTime) {
+                    // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                    alert('token het han vui long login');
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/login/';
+                } 
+            }
+        }
+
+        checkAccessToken();
+
+
+        // Hàm kiểm tra access token trước khi gửi yêu cầu API
+        function isAccessTokenValid() {
+            const accessToken = localStorage.getItem('access_token');
+            if (!accessToken) {
+                return false;
+            }
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+            return tokenPayload.exp >= currentTime;
+        }
+
+
+
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search); // Lấy các tham số trong query string
+        const idPay = params.get('idPay'); // Lấy giá trị của idPay
+        
+
+        document.getElementById('btn-pay-continue').addEventListener('click', () => {
+        
+            const accessToken = localStorage.getItem('access_token');
+        
+            if (!isAccessTokenValid()) {
+                alert('Token đã hết hạn. Vui lòng đăng nhập.');
+                localStorage.removeItem('access_token');
+                window.location.href = '/login/';
+                return; // Dừng hàm nếu token không hợp lệ
+            }
+    
+    
+            
+            
+            const data = {
+                status: 'Đã thanh toán',
+                
+            };
+                
+            fetch(`/api/pays/${idPay}/`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('xác nhận thanh toan thanh cong');
+                    
+                } else {
+                    alert('Lỗi khi cập nhật pay. Vui lòng thử lại.');
+                }
+            })
+            .catch(error => {
+                alert('Lỗi khi cập nhật pay: ' + error);
+            });
+
+
+
+
+            function generateRandomQRCode() {
+                const randomString = Math.random().toString(36).substring(2, 15);
+                return `https://api.qrserver.com/v1/create-qr-code/?data=${randomString}&size=100x100`;
+            }
+    
+            
+    
+            const orderIdElement = document.getElementById('order-id').textContent.split(':')[1].trim();
+            const transactionNo = document.getElementById('transaction-no').textContent.split(':')[1].trim();
+    
+            const databill = {
+                pay: idPay,
+                qr_code: generateRandomQRCode(),
+                ticket_code: orderIdElement,
+                number_transaction: transactionNo,
+            };
+    
+            // Gọi API POST để thêm pay
+            fetch('/api/bills/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(databill),
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    alert('Lỗi khi xuat ve . Vui lòng thử lại.');
+                }
+            })
+    
+            .then(ticketData => {
+                const ticketId = ticketData.id;
+                alert("Xuat ve thanh cong");
+                window.location.href = `/ticketissued/${ticketId}/`;
+    
+            })
+    
+            .catch(error => {
+                alert('Lỗi khi xuat ve: ' + error);
+            });
+
+
+
+    
+    
+            
+        
+
+        });       
+    </script>
+{% endblock %}
+
+

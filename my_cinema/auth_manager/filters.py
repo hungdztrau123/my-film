@@ -25,5 +25,8 @@ class UserProfileFilterSet(FilterSet):
         model = UserProfile
         fields = {
             "id": ID_KWARGS,
+            "user":ID_KWARGS,
+            "gender": CHAR_KWARGS,
             "phone": CHAR_KWARGS,
+            "address": CHAR_KWARGS,
         }

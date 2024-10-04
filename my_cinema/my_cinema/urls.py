@@ -17,6 +17,7 @@ import os
 from rest_framework_simplejwt import views as jwt_views
 from django.conf import settings
 from django.conf.urls.static import static
+
 from auth_manager.views import  UserLoginView, UserRegisterView
 from auth_manager.views import LogoutAPIView
 from django.conf import settings
@@ -31,6 +32,9 @@ from django.views.generic import RedirectView
 from django.views.static import serve
 from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
+
+import my_cinema.views
+
 from cinema_manager.views import base
 from cinema_manager.views import register
 from cinema_manager.views import login
@@ -42,8 +46,11 @@ from cinema_manager.views import film
 from cinema_manager.views import room
 from cinema_manager.views import bookfilm
 from cinema_manager.views import bookcombo
-from cinema_manager.views import bill
 from cinema_manager.views import listticket
+from cinema_manager.views import ticketissued
+from cinema_manager.views import infouser
+
+
 
 
 from cinema_manager.views import promotionlist
@@ -51,6 +58,11 @@ from cinema_manager.views import contact
 from cinema_manager.views import booking
 
 from cinema_manager.views import adminmanager
+
+from cinema_manager.views import statistical
+
+from cinema_manager.views import usermanage
+
 from cinema_manager.views import combomanage
 from cinema_manager.views import comboinsert
 from cinema_manager.views import comboupdate
@@ -91,6 +103,9 @@ from cinema_manager.views import videomanage
 from cinema_manager.views import videoinsert
 from cinema_manager.views import videoupdate
 
+from cinema_manager.views import commentmanage
+from cinema_manager.views import commentupdate
+
 from cinema_manager.views import ticketmanage
 from cinema_manager.views import ticketinsert
 from cinema_manager.views import ticketupdate
@@ -122,6 +137,20 @@ from cinema_manager.views import serviceupdate
 from cinema_manager.views import contactmanage
 from cinema_manager.views import contactinsert
 from cinema_manager.views import contactupdate
+
+from cinema_manager.views import logomanage
+from cinema_manager.views import logoinsert
+from cinema_manager.views import logoupdate
+
+from cinema_manager.views import backgroundmanage
+from cinema_manager.views import backgroundinsert
+from cinema_manager.views import backgroundupdate
+
+
+from cinema_manager.views import paymanage
+
+from cinema_manager.views import billmanage
+
 
 # from cinema_manager.views import map_view
 
@@ -156,6 +185,8 @@ from cinema_manager.views import BillViewSet
 from cinema_manager.views import LogoViewSet
 from cinema_manager.views import BackgroundViewSet
 from cinema_manager.views import ComboDetailViewSet
+from cinema_manager.views import UserQueryViewSet
+
 
 
 
@@ -193,9 +224,25 @@ api_router.register(r"combos", ComboViewSet)
 api_router.register(r"actors", ActorViewSet)
 api_router.register(r"pays", PayViewSet)
 api_router.register(r"bills", BillViewSet)
+api_router.register(r"queries", UserQueryViewSet)
+
 
 
 urlpatterns = [
+    
+    
+    path('', my_cinema.views.index, name='index'),
+    path('payment/', my_cinema.views.payment, name='payment'),
+    path('payment_ipn/', my_cinema.views.payment_ipn, name='payment_ipn'),
+    path('payment_return/', my_cinema.views.payment_return, name='payment_return'),
+    path('query/', my_cinema.views.query, name='query'),
+    path('refund/', my_cinema.views.refund, name='refund'),
+    
+        
+    
+    
+    
+    
     path('admin/', admin.site.urls),
     path('base/', base, name = "base"),
     path('register/', register, name = "register"),
@@ -215,11 +262,23 @@ urlpatterns = [
     path('promotionlist/', promotionlist, name = "promotionlist"),
     path('contact/', contact, name = "contact"),
     path('booking/<int:id>/', booking, name = "booking"),
-    path('bill/<int:id>/', bill, name = "bill"),
+
+    path('ticketissued/<int:id>/', ticketissued, name = "ticketissued"),
+    path('infouser/<int:id>/', infouser, name = "infouser"),
+    
+    
     
     
     
     path('adminmanager/', adminmanager, name = "adminmanager"),
+    
+    path('statistical/', statistical, name = "statistical"),
+    
+    
+    path('usermanage/', usermanage, name = "usermanage"),
+   
+    
+    
     path('combomanage/', combomanage, name = "combomanage"),
     path('comboinsert/', comboinsert, name = "comboinsert"),
     path('comboupdate/', comboupdate, name = "comboupdate"),
@@ -260,6 +319,9 @@ urlpatterns = [
     path('videoinsert/', videoinsert, name = "videoinsert"),
     path('videoupdate/', videoupdate, name = "videoupdate"),
     
+    path('commentmanage/', commentmanage, name = "commentmanage"),
+    path('commentupdate/', commentupdate, name = "commentupdate"),
+    
     path('ticketmanage/', ticketmanage, name = "ticketmanage"),
     path('ticketinsert/', ticketinsert, name = "ticketinsert"),
     path('ticketupdate/', ticketupdate, name = "ticketupdate"),
@@ -291,6 +353,21 @@ urlpatterns = [
     path('contactmanage/', contactmanage, name = "contactmanage"),
     path('contactinsert/', contactinsert, name = "contactinsert"),
     path('contactupdate/', contactupdate, name = "contactupdate"),
+    
+    path('logomanage/', logomanage, name = "logomanage"),
+    path('logoinsert/', logoinsert, name = "logoinsert"),
+    path('logoupdate/', logoupdate, name = "logoupdate"),
+    
+    path('backgroundmanage/', backgroundmanage, name = "backgroundmanage"),
+    path('backgroundinsert/', backgroundinsert, name = "backgroundinsert"),
+    path('backgroundupdate/', backgroundupdate, name = "backgroundupdate"),
+    
+    
+    path('paymanage/', paymanage, name = "paymanage"),
+
+    
+    path('billmanage/', billmanage, name = "billmanage"),
+  
     
     re_path(
         r"^api/",

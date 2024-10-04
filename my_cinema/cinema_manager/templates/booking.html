@@ -425,6 +425,14 @@
         cursor: pointer;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
+        transition: all 0.2s linear;
+
+    }
+
+    .btn-booking-continue:hover{
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 3px #d5a12c;
+        color: #cdc197;
 
     }
 
@@ -564,12 +572,19 @@
         const year = date.getFullYear(); // Lấy năm
         const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
 
-        const startTime = new Date(data.start_time);
-        const endTime = new Date(data.end_time);
-        
-        const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-        const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
 
+        function formatTime(timeString) {
+            const timeCustom = new Date(timeString);
+            return timeCustom.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        }
+        
 
         scheduleDetailContainer.innerHTML = `
             <div class="box-booking-image">
@@ -596,9 +611,9 @@
                     <span class="booking-label-time">Ngày giờ :</span>
                     <span class="booking-day-dayshow">${formattedDate}</span>
                     -
-                    <span class="booking-start">${formattedStartTime}</span>
+                    <span class="booking-start">${formatTime(data.start_time)}</span>
                     ~
-                    <span class="booking-end">${formattedEndTime}</span>
+                    <span class="booking-end">${formatTime(data.end_time)}</span>
 
                 </div>
                 
@@ -615,6 +630,8 @@
                     </div>
                     
                 </div>
+
+                
 
                 
 
@@ -907,7 +924,8 @@
                         })
                         .then(() => {
                             // Chuyển hướng đến trang booking
-                            window.location.href = `/bill/${payId}/?scheduleId=${scheduleId}`;
+                            
+                            window.location.href = `/payment/?idPay=${payId}`;
                             
                             updateTotalPrice();
                         });

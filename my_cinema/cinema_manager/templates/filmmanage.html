@@ -3,14 +3,153 @@
 
 {% block filmManage %} 
 
-<button id="insert-manage">Thêm</button>
-<button id="delete-multi-manage">Xóa nhiều</button>
-<div id="manage-list">
+<style>
+    #film-manage-count{
+        margin-left: 5px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .count-film{
+        margin:0px 2px;
+    }
+    
+    .box-btn-manage{
+        width: 100%;
+        display: flex;
+    
+    }
+
+    .insert-manage{
+        min-width: 100px;
+        height: 25px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        font-size: 14px;
+        font-weight: 1000;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-right: 15px;
+        border-radius: 3px;
+
+    }
+    .btn-delete-multi-manage{
+        min-width: 100px;
+        height: 25px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        font-size: 14px;
+        font-weight: 1000;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #d5a12c;
+        border-radius: 3px;
+        background-color: transparent;
+
+    }
+
+
+    .manage-list{
+        max-width: 100%;
+        overflow-x: scroll;
+        display: flex;
+        font-size: 14px;
+        margin-top: 20px;
+        
+
+    }
+
+    .manage-list .table{
+        width: 100%;
+
+    }
+    .manage-list .table tr{
+        border-bottom: 1px solid #cdc197;
+        width: 100%;
+
+    }
+    .manage-list .table tr th{
+        min-width: 200px;
+        text-align: center;
+        font-weight: 1000;
+        border-left: 1px solid #cdc197;
+    }
+
+    .manage-list .table tr td{
+        min-width: 200px;
+        text-align: center;
+        border-left: 1px solid #cdc197;
+        padding: 10px 0px;
+
+        
+        
+    }
+
+    .poster-film-manage{
+        width: 100px;
+        padding: 0px !important;
+    }
+    .banner-film-manage{
+        width: 100px;
+        padding: 0px !important;
+    }
+ 
+
+    .btn-update-manage{
+        border: 2px solid #d5a12c !important;
+        box-shadow: 0px 0px 0px 3px #cdc197 !important;
+        
+        font-size: 14px;
+        font-weight: 1000;
+        margin-right: 5px;
+        cursor: pointer;
+        color: #d5a12c !important;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        padding: 2px 10px !important;
+        background-color: transparent !important;
+        
+
+    }
+    .btn-delete-manage{
+       
+        border: 2px solid #d5a12c !important;
+        box-shadow: 0px 0px 0px 3px #cdc197 !important;
+        
+        font-size: 14px;
+        font-weight: 1000;
+
+        cursor: pointer;
+        color: #d5a12c !important;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        padding: 2px 10px !important;
+        background-color: transparent !important;
+        margin: 10px 0px;
+
+    }
+
+
+</style>
+
+<span class="title-manage">Quản lý phim <span id="film-manage-count"></span></span>
+
+<div class="box-btn-manage">
+<span id="insert-manage" class="insert-manage">Thêm</span>
+<button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
+</div>
+
+<div id="manage-list" class="manage-list">
 
 </div>
-<div class="pagination">
-    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
-    <button class="btn btn-primary next-page">Trang sau</button>
+
+<div class="box-pagination">
+    <button class="prev-page" disabled>Trang trước</button>
+    <button class="next-page">Trang sau</button>
 </div>
 
 
@@ -59,8 +198,8 @@
     // Thêm nút "Xóa nhiều"
     
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
-    deleteMultiBtn.classList.add('btn', 'btn-danger');
-    deleteMultiBtn.disabled = true; // Bắt đầu là vô hiệu hóa
+    deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
+    deleteMultiBtn.style.display = 'none';
 
 
     const filmManageList = document.getElementById('manage-list');
@@ -101,25 +240,32 @@
 
         // Tạo các hàng dữ liệu
         filmManages.forEach(filmManage => {
+
+            const date = new Date(filmManage.release);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+
             const dataRow = document.createElement('tr');
             dataRow.innerHTML = `
                 <td>${filmManage.place_names}</td>
                 <td>${filmManage.dayshow_days}</td>
                 <td>${filmManage.age}</td>
                 <td>${filmManage.name}</td>
-                <td><img id="film-manage-poster" class="img-fluid" src="${filmManage.poster}" alt="${filmManage.name}"></td>
-                <td><img id="film-manage-banner" class="img-fluid" src="${filmManage.banner}" alt="${filmManage.name}"></td>
+                <td><img id="film-manage-poster" class="img-fluid poster-film-manage" src="${filmManage.poster}" alt="${filmManage.name}"></td>
+                <td><img id="film-manage-banner" class="img-fluid banner-film-manage" src="${filmManage.banner}" alt="${filmManage.name}"></td>
                 <td>${filmManage.imdb}</td>
                 <td>${filmManage.producer}</td>
                 <td>${filmManage.duration}</td>
-                <td>${filmManage.release}</td>
+                <td>${formattedDate}</td>
                 <td>${filmManage.view}</td>
                 <td>${filmManage.description}</td>
                 <td>${filmManage.country}</td>
                 <td>${filmManage.status}</td>
                 <td>
-                    <button id="film-update" class="btn btn-primary btn-sm">Chỉnh sửa</button>
-                    <button id="film-delete" class="btn btn-danger btn-sm">Xóa</button>
+                    <span id="film-update" class="btn-update-manage">Chỉnh sửa</span>
+                    <span id="film-delete" class="btn-delete-manage">Xóa</span>
                 </td>
             `;
 
@@ -135,7 +281,14 @@
                     console.log("add id:",selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                deleteMultiBtn.disabled = selectedIds.size === 0; // Bật/tắt nút xóa nhiều
+                
+                if(selectedIds.size > 0){
+                    deleteMultiBtn.style.display = 'flex';
+                }
+                else {
+                    deleteMultiBtn.style.display = 'none';
+                }
+
             });
 
             dataRow.querySelector('#film-delete').addEventListener('click', function() {
@@ -211,7 +364,7 @@
                 // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
                 getFilmManage();
                 selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
+                deleteMultiBtn.style.display = 'none';
             } else {
                 console.error(`Lỗi khi xóa film có ID ${filmId}: ${response.status} - ${response.statusText}`);
             }
@@ -249,7 +402,7 @@
                         console.log(`Đã xóa các film thành công!`);
                         getFilmManage(); // Tải lại danh sách
                         selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
+                        deleteMultiBtn.style.display = 'none';
                     } else {
                         alert('Có lỗi xảy ra!');
                     }
@@ -261,6 +414,21 @@
         }
     });
 
+</script>
+
+<script>
+    fetch('/api/films/')
+      .then(response => response.json())
+      .then(data => {
+        const filmCount = document.getElementById('film-manage-count');
+        filmCount.innerHTML = `  
+            (<span class="count-film">${data.count}</span>)   
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching film count:', error);
+      });
 </script>
 
 {% endblock filmManage %} 

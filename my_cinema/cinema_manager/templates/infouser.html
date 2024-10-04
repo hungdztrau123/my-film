@@ -1,0 +1,366 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block infoUser %} 
+
+<style>
+    .container-info-user{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .box-info-user{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 30px 0px 20px 0px;
+
+
+    }
+    .title-user-info{
+        font-size: 24px;
+        font-weight: 1000;
+        text-transform: uppercase;
+        padding-bottom: 20px;
+        
+    }
+    .box-info-user-profile{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px 35px 0px;
+        border-bottom: 1px solid #d5a12c;
+        border-top: 1px solid #d5a12c;
+
+
+    }
+    .box-input-left{
+        display: flex;
+        flex-direction: column;
+        padding: 0px 20px;
+
+    }
+    .box-input-user-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 10px 0px;
+
+    }
+    .user-label{
+        margin-bottom: 5px;
+        font-weight: 1000;
+       
+    }
+    .user-input{
+        min-width: 200px;
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+        padding: 0px 10px;
+        color:#d5a12c;
+        text-shadow: 1px 1px 1px #000;
+        outline-color: #cdc197;
+        border: 1px solid #d5a12c;
+        box-shadow: 0px 0px 3px 2px #d5a12c;
+        border-radius: 5px;
+        
+        
+
+    }
+
+    .box-input-right{
+        display: flex;
+        flex-direction: column;
+        padding: 0px 20px;
+        
+
+    }
+    
+    
+    .box-update-user{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 0px;
+        
+
+    }
+    .btn-update-user{
+        padding: 5px 10px; 
+        min-width: 300px;
+        font-weight: bold;
+        font-size: 18px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        transition: all 0.2s linear;
+
+    }
+
+    .btn-update-user:hover{
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 3px #d5a12c;
+        color: #cdc197;
+
+    }
+
+</style>
+
+<div class="container-info-user">
+    <div class="box-info-user">
+        <span class="title-user-info">Thông tin người dùng</span>
+
+        <div class="box-info-user-profile">
+
+                <div class="box-input-left">
+                    <div class="box-input-user-info">
+                        <label class="user-label" for="username">Tên:</label>
+                        <input class="user-input" type="text" id="username" name="username" placeholder="" required>
+                    </div>
+    
+                    <div class="box-input-user-info">
+                        <label class="user-label" for="country">Giới tính:</label>
+                        <select class="user-input" id="gender" name="gender" required>
+                            {% for gender in genders %}
+                            <option value="{{ gender }}">{{ gender }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="box-input-right">
+                    <div class="box-input-user-info">
+                        <label class="user-label" for="phone">Số điện thoại:</label>
+                        <input class="user-input" type="text" id="phone" name="phone" placeholder="" required>
+                    </div>
+    
+                    <div class="box-input-user-info">
+                        <label class="user-label" for="address">Địa chỉ:</label>
+                        <input class="user-input" type="text" id="address" name="address" placeholder="" required>
+                    </div>
+                </div>
+
+            
+        </div>
+
+        <div class="box-update-user">
+            <span id="btn-update-user" class="btn-update-user">Lưu thông tin</span>
+        </div>
+
+    </div>
+   
+    
+</div>
+
+<script>
+    
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            alert("Bạn chưa đăng nhập");
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+
+    const url = new URL(window.location.href);
+    const sessionIdUser = url.pathname.split('/')[2];
+    
+    let userProfileIdUpdate;
+
+    
+    getUser(sessionIdUser);
+    function getUser(sessionIdUser){
+        const accessToken = localStorage.getItem('access_token');
+
+        fetch(`/api/userprofiles/?user=${sessionIdUser}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json', 
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                data.results.forEach(user => {
+
+                    getUserProfile(user.id);
+                    userProfileIdUpdate = user.id;
+                    
+
+
+                });
+                
+            })
+            .catch(error => {
+                alert('Lỗi khi lấy thông tin userprofile: ' + error);
+            });
+    }
+
+
+    function getUserProfile(userProfileId){
+        const accessToken = localStorage.getItem('access_token');
+
+        fetch(`/api/userprofiles/${userProfileId}/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json', 
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById('username').value = data.user.username;
+                document.getElementById('gender').value = data.gender;
+                document.getElementById('phone').value = data.phone;
+                document.getElementById('address').value = data.address;
+
+            })
+
+            .catch(error => {
+                alert('Lỗi khi lấy thông tin userprofile: ' + error);
+            });
+    }
+
+
+    document.getElementById('btn-update-user').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        if (!isAccessTokenValid()) {
+            alert('Token đã hết hạn. Vui lòng đăng nhập.');
+            localStorage.removeItem('access_token');
+            window.location.href = '/login/';
+            return; // Dừng hàm nếu token không hợp lệ
+        }
+
+
+        const accessToken = localStorage.getItem('access_token');
+        const sessionId = localStorage.getItem('session_id');
+
+
+
+        const gender = document.getElementById('gender').value;
+        const phone = document.getElementById('phone').value;
+        const address = document.getElementById('address').value;
+
+        
+        const formData = new FormData();
+        
+        formData.append('gender', gender);
+        formData.append('phone', phone);
+        formData.append('address', address);
+
+
+
+        const username = document.getElementById('username').value;
+
+        const formData1 = new FormData();
+
+        formData1.append('username', username);
+
+
+
+        
+        fetch(`/api/userprofiles/${userProfileIdUpdate}/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: formData,
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Update userprofile thành công!');
+                
+            } else {
+                alert('Lỗi khi Update userprofile . Vui lòng thử lại.');
+            }
+        })
+        .catch(error => {
+            alert('Lỗi khi Update userprofile : ' + error);
+        });
+
+
+
+        fetch(`/api/users/${sessionId}/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: formData1,
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Update user thành công!');
+                alert('Update user thành công!');
+
+            } else {
+                alert('Lỗi khi Update user . Vui lòng thử lại.');
+            }
+        })
+        .catch(error => {
+            alert('Lỗi khi Update user : ' + error);
+        });
+
+        
+        
+        
+    }); 
+
+
+    
+
+
+    
+
+
+
+
+
+    
+
+
+</script>
+
+
+
+{% endblock infoUser %} 

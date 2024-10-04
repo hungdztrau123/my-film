@@ -3,85 +3,17 @@
 
 {% block promotionList %}
 
-<style>
+<link href="{% static 'css/promotionlist.css' %}" rel="stylesheet" />
 
-    .container-promotion-list{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-shadow: 0px 1px 3px 2px #d5a12c;
-
-    }
-
-    .promotion-image-container{
-        width: 12%;
-    }
-
-    .promotion-list{
-        width: 70%;
-        display: flex;
-        flex-wrap: wrap;
-
-    }
-
-    .promotion-item{
-        width: 24%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #d5a12c;
-        margin: 5px;
-        cursor: pointer;
-
-    }
-    .promotion-item:hover{
-        box-shadow: 0px 0px 3px 2px#d5a12c ;
-    }
-
-    .box-promotion-item-cover{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        
-
-    }
-    .box-promotion-item-img{
-        width: 100%;
-        height: 216px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-    }
-    .promotion-item-img{
-        width: 100%;
-        height: 100%;
-
-    }
-    .box-promotion-time{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 7px;
-        border-top: 1px solid #d5a12c;
-        font-size: 13px;
-
-    }
-    .promotion-item-start-date{
-        margin-right: 4px;
-    }
-    .promotion-item-start-date{
-        margin-left: 4px;
-    }
-
-</style>
 
 <div class="container-promotion-list">
     <img src="../static/images/promotionlogo.png" alt="" class="promotion-image-container">
+
+    <div class="box-search-time">
+        
+        <span id="search-button" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="date" id="start-date-input" class="input-search-time">
+    </div>
 
     <div id="promotion-list" class="promotion-list">
 
@@ -103,22 +35,22 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
+    let startDate = ''; // Biến lưu trữ giá trị start_date
     
-
     function renderPromotions(promotions) {
         promotionList.innerHTML = '';
         promotions.forEach(promotion => {
             const promotionItem = document.createElement('div');
-
+    
             function formatDate(dateString) {
                 const date = new Date(dateString);
-                const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
-                const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
-                const year = date.getFullYear(); // Lấy năm
-                return `${day}/${month}/${year}`; // Định dạng ngày
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
             }
-
-            promotionItem.classList.add('promotion-item');
+    
+            promotionItem.classList.add('promotion-item-box');
             promotionItem.innerHTML = `
                 <div class="box-promotion-item-cover">
                     <div class="box-promotion-item-img">
@@ -128,56 +60,76 @@
                     <div class="box-promotion-time">
                         <span class="promotion-item-start-date">${formatDate(promotion.start_date)}</span>
                         ~
-                        <span class="promotion-item-start-date">${formatDate(promotion.end_date)}</span>
+                        <span class="promotion-item-end-date">${formatDate(promotion.end_date)}</span>
                     </div>
                 </div>
             `;
             promotionItem.addEventListener('click', () => {
                 window.location.href = `/promotion/${promotion.id}/`;
-
             });
             
             promotionList.appendChild(promotionItem);
         });
     }
-
-
+    
     function updatePaginationButtons() {
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
-
     
-    function getPromotions( page = 1) {
-        let url = `/api/promotions/?page=${page}&ordering=-created_at`;
+    function getPromotions(page = 1) {
+        const queryParams = startDate ? { start_date: startDate } : {};
+        const queryString = new URLSearchParams(queryParams).toString();
+        let url = `/api/promotions/?page=${page}&ordering=-created_at&${queryString}`;
         
         fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderPromotions(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
-
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching promotion data:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                renderPromotions(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+                nextPageBtn.disabled = !data.next; // Nếu không có next, ẩn nút next
+            })
+            .catch(error => {
+                console.error('Error fetching promotion data:', error);
+            });
     }
-
     
     prevPageBtn.addEventListener('click', () => {
-        getPromotions( currentPage - 1);
+        getPromotions(currentPage - 1);
     });
     
     nextPageBtn.addEventListener('click', () => {
-        getPromotions( currentPage + 1);
+        getPromotions(currentPage + 1);
+    });
+    
+    // Gọi hàm để lấy dữ liệu ban đầu
+    getPromotions();
+    
+    document.getElementById('search-button').addEventListener('click', function() {
+        startDate = document.getElementById('start-date-input').value; // Lưu giá trị start_date
+        if (startDate) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getPromotions(currentPage); // Gọi hàm để lấy dữ liệu với giá trị start_date
+        } else {
+            alert('Vui lòng chọn ngày bắt đầu!');
+        }
     });
 
-    getPromotions();
-
+    document.getElementById('start-date-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            startDate = document.getElementById('start-date-input').value; // Lưu giá trị start_date
+            if (startDate) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getPromotions(currentPage); // Gọi hàm để lấy dữ liệu với giá trị start_date
+            } else {
+                alert('Vui lòng chọn ngày bắt đầu!');
+            } 
+        }
+    
+    });
+    
 
 
     

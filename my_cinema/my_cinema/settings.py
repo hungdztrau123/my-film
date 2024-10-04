@@ -65,7 +65,7 @@ ROOT_URLCONF = 'my_cinema.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,7 +116,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+
+TIME_ZONE = 'Asia/Saigon'
+
+
 
 USE_I18N = True
 
@@ -127,12 +130,25 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static/'),
+)
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+# VNPAY CONFIG
+VNPAY_RETURN_URL = 'http://localhost:8000/payment_return/'  # get from config
+VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'  # get from config
+VNPAY_API_URL = 'https://sandbox.vnpayment.vn/merchant_webapi/api/transaction'
+VNPAY_TMN_CODE = 'R86RCVVV'  # Website ID in VNPAY System, get from config
+VNPAY_HASH_SECRET_KEY = 'AZ06FPE3UT88ATKCTLTBP85LIRX7WZM5'  # Secret key for create checksum,get from config
+
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

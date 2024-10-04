@@ -1,0 +1,502 @@
+{% extends 'adminmanager.html' %} 
+{% load static %}
+
+{% block statisticalManage %} 
+
+<style>
+    .box-statistical{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 37px 0px 26px 15px;
+
+    }
+
+    .statistical-count{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 15.5%;
+      border: 1px solid #cdc197;
+      margin: 4px;
+      padding: 9px 0px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 2px 1px #d5a12c;
+      font-size: 23px;
+
+    }
+
+    .box-item-count{
+      margin-top: 10px;
+      border-top: 1px dashed #d5a12c;
+      
+      
+    }
+    .label-item-count{
+      font-size: 14px;
+    }
+    .count-item{
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .box-chart-film-view-all{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-top: 1px dashed #d5a12c;
+      padding-top: 30px;
+    }
+    .box-chart-film-view{
+      width: 35%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+    }
+    .filmChart{
+      width: 100%;
+    }
+
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="box-statistical">
+
+    <div class="statistical-count" id="user-count">
+    
+    </div>
+
+    <div class="statistical-count" id="area-count">
+    
+    </div>
+
+    <div class="statistical-count" id="place-count">
+    
+    </div>
+
+    <div class="statistical-count" id="dayshow-count">
+    
+    </div>
+
+    <div class="statistical-count" id="room-count">
+    
+    </div>
+
+    <div class="statistical-count" id="seat-count">
+    
+    </div>
+
+    <div class="statistical-count" id="film-count">
+    
+    </div>
+
+    
+
+    
+    <div class="statistical-count" id="schedule-count">
+    
+    </div>
+
+    
+
+   
+    
+
+    <div class="statistical-count" id="promotion-count">
+    
+    </div>
+
+    
+    
+
+    <div class="statistical-count" id="combo-count">
+    
+    </div>
+
+    
+
+    <div class="statistical-count" id="pay-count">
+    
+    </div>
+
+    <div class="statistical-count" id="bill-count">
+    
+    </div>
+    
+    
+</div>
+
+<div class="box-chart-film-view-all">
+  <div class="box-chart-film-view">
+    <canvas id="filmChart" class="filmChart"></canvas>
+    
+  </div>
+
+</div>
+
+<script>
+  fetch('/api/films/?ordering=-view')
+      .then(response => response.json())
+      .then(data => {
+          
+          const labels = [];
+          const views = [];
+          const filmIds = []; // Mảng để lưu id phim
+
+          data.results.slice(0,10).forEach(film => {
+              labels.push(film.name);
+              views.push(film.view);
+              filmIds.push(film.id); // Thêm id phim vào mảng
+          });
+
+          // Tạo biểu đồ tròn
+          const ctx = document.getElementById('filmChart').getContext('2d');
+          const filmChart = new Chart(ctx, {
+              type: 'doughnut',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      label: 'Số lượt xem',
+                      data: views,
+                      backgroundColor: [
+                          'rgba(255, 99, 132, 0.6)',
+                          'rgba(54, 162, 235, 0.6)',
+                          'rgba(255, 206, 86, 0.6)',
+                          'rgba(75, 192, 192, 0.6)',
+                          'rgba(153, 102, 255, 0.6)',
+                          'rgba(255, 159, 64, 0.6)'
+                      ],
+                      borderWidth: 1,
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          position: 'top',
+                      },
+                      title: {
+                          display: true,
+                          text: 'BIỂU ĐỒ LƯỢT XEM PHIM',
+                          font: {
+                            size: 20,
+                            weight: 'bold',
+                          },
+                          padding: {
+                            bottom: 20
+                          },
+                      },
+                      tooltip: {
+                          callbacks: {
+                              label: function(tooltipItem) {
+                                  return tooltipItem.label + ': ' + tooltipItem.raw;
+                              }
+                          }
+                      }
+                  },
+                  onClick: (event) => {
+                      const activePoints = filmChart.getElementsAtEventForMode(event, 'nearest', { intersect: true }, false);
+                      if (activePoints.length) {
+                          const firstPoint = activePoints[0];
+                          const filmId = filmIds[firstPoint.index]; // Lấy id phim từ mảng
+                          window.location.href = `/film/${filmId}/`; // Chuyển hướng đến trang phim
+                      }
+                  }
+              }
+          });
+      })
+      .catch(error => {
+          console.error('Error fetching film statistical data:', error);
+      });
+</script>
+
+<script>
+
+
+
+    // Hàm kiểm tra access token
+    function checkAccessToken() {
+        const accessToken = localStorage.getItem('access_token');
+        const isAdmin = localStorage.getItem('is_admin');
+
+        if (!accessToken && isAdmin === 'false') {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            window.location.href = '/login/';
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('session_name');
+                localStorage.removeItem('is_admin');
+
+                window.location.href = '/login/';
+            } 
+        }
+    }
+
+    checkAccessToken();
+
+    // Hàm kiểm tra access token trước khi gửi yêu cầu API
+    function isAccessTokenValid() {
+        const accessToken = localStorage.getItem('access_token');
+        if (!accessToken) {
+            return false;
+        }
+        const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+        const currentTime = Math.floor(Date.now() / 1000);
+        return tokenPayload.exp >= currentTime;
+    }
+
+
+
+
+    
+
+    fetch('/api/users/?is_staff=false')
+      .then(response => response.json())
+      .then(data => {
+        const userCount = document.getElementById('user-count');
+        userCount.innerHTML = `
+                <i class="fa-solid fa-user"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">User:</span>
+                    <span class="count-item">${data.count}</span>
+                </div>
+            
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching user count:', error);
+      });
+
+    
+    fetch('/api/areas/')
+      .then(response => response.json())
+      .then(data => {
+        const areaCount = document.getElementById('area-count');
+        areaCount.innerHTML = `
+                <i class="fa-solid fa-chart-area"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Khu vực:</span>
+                    <span class="count-item">${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching area count:', error);
+      });
+
+    fetch('/api/places/')
+      .then(response => response.json())
+      .then(data => {
+        const placeCount = document.getElementById('place-count');
+        placeCount.innerHTML = `
+                <i class="fa-solid fa-location-dot"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Địa điểm:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching place count:', error);
+      });
+
+
+    fetch('/api/dayshows/')
+      .then(response => response.json())
+      .then(data => {
+        const dayshowCount = document.getElementById('dayshow-count');
+        dayshowCount.innerHTML = `
+                <i class="fa-solid fa-calendar-days"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Ngày chiếu:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching dayshow count:', error);
+      });
+
+    
+    fetch('/api/rooms/')
+      .then(response => response.json())
+      .then(data => {
+        const roomCount = document.getElementById('room-count');
+        roomCount.innerHTML = `
+                <i class="fa-solid fa-door-open"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Phòng:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching room count:', error);
+      });
+
+    fetch('/api/seats/')
+      .then(response => response.json())
+      .then(data => {
+        const seatCount = document.getElementById('seat-count');
+        seatCount.innerHTML = `
+                <i class="fa-solid fa-couch"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Ghế:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching seat count:', error);
+      });
+
+    
+    fetch('/api/films/')
+      .then(response => response.json())
+      .then(data => {
+        const filmCount = document.getElementById('film-count');
+        filmCount.innerHTML = `
+                <i class="fa-solid fa-film"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Phim:</span>
+                    <span class="count-item">${data.count}</span>
+                </div>
+            
+                
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching film count:', error);
+      });
+
+
+    
+    
+
+
+    fetch('/api/schedules/')
+      .then(response => response.json())
+      .then(data => {
+        const scheduleCount = document.getElementById('schedule-count');
+        scheduleCount.innerHTML = `
+                <i class="fa-solid fa-clipboard-list schedule"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Lịch trình:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching schedule count:', error);
+      });
+
+
+
+    
+
+    
+
+    fetch('/api/promotions/')
+      .then(response => response.json())
+      .then(data => {
+        const promotionCount = document.getElementById('promotion-count');
+        promotionCount.innerHTML = `
+                <i class="fa-solid fa-rectangle-ad"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Quảng cáo:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching promotion count:', error);
+      });
+
+    
+    
+
+    
+    fetch('/api/combos/')
+      .then(response => response.json())
+      .then(data => {
+        const comboCount = document.getElementById('combo-count');
+        comboCount.innerHTML = `
+                <i class="fa-solid fa-palette"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Combo:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching combo count:', error);
+      });
+
+
+    fetch('/api/pays/')
+      .then(response => response.json())
+      .then(data => {
+        const payCount = document.getElementById('pay-count');
+        payCount.innerHTML = `
+                <i class="fa-solid fa-money-check-dollar"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Thanh toán:</span>
+                    <span class="count-item">${data.count}</span>
+                </div>
+            
+                
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching pay count:', error);
+      });
+    
+    fetch('/api/bills/')
+      .then(response => response.json())
+      .then(data => {
+        const billCount = document.getElementById('bill-count');
+        billCount.innerHTML = `
+                <i class="fa-solid fa-receipt"></i>
+                <div class="box-item-count">
+                    <span class="label-item-count">Vé:</span>
+                    <span class="count-item" >${data.count}</span>
+                </div>
+        `; 
+  
+      })
+      .catch(error => {
+        console.error('Error fetching bill count:', error);
+      });
+
+
+
+</script>
+
+
+{% endblock statisticalManage %} 

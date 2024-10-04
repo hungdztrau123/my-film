@@ -11,3 +11,12 @@ python-dotenv==1.0.1
 requests==2.32.3
 psycopg2==2.9.9
 python-decouple==3.8
+
+
+asgiref==3.8.1
+cffi==1.17.1
+urlquote==2.1.0
+milksnake==0.1.6
+pycparser==2.22
+pytz==2024.2
+sqlparse==0.5.1

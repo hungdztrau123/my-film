@@ -177,9 +177,15 @@
         font-weight: bold;
         text-shadow: 1px 1px 1px #000;
         cursor: pointer;
+        transition: all 0.2s linear;
         
 
 
+    }
+    .seat-regural-item:hover{
+        border-color: #cdc197;
+        box-shadow: 0px 0px 2px 2px #d5a12c;
+        background-color: #000;
     }
     .seat-regural-name{
 
@@ -208,7 +214,14 @@
         font-weight: bold;
         text-shadow: 1px 1px 1px #000;
         cursor: pointer;
+        transition: all 0.2s linear;
         
+    }
+
+    .seat-vip-item:hover{
+        border-color: #cdc197;
+        box-shadow: 0px 0px 2px 2px #d5a12c;
+        background-color: #000;
     }
     .seat-vip-name{
         
@@ -352,6 +365,14 @@
         cursor: pointer;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
+        transition: all 0.2s linear;
+
+    }
+
+    .btn-book-ticket:hover{
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 3px #d5a12c;
+        color: #cdc197;
 
     }
 
@@ -744,6 +765,14 @@
             window.location.href = '/login/';
             return; // Dừng hàm nếu token không hợp lệ
         }
+
+        // Kiểm tra xem đã chọn ghế chưa
+        if (selectedSeats.length === 0) {
+            alert('Vui lòng chọn ghế của bạn.');
+            return; // Dừng hàm nếu chưa chọn ghế
+        }
+
+
 
         fetch('/api/bookingdetails/')
             .then(response => response.json())

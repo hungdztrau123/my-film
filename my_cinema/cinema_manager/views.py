@@ -7,6 +7,7 @@ from django.db.models.functions import Lower
 from django.http import HttpResponse
 from django.http import HttpResponseBadRequest
 from rest_framework import parsers, status
+from rest_framework.decorators import action
 from django.views.generic import View
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.authtoken.models import Token
@@ -23,6 +24,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 import hashlib
 from django.shortcuts import render
+from cinema_manager.utils import analyze_question
 from my_cinema.views import StandardPagination
 import folium
 
@@ -56,6 +58,8 @@ from cinema_manager.models import Bill
 from cinema_manager.models import Logo
 from cinema_manager.models import Background
 from cinema_manager.models import ComboDetail
+from cinema_manager.models import UserQuery
+
 
 
 
@@ -86,6 +90,8 @@ from cinema_manager.serializers import BillSerializer
 from cinema_manager.serializers import LogoSerializer
 from cinema_manager.serializers import BackgroundSerializer
 from cinema_manager.serializers import ComboDetailSerializer
+from cinema_manager.serializers import UserQuerySerializer
+
 
 
 
@@ -117,6 +123,8 @@ from cinema_manager.filters import BillFilterSet
 from cinema_manager.filters import LogoFilterSet
 from cinema_manager.filters import BackgroundFilterSet
 from cinema_manager.filters import ComboDetailFilterSet
+from cinema_manager.filters import UserQueryFilterSet
+
 
 
 
@@ -127,6 +135,10 @@ from cinema_manager.models import ChoiceVideoType
 from cinema_manager.models import ChoiceTypeTicket
 from cinema_manager.models import ChoiceStatusPay
 from cinema_manager.models import ChoiceStatusSchedule
+from cinema_manager.models import ChoiceGender
+from cinema_manager.models import ChoiceStatusBill, ChoiceConfirm
+
+
 
 
 
@@ -134,6 +146,17 @@ from cinema_manager.models import ChoiceStatusSchedule
 def adminmanager(request):
     context = {}
     return render(request, '../templates/adminmanager.html', context)
+
+def statistical(request):
+    context = {}
+    return render(request, '../templates/statistical.html', context)
+
+
+def usermanage(request):
+    context = {}
+    return render(request, '../templates/usermanage.html', context)
+
+
 
 def combomanage(request):
     context = {}
@@ -300,6 +323,17 @@ def videoupdate(request):
     return render(request, '../templates/videoupdate.html', context)
 
 
+def commentmanage(request):
+    context = {}
+    return render(request, '../templates/commentmanage.html', context)
+
+
+def commentupdate(request):
+    context = {}
+    return render(request, '../templates/commentupdate.html', context)
+
+
+
 def ticketmanage(request):
     context = {}
     return render(request, '../templates/ticketmanage.html', context)
@@ -413,6 +447,48 @@ def contactupdate(request):
 
 
 
+def logomanage(request):
+    context = {}
+    return render(request, '../templates/logomanage.html', context)
+
+def logoinsert(request):
+    context = {}
+    return render(request, '../templates/logoinsert.html', context)
+
+def logoupdate(request):
+    context = {}
+    return render(request, '../templates/logoupdate.html', context)
+
+
+
+def backgroundmanage(request):
+    context = {}
+    return render(request, '../templates/backgroundmanage.html', context)
+
+def backgroundinsert(request):
+    context = {}
+    return render(request, '../templates/backgroundinsert.html', context)
+
+def backgroundupdate(request):
+    context = {}
+    return render(request, '../templates/backgroundupdate.html', context)
+
+
+
+def paymanage(request):
+    context = {}
+    return render(request, '../templates/paymanage.html', context)
+
+
+
+
+def billmanage(request):
+    context = {}
+    return render(request, '../templates/billmanage.html', context)
+
+
+
+
 def register(request):
     context = {}
     return render(request, '../templates/register.html', context)
@@ -474,13 +550,26 @@ def booking(request, id):
     booking_object = Bookings.objects.get(id=id)
     return render(request, '../templates/booking.html', {'booking': booking_object})
 
-def bill(request, id):
-    bill_object = Pay.objects.get(id=id)
-    return render(request, '../templates/bill.html', {'bill': bill_object})
+
 
 def listticket(request, id):
     listticket_object = User.objects.get(id=id)
     return render(request, '../templates/listticket.html', {'listticket': listticket_object})
+
+def ticketissued(request, id):
+    ticketissued_object = Bill.objects.get(id=id)
+    return render(request, '../templates/ticketissued.html', {'ticketissued': ticketissued_object})
+
+def infouser(request, id):
+    infouser_object = User.objects.get(id=id)
+    
+    genders = [g.value for g in ChoiceGender]
+    
+    context = {
+        'genders': genders,
+        'infouser': infouser_object,
+    }
+    return render(request, '../templates/infouser.html',context)
 
 class BackgroundViewSet(ModelViewSet):
     model = Background
@@ -557,7 +646,7 @@ class BillViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = BillFilterSet
-    ordering_fields = ("id","pay","user","status")
+    ordering_fields = ("id","pay","user","status","ticket_code","created_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -732,7 +821,7 @@ class FilmViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = FilmFilterSet
-    ordering_fields = ("id","name","producer","duration","description", "country","imdb","age","view","created_at")
+    ordering_fields = ("id","name","view","producer","duration","description", "country","imdb","age","created_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -741,6 +830,25 @@ class FilmViewSet(ModelViewSet):
         serializer.save(create_by=self.request.user)
     def perform_update(self, serializer):
         serializer.save(editor=self.request.user)
+        
+        
+    def get_films_count(self, request):
+        films_count = Films.objects.count()  # Đếm tất cả các phim
+        return {"films_count": films_count}
+
+    @action(methods=["get"], detail=False)
+    def films_count(self, request):
+        if request.method == "GET":
+            try:
+                return Response(self.get_films_count(request))
+            except Exception as e:
+                print(f"An error occurred retrieving films count: {e!s}")
+                return Response(
+                    {"error": "Error retrieving films count, check logs for more detail."},
+                )
+        
+        
+    
     
 class ImageViewSet(ModelViewSet):
     model = Image
@@ -987,7 +1095,7 @@ class PromotionViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = PromotionFilterSet
-    ordering_fields = ("id","name", "created_at")
+    ordering_fields = ("id","name", "created_at","start_date","end_date","description")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -996,6 +1104,17 @@ class PromotionViewSet(ModelViewSet):
         serializer.save(create_by=self.request.user)
     def perform_update(self, serializer):
         serializer.save(editor=self.request.user)
+        
+    def list(self, request, *args, **kwargs):
+        start_date_param = request.query_params.get('start_date')
+        if start_date_param:
+            try:
+                start_date = datetime.strptime(start_date_param, '%Y-%m-%d')  # Định dạng ngày
+                self.queryset = self.queryset.filter(start_date__lte=start_date)
+            except ValueError:
+                return Response({'error': 'Ngày không hợp lệ'}, status=status.HTTP_400_BAD_REQUEST)
+
+        return super().list(request, *args, **kwargs)
 
 
 class AreaViewSet(ModelViewSet):
@@ -1038,6 +1157,33 @@ class PlaceViewSet(ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(create_by=self.request.user)
+    def perform_update(self, serializer):
+        serializer.save(editor=self.request.user)
+        
+
+class UserQueryViewSet(ModelViewSet):
+    model = UserQuery
+    queryset = UserQuery.objects.all()
+    serializer_class = UserQuerySerializer
+    pagination_class = StandardPagination
+    # permission_classes = [AdminPermission]
+    filter_backends = (
+        DjangoFilterBackend,
+        OrderingFilter,
+    )
+    filterset_class = UserQueryFilterSet
+    ordering_fields = ("id","user","query_text")
+    
+    def get_permissions(self):
+        return [permission() for permission in self.permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save(create_by=self.request.user, user=self.request.user)
+        user_query = serializer.save(user=self.request.user)
+        
+        entities = analyze_question(user_query.query_text)
+        print("Entities:", entities)
+        
     def perform_update(self, serializer):
         serializer.save(editor=self.request.user)
 

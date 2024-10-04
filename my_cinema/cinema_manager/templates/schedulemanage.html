@@ -3,15 +3,135 @@
 
 {% block scheduleManage %} 
 
-<button id="insert-manage">Thêm</button>
-<button id="delete-multi-manage">Xóa nhiều</button>
 
-<div id="manage-list">
+<style>
+    
+
+    .box-btn-manage{
+        width: 100%;
+        display: flex;
+    
+    }
+
+    .insert-manage{
+        min-width: 100px;
+        height: 25px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        font-size: 14px;
+        font-weight: 1000;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-right: 15px;
+        border-radius: 3px;
+
+    }
+    .btn-delete-multi-manage{
+        min-width: 100px;
+        height: 25px;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        display: flex;
+        font-size: 14px;
+        font-weight: 1000;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #d5a12c;
+        border-radius: 3px;
+        background-color: transparent;
+
+    }
+
+
+    .manage-list{
+        width: 100%;
+        display: flex;
+        font-size: 14px;
+        margin-top: 20px;
+        
+
+    }
+
+    .manage-list .table{
+
+    }
+    .manage-list .table tr{
+        border-bottom: 1px solid #cdc197;
+        
+
+    }
+    .manage-list .table tr th{
+        text-align: center;
+        font-weight: 1000;
+        border-left: 1px solid #cdc197;
+    }
+
+    .manage-list .table tr td{
+        text-align: center;
+        border-left: 1px solid #cdc197;
+        padding: 10px 0px;
+
+        
+        
+    }
+ 
+
+    .btn-update-manage{
+        border: 2px solid #d5a12c !important;
+        box-shadow: 0px 0px 0px 3px #cdc197 !important;
+        
+        font-size: 14px;
+        font-weight: 1000;
+        margin-right: 5px;
+        cursor: pointer;
+        color: #d5a12c !important;
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+        padding: 2px 10px !important;
+        background-color: transparent !important;
+        
+
+    }
+    .btn-delete-manage{
+       
+        border: 2px solid #d5a12c !important;
+        box-shadow: 0px 0px 0px 3px #cdc197 !important;
+        
+        font-size: 14px;
+        font-weight: 1000;
+
+        cursor: pointer;
+        color: #d5a12c !important;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+        padding: 2px 10px !important;
+        background-color: transparent !important;
+        margin: 10px 0px;
+
+    }
+
+    
+
+
+</style>
+
+<span class="title-manage">Quản lý lịch trình</span>
+
+<div class="box-btn-manage">
+    <span id="insert-manage" class="insert-manage">Thêm</span>
+    <button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
+</div>
+
+<div id="manage-list" class="manage-list">
 
 </div>
-<div class="pagination">
-    <button class="btn btn-primary prev-page" disabled>Trang trước</button>
-    <button class="btn btn-primary next-page">Trang sau</button>
+
+<div class="box-pagination">
+    <button class="prev-page" disabled>Trang trước</button>
+    <button class="next-page">Trang sau</button>
 </div>
 
 
@@ -60,8 +180,8 @@
     // Thêm nút "Xóa nhiều"
     
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
-    deleteMultiBtn.classList.add('btn', 'btn-danger');
-    deleteMultiBtn.disabled = true; // Bắt đầu là vô hiệu hóa
+    deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
+    deleteMultiBtn.style.display = 'none';
 
 
     const scheduleManageList = document.getElementById('manage-list');
@@ -97,9 +217,20 @@
         scheduleManages.forEach(scheduleManage => {
             const dataRow = document.createElement('tr');
 
+            
+
             const date = new Date(scheduleManage.dayshow ? scheduleManage.dayshow.day : '');
-            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-            const formattedDate = date.toLocaleDateString('vi-VN', options);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+
+
+            function formatTime(timeString) {
+                const timeCustom = new Date(timeString);
+                return timeCustom.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+            }
+
 
             dataRow.innerHTML = `
                 <td>${scheduleManage.place ? scheduleManage.place.name : ''}</td>
@@ -107,14 +238,14 @@
                 <td>${scheduleManage.film ? scheduleManage.film.name : ''}</td>
                 <td>${scheduleManage.room ? scheduleManage.room.name : ''}</td>
 
-                <td>${scheduleManage.start_time}</td>
-                <td>${scheduleManage.end_time}</td>
+                <td>${formatTime(scheduleManage.start_time)}</td>
+                <td>${formatTime(scheduleManage.end_time)}</td>
                 <td>${scheduleManage.status}</td>
 
                
                 <td>
-                    <button id="schedule-update" class="btn btn-primary btn-sm">Chỉnh sửa</button>
-                    <button id="schedule-delete" class="btn btn-danger btn-sm">Xóa</button>
+                    <span id="schedule-update" class="btn-update-manage">Chỉnh sửa</span>
+                    <span id="schedule-delete" class="btn-delete-manage">Xóa</span>
                 </td>
             `;
 
@@ -130,7 +261,15 @@
                     console.log("add id:",selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                deleteMultiBtn.disabled = selectedIds.size === 0; // Bật/tắt nút xóa nhiều
+                
+
+                if(selectedIds.size > 0){
+                    deleteMultiBtn.style.display = 'flex';
+                }
+                else {
+                    deleteMultiBtn.style.display = 'none';
+                }
+
             });
 
             dataRow.querySelector('#schedule-delete').addEventListener('click', function() {
@@ -206,7 +345,7 @@
                 // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
                 getScheduleManage();
                 selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
+                deleteMultiBtn.style.display = 'none';
             } else {
                 console.error(`Lỗi khi xóa schedule có ID ${scheduleId}: ${response.status} - ${response.statusText}`);
             }
@@ -244,7 +383,7 @@
                         console.log(`Đã xóa các schedule thành công!`);
                         getScheduleManage(); // Tải lại danh sách
                         selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.disabled = true; // Tắt nút xóa nhiều
+                        deleteMultiBtn.style.display = 'none';
                     } else {
                         alert('Có lỗi xảy ra!');
                     }

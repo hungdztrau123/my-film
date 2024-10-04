@@ -147,12 +147,15 @@
             const option = document.createElement('a');
             option.classList.add('dropdown-item');
             option.href = '#';
-            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateString = new Date(dayshow.day).toLocaleDateString('vi-VN', dateOptions);
-            option.textContent = dateString;
+            const date = new Date(dayshow.day);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+            option.textContent = formattedDate;
             option.dataset.dayshowId = dayshow.id; // Lưu ID của dịch vụ vào thuộc tính data-dayshow-id
             option.addEventListener('click', () => {
-                document.getElementById('dayshow').value = dateString;
+                document.getElementById('dayshow').value = formattedDate;
                 document.getElementById('dayshow-id').value = dayshow.id;
             });
             dayshowList.appendChild(option);
@@ -245,9 +248,13 @@
             document.getElementById('place').value = data.place.name;
             document.getElementById('place-id').value = data.place.id;
             
-            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateString = new Date(data.dayshow.day).toLocaleDateString('vi-VN', dateOptions);
-            document.getElementById('dayshow').value = dateString;
+            const date = new Date(data.dayshow.day);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+
+            document.getElementById('dayshow').value = formattedDate;
             document.getElementById('dayshow-id').value = data.dayshow.id;
 
             document.getElementById('film').value = data.film.name;
