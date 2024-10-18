@@ -1,3 +1,8 @@
+body {
+    font-family: "Roboto", sans-serif !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+}
 
 
 
@@ -102,7 +107,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
+    padding-bottom: 20px;
 }
 .logo-item{
     width: 21%; 
@@ -170,7 +175,7 @@
 }
 
 .content-user-item-info:hover{
-    color: #cdc197;
+    color: #fdfcf0;
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 3px #d5a12c;
     
@@ -194,7 +199,7 @@
 }
 
 .content-user-item-ticket:hover{
-    color: #cdc197;
+    color: #fdfcf0;
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 3px #d5a12c;
     
@@ -209,7 +214,7 @@
 
 .header-content-info:hover{
     background-color: #d5a12c;
-    color: #cdc197;
+    color: #fdfcf0;
 }
 
 
@@ -365,6 +370,11 @@
     cursor: pointer;
     font-weight: bold;
     transition: all 0.2s linear;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
     
 
 }
@@ -387,6 +397,11 @@
     cursor: pointer;
     font-weight: bold;
     transition: all 0.2s linear;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
     
 }
 
@@ -499,30 +514,127 @@
     display: flex;
     flex-direction: column;
     font-weight: bold;
-
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.2s linear;
 }
+.chat-promotion-item:hover{
+    color: #cdc197;
+}
+
+
 .label-promotion-chat-name{
-    font-weight: 400;
+    font-weight: normal;
 }
 .promotion-chat-name{
     margin-bottom: 3px;
 
 }
 .label-promotion-chat-start{
-    font-weight: 400;
+    font-weight: normal;
 }
 .promotion-chat-start{
 
 }
 .label-promotion-chat-end{
-    font-weight: 400;
+    font-weight: normal;
 
 }
 .promotion-chat-end{
- margin-bottom: 20px;
  
 }
 
 
+.chat-film-item{
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    text-transform: uppercase;
+}
 
+.chat-film-item:hover{
+    color:#cdc197;
+}
+
+.film-chat-name{
+
+}
+
+.chat-movie-item{
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    text-transform: uppercase;
+}
+
+.chat-movie-item:hover{
+    color:#cdc197;
+}
+
+.chat-schedule-item{
+    font-weight: bold;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.2s linear;
+}
+
+.chat-schedule-item:hover{
+    color: #cdc197;
+}
+
+.schedule-chat-time{
+
+}
+.label-schedule-chat-time{
+    font-weight: normal;
+}
+.schedule-chat-film{
+    text-transform: uppercase;
+
+}
+.label-schedule-chat-film{
+    font-weight: normal;
+
+}
+.schedule-chat-day{
+
+}
+.label-schedule-chat-day{
+    font-weight: normal;
+}
+.schedule-chat-area{
+
+}
+.label-schedule-chat-area{
+    font-weight: normal;
+
+}
+.schedule-chat-place{
+
+}
+.label-schedule-chat-place{
+    font-weight: normal;
+
+}
+.schedule-chat-room{
+    
+
+}
+.label-schedule-chat-room{
+    font-weight: normal;
+
+}
+
+
+.chat-response-top{
+    display: flex;
+    width: 100%;
+    padding-bottom: 7px;
+    
+}
+
+
+.text-color-base{
+    color: #cdc197;
+}
 

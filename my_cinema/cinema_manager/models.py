@@ -142,8 +142,8 @@ class Films(Base):
     producer = models.CharField(max_length=255, null=True,blank=True)
     duration = models.CharField(max_length=100, null=True, blank=True)
     release = models.DateTimeField(null=True, blank=True)
-    view = models.CharField(max_length=100, null=True, blank=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
+    view = models.IntegerField(max_length=100, null=True, blank=True)
+    description = models.TextField( null=True, blank=True)
     country = models.CharField(max_length=100, choices=[(tag.value, tag.name) for tag in ChoiceCountries], default=ChoiceCountries.america.value )
     status = models.CharField(max_length=100, null=True, choices=[(tag.value, tag.name) for tag in ChoiceStatus], default=ChoiceStatus.now.value )
 
@@ -195,7 +195,7 @@ class Actors(Base):
     name = models.CharField(max_length=255, null=True, blank=True)
     image = models.FileField(upload_to='files/',null=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    film = models.ForeignKey(Films,null=True, on_delete=models.CASCADE)
+    film = models.ManyToManyField(Films,null=True, blank=True)
 
 class Bookings(Base):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
     padding: 10px 0px;
-    background-color: #efebdb;
+    background-color: #fdfcf0;
     border-bottom: 1px solid #cdc197;
 
 
@@ -32,7 +32,7 @@
   .area-item{
     padding: 4px 14px;
     margin: 0px 5px;
-    font-weight: 1000;
+    font-weight: bold;
     border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 2px #cdc197;
     cursor: pointer;
@@ -56,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(0,0,0,0.05);
+    background-color: #fdfcf0;
     
 
   }
@@ -147,7 +147,7 @@
     width: 100%;
     height: 400px;
     border: 1px solid #cdc197;
-    box-shadow: 0px 0px 3px 2px #d5a12c;
+    box-shadow: 0px 0px 0px 1px #cdc197;
 
   }
 
@@ -156,25 +156,60 @@
     width: 70%;
     display: flex;
     align-items: center;
+    justify-content: center;
     border-top: 1px dashed #cdc197;
     text-shadow: 1px 1px 1px #000;
-    margin-top: 20px;
+    padding: 10px 0px;
+    display: none;
+    
 
   }
   .day-show-list-area{
-    width: 100%;
-    overflow-x: scroll;
+    
+    
+  }
+
+
+  .btn-nav-bar-dayshow{
+    font-size: 30px;
+    width: 40px;
+    height: 40px; 
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    padding: 0px 15px;
-    
+    justify-content: center;
 
+    cursor: pointer;
+    transition: all 0.2s linear;
+    margin: 0px 10px;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 3px #cdc197;
+    
+  }
+
+  .btn-nav-bar-dayshow:hover{
+      color: #cdc197;
+      border-color: #cdc197;
+      box-shadow: 0px 0px 0px 3px #d5a12c;
 
   }
+
+
+  #day-show-list{
+    width: 82%;
+    z-index: 1000;
+    
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    
+    padding: 0px 5px;
+
+  }
+
   .day-show-item{
-    font-weight: bold;
     font-size: 14px;
-    min-width: 200px;
+    min-width: 205px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,7 +217,9 @@
     border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 2px #cdc197;
     cursor: pointer;
-    margin: 20px 5px 5px;
+    font-weight: bold;
+    margin: 5px;
+    text-shadow: 1px 1px 1px #000;
     transition: all 0.2s linear;
 
   }
@@ -232,7 +269,7 @@
     width: 24px;
     height: 24px;
     display: flex;
-    font-weight: 1000;
+    font-weight: bold;
     justify-content: center;
     align-items: center;
     border: 1px solid #d5a12c;
@@ -245,7 +282,7 @@
   .film-day-show-name{
     margin: 0px 10px;
     text-transform: uppercase;
-    font-weight: 1000;
+    font-weight: bold;
 
   }
   .box-list-film-day-show-schedule{
@@ -331,9 +368,13 @@
     
 
     <div class="box-day-show-list-area">
+
+      <span id="btn-left" class="btn-nav-bar-dayshow"><i class="fa-solid fa-chevron-left"></i></span>
       <div class="day-show-list-area" id="day-show-list">
 
       </div>
+      <span id="btn-right" class="btn-nav-bar-dayshow"><i class="fa-solid fa-chevron-right"></i></span>
+      
     </div>
 
     <div class="box-film-list-area">
@@ -407,6 +448,7 @@ function getAreaDetails(areaId) {
           placeItem.addEventListener('click', () => {
             getPlaceDetails(place.id);
             getDayShows(place.id);
+            document.querySelector('.box-day-show-list-area').style.display = 'flex';
 
             
             if (activePlaceItem && activePlaceItem !== placeItem) {
@@ -478,45 +520,85 @@ function getAreaDetails(areaId) {
         });
       }
 
-        function getDayShows(placeDetailId){
-          fetch(`/api/dayshows/?place=${placeDetailId}`)
+
+      let currentDayShowPage = 0;
+      const dayShowsPerPage = 4;
+      let dayShowsData = [];
+      
+      function getDayShows(placeDetailId) {
+          fetch(`/api/dayshows/?place=${placeDetailId}&ordering=day`)
           .then(response => response.json())
           .then(data => {
-            const dayShowList = document.getElementById('day-show-list');
-            dayShowList.innerHTML = ''; // Xóa nội dung cũ
-            let activeDayShowItem = null;
+              dayShowsData = data.results; 
+              renderDayShows(placeDetailId); 
       
-            data.results.forEach(dayshow => {
+              // Thêm sự kiện cho nút Left
+              document.getElementById('btn-left').addEventListener('click', () => {
+                  if (currentDayShowPage > 0) {
+                      currentDayShowPage--;
+                      renderDayShows(placeDetailId);
+                  }
+              });
+      
+              // Thêm sự kiện cho nút Right
+              document.getElementById('btn-right').addEventListener('click', () => {
+                  if ((currentDayShowPage + 1) * dayShowsPerPage < dayShowsData.length) {
+                      currentDayShowPage++;
+                      renderDayShows(placeDetailId);
+                  }
+              });
+          })
+          .catch(error => {
+              console.error('Error fetching dayshow film list:', error);
+          });
+      }
+      
+      function renderDayShows(placeDetailId) {
+          const dayShowList = document.getElementById('day-show-list');
+          dayShowList.innerHTML = '';
+          let activeDayShowItem = null;
+      
+          const start = currentDayShowPage * dayShowsPerPage;
+          const end = start + dayShowsPerPage;
+          const dayShowsToShow = dayShowsData.slice(start, end);
+      
+          dayShowsToShow.forEach(dayshow => {
               const dayShowItem = document.createElement('div');
               dayShowItem.classList.add('day-show-item');
-              
+      
               const date = new Date(dayshow.day);
               const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
               const formattedDate = date.toLocaleDateString('vi-VN', options);
-
+      
               dayShowItem.innerHTML = `
-                    <span class="day-show-day">${formattedDate}</span>
+              
+                  <span class="day-show-day">${formattedDate}</span>
+                 
               `;
               dayShowItem.addEventListener('click', () => {
-                getFilms(dayshow.id, placeDetailId);
-
-                
-                if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
-                    activeDayShowItem.classList.remove('box-shadow');
-                }
-               
-                dayShowItem.classList.add('box-shadow');
-
-                activeDayShowItem = dayShowItem;
-
+                  getFilms(dayshow.id, placeDetailId);
+      
+                  if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
+                      activeDayShowItem.classList.remove('box-shadow');
+                  }
+                 
+                  dayShowItem.classList.add('box-shadow');
+      
+                  activeDayShowItem = dayShowItem;
+      
+      
+      
               });
               dayShowList.appendChild(dayShowItem);
-            });
-          })
-          .catch(error => {
-            console.error('Error fetching dayshow details:', error);
           });
-        }
+      }
+
+
+
+        
+
+
+        
           function getFilms(dayShowId, placeDetailId){
             fetch(`/api/films/?dayshow=${dayShowId}&place=${placeDetailId}`)
             .then(response => response.json())

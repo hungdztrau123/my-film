@@ -4,18 +4,7 @@
 {% block seatManage %} 
 
 <style>
-    .title-manage{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 1000;
-        text-transform: uppercase;
-        padding: 40px 0px 13px ;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #cdc197;
-
-    }
+ 
 
     .box-btn-manage{
         width: 100%;
@@ -23,37 +12,7 @@
     
     }
 
-    .insert-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        margin-right: 15px;
-        border-radius: 3px;
-
-    }
-    .btn-delete-multi-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: #d5a12c;
-        border-radius: 3px;
-        background-color: transparent;
-
-    }
+    
 
 
     .manage-list{
@@ -81,7 +40,7 @@
 
     }
     .manage-list .table tr th{
-        font-weight: 1000;
+        font-weight: bold;
         min-width: 200px;
         display: flex;
         align-items: center;
@@ -101,7 +60,7 @@
     }
 
     .btn-update-manage{
-        min-width: 100px;
+        
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
         display: flex;
@@ -113,14 +72,14 @@
         color: #d5a12c !important;
         border-top-left-radius: 3px;
         border-bottom-left-radius: 3px;
-        padding: 0px !important;
+        padding: 4px 10px !important;
         background-color: transparent !important;
         margin: 5px 10px 5px 10px;
         
 
     }
     .btn-delete-manage{
-        min-width: 100px;
+        
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
         display: flex;
@@ -132,7 +91,7 @@
         color: #d5a12c !important;
         border-top-right-radius: 3px;
         border-bottom-right-radius: 3px;
-        padding: 0px !important;
+        padding: 5px 10px !important;
         background-color: transparent !important;
         margin: 5px 0px;
 
@@ -151,8 +110,8 @@
 
 </div>
 <div class="box-pagination">
-    <button class="prev-page" disabled>Trang trước</button>
-    <button class="next-page">Trang sau</button>
+    <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
 
@@ -245,8 +204,8 @@
                 <td>${seatManage.kind}</td>
 
                 <td>
-                    <span id="seat-update" class="btn-update-manage">Chỉnh sửa</span>
-                    <span id="seat-delete" class="btn-delete-manage">Xóa</span>
+                    <span id="seat-update" class="btn-update-manage"><i class="fa-regular fa-pen-to-square"></i></span>
+                    <span id="seat-delete" class="btn-delete-manage"><i class="fa-solid fa-trash-can"></i></span>
                 </td>
             `;
 

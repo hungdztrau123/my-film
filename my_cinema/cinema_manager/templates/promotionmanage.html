@@ -12,37 +12,7 @@
     
     }
 
-    .insert-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        margin-right: 15px;
-        border-radius: 3px;
-
-    }
-    .btn-delete-multi-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: #d5a12c;
-        border-radius: 3px;
-        background-color: transparent;
-
-    }
+    
 
 
     .manage-list{
@@ -68,7 +38,7 @@
     .manage-list .table tr th{
         min-width: 200px;
         text-align: center;
-        font-weight: 1000;
+        font-weight: bold;
         border-left: 1px solid #cdc197;
     }
 
@@ -148,8 +118,8 @@
 </div>
 
 <div class="box-pagination">
-    <button class="prev-page" disabled>Trang trước</button>
-    <button class="next-page">Trang sau</button>
+    <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
 
@@ -251,8 +221,8 @@
 
                 <td>${promotionManage.description}</td>
                 <td>
-                    <span id="promotion-update" class="btn-update-manage">Chỉnh sửa</span>
-                    <span id="promotion-delete" class="btn-delete-manage">Xóa</span>
+                    <span id="promotion-update" class="btn-update-manage"><i class="fa-regular fa-pen-to-square"></i></span>
+                    <span id="promotion-delete" class="btn-delete-manage"><i class="fa-solid fa-trash-can"></i></span>
                 </td>
             `;
 
@@ -304,7 +274,7 @@
 
     
     function getPromotionManage( page = 1) {
-        let url = `/api/promotions/?page=${page}`;
+        let url = `/api/promotions/?page=${page}&ordering=-created_at`;
         
         fetch(url)
         .then(response => response.json())

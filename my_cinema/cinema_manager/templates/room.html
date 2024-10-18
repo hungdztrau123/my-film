@@ -36,10 +36,23 @@
         width: 100%;
         display: flex;
         align-items: center;
-        margin-bottom: 40px;
+        margin-bottom: 50px;
+        padding: 15px 25px; 
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        box-shadow: 0px 0px 0px 2px #cdc197;
+        
 
     }
 
+    @keyframes age-move {
+        from{
+            transform: rotateY(0deg);
+        }
+        to {
+            transform: rotateY(360deg);
+        }
+    }
     
     .room-film-age{
         width: 40px;
@@ -51,6 +64,9 @@
         border: 1px solid #cdc197;
         box-shadow: 0px 0px 3px 2px #d5a12c;
         font-size: 24px;
+        font-weight: bold;
+        
+        
         
     }
 
@@ -72,7 +88,7 @@
     }
     
     .room-film-name{
-        font-weight: 1000;
+        font-weight: bold;
         text-transform: uppercase;
         margin-right: 7px;
 
@@ -115,9 +131,19 @@
     .box-screen-cinema-all{
         width: 100%;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         
+    }
+
+    @keyframes boxshadow-animation {
+        from {
+            box-shadow: 0px 0px 0px 0px #d5a12c;
+        }
+        to {
+            box-shadow: 0px 7px 10px 6px #d5a12c;
+        }
     }
 
     .box-screen-room-cinema{
@@ -125,16 +151,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0px 7px 7px 0px #d5a12c;
+        font-weight: bold;
+        font-size: 14px;
+        
+        
 
     }
 
     .screen-room-cinema-left{
         width: 50%;
         height: 30px;
+        text-align: end;
         background-color: gray;
         border-bottom: 1px solid #cdc197;
         border-top-left-radius: 90%;
+        padding-right: 1px;
         
     }
 
@@ -144,20 +175,47 @@
         background-color: gray;
         border-bottom: 1px solid #cdc197;
         border-top-right-radius: 90%;
+        padding-left: 1px;
+    }
+
+    .box-monitor-room-cinema{
+        width: 88%;
+        display: flex;
+        align-items: center;
+        box-shadow: 0px 7px 10px 6px #d5a12c;
+    }
+
+    .box-scop-seat-room{
+        width: 100%;
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin: 40px 0px;
+        overflow: hidden;
+        transition: all 0.2s linear;
+        
+        
     }
 
     .box-list-seat-room{
-        width: 100%;
+        width: 63.5%;
+        min-height: 100px;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        padding: 40px 0px;
-        margin: 20px;
+        position: absolute;
+        background-color: #f0f0f050;
+        cursor: grab;
+        transition: transform 0.2s linear;
+        transform-origin: center;
+        
+        
     }
 
     .box-list-seat-regural{
-        width: 65%;
+        width: 100%;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -194,7 +252,7 @@
     
 
     .box-list-seat-vip{
-        width: 65%;
+        width: 100%;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -227,15 +285,25 @@
         
     }
 
+
+    .box-content-film-room{
+        padding: 20px 25px; 
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0px 0px 0px 2px #cdc197;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+    }
+
     .box-type-seat{
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-evenly;
         font-size: 14px;
-        padding: 30px 0px;
-        border-top: 1px solid #d5a12c;
-        border-bottom: 1px solid #d5a12c;
+        padding-bottom: 20px;
+       
+        border-bottom: 1px dashed #cdc197;
     
     }
     .box-type-seat-regural{
@@ -293,7 +361,7 @@
         display: flex;
         align-items: center;
         padding: 10px 0px;
-        border-bottom: 1px solid #d5a12c;
+        border-bottom: 1px dashed #cdc197;
     }
 
     .ticket-title{
@@ -333,8 +401,8 @@
         display: flex;
         align-items: center;
         font-size: 20px;
-        padding: 20px 0px;
-        border-bottom: 1px solid #d5a12c;
+        padding-top: 17px;
+       
 
 
     }
@@ -390,54 +458,59 @@
 
         <div class="box-screen-cinema-all">
             <div class="box-screen-room-cinema">
-                <div class="screen-room-cinema-left"></div>
-                <div class="screen-room-cinema-right"></div>
+                <div class="screen-room-cinema-left">MÀN</div>
+                <div class="screen-room-cinema-right">HÌNH</div>
             </div>
+            <div class="box-monitor-room-cinema"></div>
 
         </div>
         
         
-        <div class="box-list-seat-room">
+        <div class="box-scop-seat-room" id="box-scop-seat-room">
+            <div class="box-list-seat-room" id="box-list-seat-room">
         
-          <div id="seat-list-regural" class="box-list-seat-regural">
-        
-          </div>
-        
-          <div id="seat-list-vip" class="box-list-seat-vip">
-          
-          </div>
-        
+                <div id="seat-list-regural" class="box-list-seat-regural">
+              
+                </div>
+              
+                <div id="seat-list-vip" class="box-list-seat-vip">
+                
+                </div>
+              
+            </div>
         </div>
 
-        <div class="box-type-seat">
-            <div class="box-type-seat-regural">
-                <div class="type-seat-regural"></div>
-                <span>Thường</span>
+        <div class="box-content-film-room">
+            <div class="box-type-seat">
+                <div class="box-type-seat-regural">
+                    <div class="type-seat-regural"></div>
+                    <span>Thường</span>
+                </div>
+                <div class="box-type-seat-vip">
+                    <div class="type-seat-vip"></div>
+                    <span>VIP</span>
+                </div>
+                <div class="box-type-seat-choosing">
+                    <div class="type-seat-choosing"></div>
+                    <span>Đang chọn</span>
+    
+                </div>
+                <div class="box-type-seat-choosed">
+                    <div class="type-seat-choosed"></div>
+                    <span>Đã đặt</span>
+                </div>
             </div>
-            <div class="box-type-seat-vip">
-                <div class="type-seat-vip"></div>
-                <span>VIP</span>
+            
+            <div class="box-ticket-all">
+                <div class="ticket-title">Giá vé</div>
+                <div id="ticket-list" class="box-ticket-list">
+            
+                </div>
             </div>
-            <div class="box-type-seat-choosing">
-                <div class="type-seat-choosing"></div>
-                <span>Đang chọn</span>
-
+            
+            <div id="total-price" class="box-total-price">
+                Tổng tiền:<span id="total-amount" class="total-amount" >0</span>
             </div>
-            <div class="box-type-seat-choosed">
-                <div class="type-seat-choosed"></div>
-                <span>Đã đặt</span>
-            </div>
-        </div>
-        
-        <div class="box-ticket-all">
-            <div class="ticket-title">Giá vé</div>
-            <div id="ticket-list" class="box-ticket-list">
-        
-            </div>
-        </div>
-        
-        <div id="total-price" class="box-total-price">
-            Tổng tiền:<span id="total-amount" class="total-amount" >0</span>
         </div>
     
         <div class="box-book-ticket">
@@ -847,4 +920,194 @@
 
     
 </script>
+
+<script>
+    const boxListSeatRoom = document.getElementById('box-list-seat-room');
+    const boxScopSeatRoom = document.getElementById('box-scop-seat-room');
+    let scale = 1;
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+
+    // Tính toán vị trí trung tâm
+    function resetPosition() {
+        boxListSeatRoom.style.left = `${(boxScopSeatRoom.clientWidth - boxListSeatRoom.clientWidth) / 2}px`;
+        boxListSeatRoom.style.top = `${(boxScopSeatRoom.clientHeight - boxListSeatRoom.clientHeight) / 2}px`;
+        scale = 1; // Reset zoom về kích thước ban đầu
+        boxListSeatRoom.style.transform = `scale(${scale})`; // Cập nhật kích thước
+    }
+
+    // Thiết lập vị trí ban đầu
+    resetPosition();
+
+    boxListSeatRoom.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const zoomIntensity = 0.1;
+        const mouseX = e.clientX - boxListSeatRoom.getBoundingClientRect().left;
+        const mouseY = e.clientY - boxListSeatRoom.getBoundingClientRect().top;
+
+        const zoom = e.deltaY < 0 ? 1 + zoomIntensity : 1 - zoomIntensity;
+        scale *= zoom;
+
+        // Giới hạn tỉ lệ zoom
+        scale = Math.min(Math.max(0.5, scale), 3);
+
+        boxListSeatRoom.style.transform = `scale(${scale})`;
+        boxListSeatRoom.style.transformOrigin = `${mouseX}px ${mouseY}px`;
+    });
+
+    boxListSeatRoom.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        initialX = boxListSeatRoom.offsetLeft;
+        initialY = boxListSeatRoom.offsetTop;
+        boxListSeatRoom.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            const newLeft = initialX + dx;
+            const newTop = initialY + dy;
+
+            // Kiểm tra biên cho vị trí
+            if (
+                newLeft < 0 ||
+                newLeft + boxListSeatRoom.offsetWidth * scale > boxScopSeatRoom.clientWidth ||
+                newTop < 0 ||
+                newTop + boxListSeatRoom.offsetHeight * scale > boxScopSeatRoom.clientHeight
+            ) {
+                // Nếu chạm biên, thiết lập lại vị trí
+                resetPosition();
+                return;
+            }
+
+            boxListSeatRoom.style.left = `${newLeft}px`;
+            boxListSeatRoom.style.top = `${newTop}px`;
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        boxListSeatRoom.style.cursor = 'grab';
+    });
+
+    // Kiểm tra kích thước khi zoom
+    setInterval(() => {
+        const boxListRect = boxListSeatRoom.getBoundingClientRect();
+        const boxScopRect = boxScopSeatRoom.getBoundingClientRect();
+
+        // Nếu phần tử bị phóng to đến mức chạm biên, thiết lập lại kích thước
+        if (
+            boxListRect.left < boxScopRect.left ||
+            boxListRect.right > boxScopRect.right ||
+            boxListRect.top < boxScopRect.top ||
+            boxListRect.bottom > boxScopRect.bottom
+        ) {
+            resetPosition();
+        }
+    }, 100); // Kiểm tra định kỳ mỗi 100ms
+</script>
+
+<!-- <script>
+    const boxListSeatRoom = document.getElementById('box-list-seat-room');
+    let scale = 1;
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+
+    boxListSeatRoom.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const zoomIntensity = 0.1;
+        const mouseX = e.clientX - boxListSeatRoom.getBoundingClientRect().left;
+        const mouseY = e.clientY - boxListSeatRoom.getBoundingClientRect().top;
+
+        const zoom = e.deltaY < 0 ? 1 + zoomIntensity : 1 - zoomIntensity;
+        scale *= zoom;
+
+        // Limit the scale
+        scale = Math.min(Math.max(0.5, scale), 3);
+
+        boxListSeatRoom.style.transform = `scale(${scale})`;
+        boxListSeatRoom.style.transformOrigin = `${mouseX}px ${mouseY}px`;
+    });
+
+    boxListSeatRoom.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        initialX = boxListSeatRoom.offsetLeft;
+        initialY = boxListSeatRoom.offsetTop;
+        boxListSeatRoom.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            boxListSeatRoom.style.left = `${initialX + dx}px`;
+            boxListSeatRoom.style.top = `${initialY + dy}px`;
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        boxListSeatRoom.style.cursor = 'grab';
+    });
+</script> -->
+
+
+<!-- <script>
+    const boxListSeatRoom = document.getElementById('box-list-seat-room');
+    const boxScopSeatRoom = document.querySelector('.box-scop-seat-room');
+
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    boxListSeatRoom.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - boxListSeatRoom.getBoundingClientRect().left;
+        offsetY = e.clientY - boxListSeatRoom.getBoundingClientRect().top;
+        boxListSeatRoom.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            const boxScopRect = boxScopSeatRoom.getBoundingClientRect();
+            const boxListRect = boxListSeatRoom.getBoundingClientRect();
+
+            let newX = e.clientX - boxScopRect.left - offsetX;
+            let newY = e.clientY - boxScopRect.top - offsetY;
+
+            // Tính toán tâm điểm của box-list-seat-room
+            const centerX = boxListRect.width / 2;
+            const centerY = boxListRect.height / 2;
+
+            // Giới hạn di chuyển: cho phép kéo ra ngoài cho đến khi tâm điểm chạm biên
+            newX = Math.max(-centerX, Math.min(newX, boxScopRect.width - centerX));
+            newY = Math.max(-centerY, Math.min(newY, boxScopRect.height - centerY));
+
+            boxListSeatRoom.style.left = `${newX}px`;
+            boxListSeatRoom.style.top = `${newY}px`;
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        boxListSeatRoom.style.cursor = 'grab';
+    });
+
+    // Xóa sự kiện nếu chuột ra ngoài box-scop-seat-room
+    document.addEventListener('mouseleave', () => {
+        isDragging = false;
+        boxListSeatRoom.style.cursor = 'grab';
+    });
+</script> -->
+
+
+
+
+
+
+
 {% endblock roomDetail %}

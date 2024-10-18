@@ -59,7 +59,7 @@ from cinema_manager.views import booking
 
 from cinema_manager.views import adminmanager
 
-from cinema_manager.views import statistical
+from cinema_manager.views import statisticalmanage
 
 from cinema_manager.views import usermanage
 
@@ -272,7 +272,7 @@ urlpatterns = [
     
     path('adminmanager/', adminmanager, name = "adminmanager"),
     
-    path('statistical/', statistical, name = "statistical"),
+    path('statisticalmanage/', statisticalmanage, name = "statisticalmanage"),
     
     
     path('usermanage/', usermanage, name = "usermanage"),

@@ -4,18 +4,7 @@
 {% block userManage %} 
 
 <style>
-    .title-manage{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 1000;
-        text-transform: uppercase;
-        padding: 40px 0px 13px ;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #cdc197;
-
-    }
+    
 
     .box-btn-manage{
         width: 100%;
@@ -23,37 +12,7 @@
     
     }
 
-    .insert-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        margin-right: 15px;
-        border-radius: 3px;
-
-    }
-    .btn-delete-multi-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: #d5a12c;
-        border-radius: 3px;
-        background-color: transparent;
-
-    }
+    
 
 
     .manage-list{
@@ -70,16 +29,26 @@
     }
     .manage-list .table tr{
         border-bottom: 1px solid #cdc197;
+        width: 100%;
+        display: flex; 
+        align-items: center;
+        
         
 
     }
     .manage-list .table tr th{
-        text-align: center;
+        display: flex;
+        min-width: 200px;
+        align-items: center;
+        justify-content: center;
         border-left: 1px solid #cdc197;
     }
 
     .manage-list .table tr td{
-        text-align: center;
+        display: flex;
+        min-width: 200px;
+        align-items: center;
+        justify-content: center;
         border-left: 1px solid #cdc197;
         padding: 10px 0px;
 
@@ -121,30 +90,25 @@
 
     }
 
-    .is_active-select{
-        padding: 3px 5px !important;
-        border: 1px solid #cdc197;
-        outline-color: #cdc197;
-        color: #d5a12c !important;
-        text-shadow: 1px 1px 1px #000;
-        border-radius: 3px;
-        box-shadow: 0px 0px 2px 2px #d5a12c !important;
-        
-
+    .is_active-checkbox{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        transition: all 0.2s linear;
+        box-shadow: 0px 0px 0px 2px #cdc197 !important;
 
         
     }
-    .is_staff-select{
-        padding: 3px 5px !important;
-        border: 1px solid #cdc197;
-        outline-color: #cdc197;
-        color: #d5a12c !important;
-        text-shadow: 1px 1px 1px #000;
-        border-radius: 3px;
-        box-shadow: 0px 0px 2px 2px #d5a12c !important;
+    .is_staff-checkbox{
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        transition: all 0.2s linear;
+        box-shadow: 0px 0px 0px 2px #cdc197 !important;
 
     }
-
 
 </style>
 
@@ -159,8 +123,8 @@
 </div>
 
 <div class="box-pagination">
-    <button class="prev-page" disabled>Trang trước</button>
-    <button class="next-page">Trang sau</button>
+    <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
 
@@ -239,77 +203,59 @@
         userManages.forEach(userManage => {
             const dataRow = document.createElement('tr');
             dataRow.innerHTML = `
-            
                 <td>${userManage.username}</td>
                 <td>${userManage.email}</td>
                 <td>
-                    
-                    <select class="is_active-select" id="is_active" name="is_active">
-                        <option value="true" ${userManage.is_active === true ? 'selected' : ''}>true</option>
-                        <option value="false" ${userManage.is_active === false ? 'selected' : ''}>false</option>
-                    </select>
-                    
-                    <span id="user-update-is_active" class="user-update-is_active btn-update-manage">Cập nhật</span>
+                    <input type="checkbox" class="is_active-checkbox" name="is_active" id="is_active-${userManage.id}" ${userManage.is_active ? 'checked' : ''}>
+                    <span class="user-update-is_active btn-update-manage"><i class="fa-regular fa-pen-to-square"></i></span>
                 </td>
-                
                 <td>
-                    <select class="is_staff-select" id="is_staff" name="is_staff">
-                        <option value="true" ${userManage.is_staff === true ? 'selected' : ''}>true</option>
-                        <option value="false" ${userManage.is_staff === false ? 'selected' : ''}>false</option>
-                    </select>
-                    
-                    <span id="user-update-is_staff" class="user-update-is_staff btn-update-manage">Cập nhật</span>
+                    <input type="checkbox" class="is_staff-checkbox" name="is_staff" id="is_staff-${userManage.id}" ${userManage.is_staff ? 'checked' : ''}>
+                    <span class="user-update-is_staff btn-update-manage"><i class="fa-regular fa-pen-to-square"></i></span>
                 </td>
-
-
                 <td>
-                    <span id="user-delete" class="btn-delete-manage">Xóa</span>
+                    <span id="user-delete" class="btn-delete-manage"><i class="fa-solid fa-trash-can"></i></span>
                 </td>
             `;
-
-            // Sự kiện toggle chọn
+    
+            // Sự kiện toggle chọn hàng
             dataRow.addEventListener('click', function() {
                 const id = userManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                
+    
                 if(selectedIds.size > 0){
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
                     deleteMultiBtn.style.display = 'none';
                 }
-
+                
             });
-
+    
             dataRow.querySelector('#user-delete').addEventListener('click', function() {
                 if (confirm('Bạn có chắc chắn muốn xóa user này?')) {
                     getDeleteUser(userManage.id);
                 }
             });
-
+    
             dataRow.querySelector('.user-update-is_active').addEventListener('click', function() {
-                    const isActiveSelect = dataRow.querySelector('.is_active-select');
-                    const newIsActive = isActiveSelect.value;
-                    getUpdateUserIsActive(userManage.id, newIsActive);
-                
+                const isActiveCheckbox = dataRow.querySelector('.is_active-checkbox');
+                const newIsActive = isActiveCheckbox.checked;
+                getUpdateUserIsActive(userManage.id, newIsActive);
             });
-
+    
             dataRow.querySelector('.user-update-is_staff').addEventListener('click', function() {
-                    const isStaffSelect = dataRow.querySelector('.is_staff-select');
-                    const newIsStaff = isStaffSelect.value;
-                    getUpdateUserIsStaff(userManage.id, newIsStaff);
-                
+                const isStaffCheckbox = dataRow.querySelector('.is_staff-checkbox');
+                const newIsStaff = isStaffCheckbox.checked;
+                getUpdateUserIsStaff(userManage.id, newIsStaff);
             });
-            
-
+    
             userManageTable.appendChild(dataRow);
         });
 

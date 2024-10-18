@@ -12,9 +12,9 @@
     align-items: center;
     padding: 30px 0px 20px;
     font-size: 23px;
-    font-weight: 1000;
+    font-weight: bold;
     text-transform: uppercase;
-    border-bottom: 1px solid #cdc197;
+    border-bottom: 1px dashed #cdc197;
 }
 .box-contact-conten-all{
     width: 65%;
@@ -122,8 +122,7 @@
 .service-detail-description{
     
     width: 100%; 
-    max-height: 250px;
-    overflow-y: scroll;
+    height: 250px;
     font-size: 14px;
     margin: 0px;
     
@@ -150,32 +149,51 @@
 
 .box-input-contact-info{
     margin: 7px 10px;
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    
     
 
 }
 
 .box-input-contact-info-detail{
-    width: 73%;
+    width: 100%;
     margin: 7px 10px;
     
 }
 
-input {
+.form-control {
     width: 100%;
     margin: 10px 0;
     padding: 5px 10px;
-    outline-color: #cdc197;
+    outline-color: #cdc197 !important;
     color: #d5a12c !important;
     text-shadow: 1px 1px 1px #000;
-    box-shadow: 0px 0px 3px 2px #d5a12c;
-    border: 1px solid #d5a12c;
+    box-shadow: 0px 0px 0px 2px #cdc197;
+    border: 2px solid #d5a12c !important;
     border-radius: 3px;
+    transition: all 0.2s linear;
+}
+
+.form-control::placeholder{
+    color: #cdc197;
+    opacity: 0.6;
+}
+
+.form-control:hover{
+    border-color: #cdc197 !important;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+
 }
 
 .btn-create{
     padding: 5px 0px;
     min-width: 200px;
     display: flex;
+    color: #d5a12c;
+    text-shadow: 1px 1px 1px #000;
     justify-content: center;
     align-items: center;
     border: 2px solid #d5a12c;

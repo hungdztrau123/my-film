@@ -8,7 +8,7 @@
 
 <div class="container-promotion-list">
     <img src="../static/images/promotionlogo.png" alt="" class="promotion-image-container">
-
+    <span class="lable-start-time-promotion">Chọn ngày bắt đầu</span>
     <div class="box-search-time">
         
         <span id="search-button" class="btn-search"><i class="fa-solid fa-magnifying-glass"></i></span>
@@ -20,8 +20,8 @@
     </div>
 
     <div class="box-pagination">
-        <button class="prev-page" disabled>Trang trước</button>
-        <button class="next-page">Trang sau</button>
+        <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
 </div>
@@ -38,6 +38,76 @@
     let startDate = ''; // Biến lưu trữ giá trị start_date
     
     function renderPromotions(promotions) {
+        promotionList.innerHTML = '';
+        promotions.slice(0,8).forEach(promotion => {
+            const promotionItem = document.createElement('div');
+    
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+    
+            promotionItem.classList.add('promotion-item-box');
+            promotionItem.innerHTML = `
+                <div class="box-promotion-item-cover">
+                    <div class="box-promotion-item-img">
+                        <img src="${promotion.image}" class="promotion-item-img" alt="${promotion.name}">
+                    </div>
+                    
+                    <div class="box-promotion-time">
+                        <span class="promotion-item-start-date">${formatDate(promotion.start_date)}</span>
+                        ~
+                        <span class="promotion-item-end-date">${formatDate(promotion.end_date)}</span>
+                    </div>
+                </div>
+            `;
+
+            promotionItem.addEventListener('click', () => {
+                window.location.href = `/promotion/${promotion.id}/`;
+            });
+            
+            promotionList.appendChild(promotionItem);
+        });
+
+        if (promotions.length > 8) {
+
+            const boxSeeMore = document.createElement('div');
+            boxSeeMore.classList.add('box-see-more-all');
+
+            const seeMoreButton = document.createElement('div');
+            seeMoreButton.classList.add('box-see-more-button');
+
+
+            const seeMoreSpan = document.createElement('span');
+            seeMoreSpan.classList.add('text-see-more-button')
+            seeMoreSpan.textContent = 'Xem thêm';
+
+            
+            const seeMoreIcon = document.createElement('i');
+            seeMoreIcon.classList.add('fa-solid', 'fa-caret-down', 'icon-see-more');
+            
+
+            seeMoreButton.addEventListener('click', () => {
+                renderAllPromotions(promotions); 
+            });
+
+            seeMoreButton.appendChild(seeMoreSpan);
+
+            boxSeeMore.appendChild(seeMoreButton);
+            boxSeeMore.appendChild(seeMoreIcon);
+
+            
+
+            promotionList.appendChild(boxSeeMore);
+            
+        }
+
+    }
+
+    function renderAllPromotions(promotions) {
         promotionList.innerHTML = '';
         promotions.forEach(promotion => {
             const promotionItem = document.createElement('div');
@@ -64,12 +134,14 @@
                     </div>
                 </div>
             `;
+
             promotionItem.addEventListener('click', () => {
                 window.location.href = `/promotion/${promotion.id}/`;
             });
             
             promotionList.appendChild(promotionItem);
         });
+
     }
     
     function updatePaginationButtons() {
@@ -80,7 +152,7 @@
     function getPromotions(page = 1) {
         const queryParams = startDate ? { start_date: startDate } : {};
         const queryString = new URLSearchParams(queryParams).toString();
-        let url = `/api/promotions/?page=${page}&ordering=-created_at&${queryString}`;
+        let url = `/api/promotions/?page=${page}&ordering=-updated_at&${queryString}`;
         
         fetch(url)
             .then(response => response.json())

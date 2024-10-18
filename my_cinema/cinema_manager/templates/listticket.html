@@ -45,8 +45,8 @@
 
     }
     .ticket-item-name{
-        font-size: 20px;
-        font-weight: 1000;
+        font-size: 18px;
+        font-weight: bold;
         text-transform: uppercase;
 
     }
@@ -97,7 +97,7 @@
         justify-content: center;
         border: 1px solid #d5a12c;
         border-radius: 5px;
-        font-weight: 1000;
+        font-weight: bold;
         box-shadow: 0px 0px 2px 1px #d5a12c;
 
 
@@ -105,6 +105,12 @@
     .btn-ticket-detail{
         cursor: pointer;
         font-weight: bold;
+        transition: all 0.2s linear;
+    }
+
+    .btn-ticket-detail:hover{
+        color: #171213; /* Màu sắc khi được chọn */
+        text-shadow: 1px 1px 1px #d2a02f;
     }
     
    
@@ -120,8 +126,8 @@
     </div>
 
     <div class="box-pagination">
-        <button class="prev-page" disabled>Trang trước</button>
-        <button class="next-page">Trang sau</button>
+        <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
     
 </div>

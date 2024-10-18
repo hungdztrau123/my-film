@@ -29,7 +29,7 @@ from cinema_manager.models import ComboDetail
 from cinema_manager.models import Pay
 from cinema_manager.models import UserQuery
 
-
+from django.utils.timezone import localtime
 
 
 
@@ -97,12 +97,9 @@ class FilmSerializer(serializers.ModelSerializer):
         return ', '.join(place.name for place in obj.place.all())
     
     def get_dayshow_days(self, obj):
-        return ', '.join(str(dayshow.day) for dayshow in obj.dayshow.all())
+        days = [localtime(dayshow.day).isoformat() for dayshow in obj.dayshow.all()]
+        return ', '.join(days)
         
-        # return ', '.join(
-        #     f"{dayshow.day.strftime('%Y-%m-%dT%H:%M:%S')}{dayshow.day.strftime('%z')[:3]}:{dayshow.day.strftime('%z')[3:]}"
-        #     for dayshow in obj.dayshow.all()
-        # ).replace('+00:00', '+07:00')  # Thay thế +00:00 bằng +07:00
         
             
     
@@ -152,16 +149,15 @@ class CategoryFilmSerializer(serializers.ModelSerializer):
 
 
 class ActorSerializer(serializers.ModelSerializer):
-
+    films = serializers.SerializerMethodField()
     class Meta:
         model = Actors
         fields = '__all__'
     
-    def to_representation(self, instance): 
-        data = super().to_representation(instance) 
-        if instance.film: 
-            data['film'] = FilmSerializer(instance.film).data 
-        return data
+    def get_films(self, obj):
+        return ', '.join(film.name for film in obj.film.all())
+    
+    
 
  
 class CommentSerializer(serializers.ModelSerializer):

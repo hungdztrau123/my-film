@@ -109,10 +109,32 @@
             option.textContent = film.name;
             option.dataset.filmId = film.id;
             option.addEventListener('click', () => {
-                document.getElementById('film').value = film.name;
-                document.getElementById('film-id').value = film.id;
+                // Kiểm tra xem đã có giá trị được chọn chưa
+                let selectedFilms = document.getElementById('film').value.split(', ');
+                let selectedFilmsIds = document.getElementById('film-id').value.split(',');
+                
+                if (selectedFilms.indexOf(film.name) === -1) {
+                    // Nếu chưa có, thêm vào
+                    selectedFilms.push(film.name);
+                    selectedFilmsIds.push(film.id);
+                    document.getElementById('film').value = selectedFilms.join(', ');
+                    document.getElementById('film-id').value = selectedFilmsIds.join(',');
+                    console.log("film", document.getElementById('film').value = selectedFilms.join(', '))
+                    console.log("film-id", document.getElementById('film-id').value = selectedFilmsIds.join(','))
+
+                    
+                } else {
+                    // Nếu đã có, xóa đi
+                    let index = selectedFilms.indexOf(film.name);
+                    selectedFilms.splice(index, 1);
+                    selectedFilmsIds.splice(index, 1);
+                    document.getElementById('film').value = selectedFilms.join(', ');
+                    document.getElementById('film-id').value = selectedFilmsIds.join(',');
+                    console.log("film---", document.getElementById('film').value = selectedFilms.join(', '))
+                    console.log("film-id---", document.getElementById('film-id').value = selectedFilmsIds.join(','))
+                    
+                }
             });
-            const filmId = film.id;
             filmList.appendChild(option);
         });
     })
@@ -132,7 +154,7 @@
 
 
     
-    // Lấy thông tin combo hiện tại
+    // Lấy thông tin actor hiện tại
     fetch(`/api/actors/${actorId}/`)
         .then(response => response.json())
         .then(data => {
@@ -142,8 +164,10 @@
             imageElement.src = data.image;
             document.getElementById('description').value = data.description;
             
-            document.getElementById('film').value = data.film.name;
-            document.getElementById('film-id').value = data.film.id;
+            document.getElementById('film').value = data.films;
+            console.log("film-get", document.getElementById('film').value = data.films)
+            document.getElementById('film-id').value = data.film;
+            console.log("film-id-get",document.getElementById('film-id').value = data.film)
             
         })
         .catch(error => {
@@ -160,7 +184,7 @@
         const name = document.getElementById('name').value;
         const imageFile = document.getElementById('image');
         const description = document.getElementById('description').value;
-        const filmId = document.getElementById('film-id').value;
+        const filmIds = document.getElementById('film-id').value.split(',').filter(id => id !== '');
         
         
         const formData = new FormData();
@@ -170,7 +194,9 @@
             formData.append('image', imageFile.files[0]);
         }
         formData.append('description',description);
-        formData.append('film', parseInt(filmId, 10));
+        filmIds.forEach(filmId => {
+            formData.append('film', parseInt(filmId, 10));
+        });
         
         
         fetch(`/api/actors/${actorId}/`, {

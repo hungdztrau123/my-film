@@ -31,29 +31,47 @@
         height: 74px;
         display: flex;
         align-items: center;
+        justify-content: center;
         margin: 20px 0px;
         
         border-top: 1px dashed #cdc197;
         border-bottom: 1px dashed #cdc197;
+        display: none;
 
-        padding-top: 10px;
     }
 
-    .box-day-show-list-booking-film{
-        width: 100%;
+    .btn-nav-bar-dayshow{
+        font-size: 30px;
+        cursor: pointer;
+        transition: all 0.2s linear;
+        
+    }
+
+    .btn-nav-bar-dayshow:hover{
+        color: #cdc197;
+    }
+
+    
+
+    #day-show-list{
+       
+        width: 97%;
         z-index: 1000;
-        overflow-x: scroll;
+        
         display: flex;
         align-items: center;
-        padding: 0px 10px;
+        flex-wrap: nowrap;
         
-        
-
+        padding: 0px 5px;
     }
 
     .day-show-item{
         font-size: 14px;
-        padding: 4px 14px;
+        min-width: 205px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 0px;
         border: 2px solid #d5a12c;
         box-shadow: 0px 0px 0px 2px #cdc197;
         cursor: pointer;
@@ -78,7 +96,7 @@
 
     .cinema-title{
         font-size: 24px;
-        font-weight: 1000;
+        font-weight: bold;
         padding-bottom: 15px;
         text-transform: uppercase;
         border-bottom: 1px dashed #cdc197;
@@ -90,6 +108,10 @@
         width: 100%;
         display: flex;
         align-items: start;
+        background: rgb(0, 0, 0, 0.7);
+        padding: 10px 0px;
+        border-radius: 7px;
+        box-shadow: 0px 0px 0px 3px #cdc197;
 
     }
     .box-area-booking-film{
@@ -124,7 +146,7 @@
 
     .area-item-booking-film{
         display: flex;
-        font-weight: 1000;
+        font-weight: bold;
         min-width: 130px;
         align-items: center;
         justify-content: center;
@@ -232,7 +254,7 @@
         width: 24px;
         height: 24px;
         display: flex;
-        font-weight: 1000;
+        font-weight: bold;
         justify-content: center;
         align-items: center;
         border: 1px solid #d5a12c;
@@ -243,7 +265,7 @@
     .film-day-show-name{
         margin: 0px 10px;
         text-transform: uppercase;
-        font-weight: 1000;
+        font-weight: bold;
 
     }
     .box-list-film-day-show-schedule{
@@ -336,9 +358,13 @@
         </div>
 
         <div class="box-day-show-booking-film">
+            <span id="btn-left" class="btn-nav-bar-dayshow"><i class="fa-solid fa-chevron-left"></i></span>
+
             <div id="day-show-list" class="box-day-show-list-booking-film">
 
             </div>
+
+            <span id="btn-right" class="btn-nav-bar-dayshow"><i class="fa-solid fa-chevron-right"></i></span>
         </div>
 
 
@@ -413,6 +439,7 @@ function getAreaDetails(areaId) {
           `;
           placeItem.addEventListener('click', () => {
             getDayShows(place.id);
+            document.querySelector('.box-day-show-booking-film').style.display = 'flex';
 
             if (activePlaceItem && activePlaceItem !== placeItem) {
                 activePlaceItem.classList.remove('box-shadow');
@@ -433,16 +460,50 @@ function getAreaDetails(areaId) {
       });
 }
 
-function getDayShows(placeDetailId){
+
+
+let currentDayShowPage = 0;
+const dayShowsPerPage = 4;
+let dayShowsData = [];
+
+function getDayShows(placeDetailId) {
     fetch(`/api/dayshows/?place=${placeDetailId}`)
     .then(response => response.json())
     .then(data => {
+        dayShowsData = data.results; 
+        renderDayShows(placeDetailId); 
+
+        // Thêm sự kiện cho nút Left
+        document.getElementById('btn-left').addEventListener('click', () => {
+            if (currentDayShowPage > 0) {
+                currentDayShowPage--;
+                renderDayShows(placeDetailId);
+            }
+        });
+
+        // Thêm sự kiện cho nút Right
+        document.getElementById('btn-right').addEventListener('click', () => {
+            if ((currentDayShowPage + 1) * dayShowsPerPage < dayShowsData.length) {
+                currentDayShowPage++;
+                renderDayShows(placeDetailId);
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching dayshow film list:', error);
+    });
+}
+
+function renderDayShows(placeDetailId) {
     const dayShowList = document.getElementById('day-show-list');
-    dayShowList.innerHTML = ''; // Xóa nội dung cũ
+    dayShowList.innerHTML = '';
     let activeDayShowItem = null;
 
+    const start = currentDayShowPage * dayShowsPerPage;
+    const end = start + dayShowsPerPage;
+    const dayShowsToShow = dayShowsData.slice(start, end);
 
-    data.results.forEach(dayshow => {
+    dayShowsToShow.forEach(dayshow => {
         const dayShowItem = document.createElement('div');
         dayShowItem.classList.add('day-show-item');
 
@@ -471,13 +532,16 @@ function getDayShows(placeDetailId){
         });
         dayShowList.appendChild(dayShowItem);
     });
-    })
-    .catch(error => {
-    console.error('Error fetching film details:', error);
-    });
 }
+
+
+
+
+
+
+
 function getFilms(dayShowId,filmIdTrans,placeDetailId){
-fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}`)
+fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}&ordering=day`)
 .then(response => response.json())
 .then(data => {
     const filmList = document.getElementById('film-list');

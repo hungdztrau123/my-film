@@ -147,9 +147,9 @@ def adminmanager(request):
     context = {}
     return render(request, '../templates/adminmanager.html', context)
 
-def statistical(request):
+def statisticalmanage(request):
     context = {}
-    return render(request, '../templates/statistical.html', context)
+    return render(request, '../templates/statisticalmanage.html', context)
 
 
 def usermanage(request):
@@ -821,7 +821,7 @@ class FilmViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = FilmFilterSet
-    ordering_fields = ("id","name","view","producer","duration","description", "country","imdb","age","created_at")
+    ordering_fields = ("id","name","view","producer","duration","description", "country","imdb","age","created_at","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -829,7 +829,7 @@ class FilmViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(create_by=self.request.user)
     def perform_update(self, serializer):
-        serializer.save(editor=self.request.user)
+        serializer.save(editor=self.request.user, updated_at=timezone.now())
         
         
     def get_films_count(self, request):
@@ -882,7 +882,7 @@ class VideoViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = VideoFilterSet
-    ordering_fields = ("id","film","video_type",)
+    ordering_fields = ("id","film","video_type","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -890,7 +890,7 @@ class VideoViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(create_by=self.request.user)
     def perform_update(self, serializer):
-        serializer.save(editor=self.request.user)
+        serializer.save(editor=self.request.user,updated_at=timezone.now())
     
 class CategoryViewSet(ModelViewSet):
     model = Categories
@@ -1083,6 +1083,27 @@ class ScheduleViewSet(ModelViewSet):
         serializer.save(create_by=self.request.user)
     def perform_update(self, serializer):
         serializer.save(editor=self.request.user)
+        
+    @action(detail=False, methods=['patch'], url_path='update-by-film')
+    def update_schedule_by_film(self, request):
+        film_id = request.query_params.get('film')
+        if not film_id:
+            return Response({"error": "Film ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        schedules = self.queryset.filter(film=film_id)
+        if not schedules.exists():
+            return Response({"error": "No schedules found for the given film ID."}, status=status.HTTP_404_NOT_FOUND)
+
+        updated_schedules = []
+        for schedule in schedules:
+            serializer = self.get_serializer(schedule, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                updated_schedules.append(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(updated_schedules, status=status.HTTP_200_OK)
    
 class PromotionViewSet(ModelViewSet):
     model = Promotion
@@ -1095,7 +1116,7 @@ class PromotionViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = PromotionFilterSet
-    ordering_fields = ("id","name", "created_at","start_date","end_date","description")
+    ordering_fields = ("id","name", "created_at","updated_at","start_date","end_date","description")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -1103,7 +1124,7 @@ class PromotionViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(create_by=self.request.user)
     def perform_update(self, serializer):
-        serializer.save(editor=self.request.user)
+        serializer.save(editor=self.request.user, updated_at=timezone.now())
         
     def list(self, request, *args, **kwargs):
         start_date_param = request.query_params.get('start_date')

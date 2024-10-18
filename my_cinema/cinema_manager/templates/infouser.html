@@ -15,13 +15,17 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 30px 0px 20px 0px;
+        margin: 30px 0px;
+        padding: 25px 30px 7px; 
+        border-radius: 7px;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        background-color: rgba(0,0,0,0.7);
 
 
     }
     .title-user-info{
         font-size: 24px;
-        font-weight: 1000;
+        font-weight: bold;
         text-transform: uppercase;
         padding-bottom: 20px;
         
@@ -31,8 +35,8 @@
         display: flex;
         justify-content: center;
         padding: 20px 0px 35px 0px;
-        border-bottom: 1px solid #d5a12c;
-        border-top: 1px solid #d5a12c;
+        border-bottom: 1px dashed #cdc197;
+        border-top: 1px dashed #cdc197;
 
 
     }
@@ -51,7 +55,7 @@
     }
     .user-label{
         margin-bottom: 5px;
-        font-weight: 1000;
+        font-weight: bold;
        
     }
     .user-input{
@@ -63,12 +67,24 @@
         color:#d5a12c;
         text-shadow: 1px 1px 1px #000;
         outline-color: #cdc197;
-        border: 1px solid #d5a12c;
-        box-shadow: 0px 0px 3px 2px #d5a12c;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 2px #cdc197;
         border-radius: 5px;
+        transition: all 0.2s linear;
         
         
 
+    }
+
+    .user-input:hover {
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 2px #d5a12c;
+
+    }
+
+    .user-input::placeholder{   
+        color: #cdc197;
+        opacity: 0.6;
     }
 
     .box-input-right{

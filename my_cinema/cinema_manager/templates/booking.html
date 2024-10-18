@@ -19,12 +19,21 @@
         padding: 40px 0px;
 
     }
+
+    .box-schedule-combo-booking{
+        padding: 30px;
+        background-color: rgb(0,0,0,0.7);
+        border-radius: 7px;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+    }
+
+
     .box-booking-schedule-detail{
         width: 100%;
         display: flex;
         align-items: start;
         padding-bottom: 35px;
-        border-bottom: 1px solid #d5a12c;
+        border-bottom: 1px dashed #cdc197;
 
     }
 
@@ -66,7 +75,7 @@
         border: 1px solid #cdc197;
         box-shadow: 0px 0px 3px 2px #d5a12c;
         font-size: 20px;
-        font-weight: 1000;
+        font-weight: bold;
 
     }
 
@@ -90,7 +99,7 @@
     }
     .booking-name-film{
         font-size: 24px;
-        font-weight: 1000;
+        font-weight: bold;
         text-transform: uppercase;
         padding: 10px 0px;
 
@@ -102,7 +111,7 @@
 
     }
     .booking-label-place{
-        font-weight: 1000;
+        font-weight: bold;
         
 
     }
@@ -117,7 +126,7 @@
 
     }
     .booking-label-time{
-        font-weight: 1000;
+        font-weight: bold;
         
 
     }
@@ -144,7 +153,7 @@
 
     }
     .booking-label-room{
-        font-weight: 1000;
+        font-weight: bold;
 
     }
     .booking-name-room{
@@ -158,7 +167,7 @@
 
     }
     .booking-label-detail-seat{
-        font-weight: 1000;
+        font-weight: bold;
     }
     .box-booking-detail-list{
         display: flex;
@@ -172,7 +181,7 @@
         flex-direction: column;
         justify-content: center;
         padding: 20px 0px;
-        border-bottom: 1px solid #d5a12c;
+        border-bottom: 1px dashed #cdc197;
 
     }
 
@@ -204,7 +213,7 @@
 
 
     .combo-label-detail{
-        font-weight: 1000;
+        font-weight: bold;
 
     }
 
@@ -256,13 +265,14 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding: 20px 0px;
-        border-bottom: 1px solid #d5a12c;
+        padding: 10px 0px 20px;
+        border-bottom: 1px dashed #cdc197;
+        margin: 0px 30px;
 
     }
     .user-profile-title{
         font-size: 24px;
-        font-weight: 1000;
+        font-weight: bold;
         padding-bottom: 10px;
 
     }
@@ -278,9 +288,16 @@
         font-size: 18px;
         text-shadow: 1px 1px 1px #000;
         outline-color: #cdc197;
-        box-shadow: 0px 0px 3px 2px #d5a12c;
-        border: 1px solid #d5a12c;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 2px #cdc197;
         border-radius: 3px;
+        transition: all 0.2s linear;
+    }
+
+    .user-profile-input-phone:hover{
+        border-color:#cdc197;
+        box-shadow: 0px 0px 0px 2px #d5a12c;
+        
     }
 
     .box-combo-list{
@@ -382,12 +399,13 @@
     }
 
     .box-booking-total-price{
-        width: 100%;
+        width: 93.5%;
         display: flex;
         align-items: center;
         font-size: 24px;
-        padding: 20px 0px;
-        border-bottom: 1px solid #d5a12c;
+        padding: 15px 0px;
+        border-bottom: 1px dashed #cdc197;
+        margin: 0px 30px;
 
     }
 
@@ -441,44 +459,46 @@
 <div class="container-booking">
     <div class="box-booking-all">
 
-        <div id="schedule-detail-ticket" class="box-booking-schedule-detail">
+        <div class="box-schedule-combo-booking">
 
-        </div>
+            <div id="schedule-detail-ticket" class="box-booking-schedule-detail">
 
-        
-
-        <div class="box-combo-detail-all">
-            <div class="box-combo-detail-combo">
-                <span class="combo-label-detail">Combo :</span>
-                <div id="combo-name-unique-list" class="box-combo-name-unique-list">
-
-                </div>
             </div>
+
             
-            <div class="box-combo-detail-amount">
-                <span class="combo-label-detail">Số lượng :</span>
-                <div id="booking-detail-combo-amount" class="box-combo-amount-list">
 
-                </div>
-                -
-                <div class="box-combo-detail-list-all">
-                    (
-                        <div id="combo-detail-list" class="box-combo-detail-list">
+            <div class="box-combo-detail-all">
+                <div class="box-combo-detail-combo">
+                    <span class="combo-label-detail">Combo :</span>
+                    <div id="combo-name-unique-list" class="box-combo-name-unique-list">
 
-                        </div>
-                    )
+                    </div>
                 </div>
                 
+                <div class="box-combo-detail-amount">
+                    <span class="combo-label-detail">Số lượng :</span>
+                    <div id="booking-detail-combo-amount" class="box-combo-amount-list">
 
+                    </div>
+                    -
+                    <div class="box-combo-detail-list-all">
+                        (
+                            <div id="combo-detail-list" class="box-combo-detail-list">
+
+                            </div>
+                        )
+                    </div>
+                    
+
+                </div>
+
+
+                
+                
+                
             </div>
 
-
-            
-            
-            
         </div>
-
-        
 
         
 

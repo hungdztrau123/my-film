@@ -8,18 +8,18 @@
             <span class="login-title">Đăng Nhập</span>
             <div>
                 <label for="username">Tên người dùng:</label>
-                <input type="text" id="username" name="username" required>
+                <input type="email" class="input-text-login" id="username" name="username" placeholder="Nhập email" required>
             </div>
             <div>
                 <label for="password">Mật khẩu:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" class="input-text-login" id="password" name="password" placeholder="Nhập mật khẩu" required>
             </div>
             <div class="box-btn-login">
                 <button type="submit" class="btn-login-main">Đăng Nhập</button>
             </div>
             
             <div id="message"></div>
-            <br>
+            
 
             <div class="box-btn-register">
                 <span id="btn-register" class="btn-register" >Đăng Ký</span>
@@ -45,7 +45,7 @@
             border: 1px solid #d5a12c;
             padding: 30px;
             border-radius: 3px;
-            box-shadow: 0px 0px 3px 2px #d5a12c;
+            box-shadow: 0px 0px 0px 2px #cdc197;
 
 
         }
@@ -58,17 +58,35 @@
             align-items: center;
             justify-content: center;
         }
-        input {
+        
+
+        .input-text-login{
             width: 100%;
             margin: 10px 0;
-            padding: 5px 10px;
+            padding: 7px 10px;
             color: #d5a12c;
+            
             text-shadow: 1px 1px 1px #000;
             outline-color: #cdc197;
-            box-shadow: 0px 0px 3px 2px #d5a12c;
-            border: 1px solid #d5a12c;
+            box-shadow: 0px 0px 0px 2px #cdc197;
+            border: 2px solid #d5a12c;
             border-radius: 3px;
+            transition: all 0.2s linear;
+
         }
+
+        .input-text-login:hover {
+            border-color: #cdc197;
+            box-shadow: 0px 0px 0px 2px #d5a12c;
+
+        }
+
+        .input-text-login::placeholder{
+            color: #cdc197;
+            opacity: 0.6;
+        }
+
+        
 
         .box-btn-login{
             width: 100%;
@@ -92,7 +110,7 @@
             align-items: center;
             justify-content: center;
             padding: 5px ;
-            min-width: 130px;
+            min-width: 170px;
 
             font-weight: bold;
             border: 2px solid #d5a12c;
@@ -102,20 +120,42 @@
             background-color: transparent;
             color: #d5a12c;
             text-shadow: 1px 1px 1px #000;
+            transition: all 0.2s linear;
+            
 
 
         }
+
+        .btn-login-main:hover{
+            color: #cdc197;
+            border-color: #cdc197;
+            box-shadow: 0px 0px 0px 3px #d5a12c;
+
+
+        }
+
         .btn-register{
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 5px ;
-            min-width: 130px;
+            min-width: 170px;
             font-weight: bold;
             border: 2px solid #d5a12c;
             box-shadow: 0px 0px 0px 3px #cdc197;
             border-radius: 3px;
             cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.2s linear;
+
+        }
+
+        .btn-register:hover{
+            color: #cdc197;
+            border-color: #cdc197;
+            box-shadow: 0px 0px 0px 3px #d5a12c;
+
+
         }
         
     </style>
@@ -153,7 +193,7 @@
                     // Chuyển hướng đến trang tương ứng
                     if (data.is_admin) {
                         // Nếu người dùng là admin, chuyển hướng đến trang admin
-                        window.location.href = '/statistical/';
+                        window.location.href = '/statisticalmanage/';
                     } else {
                         // Nếu người dùng là user thông thường, chuyển hướng đến trang người dùng
                         window.location.href = '/home/';

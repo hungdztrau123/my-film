@@ -4,18 +4,7 @@
 {% block billManage %} 
 
 <style>
-    .title-manage{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 1000;
-        text-transform: uppercase;
-        padding: 40px 0px 13px ;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #cdc197;
-
-    }
+   
 
     .box-btn-manage{
         width: 100%;
@@ -23,37 +12,7 @@
     
     }
 
-    .insert-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        margin-right: 15px;
-        border-radius: 3px;
-
-    }
-    .btn-delete-multi-manage{
-        min-width: 100px;
-        height: 25px;
-        border: 2px solid #d5a12c;
-        box-shadow: 0px 0px 0px 3px #cdc197;
-        display: flex;
-        font-size: 14px;
-        font-weight: 1000;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: #d5a12c;
-        border-radius: 3px;
-        background-color: transparent;
-
-    }
+    
 
 
     .manage-list{
@@ -158,8 +117,8 @@
 </div>
 
 <div class="box-pagination">
-    <button class="prev-page" disabled>Trang trước</button>
-    <button class="next-page">Trang sau</button>
+    <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
 
@@ -252,7 +211,7 @@
                         <option value="Hết hạn" ${billManage.status === 'Hết hạn' ? 'selected' : ''}>Hết hạn</option>
                     </select>
                     
-                    <span id="bill-update-status" class="bill-update-status btn-update-manage">Cập nhật</span>
+                    <span id="bill-update-status" class="bill-update-status btn-update-manage"><i class="fa-regular fa-pen-to-square"></i></span>
                 </td>
                 <td><img src="${billManage.qr_code}" alt="QR code" class="qr-code-ticket"></td>
                 <td>${billManage.ticket_code}</td>
@@ -262,12 +221,12 @@
                         <option value="Chưa xác nhận" ${billManage.confirm === 'Chưa xác nhận' ? 'selected' : ''}>Chưa xác nhận</option>
                     </select>
                     
-                    <span id="bill-update-confirm" class="bill-update-confirm btn-update-manage">Cập nhật</span>
+                    <span id="bill-update-confirm" class="bill-update-confirm btn-update-manage"><i class="fa-regular fa-pen-to-square"></i></span>
                 </td>
 
 
                 <td>
-                    <span id="bill-delete" class="btn-delete-manage">Xóa</span>
+                    <span id="bill-delete" class="btn-delete-manage"><i class="fa-solid fa-trash-can"></i></span>
                 </td>
             `;
 

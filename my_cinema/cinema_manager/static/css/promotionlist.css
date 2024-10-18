@@ -11,6 +11,11 @@
     width: 12%;
 }
 
+.lable-start-time-promotion{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
 .box-search-time{
     width: 20%;
     border: 2px solid #cdc197;
@@ -67,6 +72,7 @@
     width: 70%;
     display: flex;
     flex-wrap: wrap;
+    padding-left: 1.8px;
 
 }
 
@@ -132,4 +138,70 @@
 }
 .promotion-item-end-date{
     margin-left: 4px;
+}
+
+
+
+
+.box-see-more-all{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0px 0px;
+    transition: all 0.2s linear;
+    z-index: 100;
+}
+
+.box-see-more-all:hover .box-see-more-button{
+    color: #cdc197;
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 3px #d5a12c;
+}
+
+.box-see-more-all:hover .icon-see-more{
+    transform: translateY(1px);
+    color: #d5a12c;
+}
+
+.box-see-more-button{
+    width: 100%;
+    padding-bottom: 1px;
+    display: flex;
+    
+    align-items: center;
+    justify-content: center;
+    
+    font-weight: bold;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 3px #cdc197;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    z-index: 100;
+    background-color: #ffffff;
+    
+    
+}
+
+
+
+.text-see-more-button{
+   
+    text-transform: uppercase;
+    font-size: 16px;
+    
+    
+}
+
+.icon-see-more{
+    
+    font-size: 30px;
+    line-height: 15px;
+    color:#cdc197;
+    transition: all 0.2s linear;
+    transform: translateY(-14px);
+    
 }

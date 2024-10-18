@@ -9,7 +9,7 @@
     align-items: center;
     border-top: 1px solid #cdc197;
     border-bottom: 1px solid #cdc197;
-    box-shadow: 0px 0px 3px 2px #d5a12c;
+    
     padding: 20px 0px;
 }
 
@@ -22,10 +22,34 @@
 .box-film-list{
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
+    
     justify-content: center;
     align-items: center;
     padding: 20px 0px;
+    transition: all 0.2s linear;
+
+}
+
+.btn-nav-bar-home{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 3px #cdc197;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #d5a12c;
+    transition: all 0.2s linear;
+    margin: 0px 10px;
+}
+.btn-nav-bar-home:hover{
+    color: #cdc197;
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 3px #d5a12c;
 
 }
 
@@ -42,12 +66,70 @@
     width: 24%;
     height: 348px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: end;
+    
     border: 1px solid #d5a12c;
     margin: 5px;
     transition: all 0.2s linear;
     overflow: hidden;
+    
+}
+
+.film-item:hover .box-film-item-content-imdb{
+    transform: translateX(95px);
+}
+
+.film-item:hover .box-film-item-time-coming{
+    display: none;
+}
+
+
+.box-film-item-content-imdb{
+    display: flex;
+    min-width: 95px;
+    height: 43px;
+    z-index: 500;
+    align-items: center;
+    background-color: rgb(0,0,0,0.5);
+    padding: 0px 7px;
+    box-shadow: 0px 0px 2px 2px #d5a12c;
+    transition: all 0.3s linear;
+    border-bottom-right-radius: 7px;
+    transform: translateX(-3px);
+
+    
+}
+
+.film-home-content-imdb{
+    width: 100%;
+    font-weight: 17px;
+    font-weight: bold;
+    display: flex;
+
+
+}
+.film-home-detail-content-imdb{
+    background-color: #f5c518;
+    font-weight: 1000;
+    color: #000;
+    padding: 0px 5px 2px 5px;
+    border-radius: 3px;
+    text-shadow: none;
+    letter-spacing: -1px;
+    margin-right: 5px;
+
+}
+
+.box-film-item-img-content{
+    width: 100%;
+    height: 348px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    transition: all 0.2s linear;
+    
+
 }
 
 .film-item:hover{
@@ -62,9 +144,11 @@
     transform: translateY(-74px);
 }
 
+
+
 .box-film-item-img{
-    width: 100%;
-    min-height: 348px;
+    width: 255px;
+    min-height:348px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,10 +172,28 @@
     align-items: center;
     justify-content: center;
     display: none;
-    font-weight: 1000;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: 13.5px;
 }
+
+.box-film-item-time-coming{
+    position:absolute;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 0px 7px 0px 7px;
+    border-radius: 10px;
+    bottom: 10px;
+    color: #fff; 
+    
+    background-color: rgb(0,0,0,0.6);
+    
+    
+}
+
+
 .btn-booking{
     padding: 5px 10px; 
     min-width: 100px;
@@ -150,7 +252,7 @@
     border-bottom: 1px solid #d5a12c;
     border-top: 1px solid #d5a12c;
     font-size: 14px;
-    font-weight: 1000;
+    font-weight: bold;
 
 }
 .film-item-age{
@@ -169,6 +271,10 @@
     text-transform: uppercase;
     margin-left: 7px;
     letter-spacing: 1px;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .box-film-time{
     width: 100%;
@@ -197,8 +303,8 @@
 .box-top-film-main{
     display: flex;
     position: fixed;
-    left: 2px;
-    top: 200px; 
+    left: 3px;
+    top: 221px;
     border: 1px solid #cdc197;
     box-shadow: 0px 0px 3px 2px #d5a12c;
     z-index: 9999999999;
@@ -226,7 +332,7 @@
 }
 
 .box-top-film{
-    width: 290px;
+    width: 310px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -250,7 +356,7 @@
     flex-direction: column;
     
     justify-content: center;
-    padding: 20px 10px;
+    padding: 20px 20px 20px 9px;
 
 }
 .top-film-item{
@@ -307,9 +413,10 @@
     font-size: 14px;
     text-transform: uppercase;
     white-space: nowrap; 
-    max-width: 150px; 
+    width: 80px; 
     overflow: hidden;
     text-overflow: ellipsis; 
+
 
 }
 .film-duration{
@@ -332,7 +439,7 @@
 
     border-top: 1px solid #cdc197;
     border-bottom: 1px solid #cdc197;
-    box-shadow: 0px 0px 3px 2px #d5a12c;
+   
 
     padding: 25px 0px;
 

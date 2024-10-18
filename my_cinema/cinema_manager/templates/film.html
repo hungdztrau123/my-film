@@ -9,6 +9,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background-color: #fdfcf0;
     }
     .box-swiper-film{
         width: 100%;
@@ -44,11 +45,24 @@
     }
 
     .swiper-button-prev{
-        color: #424242 !important;
+        color: rgb(217 217 217) !important;
+        top: 500px !important;
+        text-shadow: none;
+        transition: all 0.2s linear;
+    }
+
+    .swiper-button-prev:hover{
+        color: rgb(151, 151, 151) !important;
     }
     .swiper-button-next{
-        color: #424242 !important;
+        color: rgb(217 217 217) !important;
+        top: 500px !important;
+        text-shadow: none;
+        transition: all 0.2s linear;
+    }
 
+    .swiper-button-next:hover{
+        color: rgb(151, 151, 151) !important;
     }
 
 
@@ -72,7 +86,10 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        padding-bottom: 30px;
+        padding: 30px 30px 20px 30px;
+        background-color: rgba(0,0,0,0.7);
+        border-radius: 7px;
+        box-shadow: 0px 0px 0px 3px #cdc197;
 
     }
     .box-film-detail-content-poster{
@@ -103,7 +120,7 @@
         border-bottom-right-radius: 7px;
         cursor: pointer;
         font-size: 20px;
-        font-weight: 1000;
+        font-weight: bold;
         transition: all 0.2s linear;
 
     }
@@ -130,7 +147,7 @@
         display: flex;
         align-items: center;
         font-size: 24px;
-        font-weight: 1000;
+        font-weight: bold;
         text-transform: uppercase;
         margin-bottom: 20px;
 
@@ -168,7 +185,7 @@
 
 
     .text-infor-film{
-        font-weight: 1000;
+        font-weight: bold;
         margin-right: 7px;
     }
 
@@ -227,7 +244,7 @@
 
     .detail-content-description-title{
         font-size: 24px;
-        font-weight: 1000;
+        font-weight: bold;
         margin-bottom: 10px;
         
     }
@@ -247,21 +264,52 @@
     }
     .detail-content-actor-title{
         font-size: 24px;
-        font-weight: 1000;
+        font-weight: bold;
         margin-bottom: 10px;
+    }
+
+    .box-list-actor-btn-left-right{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-nav-bar-film{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #d5a12c;
+        transition: all 0.2s linear;
+        margin: 0px 7px;
+        
+
+    }
+
+    .btn-nav-bar-film:hover{
+        color: #cdc197;
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 3px #d5a12c;
+    
     }
 
 
     .box-list-actor-film{
-        max-width: 100%;
+        width: 89%;
         display: flex;
         flex-wrap: nowrap;
-        overflow-x: scroll;
         align-items: center;
     }
 
     .actor-film-item{
-        width: 150px;
+        min-width: 150px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -269,7 +317,7 @@
         border: 1px solid #d5a12c;
         padding-bottom: 4px;
         border-radius: 3px;
-        margin: 10px 10px 10px 0px;
+        margin: 5px;
 
     }
     .actor-film-item-img{
@@ -314,7 +362,7 @@
 
     .rating-title{
         font-size: 18px;
-        font-weight: 1000;
+        font-weight: bold;
         margin-bottom: 5px;
 
     }
@@ -535,8 +583,8 @@
             </div>
 
             <div class="pagination-comment">
-                <button class="prev-page" disabled>Trang trước</button>
-                <button class="next-page">Trang sau</button>
+                <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
 
         </div>
@@ -655,9 +703,19 @@
 
                     <div class="list-actor-film-content-bottom">
                         <div class="detail-content-actor-title">Diễn viên</div>
-                        <div class="box-list-actor-film" id="actor-${data.id}">
-                                
+
+                        <div class="box-list-actor-btn-left-right">
+
+                            <span id="btn-left" class="btn-nav-bar-film"><i class="fa-solid fa-chevron-left"></i></span>
+                         
+                            <div class="box-list-actor-film" id="actor-${data.id}">
+                                    
+                            </div>
+                            
+                            <span id="btn-right" class="btn-nav-bar-film"><i class="fa-solid fa-chevron-right"></i></span>
+                       
                         </div>
+
                     </div>
 
                     
@@ -667,6 +725,7 @@
         
         getCategoryByFilmId(data.id,`category-${data.id}`);
         getActorByFilmId(data.id,`actor-${data.id}`);
+        
 
         getMultimediaData(data.id);
         filmDetailContainer.querySelector('.btn-booking-film-detail').addEventListener('click', () => {
@@ -706,28 +765,57 @@
 
     }
 
+    
+
+
+    let currentActorPage = 0;
+    const actorsPerPage = 5;
+    let actorsData = [];
 
     function getActorByFilmId(filmIdActor, actorListId) {
         fetch(`/api/actors/?film=${filmIdActor}`)
         .then(response => response.json())
         .then(data => {
-          const actorFilmList = document.getElementById(actorListId);
-          actorFilmList.innerHTML = ''; // Xóa nội dung cũ
-    
-          data.results.forEach(actorFilm => {
+            actorsData = data.results; // Lưu danh sách diễn viên
+            renderActors(actorListId); // Hiển thị diễn viên đầu tiên
+
+            // Thêm sự kiện cho nút Left
+            document.getElementById('btn-left').addEventListener('click', () => {
+                if (currentActorPage > 0) {
+                    currentActorPage--;
+                    renderActors(actorListId);
+                }
+            });
+
+            // Thêm sự kiện cho nút Right
+            document.getElementById('btn-right').addEventListener('click', () => {
+                if ((currentActorPage + 1) * actorsPerPage < actorsData.length) {
+                    currentActorPage++;
+                    renderActors(actorListId);
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching actor film list:', error);
+        });
+    }
+
+    function renderActors(actorListId) {
+        const actorFilmList = document.getElementById(actorListId);
+        actorFilmList.innerHTML = ''; // Xóa nội dung cũ
+
+        const start = currentActorPage * actorsPerPage;
+        const end = start + actorsPerPage;
+        const actorsToShow = actorsData.slice(start, end);
+
+        actorsToShow.forEach(actorFilm => {
             const actorFilmItem = document.createElement('div');
             actorFilmItem.classList.add('actor-film-item');
             actorFilmItem.innerHTML = `
-              
                 <img id="actor-image" class="actor-film-item-img" src="${actorFilm.image}" alt="${actorFilm.name}">
                 <span class="actor-film-item-name">${actorFilm.name}</span>
-             
             `;
             actorFilmList.appendChild(actorFilmItem);
-          });
-        })
-        .catch(error => {
-          console.error('Error fetching actorfilm list:', error);
         });
     }
 

@@ -91,7 +91,7 @@ class FilmFilterSet(FilterSet):
             "name": CHAR_KWARGS,
             "imdb": CHAR_KWARGS,
             "age": CHAR_KWARGS,
-            "view": CHAR_KWARGS,
+            "view": INT_KWARGS,
             "producer": CHAR_KWARGS,
             "duration": CHAR_KWARGS,
             "release": DATE_KWARGS,

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="icon" href="{% static 'images/9023900.jpg' %}" type="image/x-icon">
     <link href="{% static 'css/adminmanager.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -36,32 +37,32 @@
         <div class="container-tab-bar">
             <div class="box-tab-bar-left">
                 <ul class="container-tab-bar-left">
-                    <li class="item-tab-barleft top" id="btn-move-tab-bar"><i class="fa-solid fa-bars"></i></li>
-                    <li class="item-tab-barleft" id="tab-statistical-left"><i class="fa-solid fa-chart-pie"></i></li>
-                    <li class="item-tab-barleft" id="tab-user-left"><i class="fa-solid fa-user"></i></li>
-                    <li class="item-tab-barleft" id="tab-area-left"><i class="fa-solid fa-chart-area"></i></li>
-                    <li class="item-tab-barleft" id="tab-place-left"><i class="fa-solid fa-location-dot"></i></li>
-                    <li class="item-tab-barleft" id="tab-day-left"><i class="fa-solid fa-calendar-days"></i></li>
-                    <li class="item-tab-barleft" id="tab-room-left"><i class="fa-solid fa-door-open"></i></li>
-                    <li class="item-tab-barleft" id="tab-seat-left"><i class="fa-solid fa-couch"></i></li>
-                    <li class="item-tab-barleft" id="tab-film-left"><i class="fa-solid fa-film"></i></li>
-                    <li class="item-tab-barleft" id="tab-image-film-left"><i class="fa-solid fa-image"></i></li>
-                    <li class="item-tab-barleft" id="tab-video-film-left"><i class="fa-solid fa-video"></i></li>
-                    <li class="item-tab-barleft" id="tab-comment-left"><i class="fa-regular fa-comment"></i></li>
-                    <li class="item-tab-barleft" id="tab-category-left"><i class="fa-solid fa-layer-group category"></i></li>
-                    <li class="item-tab-barleft" id="tab-category-film-left"><i class="fa-solid fa-filter category-film"></i></li>
-                    <li class="item-tab-barleft" id="tab-schedule-left"><i class="fa-solid fa-clipboard-list schedule"></i></li>
-                    <li class="item-tab-barleft" id="tab-ticket-money-left"><i class="fa-solid fa-ticket"></i></li>
-                    <li class="item-tab-barleft" id="tab-actor-left"><i class="fa-solid fa-masks-theater"></i></li>
-                    <li class="item-tab-barleft" id="tab-booking-left"><i class="fa-solid fa-check-to-slot"></i></li>
-                    <li class="item-tab-barleft" id="tab-promotion-left"><i class="fa-solid fa-rectangle-ad"></i></li>
-                    <li class="item-tab-barleft" id="tab-service-left"><i class="fa-brands fa-servicestack"></i></li>
-                    <li class="item-tab-barleft" id="tab-contact-left"><i class="fa-solid fa-file-contract"></i></li>
-                    <li class="item-tab-barleft" id="tab-combo-left"><i class="fa-solid fa-palette"></i></li>
-                    <li class="item-tab-barleft" id="tab-logo-left"><i class="fa-solid fa-palette"></i></li>
-                    <li class="item-tab-barleft" id="tab-background-left"><i class="fa-solid fa-palette"></i></li>
-                    <li class="item-tab-barleft" id="tab-pay-left"><i class="fa-solid fa-money-check-dollar"></i></li>
-                    <li class="item-tab-barleft" id="tab-ticket-bill-left"><i class="fa-solid fa-receipt"></i></li>
+                    <li class="item-tab-barleft-top" id="btn-move-tab-bar"><i class="fa-solid fa-bars"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-statistical"><i class="fa-solid fa-chart-pie"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-user"><i class="fa-solid fa-user"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-area"><i class="fa-solid fa-chart-area"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-place"><i class="fa-solid fa-location-dot"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-dayshow"><i class="fa-solid fa-calendar-days"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-room"><i class="fa-solid fa-door-open"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-seat"><i class="fa-solid fa-couch"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-film"><i class="fa-solid fa-film"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-image"><i class="fa-solid fa-image"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-video"><i class="fa-solid fa-video"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-comment"><i class="fa-regular fa-comment"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-category"><i class="fa-solid fa-layer-group category"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-categoryfilm"><i class="fa-solid fa-filter category-film"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-schedule"><i class="fa-solid fa-clipboard-list schedule"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-ticket"><i class="fa-solid fa-ticket"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-actor"><i class="fa-solid fa-masks-theater"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-booking"><i class="fa-solid fa-check-to-slot"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-promotion"><i class="fa-solid fa-rectangle-ad"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-service"><i class="fa-brands fa-servicestack"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-contact"><i class="fa-solid fa-file-contract"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-combo"><i class="fa-solid fa-palette"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-logo"><i class="fa-solid fa-palette"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-background"><i class="fa-solid fa-palette"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-pay"><i class="fa-solid fa-money-check-dollar"></i></li>
+                    <li class="item-tab-barleft" id="tab-left-bill"><i class="fa-solid fa-receipt"></i></li>
 
 
                 </ul>
@@ -70,12 +71,12 @@
 
             <div class="box-tab-bar-right" id="box-tab-bar-right">
                 <ul class="container-tab-bar-right">
-                    <li class="item-tab-bar-right top" id="btn-move-tab-bar-right"><i class="fa-solid fa-left-long"></i></li>
+                    <li class="item-tab-bar-right-top" id="btn-move-tab-bar-right"><i class="fa-solid fa-left-long"></i></li>
                     <li class="item-tab-bar-right" id="tab-bar-statistical">Thống kê</li>
                     <li class="item-tab-bar-right" id="tab-bar-user">Người dùng</li>
                     <li class="item-tab-bar-right" id="tab-bar-area">Khu vực</li>
                     <li class="item-tab-bar-right" id="tab-bar-place">Địa điểm</li>
-                    <li class="item-tab-bar-right" id="tab-bar-day">Ngày chiếu</li>
+                    <li class="item-tab-bar-right" id="tab-bar-dayshow">Ngày chiếu</li>
                     <li class="item-tab-bar-right" id="tab-bar-room">Phòng</li>
                     <li class="item-tab-bar-right" id="tab-bar-seat">Ghế</li>
                     <li class="item-tab-bar-right" id="tab-bar-film">Phim</li>
@@ -83,9 +84,9 @@
                     <li class="item-tab-bar-right" id="tab-bar-video">Video phim</li>
                     <li class="item-tab-bar-right" id="tab-bar-comment">Bình luận</li>
                     <li class="item-tab-bar-right" id="tab-bar-category">Danh mục</li>
-                    <li class="item-tab-bar-right" id="tab-bar-category-film">Danh mục phim</li>
+                    <li class="item-tab-bar-right" id="tab-bar-categoryfilm">Danh mục phim</li>
                     <li class="item-tab-bar-right" id="tab-bar-schedule">Lịch trình</li>
-                    <li class="item-tab-bar-right" id="tab-bar-ticket-money">Giá vé</li>
+                    <li class="item-tab-bar-right" id="tab-bar-ticket">Giá vé</li>
                     <li class="item-tab-bar-right" id="tab-bar-actor">Diễn viên</li>
                     <li class="item-tab-bar-right" id="tab-bar-booking">Booking</li>
                     <li class="item-tab-bar-right" id="tab-bar-promotion">Quảng cáo</li>
@@ -95,7 +96,7 @@
                     <li class="item-tab-bar-right" id="tab-bar-logo">Logo</li>
                     <li class="item-tab-bar-right" id="tab-bar-background">Background</li>
                     <li class="item-tab-bar-right" id="tab-bar-pay">Thanh toán</li>
-                    <li class="item-tab-bar-right" id="tab-bar-ticket-bill">Vé</li>
+                    <li class="item-tab-bar-right" id="tab-bar-bill">Vé</li>
 
                 </ul>
 
@@ -484,6 +485,8 @@
                     localStorage.removeItem('refresh_token'); // Xóa refresh token
                     localStorage.removeItem('session_name');
                     localStorage.removeItem('is_admin');
+                    localStorage.removeItem('activeTab');
+
 
                     window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
                 
@@ -493,6 +496,8 @@
                     localStorage.removeItem('refresh_token'); 
                     localStorage.removeItem('session_name');
                     localStorage.removeItem('is_admin');
+                    localStorage.removeItem('activeTab');
+
                     window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
                 
                 } else {
@@ -501,6 +506,8 @@
                     localStorage.removeItem('refresh_token'); 
                     localStorage.removeItem('session_name');
                     localStorage.removeItem('is_admin');
+                    localStorage.removeItem('activeTab');
+
                     window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
                 }
             })
@@ -511,6 +518,8 @@
                 localStorage.removeItem('refresh_token'); 
                 localStorage.removeItem('session_name');
                 localStorage.removeItem('is_admin');
+                localStorage.removeItem('activeTab');
+
                 window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
             });
         } else {
@@ -536,6 +545,7 @@
                 `;
                 logoItem.addEventListener('click', () => {
                     window.location.href = `/home/`;
+                    localStorage.removeItem('activeTabBase');
                 });
                 logoList.appendChild(logoItem);
             });
@@ -552,6 +562,7 @@
                 `;
                 logoFooterItem.addEventListener('click', () => {
                     window.location.href = `/home/`;
+                    localStorage.removeItem('activeTabBase');
                 });
                 logoFooterList.appendChild(logoFooterItem);
             });
@@ -567,7 +578,7 @@
     
 
     document.getElementById('tab-bar-statistical').addEventListener('click', function() {
-        window.location.href = '/statistical/';
+        window.location.href = '/statisticalmanage/';
     });
 
     document.getElementById('tab-bar-user').addEventListener('click', function() {
@@ -582,7 +593,7 @@
         window.location.href = '/placemanage/';
     });
 
-    document.getElementById('tab-bar-day').addEventListener('click', function() {
+    document.getElementById('tab-bar-dayshow').addEventListener('click', function() {
         window.location.href = '/dayshowmanage/';
     });
     
@@ -614,7 +625,7 @@
         window.location.href = '/categorymanage/';
     });
 
-    document.getElementById('tab-bar-category-film').addEventListener('click', function() {
+    document.getElementById('tab-bar-categoryfilm').addEventListener('click', function() {
         window.location.href = '/categoryfilmmanage/';
     });
 
@@ -622,7 +633,7 @@
         window.location.href = '/schedulemanage/';
     });
 
-    document.getElementById('tab-bar-ticket-money').addEventListener('click', function() {
+    document.getElementById('tab-bar-ticket').addEventListener('click', function() {
         window.location.href = '/ticketmanage/';
     });
 
@@ -660,7 +671,7 @@
     document.getElementById('tab-bar-pay').addEventListener('click', function() {
         window.location.href = '/paymanage/';
     });
-    document.getElementById('tab-bar-ticket-bill').addEventListener('click', function() {
+    document.getElementById('tab-bar-bill').addEventListener('click', function() {
         window.location.href = '/billmanage/';
     });
 
@@ -672,104 +683,171 @@
   <script>
 
 
-    document.getElementById('tab-statistical-left').addEventListener('click', function() {
-        window.location.href = '/statistical/';
+    document.getElementById('tab-left-statistical').addEventListener('click', function() {
+        window.location.href = '/statisticalmanage/';
     });
 
-    document.getElementById('tab-user-left').addEventListener('click', function() {
+    document.getElementById('tab-left-user').addEventListener('click', function() {
         window.location.href = '/usermanage/';
     });
 
-    document.getElementById('tab-area-left').addEventListener('click', function() {
+    document.getElementById('tab-left-area').addEventListener('click', function() {
         window.location.href = '/areamanage/';
     });
 
-    document.getElementById('tab-place-left').addEventListener('click', function() {
+    document.getElementById('tab-left-place').addEventListener('click', function() {
         window.location.href = '/placemanage/';
     });
 
-    document.getElementById('tab-day-left').addEventListener('click', function() {
+    document.getElementById('tab-left-dayshow').addEventListener('click', function() {
         window.location.href = '/dayshowmanage/';
     });
     
-    document.getElementById('tab-room-left').addEventListener('click', function() {
+    document.getElementById('tab-left-room').addEventListener('click', function() {
         window.location.href = '/roommanage/';
     });
 
-    document.getElementById('tab-seat-left').addEventListener('click', function() {
+    document.getElementById('tab-left-seat').addEventListener('click', function() {
         window.location.href = '/seatmanage/';
     });
 
-    document.getElementById('tab-film-left').addEventListener('click', function() {
+    document.getElementById('tab-left-film').addEventListener('click', function() {
         window.location.href = '/filmmanage/';
     });
 
-    document.getElementById('tab-image-film-left').addEventListener('click', function() {
+    document.getElementById('tab-left-image').addEventListener('click', function() {
         window.location.href = '/imagemanage/';
     });
 
-    document.getElementById('tab-video-film-left').addEventListener('click', function() {
+    document.getElementById('tab-left-video').addEventListener('click', function() {
         window.location.href = '/videomanage/';
     });
 
-    document.getElementById('tab-comment-left').addEventListener('click', function() {
+    document.getElementById('tab-left-comment').addEventListener('click', function() {
         window.location.href = '/commentmanage/';
     });
     
-    document.getElementById('tab-category-left').addEventListener('click', function() {
+    document.getElementById('tab-left-category').addEventListener('click', function() {
         window.location.href = '/categorymanage/';
     });
 
-    document.getElementById('tab-category-film-left').addEventListener('click', function() {
+    document.getElementById('tab-left-categoryfilm').addEventListener('click', function() {
         window.location.href = '/categoryfilmmanage/';
     });
 
-    document.getElementById('tab-schedule-left').addEventListener('click', function() {
+    document.getElementById('tab-left-schedule').addEventListener('click', function() {
         window.location.href = '/schedulemanage/';
     });
 
-    document.getElementById('tab-ticket-money-left').addEventListener('click', function() {
+    document.getElementById('tab-left-ticket').addEventListener('click', function() {
         window.location.href = '/ticketmanage/';
     });
 
-    document.getElementById('tab-actor-left').addEventListener('click', function() {
+    document.getElementById('tab-left-actor').addEventListener('click', function() {
         window.location.href = '/actormanage/';
     });
 
-    document.getElementById('tab-booking-left').addEventListener('click', function() {
+    document.getElementById('tab-left-booking').addEventListener('click', function() {
         window.location.href = '/bookingmanage/';
     });
     
-    document.getElementById('tab-promotion-left').addEventListener('click', function() {
+    document.getElementById('tab-left-promotion').addEventListener('click', function() {
         window.location.href = '/promotionmanage/';
     });
 
-    document.getElementById('tab-service-left').addEventListener('click', function() {
+    document.getElementById('tab-left-service').addEventListener('click', function() {
         window.location.href = '/servicemanage/';
     });
 
-    document.getElementById('tab-contact-left').addEventListener('click', function() {
+    document.getElementById('tab-left-contact').addEventListener('click', function() {
         window.location.href = '/contactmanage/';
     });
 
-    document.getElementById('tab-combo-left').addEventListener('click', function() {
+    document.getElementById('tab-left-combo').addEventListener('click', function() {
         window.location.href = '/combomanage/';
     });
 
-    document.getElementById('tab-logo-left').addEventListener('click', function() {
+    document.getElementById('tab-left-logo').addEventListener('click', function() {
         window.location.href = '/logomanage/';
     });
 
-    document.getElementById('tab-background-left').addEventListener('click', function() {
+    document.getElementById('tab-left-background').addEventListener('click', function() {
         window.location.href = '/backgroundmanage/';
     });
-    document.getElementById('tab-pay-left').addEventListener('click', function() {
+    document.getElementById('tab-left-pay').addEventListener('click', function() {
         window.location.href = '/paymanage/';
     });
-    document.getElementById('tab-ticket-bill-left').addEventListener('click', function() {
+    document.getElementById('tab-left-bill').addEventListener('click', function() {
         window.location.href = '/billmanage/';
     });
 
+  </script>
+
+  <script>
+        // Đặt màu sắc cho item được chọn
+        function setActiveTab(activeId, tabType) {
+            const itemsLeft = document.querySelectorAll('.item-tab-barleft');
+            const itemsRight = document.querySelectorAll('.item-tab-bar-right');
+
+            // Xóa màu sắc khỏi tất cả các item bên trái và bên phải
+            itemsLeft.forEach(item => item.classList.remove('text-color'));
+            itemsRight.forEach(item => item.classList.remove('text-color'));
+
+            // Thêm màu sắc cho item được chọn
+            const activeItemLeft = document.getElementById(activeId);
+            activeItemLeft.classList.add('text-color');
+
+            // Nếu là tab bên trái, cũng đổi màu tab bên phải tương ứng
+            if (tabType === 'left') {
+                const correspondingId = activeId.replace('tab-left-', 'tab-bar-');
+                const activeItemRight = document.getElementById(correspondingId);
+                if (activeItemRight) {
+                    activeItemRight.classList.add('text-color');
+                }
+            } else if (tabType === 'right') { // Nếu là tab bên phải, cũng đổi màu tab bên trái tương ứng
+                const correspondingId = activeId.replace('tab-bar-', 'tab-left-');
+                const activeItemLeft = document.getElementById(correspondingId);
+                if (activeItemLeft) {
+                    activeItemLeft.classList.add('text-color');
+                }
+            }
+        }
+
+        // Lưu trạng thái tab đã chọn vào localStorage
+        function saveActiveTab(activeId) {
+            localStorage.setItem('activeTab', activeId);
+        }
+
+        // Lấy trạng thái tab đã chọn từ localStorage
+        function loadActiveTab() {
+            const activeId = localStorage.getItem('activeTab');
+            if (activeId) {
+                setActiveTab(activeId, activeId.startsWith('tab-left-') ? 'left' : 'right');
+            }
+        }
+
+        // Gán sự kiện click cho từng item bên trái
+        document.querySelectorAll('.item-tab-barleft').forEach(item => {
+            item.addEventListener('click', function() {
+                const id = this.id;
+                setActiveTab(id, 'left'); // Đặt tab bên trái đang hoạt động
+                saveActiveTab(id); // Lưu tab hoạt động
+                window.location.href = `/${id.replace('tab-left-', '')}manage/`; // Chuyển trang
+            });
+        });
+
+        // Gán sự kiện click cho từng item bên phải
+        document.querySelectorAll('.item-tab-bar-right').forEach(item => {
+            item.addEventListener('click', function() {
+                const id = this.id;
+                setActiveTab(id, 'right'); // Đặt tab bên phải đang hoạt động
+                saveActiveTab(id); // Lưu tab hoạt động
+                window.location.href = `/${id.replace('tab-bar-', '')}manage/`; // Chuyển trang
+            });
+        });
+
+        // Tải trạng thái tab khi trang được tải
+        window.onload = loadActiveTab;
   </script>
 
 
