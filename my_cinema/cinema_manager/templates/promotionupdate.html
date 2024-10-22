@@ -30,6 +30,14 @@
             <img id="banner-preview" src="" alt="Ảnh promotion" class="img-fluid">
             <input type="file" class="form-control-file" id="banner" name="banner" required>
         </div>
+
+        <div class="form-group">
+            <label for="imgevent">imgevent</label>
+            <img id="imgevent-preview" src="" alt="Ảnh promotion" class="img-fluid">
+            <input type="file" class="form-control-file" id="imgevent" name="imgevent" required>
+        </div>
+
+
         <div class="form-group">
             <label for="description">description</label>
             <textarea class="form-control" id="description" name="description" required></textarea>
@@ -114,6 +122,21 @@
         }
     });
 
+
+    const imgeventInput = document.getElementById('imgevent');
+    const imgeventPreview = document.getElementById('imgevent-preview');
+
+    imgeventInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imgeventPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+
     // Lấy thông tin combo hiện tại
     fetch(`/api/promotions/${promotionId}/`)
         .then(response => response.json())
@@ -128,6 +151,9 @@
 
             const bannerElement = document.getElementById('banner-preview');
             bannerElement.src = data.banner;
+
+            const imgeventElement = document.getElementById('imgevent-preview');
+            imgeventElement.src = data.imgevent;
 
             document.getElementById('description').value = data.description;
 
@@ -148,6 +174,8 @@
         const end_date = document.getElementById('end_date').value;
         const imageFile = document.getElementById('image');
         const bannerFile = document.getElementById('banner');
+        const imgeventFile = document.getElementById('imgevent');
+
         const description = document.getElementById('description').value;
 
         const formData = new FormData();
@@ -162,6 +190,10 @@
 
         if (bannerFile.files.length > 0) {
             formData.append('banner', bannerFile.files[0]);
+        }
+
+        if (imgeventFile.files.length > 0) {
+            formData.append('imgevent', imgeventFile.files[0]);
         }
         
         formData.append('description',description );

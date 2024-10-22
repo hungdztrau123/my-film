@@ -3,12 +3,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-shadow: 0px 1px 3px 2px #d5a12c;
+    
 
 }
 
 .promotion-image-container{
-    width: 12%;
+    width: 13%;
+    margin: 50px 0px 15px;
 }
 
 .lable-start-time-promotion{
@@ -83,7 +84,6 @@
     flex-direction: column;
     align-items: center;
     
-    border: 1px solid #d5a12c;
     margin: 5px;
     cursor: pointer;
     transition: all 0.2s linear;

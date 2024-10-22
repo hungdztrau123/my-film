@@ -138,6 +138,7 @@ class Films(Base):
     name = models.CharField(max_length=255, null=True, blank=True)
     poster = models.FileField(upload_to='files/',null=True,blank=True)
     banner = models.FileField(upload_to='files/',null=True,blank=True)
+    promo = models.FileField(upload_to='files/',null=True,blank=True)
     imdb = models.CharField(max_length=100, null=True, blank=True)
     producer = models.CharField(max_length=255, null=True,blank=True)
     duration = models.CharField(max_length=100, null=True, blank=True)
@@ -211,6 +212,7 @@ class Promotion(Base):
     end_date = models.DateTimeField(null=True,blank=True)
     image = models.FileField(upload_to='files/',null=True)
     banner = models.FileField(upload_to='files/',null=True)
+    imgevent = models.FileField(upload_to='files/',null=True)
     description = models.CharField(max_length=500, null=True, blank=True)
 
 class Service(Base): 

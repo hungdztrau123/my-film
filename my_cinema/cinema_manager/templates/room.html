@@ -55,14 +55,13 @@
     }
     
     .room-film-age{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+        width: 60px;
+        border-radius: 3px;
         display: flex;
+        justify-content: center;
         align-items: center;
-        justify-content: center; 
-        border: 1px solid #cdc197;
-        box-shadow: 0px 0px 3px 2px #d5a12c;
+        box-shadow: 0px 0px 3px 2px #cdc197;
+        margin-right: 7px;
         font-size: 24px;
         font-weight: bold;
         
@@ -206,7 +205,7 @@
         flex-direction: column;
         justify-content: center;
         position: absolute;
-        background-color: #f0f0f050;
+        
         cursor: grab;
         transition: transform 0.2s linear;
         transform-origin: center;
@@ -582,7 +581,7 @@
         
 
         scheduleDetailContainer.innerHTML = `
-                <span class="room-film-age">${data.film.age}</span>
+                <span class="room-film-age">T${data.film.age}</span>
 
                 <div class="box-room-info">
                     
@@ -655,7 +654,7 @@
     }
 
     function getSeatsRegural(idRoom) {
-        fetch(`/api/seats/?room=${idRoom}&type__iexact=Regural&kind__in=A,B,C,D`)
+        fetch(`/api/seats/?room=${idRoom}&type__iexact=Regural&kind__in=A,B,C,D&ordering=created_at`)
         .then(response => response.json())
         .then(data => {
             const seatList = document.getElementById('seat-list-regural');

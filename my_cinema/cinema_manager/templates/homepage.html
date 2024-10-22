@@ -183,7 +183,7 @@
 
                             <div class="film-item-content">
                                 <div class="box-film-item-info">
-                                    <span class="film-item-age">${film.age}</span>
+                                    <span class="film-item-age">T${film.age}</span>
                                     <span class="film-item-name">${film.name}</span>
                                 </div>
 
@@ -214,10 +214,10 @@
                 getFilms();
             }
 
-            if (daysRemaining > 0){
-                updateFilmStatus(film.id, 'Coming');
+            //if (daysRemaining > 0){
+            //    updateFilmStatus(film.id, 'Coming');
                 
-            }
+            //}
 
             
 
@@ -309,7 +309,7 @@
 
                             <div class="film-item-content">
                                 <div class="box-film-item-info">
-                                    <span class="film-item-age">${film.age}</span>
+                                    <span class="film-item-age">T${film.age}</span>
                                     <span class="film-item-name">${film.name}</span>
                                 </div>
 
@@ -340,10 +340,10 @@
                 getFilms();
             }
 
-            if (daysRemaining > 0){
-                updateFilmStatus(film.id, 'Coming');
+            //if (daysRemaining > 0){
+            //    updateFilmStatus(film.id, 'Coming');
                 
-            }
+            //}
 
             
 
@@ -426,7 +426,7 @@
 
         const nameInput = document.getElementById('name-film-input').value.trim();
 
-        let url = `/api/films/?page=${page}&ordering=-created_at&status__in=Now,Coming`;
+        let url = `/api/films/?page=${page}&ordering=release&status__in=Now,Coming`;
         if (status) {
             url += `&status__iexact=${status}`;
         }

@@ -42,6 +42,11 @@
             <input type="file" class="form-control-file" id="banner" name="banner" required>
         </div>
         <div class="form-group">
+            <label for="promo">promo</label>
+            <img id="promo-preview" src="" alt="promo film" class="img-fluid">
+            <input type="file" class="form-control-file" id="promo" name="promo" required>
+        </div>
+        <div class="form-group">
             <label for="imdb">Imdb</label>
             <textarea class="form-control" id="imdb" name="imdb" required></textarea>
         </div>
@@ -156,6 +161,19 @@
         }
     });
 
+    const promoInput = document.getElementById('promo');
+    const promoPreview = document.getElementById('promo-preview');
+
+    promoInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                promoPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
 
     fetch('/api/places/')
     .then(response => response.json())
@@ -262,7 +280,7 @@
     });
 
 
-    // Lấy thông tin combo hiện tại
+    // Lấy thông tin film hiện tại
     fetch(`/api/films/${filmId}/`)
         .then(response => response.json())
         .then(data => {
@@ -287,6 +305,9 @@
 
             const bannerElement = document.getElementById('banner-preview');
             bannerElement.src = data.banner;
+
+            const promoElement = document.getElementById('promo-preview');
+            promoElement.src = data.promo;
             
             document.getElementById('imdb').value = data.imdb;
             document.getElementById('producer').value = data.producer;
@@ -314,6 +335,8 @@
         const name = document.getElementById('name').value;
         const posterFile = document.getElementById('poster');
         const bannerFile = document.getElementById('banner');
+        const promoFile = document.getElementById('promo');
+
         const imdb = document.getElementById('imdb').value;
         const producer = document.getElementById('producer').value;
         const duration = document.getElementById('duration').value;
@@ -340,6 +363,10 @@
         
         if (bannerFile.files.length > 0) {
             formData.append('banner', bannerFile.files[0]);
+        }
+
+        if (promoFile.files.length > 0) {
+            formData.append('promo', promoFile.files[0]);
         }
         
         formData.append('imdb', imdb);

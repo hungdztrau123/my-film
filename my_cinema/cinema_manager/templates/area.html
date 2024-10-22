@@ -9,6 +9,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
   }
   .box-area-list-area{
     width: 100%;
@@ -16,7 +17,7 @@
     align-items: center;
     justify-content: center;
     padding: 10px 0px;
-    background-color: #fdfcf0;
+    
     border-bottom: 1px solid #cdc197;
 
 
@@ -56,7 +57,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #fdfcf0;
+    
     
 
   }
@@ -170,24 +171,65 @@
   }
 
 
-  .btn-nav-bar-dayshow{
-    font-size: 30px;
-    width: 40px;
-    height: 40px; 
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    transition: all 0.2s linear;
-    margin: 0px 10px;
-    border: 2px solid #d5a12c;
-    box-shadow: 0px 0px 0px 3px #cdc197;
-    
+  .box-btn-nav-bar-dayshow-left{
+      display: flex;
+      width: 25px;
+      height: 40px;
+      align-items: center;
+      justify-content: right;
   }
 
-  .btn-nav-bar-dayshow:hover{
+  .box-btn-nav-bar-dayshow-right{
+      display: flex;
+      width: 25px;
+      height: 40px;
+      align-items: center;
+      justify-content: left;
+  }
+
+  .btn-nav-bar-dayshow-left{
+      width: 20px;
+      height: 33px;
+      border-top-left-radius: 50%;
+      border-bottom-left-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: right;
+      border: 2px solid #d5a12c;
+      box-shadow: 0px 0px 0px 3px #cdc197;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #d5a12c;
+      transition: all 0.2s linear;
+      
+  }
+  .btn-nav-bar-dayshow-left:hover{
+      color: #cdc197;
+      border-color: #cdc197;
+      box-shadow: 0px 0px 0px 3px #d5a12c;
+
+  }
+
+
+  .btn-nav-bar-dayshow-right{
+      width: 20px;
+      height: 33px;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      border: 2px solid #d5a12c;
+      box-shadow: 0px 0px 0px 3px #cdc197;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #d5a12c;
+      transition: all 0.2s linear;
+      
+  }
+  .btn-nav-bar-dayshow-right:hover{
       color: #cdc197;
       border-color: #cdc197;
       box-shadow: 0px 0px 0px 3px #d5a12c;
@@ -196,14 +238,15 @@
 
 
   #day-show-list{
-    width: 82%;
+    width: 100%;
     z-index: 1000;
     
     display: flex;
     align-items: center;
+    
     flex-wrap: nowrap;
     
-    padding: 0px 5px;
+    
 
   }
 
@@ -251,8 +294,7 @@
 
   .film-day-show-item{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: start;
     border-top: 1px solid #cdc197;
     padding: 10px 10px 30px 10px;
     
@@ -260,50 +302,67 @@
 
   .box-info-film-day-show{
     display: flex;
-    align-items: center;
-    padding: 10px 0px;
+    width: 16%;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    margin-right: 10px;
     cursor: pointer;
 
   }
-  .film-day-show-age{
-    width: 24px;
-    height: 24px;
+
+  .box-info-film-in-dayshow{
     display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+  .film-day-show-age{
     font-weight: bold;
+    width: 40px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #d5a12c;
-    border-radius: 50%;
-    box-shadow: 0px 0px 3px 2px #d5a12c;
-    
+    box-shadow: 0px 0px 3px 2px #cdc197;
 
 
   }
   .film-day-show-name{
-    margin: 0px 10px;
+    margin-left: 7px;
+    width: 125px;
     text-transform: uppercase;
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
   }
+
+  .film-detail-content-poster-area{
+    width: 100%;
+    box-shadow: 0px 0px 3px 2px #cdc197;
+  }
+
   .box-list-film-day-show-schedule{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    padding-top: 29px;
     
   }
 
   .schedule-item{
     cursor: pointer;
-    margin: 10px 0px;
+    margin: 5px;
     border: 1px solid #cdc197;
     transition: all 0.2s linear;
 
   }
 
   .schedule-item:hover {
-      box-shadow: 0px 0px 3px 2px #d5a12c;
+      box-shadow: 0px 0px 3px 2px #cdc197;
       color: #cdc197;
-      border-color: #d5a12c;
+     
   }
   
   .box-schedule-room{
@@ -368,12 +427,10 @@
     
 
     <div class="box-day-show-list-area">
-
-      <span id="btn-left" class="btn-nav-bar-dayshow"><i class="fa-solid fa-chevron-left"></i></span>
+      
       <div class="day-show-list-area" id="day-show-list">
 
       </div>
-      <span id="btn-right" class="btn-nav-bar-dayshow"><i class="fa-solid fa-chevron-right"></i></span>
       
     </div>
 
@@ -521,8 +578,7 @@ function getAreaDetails(areaId) {
       }
 
 
-      let currentDayShowPage = 0;
-      const dayShowsPerPage = 4;
+      
       let dayShowsData = [];
       
       function getDayShows(placeDetailId) {
@@ -532,21 +588,7 @@ function getAreaDetails(areaId) {
               dayShowsData = data.results; 
               renderDayShows(placeDetailId); 
       
-              // Thêm sự kiện cho nút Left
-              document.getElementById('btn-left').addEventListener('click', () => {
-                  if (currentDayShowPage > 0) {
-                      currentDayShowPage--;
-                      renderDayShows(placeDetailId);
-                  }
-              });
-      
-              // Thêm sự kiện cho nút Right
-              document.getElementById('btn-right').addEventListener('click', () => {
-                  if ((currentDayShowPage + 1) * dayShowsPerPage < dayShowsData.length) {
-                      currentDayShowPage++;
-                      renderDayShows(placeDetailId);
-                  }
-              });
+              
           })
           .catch(error => {
               console.error('Error fetching dayshow film list:', error);
@@ -558,9 +600,8 @@ function getAreaDetails(areaId) {
           dayShowList.innerHTML = '';
           let activeDayShowItem = null;
       
-          const start = currentDayShowPage * dayShowsPerPage;
-          const end = start + dayShowsPerPage;
-          const dayShowsToShow = dayShowsData.slice(start, end);
+          
+          const dayShowsToShow = dayShowsData;
       
           dayShowsToShow.forEach(dayshow => {
               const dayShowItem = document.createElement('div');
@@ -591,6 +632,16 @@ function getAreaDetails(areaId) {
               });
               dayShowList.appendChild(dayShowItem);
           });
+
+          // Kiểm tra chiều rộng của dayShowList
+          const totalWidth = [...dayShowList.children].reduce((acc, item) => acc + item.offsetWidth, 0);
+          const dayShowListWidth = dayShowList.clientWidth;
+
+          if (totalWidth > dayShowListWidth) {
+              dayShowList.style.overflowX = 'scroll';
+          } else {
+              dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
+          }
       }
 
 
@@ -600,7 +651,7 @@ function getAreaDetails(areaId) {
 
         
           function getFilms(dayShowId, placeDetailId){
-            fetch(`/api/films/?dayshow=${dayShowId}&place=${placeDetailId}`)
+            fetch(`/api/films/?dayshow=${dayShowId}&place=${placeDetailId}&status__in=Now,Coming`)
             .then(response => response.json())
             .then(data => {
               const filmList = document.getElementById('film-list');
@@ -612,8 +663,13 @@ function getAreaDetails(areaId) {
                 filmItem.innerHTML = `
                   
                     <div id="box-info-film-day-show" class="box-info-film-day-show" >
-                        <span class="film-day-show-age">${film.age}</span>
+
+                      <div class="box-info-film-in-dayshow" >
+                        <span class="film-day-show-age">T${film.age}</span>
                         <span class="film-day-show-name">${film.name}</span>
+                      </div>
+                      <img  class="film-detail-content-poster-area" src="${film.poster}" alt="${film.name}">
+
                     </div>
 
                     <div class="box-list-film-day-show-schedule" id="schedule-${film.id}">

@@ -74,14 +74,14 @@
 
     }
     .pay-age-film{
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
+        width: 55px;
+        border-radius: 3px;
+
         display: flex;
-        align-items: center;
         justify-content: center;
-        border: 1px solid #cdc197;
-        box-shadow: 0px 0px 3px 2px #d5a12c;
+        align-items: center;
+        box-shadow: 0px 0px 3px 2px #cdc197;
+        margin-right: 7px;
         font-size: 20px;
         font-weight: bold;
 
@@ -89,6 +89,8 @@
     .pay-imdb-film{
         font-weight: bold;
         font-size: 18px;
+        display: flex;
+        align-items: center;
         margin-left: 10px;
         margin-right: 10px;
 
@@ -97,11 +99,12 @@
         background-color: #f5c518;
         font-weight: 1000;
         color: #000;
-        padding: 0px 5px 3px 5px;
+        padding: 0px 5px 0px 5px;
         border-radius: 3px;
         text-shadow: none;
         letter-spacing: -1px;
         font-size: 17px;
+        margin-right: 5px;
 
     }
     .pay-duration-film{
@@ -441,7 +444,7 @@
 
                 <span class="pay-name-film">${data.pay.schedule.film.name}</span>
                 <div class="box-pay-title">
-                    <span class="pay-age-film">${data.pay.schedule.film.age}</span>
+                    <span class="pay-age-film">T${data.pay.schedule.film.age}</span>
                     <span class="pay-imdb-film"> <span class="pay-imdb-built">IMDb</span> ${data.pay.schedule.film.imdb}</span>
                     <span class="">-</span>
                     <span class="pay-duration-film">${data.pay.schedule.film.duration} phút</span>

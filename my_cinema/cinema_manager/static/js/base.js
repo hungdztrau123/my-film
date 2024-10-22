@@ -1,26 +1,99 @@
+// let hideTimeoutLoading;
+
+// const boxLoading = document.getElementById('box-loading');
+// clearTimeout(hideTimeoutLoading);
+// hideTimeoutLoading = setTimeout(() => {
+//     boxLoading.style.display = 'none'; 
+// }, 500);
+
+
+//Ẩn loading khi trang đã tải xong
+window.addEventListener('load', function() {
+    var loadingBox = document.getElementById('box-loading');
+    setTimeout(function() {
+        loadingBox.style.display = 'none'; 
+    }, 500);
+});
+
+
+function getPromoFilm() {
+    fetch('/api/films/?status__iexact=Now&ordering=-updated_at')
+        .then(response => response.json())
+        .then(data => {
+        const filmList = document.getElementById('promotion-image-film-base-list');
+
+
+        // Tạo các phần tử phim
+        data.results.slice(0,1).forEach(film => {
+            const filmItem = document.createElement('div');
+            filmItem.classList.add('promotion-image-film-base-item');
+            filmItem.innerHTML = `
+                
+                <img src="${film.promo}" alt="${film.name}" class="promotion-image-film-base">
+                
+            `;
+            filmItem.addEventListener('click', () => {
+                window.location.href = `/film/${film.id}/`;
+            });
+            filmList.appendChild(filmItem);
+        });
+        })
+        .catch(error => {
+        console.error('Error fetching film data:', error);
+        });
+
+}
+
+getPromoFilm();
+
+
+
+const btnCancelFilm = document.querySelector('.box-cancel-promotion-image-film-base');
+const boxPromoFilm = document.querySelector('.box-promotion-image-film-base');
+btnCancelFilm.addEventListener('click', () => {
+    boxPromoFilm.style.display = 'none';
+});
+
 
 let hideTimeout;
+let hideTimeoutFilm;
 
 document.addEventListener('scroll', function () {
     const navbar = document.getElementById('header-box-navbar');
     const backButton = document.querySelector('.icon-back-base');
+    const promoFilm = document.querySelector('.promotion-image-film-base-list');
+    const btnCancelFilm = document.querySelector('.box-cancel-promotion-image-film-base');
 
     // Hiện thẻ back button khi cuộn qua navbar
     if (window.scrollY >= navbar.offsetHeight) {
         backButton.style.display = 'block'; // Hiện thẻ back button
+        promoFilm.style.display = 'block';
+        btnCancelFilm.style.display = 'block';
 
         // Reset timeout để ẩn thẻ back button
         clearTimeout(hideTimeout);
         hideTimeout = setTimeout(() => {
             backButton.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
         }, 3000);
+
+        clearTimeout(hideTimeoutFilm);
+        hideTimeoutFilm = setTimeout(() => {
+            promoFilm.style.display = 'none'; 
+            btnCancelFilm.style.display = 'none';
+        }, 6000);
+
+
     } else {
         backButton.style.display = 'none'; // Ẩn thẻ back button nếu không cuộn qua navbar
+        promoFilm.style.display = 'none';
+        btnCancelFilm.style.display = 'none';
         clearTimeout(hideTimeout); // Xóa timeout nếu cuộn lên
+        clearTimeout(hideTimeoutFilm);
     }
 });
 
 // Hiển thị back button khi hover vào
+
 const backButton = document.querySelector('.icon-back-base');
 backButton.addEventListener('mouseover', function () {
     clearTimeout(hideTimeout); // Xóa timeout ẩn
@@ -36,10 +109,55 @@ backButton.addEventListener('mouseout', function () {
     }
 });
 
+
+
+const promoFilm = document.querySelector('.promotion-image-film-base-list');
+promoFilm.addEventListener('mouseover', function () {
+    clearTimeout(hideTimeoutFilm); // Xóa timeout ẩn
+    promoFilm.style.display = 'block'; // Hiện thẻ 
+    btnCancelFilm.style.display = 'block';
+});
+
+
+
+promoFilm.addEventListener('mouseout', function () {
+    // Kiểm tra điều kiện để ẩn lại thẻ back button
+    if (window.scrollY >= document.getElementById('header-box-navbar').offsetHeight) {
+        hideTimeoutFilm = setTimeout(() => {
+            promoFilm.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
+            btnCancelFilm.style.display = 'none';
+        }, 6000);
+    }
+});
+
+
+btnCancelFilm.addEventListener('mouseover', function () {
+    clearTimeout(hideTimeoutFilm); // Xóa timeout ẩn
+    promoFilm.style.display = 'block'; // Hiện thẻ 
+    btnCancelFilm.style.display = 'block';
+});
+
+
+btnCancelFilm.addEventListener('mouseout', function () {
+    // Kiểm tra điều kiện để ẩn lại thẻ back button
+    if (window.scrollY >= document.getElementById('header-box-navbar').offsetHeight) {
+        hideTimeoutFilm = setTimeout(() => {
+            promoFilm.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
+            btnCancelFilm.style.display = 'none';
+        }, 6000);
+    }
+});
+
+
+
 // Ẩn thẻ back button ban đầu
 document.addEventListener('DOMContentLoaded', function () {
     backButton.style.display = 'none';
+    promoFilm.style.display = 'none';
+    btnCancelFilm.style.display = 'none';
 });
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const button = document.getElementById('box-icon-chat-box');
@@ -388,6 +506,8 @@ function updateTheme() {
             if (data.results.length > 0) {
                 const imageUrl = data.results[0].image; // Lấy image từ phần tử đầu tiên
                 baseDiv.style.background = `url(${imageUrl}) ${isDarkMode ? '#000' : '#fff'}`;
+                
+               
 
             }
         })

@@ -9,7 +9,8 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #fdfcf0;
+        
+       
     }
     .box-swiper-film{
         width: 100%;
@@ -87,7 +88,7 @@
         display: flex;
         justify-content: center;
         padding: 30px 30px 20px 30px;
-        background-color: rgba(0,0,0,0.7);
+        
         border-radius: 7px;
         box-shadow: 0px 0px 0px 3px #cdc197;
 
@@ -103,8 +104,8 @@
     }
     .film-detail-content-poster{
         width: 100%;
-        border: 1px solid #d5a12c;
-        box-shadow: 0px 0px 3px 2px #d5a12c;
+        
+        box-shadow: 0px 0px 3px 2px #cdc197;
 
     }
     .btn-booking-film-detail{
@@ -154,14 +155,13 @@
     }
 
     .film-detail-content-age{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+        width: 60px;
+        border-radius: 3px;
+
         display: flex;
+        justify-content: center;
         align-items: center;
-        justify-content: center; 
-        border: 1px solid #cdc197;
-        box-shadow: 0px 0px 3px 2px #d5a12c;
+        box-shadow: 0px 0px 3px 2px #cdc197;
         margin-right: 7px;
 
     }
@@ -274,26 +274,66 @@
         align-items: center;
         justify-content: center;
     }
-    .btn-nav-bar-film{
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
+
+    .box-btn-nav-bar-film-left{
+        display: flex;
+        width: 50px;
+        height: 50px;
+        align-items: center;
+        justify-content: right;
+    }
+    
+    .box-btn-nav-bar-film-right{
+        display: flex;
+        width: 50px;
+        height: 50px;
+        align-items: center;
+        justify-content: left;
+    }
+    
+    .btn-nav-bar-film-left{
+        width: 25px;
+        height: 45px;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: right;
         border: 2px solid #d5a12c;
         box-shadow: 0px 0px 0px 3px #cdc197;
-        font-size: 20px;
+        font-size: 25px;
         font-weight: bold;
         cursor: pointer;
         color: #d5a12c;
         transition: all 0.2s linear;
-        margin: 0px 7px;
         
-
     }
-
-    .btn-nav-bar-film:hover{
+    .btn-nav-bar-film-left:hover{
+        color: #cdc197;
+        border-color: #cdc197;
+        box-shadow: 0px 0px 0px 3px #d5a12c;
+    
+    }
+    
+    
+    .btn-nav-bar-film-right{
+        width: 25px;
+        height: 45px;
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        border: 2px solid #d5a12c;
+        box-shadow: 0px 0px 0px 3px #cdc197;
+        font-size: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #d5a12c;
+        transition: all 0.2s linear;
+        
+    }
+    .btn-nav-bar-film-right:hover{
         color: #cdc197;
         border-color: #cdc197;
         box-shadow: 0px 0px 0px 3px #d5a12c;
@@ -498,7 +538,8 @@
 
     .comment-rate{
         position: absolute;
-        font-size: 13px;
+        font-size: 14px;
+        font-weight: 400;
     }
     .comment-content{
         padding:10px 7px;
@@ -672,7 +713,7 @@
                         </div>
 
                         <div class="box-film-detail-content-info">
-                            <span id="film-name" class="film-detail-content-name"><span class="film-detail-content-age"> ${data.age}</span> ${data.name}</span>
+                            <span id="film-name" class="film-detail-content-name"><span class="film-detail-content-age">T${data.age}</span> ${data.name}</span>
                             <span  class="film-detail-content-imdb"> <span class="film-detail-content-imdb-built">IMDb</span> ${data.imdb}</span>
                             <span  class="film-detail-content-producer"><span class="text-infor-film">Nhà sản xuất :</span>${data.producer}</span>
                             <span  class="film-detail-content-duration"><span class="text-infor-film">Thời gian :</span>${data.duration} phút</span>
@@ -705,15 +746,15 @@
                         <div class="detail-content-actor-title">Diễn viên</div>
 
                         <div class="box-list-actor-btn-left-right">
-
-                            <span id="btn-left" class="btn-nav-bar-film"><i class="fa-solid fa-chevron-left"></i></span>
-                         
+                            <div class="box-btn-nav-bar-film-left">
+                                <span id="btn-left" class="btn-nav-bar-film-left"><i class="fa-solid fa-chevron-left"></i></span>
+                            </div>
                             <div class="box-list-actor-film" id="actor-${data.id}">
                                     
                             </div>
-                            
-                            <span id="btn-right" class="btn-nav-bar-film"><i class="fa-solid fa-chevron-right"></i></span>
-                       
+                            <div class="box-btn-nav-bar-film-right">
+                                <span id="btn-right" class="btn-nav-bar-film-right"><i class="fa-solid fa-chevron-right"></i></span>
+                            </div>
                         </div>
 
                     </div>

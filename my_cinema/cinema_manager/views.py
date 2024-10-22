@@ -733,7 +733,7 @@ class SeatViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = SeatFilterSet
-    ordering_fields = ("id","name","room","type","kind")
+    ordering_fields = ("id","name","room","type","kind", "created_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -821,7 +821,7 @@ class FilmViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = FilmFilterSet
-    ordering_fields = ("id","name","view","producer","duration","description", "country","imdb","age","created_at","updated_at")
+    ordering_fields = ("id","name","view","producer","duration","description", "country","imdb","age","release","created_at","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
