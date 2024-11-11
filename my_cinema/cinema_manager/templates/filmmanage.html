@@ -113,6 +113,24 @@
 <button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
 </div>
 
+<div class="box-search-choose">
+    <div class="box-search-name-film">
+        <input type="text" id="name-film-input" class="input-search-name-film" placeholder="Nhập tên phim">
+    </div>
+
+    <div class="box-choose-status-film">
+        <select id="status-film-select" class="input-choose-status-film">
+            <option value="Now">Now</option>
+            <option value="Coming">Coming</option>
+            <option value="Stop">Stop</option>
+        </select>
+    </div>
+
+
+
+</div>
+
+
 <div id="manage-list" class="manage-list">
 
 </div>
@@ -177,6 +195,9 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
+    let nameFilm = '';
+    let statusFilm = '';
+
     
     document.getElementById('insert-manage').addEventListener('click', function() {
         window.location.href = '/filminsert/';
@@ -289,7 +310,13 @@
 
     
     function getFilmManage( page = 1) {
-        let url = `/api/films/?page=${page}&ordering=-updated_at`;
+        const queryParams = nameFilm ? { name__icontains: nameFilm } : {};
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const queryParamsStatus = statusFilm ? { status__iexact: statusFilm } : {};
+        const queryStringStatus = new URLSearchParams(queryParamsStatus).toString();
+
+        let url = `/api/films/?page=${page}&ordering=-updated_at&${queryString}&${queryStringStatus}`;
         
         fetch(url)
         .then(response => response.json())
@@ -303,7 +330,7 @@
             nextPageBtn.disabled = !data.next;
         })
         .catch(error => {
-            console.error('Error fetching combo data:', error);
+            console.error('Error fetching film data:', error);
         });
     }
 
@@ -317,6 +344,45 @@
     });
 
     getFilmManage();
+
+
+    
+
+    document.getElementById('name-film-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            nameFilm = document.getElementById('name-film-input').value;
+            statusFilm = document.getElementById('status-film-select').value;
+            if (nameFilm) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getFilmManage(currentPage); 
+            } else if (statusFilm && nameFilm) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getFilmManage(currentPage); 
+            } else {
+                getFilmManage(currentPage);
+            } 
+        }
+    
+    });
+
+    document.getElementById('status-film-select').addEventListener('change', (event) => {
+        
+        statusFilm = document.getElementById('status-film-select').value;
+        nameFilm = document.getElementById('name-film-input').value; 
+
+        if (statusFilm) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getFilmManage(currentPage); 
+        } else if (statusFilm && nameFilm) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getFilmManage(currentPage); 
+        
+        } else {
+            getFilmManage(currentPage);
+        } 
+        
+    
+    });
 
 
 

@@ -14,6 +14,93 @@ body {
     transition: all 0.3s linear;
 
 }
+
+
+@keyframes loadingturn {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.box-loading{
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999999;
+    
+}
+
+.item-loading1{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #eee;
+    border-top: 3px solid #d5a12c;
+    border-radius: 50%;
+    animation: loadingturn 1s infinite linear;
+    
+    
+    
+}
+.item-loading2{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #eee;
+    border-right: 3px solid #d5a12c;
+    border-radius: 50%;
+    animation: loadingturn 1s infinite linear;
+}
+.item-loading3{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #eee;
+    border-bottom: 3px solid #d5a12c;
+    border-radius: 50%;
+    animation: loadingturn 1s infinite linear;
+}
+.item-loading4{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #eee;
+    border-top: 3px solid #d5a12c;
+    border-radius: 50%;
+    animation: loadingturn 1s infinite linear;
+}
+
+.item-loading5{
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #eee;
+    border-right: 3px solid #d5a12c;
+    border-radius: 50%;
+    animation: loadingturn 1s infinite linear;
+}
+
+
+
 .button-toggle {
     max-width: 100px;
     display: flex;
