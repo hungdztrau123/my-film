@@ -1,78 +1,157 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block filmManage %} 
+{% block filmManage %}
 
 <style>
-    #film-manage-count{
+    #film-manage-count {
         margin-left: 5px;
         font-size: 14px;
         font-weight: 500;
     }
 
-    .count-film{
-        margin:0px 2px;
+    .count-film {
+        margin: 0px 2px;
     }
-    
-    .box-btn-manage{
+
+    .box-btn-manage {
         width: 100%;
         display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    .box-add-delete{
+        display: flex;
+    }
+
+    .box-search-choose{
+        display: flex;
+        align-items: center;
+        min-width: 340px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film{
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+        
+    }
+
+    .icon-search-name{
+        color:#cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film{
+        
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-search-name-film::placeholder{
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color:#d5a12c;
     
+    }
+
+    .box-search-name-film:hover .icon-search-name{
+        color:#d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder{
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film{
+        color:#d5a12c;
+    }
+
+    
+
+    .input-choose-status-film{
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
     }
 
     
 
 
-    .manage-list{
+
+
+    .manage-list {
         max-width: 100%;
-        overflow-x: scroll;
+        overflow-x: auto;
         display: flex;
         font-size: 14px;
         margin-top: 20px;
-        
+
 
     }
 
-    .manage-list .table{
+    .manage-list .table {
         width: 100%;
 
     }
-    .manage-list .table tr{
+
+    .manage-list .table tr {
         border-bottom: 1px solid #cdc197;
         width: 100%;
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         min-width: 200px;
         text-align: center;
         font-weight: bold;
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         min-width: 200px;
         text-align: center;
         border-left: 1px solid #cdc197;
         padding: 10px 0px;
 
-        
-        
+
+
     }
 
-    .poster-film-manage{
+    .poster-film-manage {
         width: 100px;
         padding: 0px !important;
     }
-    .banner-film-manage{
+
+    .banner-film-manage {
         width: 100px;
         padding: 0px !important;
     }
- 
 
-    .btn-update-manage{
+
+    .btn-update-manage {
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
         margin-right: 5px;
@@ -82,14 +161,15 @@
         border-bottom-left-radius: 3px;
         padding: 2px 10px !important;
         background-color: transparent !important;
-        
+
 
     }
-    .btn-delete-manage{
-       
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
 
@@ -102,33 +182,38 @@
         margin: 10px 0px;
 
     }
-
-
 </style>
 
 <span class="title-manage">Quản lý phim <span id="film-manage-count"></span></span>
 
 <div class="box-btn-manage">
-<span id="insert-manage" class="insert-manage">Thêm</span>
-<button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
-</div>
-
-<div class="box-search-choose">
-    <div class="box-search-name-film">
-        <input type="text" id="name-film-input" class="input-search-name-film" placeholder="Nhập tên phim">
+    <div class="box-add-delete">
+        <span id="insert-manage" class="insert-manage">Thêm</span>
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
     </div>
 
-    <div class="box-choose-status-film">
-        <select id="status-film-select" class="input-choose-status-film">
-            <option value="Now">Now</option>
-            <option value="Coming">Coming</option>
-            <option value="Stop">Stop</option>
-        </select>
+    <div class="box-search-choose">
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-magnifying-glass icon-search-name"></i>
+            <input type="text" id="name-film-input" class="input-search-name-film" placeholder="Nhập tên phim">
+        </div>
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-filter icon-search-name"></i>
+            <select id="status-film-select" class="input-choose-status-film">
+                <option value="Now">Now</option>
+                <option value="Coming">Coming</option>
+                <option value="Stop">Stop</option>
+            </select>
+        </div>
+
+
+
     </div>
 
-
-
 </div>
+
+
 
 
 <div id="manage-list" class="manage-list">
@@ -165,7 +250,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -184,7 +269,7 @@
 
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -198,8 +283,8 @@
     let nameFilm = '';
     let statusFilm = '';
 
-    
-    document.getElementById('insert-manage').addEventListener('click', function() {
+
+    document.getElementById('insert-manage').addEventListener('click', function () {
         window.location.href = '/filminsert/';
     });
 
@@ -216,6 +301,7 @@
             <th>Tên</th>
             <th>Poster</th>
             <th>Banner</th>
+            <th>Promo</th>
             <th>Imdb</th>
             <th>Producer</th>
             <th>Duration</th>
@@ -262,19 +348,19 @@
             `;
 
             // Sự kiện toggle chọn
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = filmManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
+                    console.log("delete id:", selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
+                    console.log("add id:", selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                
-                if(selectedIds.size > 0){
+
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
@@ -283,13 +369,13 @@
 
             });
 
-            dataRow.querySelector('#film-delete').addEventListener('click', function() {
+            dataRow.querySelector('#film-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa film này?')) {
                     getDeleteFilm(filmManage.id);
                 }
             });
-            
-            dataRow.querySelector('#film-update').addEventListener('click', function() {
+
+            dataRow.querySelector('#film-update').addEventListener('click', function () {
                 window.location.href = `/filmupdate/?filmId=${filmManage.id}`;
             });
 
@@ -308,8 +394,8 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    
-    function getFilmManage( page = 1) {
+
+    function getFilmManage(page = 1) {
         const queryParams = nameFilm ? { name__icontains: nameFilm } : {};
         const queryString = new URLSearchParams(queryParams).toString();
 
@@ -317,36 +403,36 @@
         const queryStringStatus = new URLSearchParams(queryParamsStatus).toString();
 
         let url = `/api/films/?page=${page}&ordering=-updated_at&${queryString}&${queryStringStatus}`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderFilmManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching film data:', error);
-        });
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderFilmManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching film data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getFilmManage( currentPage - 1);
+        getFilmManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getFilmManage( currentPage + 1);
+        getFilmManage(currentPage + 1);
     });
 
     getFilmManage();
 
 
-    
+
 
     document.getElementById('name-film-input').addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
@@ -354,34 +440,34 @@
             statusFilm = document.getElementById('status-film-select').value;
             if (nameFilm) {
                 currentPage = 1; // Đặt lại trang hiện tại về 1
-                getFilmManage(currentPage); 
+                getFilmManage(currentPage);
             } else if (statusFilm && nameFilm) {
                 currentPage = 1; // Đặt lại trang hiện tại về 1
-                getFilmManage(currentPage); 
+                getFilmManage(currentPage);
             } else {
                 getFilmManage(currentPage);
-            } 
+            }
         }
-    
+
     });
 
     document.getElementById('status-film-select').addEventListener('change', (event) => {
-        
+
         statusFilm = document.getElementById('status-film-select').value;
-        nameFilm = document.getElementById('name-film-input').value; 
+        nameFilm = document.getElementById('name-film-input').value;
 
         if (statusFilm) {
             currentPage = 1; // Đặt lại trang hiện tại về 1
-            getFilmManage(currentPage); 
+            getFilmManage(currentPage);
         } else if (statusFilm && nameFilm) {
             currentPage = 1; // Đặt lại trang hiện tại về 1
-            getFilmManage(currentPage); 
-        
+            getFilmManage(currentPage);
+
         } else {
             getFilmManage(currentPage);
-        } 
-        
-    
+        }
+
+
     });
 
 
@@ -395,24 +481,24 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa film có ID ${filmId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getFilmManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa film có ID ${filmId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa film có ID ${filmId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa film có ID ${filmId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getFilmManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa film có ID ${filmId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa film có ID ${filmId}: ${error}`);
+            });
     }
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -425,7 +511,7 @@
                     object_type: "films",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -434,19 +520,19 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các film thành công!`);
-                        getFilmManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting  films:', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các film thành công!`);
+                            getFilmManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting  films:', error);
+                    });
             }
         }
     });
@@ -455,17 +541,17 @@
 
 <script>
     fetch('/api/films/')
-      .then(response => response.json())
-      .then(data => {
-        const filmCount = document.getElementById('film-manage-count');
-        filmCount.innerHTML = `  
+        .then(response => response.json())
+        .then(data => {
+            const filmCount = document.getElementById('film-manage-count');
+            filmCount.innerHTML = `  
             (<span class="count-film">${data.count}</span>)   
-        `; 
-  
-      })
-      .catch(error => {
-        console.error('Error fetching film count:', error);
-      });
+        `;
+
+        })
+        .catch(error => {
+            console.error('Error fetching film count:', error);
+        });
 </script>
 
-{% endblock filmManage %} 
+{% endblock filmManage %}

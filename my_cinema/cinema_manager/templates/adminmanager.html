@@ -1,411 +1,428 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="icon" href="{% static 'images/9023900.jpg' %}" type="image/x-icon">
     <link href="{% static 'css/adminmanager.css' %}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 
 <body>
-  <div id="base" class="background-base">
-    
-    <div class="box-loading" id="box-loading">
-        <div class="item-loading1">
-            <div class="item-loading2">
-                <div class="item-loading3">
-                    <div class="item-loading4">
-                        <div class="item-loading5">
-                            
+    <div id="base" class="background-base">
+
+        <div class="box-loading" id="box-loading">
+            <div class="item-loading1">
+                <div class="item-loading2">
+                    <div class="item-loading3">
+                        <div class="item-loading4">
+                            <div class="item-loading5">
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="header-base" id="header-base">
-        <div class="header-base-top">
-            <span id="toggle-button" class="button-toggle">Dark</span>
-            <span id="logout-btn" class="btn-logout" style="display: none;">Đăng Xuất</span>
-            <span id="login-btn" class="btn-login" style="display: none;">Đăng Nhập</span>
-        </div>
+        <a href="#" class="icon-back-base"><i class="fa-solid fa-arrow-turn-up"></i></a>
 
-        <div class="header-base-bottom">
-            <div class="header-box-logo" id="logo-cinema">
-                
+        <div class="header-base" id="header-base">
+            <div class="header-base-top">
+                <span id="toggle-button" class="button-toggle">Dark</span>
+                <span id="logout-btn" class="btn-logout" style="display: none;">Đăng Xuất</span>
+                <span id="login-btn" class="btn-login" style="display: none;">Đăng Nhập</span>
             </div>
 
-            <div class="header-box-info">
-                <div id="session-info" class="header-content-info"></div>
+            <div class="header-base-bottom">
+                <div class="header-box-logo" id="logo-cinema">
+
+                </div>
+
+                <div class="header-box-info">
+                    <div id="session-info" class="header-content-info"></div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="box-container-admin">
+        <div class="box-container-admin">
 
-        <div class="container-tab-bar">
-            <div class="box-tab-bar-left">
-                <ul class="container-tab-bar-left">
-                    <li class="item-tab-barleft-top" id="btn-move-tab-bar"><i class="fa-solid fa-bars"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-statistical"><i class="fa-solid fa-chart-pie"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-user"><i class="fa-solid fa-user"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-area"><i class="fa-solid fa-chart-area"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-place"><i class="fa-solid fa-location-dot"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-dayshow"><i class="fa-solid fa-calendar-days"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-room"><i class="fa-solid fa-door-open"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-seat"><i class="fa-solid fa-couch"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-film"><i class="fa-solid fa-film"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-image"><i class="fa-solid fa-image"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-video"><i class="fa-solid fa-video"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-comment"><i class="fa-regular fa-comment"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-category"><i class="fa-solid fa-layer-group category"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-categoryfilm"><i class="fa-solid fa-filter category-film"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-schedule"><i class="fa-solid fa-clipboard-list schedule"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-ticket"><i class="fa-solid fa-ticket"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-actor"><i class="fa-solid fa-masks-theater"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-booking"><i class="fa-solid fa-check-to-slot"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-promotion"><i class="fa-solid fa-rectangle-ad"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-service"><i class="fa-brands fa-servicestack"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-contact"><i class="fa-solid fa-file-contract"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-combo"><i class="fa-solid fa-palette"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-logo"><i class="fa-solid fa-palette"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-background"><i class="fa-solid fa-palette"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-pay"><i class="fa-solid fa-money-check-dollar"></i></li>
-                    <li class="item-tab-barleft" id="tab-left-bill"><i class="fa-solid fa-receipt"></i></li>
+            <div class="container-tab-bar">
+                <div class="box-tab-bar-left">
+                    <ul class="container-tab-bar-left">
+                        <li class="item-tab-barleft-top" id="btn-move-tab-bar"><i class="fa-solid fa-bars"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-statistical"><i class="fa-solid fa-chart-pie"></i>
+                        </li>
+                        <li class="item-tab-barleft" id="tab-left-user"><i class="fa-solid fa-user"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-area"><i class="fa-solid fa-chart-area"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-place"><i class="fa-solid fa-location-dot"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-dayshow"><i class="fa-solid fa-calendar-days"></i>
+                        </li>
+                        <li class="item-tab-barleft" id="tab-left-room"><i class="fa-solid fa-door-open"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-seat"><i class="fa-solid fa-couch"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-film"><i class="fa-solid fa-film"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-image"><i class="fa-solid fa-image"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-video"><i class="fa-solid fa-video"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-comment"><i class="fa-regular fa-comment"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-category"><i
+                                class="fa-solid fa-layer-group category"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-categoryfilm"><i
+                                class="fa-solid fa-filter category-film"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-schedule"><i
+                                class="fa-solid fa-clipboard-list schedule"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-ticket"><i class="fa-solid fa-ticket"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-actor"><i class="fa-solid fa-masks-theater"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-booking"><i class="fa-solid fa-check-to-slot"></i>
+                        </li>
+                        <li class="item-tab-barleft" id="tab-left-promotion"><i class="fa-solid fa-rectangle-ad"></i>
+                        </li>
+                        <li class="item-tab-barleft" id="tab-left-service"><i class="fa-brands fa-servicestack"></i>
+                        </li>
+                        <li class="item-tab-barleft" id="tab-left-contact"><i class="fa-solid fa-file-contract"></i>
+                        </li>
+                        <li class="item-tab-barleft" id="tab-left-combo"><i class="fa-solid fa-palette"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-logo"><i class="fa-solid fa-palette"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-background"><i class="fa-solid fa-palette"></i></li>
+                        <li class="item-tab-barleft" id="tab-left-pay"><i class="fa-solid fa-money-check-dollar"></i>
+                        </li>
+                        <li class="item-tab-barleft" id="tab-left-bill"><i class="fa-solid fa-receipt"></i></li>
 
 
-                </ul>
+                    </ul>
+
+                </div>
+
+                <div class="box-tab-bar-right" id="box-tab-bar-right">
+                    <ul class="container-tab-bar-right">
+                        <li class="item-tab-bar-right-top" id="btn-move-tab-bar-right"><i
+                                class="fa-solid fa-left-long"></i></li>
+                        <li class="item-tab-bar-right" id="tab-bar-statistical">Thống kê</li>
+                        <li class="item-tab-bar-right" id="tab-bar-user">Người dùng</li>
+                        <li class="item-tab-bar-right" id="tab-bar-area">Khu vực</li>
+                        <li class="item-tab-bar-right" id="tab-bar-place">Địa điểm</li>
+                        <li class="item-tab-bar-right" id="tab-bar-dayshow">Ngày chiếu</li>
+                        <li class="item-tab-bar-right" id="tab-bar-room">Phòng</li>
+                        <li class="item-tab-bar-right" id="tab-bar-seat">Ghế</li>
+                        <li class="item-tab-bar-right" id="tab-bar-film">Phim</li>
+                        <li class="item-tab-bar-right" id="tab-bar-image">Ảnh phim</li>
+                        <li class="item-tab-bar-right" id="tab-bar-video">Video phim</li>
+                        <li class="item-tab-bar-right" id="tab-bar-comment">Bình luận</li>
+                        <li class="item-tab-bar-right" id="tab-bar-category">Danh mục</li>
+                        <li class="item-tab-bar-right" id="tab-bar-categoryfilm">Danh mục phim</li>
+                        <li class="item-tab-bar-right" id="tab-bar-schedule">Lịch trình</li>
+                        <li class="item-tab-bar-right" id="tab-bar-ticket">Giá vé</li>
+                        <li class="item-tab-bar-right" id="tab-bar-actor">Diễn viên</li>
+                        <li class="item-tab-bar-right" id="tab-bar-booking">Booking</li>
+                        <li class="item-tab-bar-right" id="tab-bar-promotion">Quảng cáo</li>
+                        <li class="item-tab-bar-right" id="tab-bar-service">Dịch vụ</li>
+                        <li class="item-tab-bar-right" id="tab-bar-contact">Liên hệ</li>
+                        <li class="item-tab-bar-right" id="tab-bar-combo">Combo</li>
+                        <li class="item-tab-bar-right" id="tab-bar-logo">Logo</li>
+                        <li class="item-tab-bar-right" id="tab-bar-background">Background</li>
+                        <li class="item-tab-bar-right" id="tab-bar-pay">Thanh toán</li>
+                        <li class="item-tab-bar-right" id="tab-bar-bill">Vé</li>
+
+                    </ul>
+
+                </div>
 
             </div>
 
-            <div class="box-tab-bar-right" id="box-tab-bar-right">
-                <ul class="container-tab-bar-right">
-                    <li class="item-tab-bar-right-top" id="btn-move-tab-bar-right"><i class="fa-solid fa-left-long"></i></li>
-                    <li class="item-tab-bar-right" id="tab-bar-statistical">Thống kê</li>
-                    <li class="item-tab-bar-right" id="tab-bar-user">Người dùng</li>
-                    <li class="item-tab-bar-right" id="tab-bar-area">Khu vực</li>
-                    <li class="item-tab-bar-right" id="tab-bar-place">Địa điểm</li>
-                    <li class="item-tab-bar-right" id="tab-bar-dayshow">Ngày chiếu</li>
-                    <li class="item-tab-bar-right" id="tab-bar-room">Phòng</li>
-                    <li class="item-tab-bar-right" id="tab-bar-seat">Ghế</li>
-                    <li class="item-tab-bar-right" id="tab-bar-film">Phim</li>
-                    <li class="item-tab-bar-right" id="tab-bar-image">Ảnh phim</li>
-                    <li class="item-tab-bar-right" id="tab-bar-video">Video phim</li>
-                    <li class="item-tab-bar-right" id="tab-bar-comment">Bình luận</li>
-                    <li class="item-tab-bar-right" id="tab-bar-category">Danh mục</li>
-                    <li class="item-tab-bar-right" id="tab-bar-categoryfilm">Danh mục phim</li>
-                    <li class="item-tab-bar-right" id="tab-bar-schedule">Lịch trình</li>
-                    <li class="item-tab-bar-right" id="tab-bar-ticket">Giá vé</li>
-                    <li class="item-tab-bar-right" id="tab-bar-actor">Diễn viên</li>
-                    <li class="item-tab-bar-right" id="tab-bar-booking">Booking</li>
-                    <li class="item-tab-bar-right" id="tab-bar-promotion">Quảng cáo</li>
-                    <li class="item-tab-bar-right" id="tab-bar-service">Dịch vụ</li>
-                    <li class="item-tab-bar-right" id="tab-bar-contact">Liên hệ</li>
-                    <li class="item-tab-bar-right" id="tab-bar-combo">Combo</li>
-                    <li class="item-tab-bar-right" id="tab-bar-logo">Logo</li>
-                    <li class="item-tab-bar-right" id="tab-bar-background">Background</li>
-                    <li class="item-tab-bar-right" id="tab-bar-pay">Thanh toán</li>
-                    <li class="item-tab-bar-right" id="tab-bar-bill">Vé</li>
 
-                </ul>
+            <div class="container-base">
+
+                {% block statisticalManage %}
+                {% endblock statisticalManage %}
+
+
+                {% block userManage %}
+                {% endblock userManage %}
+
+
+
+                {% block comboManage %}
+                {% endblock comboManage %}
+
+                {% block comboInsert %}
+                {% endblock comboInsert %}
+
+                {% block comboUpdate %}
+                {% endblock comboUpdate %}
+
+
+                {% block filmManage %}
+                {% endblock filmManage %}
+
+                {% block filmInsert %}
+                {% endblock filmInsert %}
+
+                {% block filmUpdate %}
+                {% endblock filmUpdate %}
+
+
+                {% block scheduleManage %}
+                {% endblock scheduleManage %}
+
+                {% block scheduleInsert %}
+                {% endblock scheduleInsert %}
+
+                {% block scheduleUpdate %}
+                {% endblock scheduleUpdate %}
+
+
+                {% block areaManage %}
+                {% endblock areaManage %}
+
+                {% block areaInsert %}
+                {% endblock areaInsert %}
+
+                {% block areaUpdate %}
+                {% endblock areaUpdate %}
+
+
+                {% block placeManage %}
+                {% endblock placeManage %}
+
+                {% block placeInsert %}
+                {% endblock placeInsert %}
+
+                {% block placeUpdate %}
+                {% endblock placeUpdate %}
+
+
+                {% block dayShowManage %}
+                {% endblock dayShowManage %}
+
+                {% block dayShowInsert %}
+                {% endblock dayShowInsert %}
+
+                {% block dayShowUpdate %}
+                {% endblock dayShowUpdate %}
+
+
+                {% block roomManage %}
+                {% endblock roomManage %}
+
+                {% block roomInsert %}
+                {% endblock roomInsert %}
+
+                {% block roomUpdate %}
+                {% endblock roomUpdate %}
+
+
+                {% block seatManage %}
+                {% endblock seatManage %}
+
+                {% block seatInsert %}
+                {% endblock seatInsert %}
+
+                {% block seatUpdate %}
+                {% endblock seatUpdate %}
+
+
+                {% block imageManage %}
+                {% endblock imageManage %}
+
+                {% block imageInsert %}
+                {% endblock imageInsert %}
+
+                {% block imageUpdate %}
+                {% endblock imageUpdate %}
+
+
+                {% block videoManage %}
+                {% endblock videoManage %}
+
+                {% block videoInsert %}
+                {% endblock videoInsert %}
+
+                {% block videoUpdate %}
+                {% endblock videoUpdate %}
+
+
+                {% block commentManage %}
+                {% endblock commentManage %}
+
+                {% block commentUpdate %}
+                {% endblock commentUpdate %}
+
+
+                {% block ticketManage %}
+                {% endblock ticketManage %}
+
+                {% block ticketInsert %}
+                {% endblock ticketInsert %}
+
+                {% block ticketUpdate %}
+                {% endblock ticketUpdate %}
+
+
+                {% block actorManage %}
+                {% endblock actorManage %}
+
+                {% block actorInsert %}
+                {% endblock actorInsert %}
+
+                {% block actorUpdate %}
+                {% endblock actorUpdate %}
+
+
+                {% block categoryManage %}
+                {% endblock categoryManage %}
+
+                {% block categoryInsert %}
+                {% endblock categoryInsert %}
+
+                {% block categoryUpdate %}
+                {% endblock categoryUpdate %}
+
+
+                {% block categoryFilmManage %}
+                {% endblock categoryFilmManage %}
+
+                {% block categoryFilmInsert %}
+                {% endblock categoryFilmInsert %}
+
+                {% block categoryFilmUpdate %}
+                {% endblock categoryFilmUpdate %}
+
+
+                {% block bookingManage %}
+                {% endblock bookingManage %}
+
+                {% block bookingInsert %}
+                {% endblock bookingInsert %}
+
+                {% block bookingUpdate %}
+                {% endblock bookingUpdate %}
+
+
+                {% block promotionManage %}
+                {% endblock promotionManage %}
+
+                {% block promotionInsert %}
+                {% endblock promotionInsert %}
+
+                {% block promotionUpdate %}
+                {% endblock promotionUpdate %}
+
+
+                {% block serviceManage %}
+                {% endblock serviceManage %}
+
+                {% block serviceInsert %}
+                {% endblock serviceInsert %}
+
+                {% block serviceUpdate %}
+                {% endblock serviceUpdate %}
+
+
+                {% block contactManage %}
+                {% endblock contactManage %}
+
+                {% block contactInsert %}
+                {% endblock contactInsert %}
+
+                {% block contactUpdate %}
+                {% endblock contactUpdate %}
+
+
+                {% block payManage %}
+                {% endblock payManage %}
+
+
+                {% block billManage %}
+                {% endblock billManage %}
+
+
+
+                {% block logoManage %}
+                {% endblock logoManage %}
+
+                {% block logoInsert %}
+                {% endblock logoInsert %}
+
+                {% block logoUpdate %}
+                {% endblock logoUpdate %}
+
+
+
+                {% block backgroundManage %}
+                {% endblock backgroundManage %}
+
+                {% block backgroundInsert %}
+                {% endblock backgroundInsert %}
+
+                {% block backgroundUpdate %}
+                {% endblock backgroundUpdate %}
+
+
 
             </div>
-            
+
         </div>
 
 
-        <div class="container-base">
+        <div class="footer-base">
+            <div class="box-footer-base">
 
-            {% block statisticalManage %} 
-            {% endblock statisticalManage %}
+                <div class="footer-box-logo" id="footer-logo-cinema"></div>
 
-
-            {% block userManage %} 
-            {% endblock userManage %}
-
-
-    
-            {% block comboManage %} 
-            {% endblock comboManage %} 
-    
-            {% block comboInsert %} 
-            {% endblock comboInsert %} 
-    
-            {% block comboUpdate %} 
-            {% endblock comboUpdate %} 
-    
-    
-            {% block filmManage %} 
-            {% endblock filmManage %} 
-    
-            {% block filmInsert %} 
-            {% endblock filmInsert %} 
-    
-            {% block filmUpdate %} 
-            {% endblock filmUpdate %} 
-    
-    
-            {% block scheduleManage %} 
-            {% endblock scheduleManage %} 
-    
-            {% block scheduleInsert %} 
-            {% endblock scheduleInsert %} 
-            
-            {% block scheduleUpdate %} 
-            {% endblock scheduleUpdate %} 
-    
-    
-            {% block areaManage %} 
-            {% endblock areaManage %} 
-            
-            {% block areaInsert %} 
-            {% endblock areaInsert %} 
-    
-            {% block areaUpdate %} 
-            {% endblock areaUpdate %} 
-    
-    
-            {% block placeManage %} 
-            {% endblock placeManage %} 
-    
-            {% block placeInsert %} 
-            {% endblock placeInsert %} 
-    
-            {% block placeUpdate %} 
-            {% endblock placeUpdate %} 
-    
-    
-            {% block dayShowManage %} 
-            {% endblock dayShowManage %} 
-    
-            {% block dayShowInsert %} 
-            {% endblock dayShowInsert %} 
-    
-            {% block dayShowUpdate %} 
-            {% endblock dayShowUpdate %} 
-    
-    
-            {% block roomManage %} 
-            {% endblock roomManage %} 
-    
-            {% block roomInsert %} 
-            {% endblock roomInsert %} 
-    
-            {% block roomUpdate %} 
-            {% endblock roomUpdate %} 
-    
-    
-            {% block seatManage %} 
-            {% endblock seatManage %} 
-    
-            {% block seatInsert %} 
-            {% endblock seatInsert %} 
-    
-            {% block seatUpdate %} 
-            {% endblock seatUpdate %}
-            
-    
-            {% block imageManage %} 
-            {% endblock imageManage %} 
-    
-            {% block imageInsert %} 
-            {% endblock imageInsert %} 
-    
-            {% block imageUpdate %} 
-            {% endblock imageUpdate %}
-    
-            
-            {% block videoManage %} 
-            {% endblock videoManage %} 
-    
-            {% block videoInsert %} 
-            {% endblock videoInsert %} 
-    
-            {% block videoUpdate %} 
-            {% endblock videoUpdate %}
-
-
-            {% block commentManage %} 
-            {% endblock commentManage %} 
-    
-            {% block commentUpdate %} 
-            {% endblock commentUpdate %}
-
-    
-            {% block ticketManage %} 
-            {% endblock ticketManage %} 
-    
-            {% block ticketInsert %} 
-            {% endblock ticketInsert %} 
-    
-            {% block ticketUpdate %} 
-            {% endblock ticketUpdate %}
-    
-    
-            {% block actorManage %} 
-            {% endblock actorManage %} 
-    
-            {% block actorInsert %} 
-            {% endblock actorInsert %} 
-    
-            {% block actorUpdate %} 
-            {% endblock actorUpdate %}
-    
-    
-            {% block categoryManage %} 
-            {% endblock categoryManage %} 
-    
-            {% block categoryInsert %} 
-            {% endblock categoryInsert %} 
-    
-            {% block categoryUpdate %} 
-            {% endblock categoryUpdate %}
-    
-    
-            {% block categoryFilmManage %} 
-            {% endblock categoryFilmManage %} 
-    
-            {% block categoryFilmInsert %} 
-            {% endblock categoryFilmInsert %} 
-    
-            {% block categoryFilmUpdate %} 
-            {% endblock categoryFilmUpdate %}
-    
-    
-            {% block bookingManage %} 
-            {% endblock bookingManage %} 
-    
-            {% block bookingInsert %} 
-            {% endblock bookingInsert %} 
-    
-            {% block bookingUpdate %} 
-            {% endblock bookingUpdate %}
-    
-    
-            {% block promotionManage %} 
-            {% endblock promotionManage %} 
-    
-            {% block promotionInsert %} 
-            {% endblock promotionInsert %} 
-    
-            {% block promotionUpdate %} 
-            {% endblock promotionUpdate %}
-    
-    
-            {% block serviceManage %} 
-            {% endblock serviceManage %} 
-    
-            {% block serviceInsert %} 
-            {% endblock serviceInsert %} 
-    
-            {% block serviceUpdate %} 
-            {% endblock serviceUpdate %}
-    
-    
-            {% block contactManage %} 
-            {% endblock contactManage %} 
-    
-            {% block contactInsert %} 
-            {% endblock contactInsert %} 
-    
-            {% block contactUpdate %} 
-            {% endblock contactUpdate %}
-    
-
-            {% block payManage %} 
-            {% endblock payManage %} 
-    
-    
-            {% block billManage %} 
-            {% endblock billManage %} 
-
-
-            
-            {% block logoManage %}
-            {% endblock logoManage %}
-
-            {% block logoInsert %}
-            {% endblock logoInsert %}
-
-            {% block logoUpdate %} 
-            {% endblock logoUpdate %}
-
-
-
-            {% block backgroundManage %}
-            {% endblock backgroundManage %}
-
-            {% block backgroundInsert %}
-            {% endblock backgroundInsert %}
-
-            {% block backgroundUpdate %} 
-            {% endblock backgroundUpdate %}
-
-
-    
+                <span class="text-footer">CÔNG TY TNHH CINEPLEX ODEON VIỆT NAM</span>
+                <span class="text-footer">Địa chỉ: Tầng 3, Hà Nội, Việt Nam</span>
+                <span class="text-footer">Hotline: (028) 3775 2524</span>
+                <span class="text-footer">COPYRIGHT © CINEPLEXODEONVN.COM - ALL RIGHTS RESERVED.</span>
+            </div>
         </div>
 
     </div>
-    
 
-    <div class="footer-base">
-        <div class="box-footer-base">
-            
-            <div class="footer-box-logo" id="footer-logo-cinema"></div>
-            
-            <span class="text-footer">CÔNG TY TNHH CINEPLEX ODEON VIỆT NAM</span>
-            <span class="text-footer">Địa chỉ: Tầng 3, Hà Nội, Việt Nam</span>
-            <span class="text-footer">Hotline: (028) 3775 2524</span>
-            <span class="text-footer">COPYRIGHT © CINEPLEXODEONVN.COM - ALL RIGHTS RESERVED.</span>
-        </div>
-    </div>
+    <script>
 
-  </div>
+        const btnTabMove = document.getElementById('btn-move-tab-bar');
+        const btnTabMoveRight = document.getElementById('btn-move-tab-bar-right');
 
-  <script>
-
-    const btnTabMove = document.getElementById('btn-move-tab-bar');
-    const btnTabMoveRight = document.getElementById('btn-move-tab-bar-right');
-
-    const boxTabright = document.getElementById('box-tab-bar-right');
-
-   
-    btnTabMove.addEventListener('click', function(event) {
-        if (boxTabright.style.display === 'none') {
-            boxTabright.style.display = 'flex';
-        } else {
-            boxTabright.style.display = 'none';
-        }
-        event.stopPropagation(); 
-    });
+        const boxTabright = document.getElementById('box-tab-bar-right');
 
 
-    btnTabMoveRight.addEventListener('click', function(event) {
-        if (boxTabright.style.display === 'none') {
-            boxTabright.style.display = 'flex';
-        } else {
-            boxTabright.style.display = 'none';
-        }
-        event.stopPropagation(); 
-    });
-
-    
-    
-
-  </script>
+        btnTabMove.addEventListener('click', function (event) {
+            if (boxTabright.style.display === 'none') {
+                boxTabright.style.display = 'flex';
+            } else {
+                boxTabright.style.display = 'none';
+            }
+            event.stopPropagation();
+        });
 
 
-  <script>
+        btnTabMoveRight.addEventListener('click', function (event) {
+            if (boxTabright.style.display === 'none') {
+                boxTabright.style.display = 'flex';
+            } else {
+                boxTabright.style.display = 'none';
+            }
+            event.stopPropagation();
+        });
+
+
+
+
+    </script>
+
+
+    <script>
         const toggleButton = document.getElementById('toggle-button');
         const baseDiv = document.getElementById('base');
         const headerBaseDiv = document.getElementById('header-base');
-        
+
 
         let isDarkMode = localStorage.getItem('isDarkMode') === 'true' || false;
 
@@ -440,12 +457,12 @@
                     if (data.results.length > 0) {
                         const imageUrl = data.results[0].image; // Lấy image từ phần tử đầu tiên
                         baseDiv.style.background = `url(${imageUrl}) ${isDarkMode ? '#000' : '#fff'}`;
-                        
+
                     }
-            })
-            .catch(error => {
-                console.error('Error fetching background data:', error);
-            });
+                })
+                .catch(error => {
+                    console.error('Error fetching background data:', error);
+                });
 
 
         }
@@ -460,345 +477,345 @@
             updateTheme();
         });
 
-  </script>
+    </script>
 
-  <script>
+    <script>
 
-    const sessionName = localStorage.getItem('session_name');
-    // Kiểm tra access token khi tải trang
-    const accessToken = localStorage.getItem('access_token');
-    const isAdmin = localStorage.getItem('is_admin');
-
-    if (accessToken && isAdmin === 'true') {
-        document.getElementById('session-info').innerText = `Xin chao : ${sessionName}`;
-        // Nếu có access token, hiển thị nút Logout và ẩn nút Login
-        document.getElementById('logout-btn').style.display = 'block';
-    } else {
-        window.location.href = '/login/';
-    }
-
-
-    document.getElementById('logout-btn').addEventListener('click', function() {
-        
+        const sessionName = localStorage.getItem('session_name');
+        // Kiểm tra access token khi tải trang
         const accessToken = localStorage.getItem('access_token');
-        const refreshToken = localStorage.getItem('refresh_token');
         const isAdmin = localStorage.getItem('is_admin');
 
-
-        if (refreshToken) {
-            fetch('/api/logout/', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ refresh: refreshToken }),
-            })
-            .then(response => {
-                if (response.ok) {
-                    localStorage.removeItem('access_token');  // Xóa access token
-                    localStorage.removeItem('refresh_token'); // Xóa refresh token
-                    localStorage.removeItem('session_name');
-                    localStorage.removeItem('is_admin');
-                    localStorage.removeItem('activeTab');
-
-
-                    window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
-                
-                } else if (response.status === 401) {
-                    alert('Token đã hết hạn. Vui lòng đăng nhập lại.');
-                    localStorage.removeItem('access_token');
-                    localStorage.removeItem('refresh_token'); 
-                    localStorage.removeItem('session_name');
-                    localStorage.removeItem('is_admin');
-                    localStorage.removeItem('activeTab');
-
-                    window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
-                
-                } else {
-                    alert('Logout failed! Please try again.');
-                    localStorage.removeItem('access_token');
-                    localStorage.removeItem('refresh_token'); 
-                    localStorage.removeItem('session_name');
-                    localStorage.removeItem('is_admin');
-                    localStorage.removeItem('activeTab');
-
-                    window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
-                }
-            })
-            .catch(error => {
-                console.error('Error during logout:', error);
-                alert('Logout failed! Please try again later.');
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('refresh_token'); 
-                localStorage.removeItem('session_name');
-                localStorage.removeItem('is_admin');
-                localStorage.removeItem('activeTab');
-
-                window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
-            });
+        if (accessToken && isAdmin === 'true') {
+            document.getElementById('session-info').innerText = `Xin chao : ${sessionName}`;
+            // Nếu có access token, hiển thị nút Logout và ẩn nút Login
+            document.getElementById('logout-btn').style.display = 'block';
         } else {
-            alert('You are not logged in.');
             window.location.href = '/login/';
         }
-    });
-  </script>
 
-  <script>
-        
+
+        document.getElementById('logout-btn').addEventListener('click', function () {
+
+            const accessToken = localStorage.getItem('access_token');
+            const refreshToken = localStorage.getItem('refresh_token');
+            const isAdmin = localStorage.getItem('is_admin');
+
+
+            if (refreshToken) {
+                fetch('/api/logout/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ refresh: refreshToken }),
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            localStorage.removeItem('access_token');  // Xóa access token
+                            localStorage.removeItem('refresh_token'); // Xóa refresh token
+                            localStorage.removeItem('session_name');
+                            localStorage.removeItem('is_admin');
+                            localStorage.removeItem('activeTab');
+
+
+                            window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
+
+                        } else if (response.status === 401) {
+                            alert('Token đã hết hạn. Vui lòng đăng nhập lại.');
+                            localStorage.removeItem('access_token');
+                            localStorage.removeItem('refresh_token');
+                            localStorage.removeItem('session_name');
+                            localStorage.removeItem('is_admin');
+                            localStorage.removeItem('activeTab');
+
+                            window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
+
+                        } else {
+                            alert('Logout failed! Please try again.');
+                            localStorage.removeItem('access_token');
+                            localStorage.removeItem('refresh_token');
+                            localStorage.removeItem('session_name');
+                            localStorage.removeItem('is_admin');
+                            localStorage.removeItem('activeTab');
+
+                            window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during logout:', error);
+                        alert('Logout failed! Please try again later.');
+                        localStorage.removeItem('access_token');
+                        localStorage.removeItem('refresh_token');
+                        localStorage.removeItem('session_name');
+                        localStorage.removeItem('is_admin');
+                        localStorage.removeItem('activeTab');
+
+                        window.location.href = '/login/'; // Chuyển hướng về trang đăng nhập
+                    });
+            } else {
+                alert('You are not logged in.');
+                window.location.href = '/login/';
+            }
+        });
+    </script>
+
+    <script>
+
         fetch('/api/logos/')
-        .then(response => response.json())
-        .then(data => {
-            const logoList = document.getElementById('logo-cinema');
-        
-            // Tạo các phần tử logo
-            data.results.slice(0, 1).forEach(logo => {
-                const logoItem = document.createElement('div');
-                logoItem.classList.add('logo-item');
-                logoItem.innerHTML = `
+            .then(response => response.json())
+            .then(data => {
+                const logoList = document.getElementById('logo-cinema');
+
+                // Tạo các phần tử logo
+                data.results.slice(0, 1).forEach(logo => {
+                    const logoItem = document.createElement('div');
+                    logoItem.classList.add('logo-item');
+                    logoItem.innerHTML = `
                         <img src="${logo.image}" class="logo-img" alt="${logo.name}">
                 `;
-                logoItem.addEventListener('click', () => {
-                    window.location.href = `/home/`;
-                    localStorage.removeItem('activeTabBase');
+                    logoItem.addEventListener('click', () => {
+                        window.location.href = `/home/`;
+                        localStorage.removeItem('activeTabBase');
+                    });
+                    logoList.appendChild(logoItem);
                 });
-                logoList.appendChild(logoItem);
-            });
 
 
-            const logoFooterList = document.getElementById('footer-logo-cinema');
-        
-            // Tạo các phần tử logo
-            data.results.slice(0, 1).forEach(logoFooter => {
-                const logoFooterItem = document.createElement('div');
-                logoFooterItem.classList.add('footer-logo-item');
-                logoFooterItem.innerHTML = `
+                const logoFooterList = document.getElementById('footer-logo-cinema');
+
+                // Tạo các phần tử logo
+                data.results.slice(0, 1).forEach(logoFooter => {
+                    const logoFooterItem = document.createElement('div');
+                    logoFooterItem.classList.add('footer-logo-item');
+                    logoFooterItem.innerHTML = `
                         <img src="${logoFooter.image}" class="footer-logo-img" alt="${logoFooter.name}">
                 `;
-                logoFooterItem.addEventListener('click', () => {
-                    window.location.href = `/home/`;
-                    localStorage.removeItem('activeTabBase');
+                    logoFooterItem.addEventListener('click', () => {
+                        window.location.href = `/home/`;
+                        localStorage.removeItem('activeTabBase');
+                    });
+                    logoFooterList.appendChild(logoFooterItem);
                 });
-                logoFooterList.appendChild(logoFooterItem);
+
+            })
+            .catch(error => {
+                console.error('Error fetching logo data:', error);
             });
 
-        })
-        .catch(error => {
-            console.error('Error fetching logo data:', error);
+    </script>
+
+    <script>
+
+
+        document.getElementById('tab-bar-statistical').addEventListener('click', function () {
+            window.location.href = '/statisticalmanage/';
         });
 
-  </script>
+        document.getElementById('tab-bar-user').addEventListener('click', function () {
+            window.location.href = '/usermanage/';
+        });
 
-  <script>
-    
+        document.getElementById('tab-bar-area').addEventListener('click', function () {
+            window.location.href = '/areamanage/';
+        });
 
-    document.getElementById('tab-bar-statistical').addEventListener('click', function() {
-        window.location.href = '/statisticalmanage/';
-    });
+        document.getElementById('tab-bar-place').addEventListener('click', function () {
+            window.location.href = '/placemanage/';
+        });
 
-    document.getElementById('tab-bar-user').addEventListener('click', function() {
-        window.location.href = '/usermanage/';
-    });
-    
-    document.getElementById('tab-bar-area').addEventListener('click', function() {
-        window.location.href = '/areamanage/';
-    });
+        document.getElementById('tab-bar-dayshow').addEventListener('click', function () {
+            window.location.href = '/dayshowmanage/';
+        });
 
-    document.getElementById('tab-bar-place').addEventListener('click', function() {
-        window.location.href = '/placemanage/';
-    });
+        document.getElementById('tab-bar-room').addEventListener('click', function () {
+            window.location.href = '/roommanage/';
+        });
 
-    document.getElementById('tab-bar-dayshow').addEventListener('click', function() {
-        window.location.href = '/dayshowmanage/';
-    });
-    
-    document.getElementById('tab-bar-room').addEventListener('click', function() {
-        window.location.href = '/roommanage/';
-    });
+        document.getElementById('tab-bar-seat').addEventListener('click', function () {
+            window.location.href = '/seatmanage/';
+        });
 
-    document.getElementById('tab-bar-seat').addEventListener('click', function() {
-        window.location.href = '/seatmanage/';
-    });
+        document.getElementById('tab-bar-film').addEventListener('click', function () {
+            window.location.href = '/filmmanage/';
+        });
 
-    document.getElementById('tab-bar-film').addEventListener('click', function() {
-        window.location.href = '/filmmanage/';
-    });
+        document.getElementById('tab-bar-image').addEventListener('click', function () {
+            window.location.href = '/imagemanage/';
+        });
 
-    document.getElementById('tab-bar-image').addEventListener('click', function() {
-        window.location.href = '/imagemanage/';
-    });
+        document.getElementById('tab-bar-video').addEventListener('click', function () {
+            window.location.href = '/videomanage/';
+        });
 
-    document.getElementById('tab-bar-video').addEventListener('click', function() {
-        window.location.href = '/videomanage/';
-    });
+        document.getElementById('tab-bar-comment').addEventListener('click', function () {
+            window.location.href = '/commentmanage/';
+        });
 
-    document.getElementById('tab-bar-comment').addEventListener('click', function() {
-        window.location.href = '/commentmanage/';
-    });
-    
-    document.getElementById('tab-bar-category').addEventListener('click', function() {
-        window.location.href = '/categorymanage/';
-    });
+        document.getElementById('tab-bar-category').addEventListener('click', function () {
+            window.location.href = '/categorymanage/';
+        });
 
-    document.getElementById('tab-bar-categoryfilm').addEventListener('click', function() {
-        window.location.href = '/categoryfilmmanage/';
-    });
+        document.getElementById('tab-bar-categoryfilm').addEventListener('click', function () {
+            window.location.href = '/categoryfilmmanage/';
+        });
 
-    document.getElementById('tab-bar-schedule').addEventListener('click', function() {
-        window.location.href = '/schedulemanage/';
-    });
+        document.getElementById('tab-bar-schedule').addEventListener('click', function () {
+            window.location.href = '/schedulemanage/';
+        });
 
-    document.getElementById('tab-bar-ticket').addEventListener('click', function() {
-        window.location.href = '/ticketmanage/';
-    });
+        document.getElementById('tab-bar-ticket').addEventListener('click', function () {
+            window.location.href = '/ticketmanage/';
+        });
 
-    document.getElementById('tab-bar-actor').addEventListener('click', function() {
-        window.location.href = '/actormanage/';
-    });
+        document.getElementById('tab-bar-actor').addEventListener('click', function () {
+            window.location.href = '/actormanage/';
+        });
 
-    document.getElementById('tab-bar-booking').addEventListener('click', function() {
-        window.location.href = '/bookingmanage/';
-    });
-    
-    document.getElementById('tab-bar-promotion').addEventListener('click', function() {
-        window.location.href = '/promotionmanage/';
-    });
+        document.getElementById('tab-bar-booking').addEventListener('click', function () {
+            window.location.href = '/bookingmanage/';
+        });
 
-    document.getElementById('tab-bar-service').addEventListener('click', function() {
-        window.location.href = '/servicemanage/';
-    });
+        document.getElementById('tab-bar-promotion').addEventListener('click', function () {
+            window.location.href = '/promotionmanage/';
+        });
 
-    document.getElementById('tab-bar-contact').addEventListener('click', function() {
-        window.location.href = '/contactmanage/';
-    });
+        document.getElementById('tab-bar-service').addEventListener('click', function () {
+            window.location.href = '/servicemanage/';
+        });
 
-    document.getElementById('tab-bar-combo').addEventListener('click', function() {
-        window.location.href = '/combomanage/';
-    });
+        document.getElementById('tab-bar-contact').addEventListener('click', function () {
+            window.location.href = '/contactmanage/';
+        });
 
-    document.getElementById('tab-bar-logo').addEventListener('click', function() {
-        window.location.href = '/logomanage/';
-    });
+        document.getElementById('tab-bar-combo').addEventListener('click', function () {
+            window.location.href = '/combomanage/';
+        });
 
-    document.getElementById('tab-bar-background').addEventListener('click', function() {
-        window.location.href = '/backgroundmanage/';
-    });
-    document.getElementById('tab-bar-pay').addEventListener('click', function() {
-        window.location.href = '/paymanage/';
-    });
-    document.getElementById('tab-bar-bill').addEventListener('click', function() {
-        window.location.href = '/billmanage/';
-    });
+        document.getElementById('tab-bar-logo').addEventListener('click', function () {
+            window.location.href = '/logomanage/';
+        });
+
+        document.getElementById('tab-bar-background').addEventListener('click', function () {
+            window.location.href = '/backgroundmanage/';
+        });
+        document.getElementById('tab-bar-pay').addEventListener('click', function () {
+            window.location.href = '/paymanage/';
+        });
+        document.getElementById('tab-bar-bill').addEventListener('click', function () {
+            window.location.href = '/billmanage/';
+        });
 
 
-  </script>
+    </script>
 
 
 
-  <script>
+    <script>
 
 
-    document.getElementById('tab-left-statistical').addEventListener('click', function() {
-        window.location.href = '/statisticalmanage/';
-    });
+        document.getElementById('tab-left-statistical').addEventListener('click', function () {
+            window.location.href = '/statisticalmanage/';
+        });
 
-    document.getElementById('tab-left-user').addEventListener('click', function() {
-        window.location.href = '/usermanage/';
-    });
+        document.getElementById('tab-left-user').addEventListener('click', function () {
+            window.location.href = '/usermanage/';
+        });
 
-    document.getElementById('tab-left-area').addEventListener('click', function() {
-        window.location.href = '/areamanage/';
-    });
+        document.getElementById('tab-left-area').addEventListener('click', function () {
+            window.location.href = '/areamanage/';
+        });
 
-    document.getElementById('tab-left-place').addEventListener('click', function() {
-        window.location.href = '/placemanage/';
-    });
+        document.getElementById('tab-left-place').addEventListener('click', function () {
+            window.location.href = '/placemanage/';
+        });
 
-    document.getElementById('tab-left-dayshow').addEventListener('click', function() {
-        window.location.href = '/dayshowmanage/';
-    });
-    
-    document.getElementById('tab-left-room').addEventListener('click', function() {
-        window.location.href = '/roommanage/';
-    });
+        document.getElementById('tab-left-dayshow').addEventListener('click', function () {
+            window.location.href = '/dayshowmanage/';
+        });
 
-    document.getElementById('tab-left-seat').addEventListener('click', function() {
-        window.location.href = '/seatmanage/';
-    });
+        document.getElementById('tab-left-room').addEventListener('click', function () {
+            window.location.href = '/roommanage/';
+        });
 
-    document.getElementById('tab-left-film').addEventListener('click', function() {
-        window.location.href = '/filmmanage/';
-    });
+        document.getElementById('tab-left-seat').addEventListener('click', function () {
+            window.location.href = '/seatmanage/';
+        });
 
-    document.getElementById('tab-left-image').addEventListener('click', function() {
-        window.location.href = '/imagemanage/';
-    });
+        document.getElementById('tab-left-film').addEventListener('click', function () {
+            window.location.href = '/filmmanage/';
+        });
 
-    document.getElementById('tab-left-video').addEventListener('click', function() {
-        window.location.href = '/videomanage/';
-    });
+        document.getElementById('tab-left-image').addEventListener('click', function () {
+            window.location.href = '/imagemanage/';
+        });
 
-    document.getElementById('tab-left-comment').addEventListener('click', function() {
-        window.location.href = '/commentmanage/';
-    });
-    
-    document.getElementById('tab-left-category').addEventListener('click', function() {
-        window.location.href = '/categorymanage/';
-    });
+        document.getElementById('tab-left-video').addEventListener('click', function () {
+            window.location.href = '/videomanage/';
+        });
 
-    document.getElementById('tab-left-categoryfilm').addEventListener('click', function() {
-        window.location.href = '/categoryfilmmanage/';
-    });
+        document.getElementById('tab-left-comment').addEventListener('click', function () {
+            window.location.href = '/commentmanage/';
+        });
 
-    document.getElementById('tab-left-schedule').addEventListener('click', function() {
-        window.location.href = '/schedulemanage/';
-    });
+        document.getElementById('tab-left-category').addEventListener('click', function () {
+            window.location.href = '/categorymanage/';
+        });
 
-    document.getElementById('tab-left-ticket').addEventListener('click', function() {
-        window.location.href = '/ticketmanage/';
-    });
+        document.getElementById('tab-left-categoryfilm').addEventListener('click', function () {
+            window.location.href = '/categoryfilmmanage/';
+        });
 
-    document.getElementById('tab-left-actor').addEventListener('click', function() {
-        window.location.href = '/actormanage/';
-    });
+        document.getElementById('tab-left-schedule').addEventListener('click', function () {
+            window.location.href = '/schedulemanage/';
+        });
 
-    document.getElementById('tab-left-booking').addEventListener('click', function() {
-        window.location.href = '/bookingmanage/';
-    });
-    
-    document.getElementById('tab-left-promotion').addEventListener('click', function() {
-        window.location.href = '/promotionmanage/';
-    });
+        document.getElementById('tab-left-ticket').addEventListener('click', function () {
+            window.location.href = '/ticketmanage/';
+        });
 
-    document.getElementById('tab-left-service').addEventListener('click', function() {
-        window.location.href = '/servicemanage/';
-    });
+        document.getElementById('tab-left-actor').addEventListener('click', function () {
+            window.location.href = '/actormanage/';
+        });
 
-    document.getElementById('tab-left-contact').addEventListener('click', function() {
-        window.location.href = '/contactmanage/';
-    });
+        document.getElementById('tab-left-booking').addEventListener('click', function () {
+            window.location.href = '/bookingmanage/';
+        });
 
-    document.getElementById('tab-left-combo').addEventListener('click', function() {
-        window.location.href = '/combomanage/';
-    });
+        document.getElementById('tab-left-promotion').addEventListener('click', function () {
+            window.location.href = '/promotionmanage/';
+        });
 
-    document.getElementById('tab-left-logo').addEventListener('click', function() {
-        window.location.href = '/logomanage/';
-    });
+        document.getElementById('tab-left-service').addEventListener('click', function () {
+            window.location.href = '/servicemanage/';
+        });
 
-    document.getElementById('tab-left-background').addEventListener('click', function() {
-        window.location.href = '/backgroundmanage/';
-    });
-    document.getElementById('tab-left-pay').addEventListener('click', function() {
-        window.location.href = '/paymanage/';
-    });
-    document.getElementById('tab-left-bill').addEventListener('click', function() {
-        window.location.href = '/billmanage/';
-    });
+        document.getElementById('tab-left-contact').addEventListener('click', function () {
+            window.location.href = '/contactmanage/';
+        });
 
-  </script>
+        document.getElementById('tab-left-combo').addEventListener('click', function () {
+            window.location.href = '/combomanage/';
+        });
 
-  <script>
+        document.getElementById('tab-left-logo').addEventListener('click', function () {
+            window.location.href = '/logomanage/';
+        });
+
+        document.getElementById('tab-left-background').addEventListener('click', function () {
+            window.location.href = '/backgroundmanage/';
+        });
+        document.getElementById('tab-left-pay').addEventListener('click', function () {
+            window.location.href = '/paymanage/';
+        });
+        document.getElementById('tab-left-bill').addEventListener('click', function () {
+            window.location.href = '/billmanage/';
+        });
+
+    </script>
+
+    <script>
         // Đặt màu sắc cho item được chọn
         function setActiveTab(activeId, tabType) {
             const itemsLeft = document.querySelectorAll('.item-tab-barleft');
@@ -843,7 +860,7 @@
 
         // Gán sự kiện click cho từng item bên trái
         document.querySelectorAll('.item-tab-barleft').forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', function () {
                 const id = this.id;
                 setActiveTab(id, 'left'); // Đặt tab bên trái đang hoạt động
                 saveActiveTab(id); // Lưu tab hoạt động
@@ -853,7 +870,7 @@
 
         // Gán sự kiện click cho từng item bên phải
         document.querySelectorAll('.item-tab-bar-right').forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', function () {
                 const id = this.id;
                 setActiveTab(id, 'right'); // Đặt tab bên phải đang hoạt động
                 saveActiveTab(id); // Lưu tab hoạt động
@@ -863,24 +880,83 @@
 
         // Tải trạng thái tab khi trang được tải
         window.onload = loadActiveTab;
-  </script>
+    </script>
 
-  <script>
-    //Ẩn loading khi trang đã tải xong
-    window.addEventListener('load', function() {
-        var loadingBox = document.getElementById('box-loading');
-        setTimeout(function() {
-            loadingBox.style.display = 'none'; 
-        }, 500);
-    });
-  </script>
+    <script>
+        //Ẩn loading khi trang đã tải xong
+        window.addEventListener('load', function () {
+            var loadingBox = document.getElementById('box-loading');
+            setTimeout(function () {
+                loadingBox.style.display = 'none';
+            }, 500);
+        });
+    </script>
+
+    <script>
+
+        let hideTimeout;
+
+        document.addEventListener('scroll', function () {
+            const navbar = document.getElementById('header-base');
+            const backButton = document.querySelector('.icon-back-base');
+
+
+            // Hiện thẻ back button khi cuộn qua navbar
+            if (window.scrollY >= navbar.offsetHeight) {
+                backButton.style.display = 'block'; // Hiện thẻ back button
+                
+
+                // Reset timeout để ẩn thẻ back button
+                clearTimeout(hideTimeout);
+                hideTimeout = setTimeout(() => {
+                    backButton.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
+                }, 3000);
+
+                
+
+
+            } else {
+                backButton.style.display = 'none'; // Ẩn thẻ back button nếu không cuộn qua navbar
+                clearTimeout(hideTimeout); // Xóa timeout nếu cuộn lên
+            }
+        });
+
+        // Hiển thị back button khi hover vào
+
+        const backButton = document.querySelector('.icon-back-base');
+        backButton.addEventListener('mouseover', function () {
+            clearTimeout(hideTimeout); // Xóa timeout ẩn
+            backButton.style.display = 'block'; // Hiện thẻ back button
+        });
+
+        backButton.addEventListener('mouseout', function () {
+            // Kiểm tra điều kiện để ẩn lại thẻ back button
+            if (window.scrollY >= document.getElementById('header-base').offsetHeight) {
+                hideTimeout = setTimeout(() => {
+                    backButton.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
+                }, 3000);
+            }
+        });
 
 
 
-  
+        // Ẩn thẻ back button ban đầu
+        document.addEventListener('DOMContentLoaded', function () {
+            backButton.style.display = 'none';
+            
+        });
+
+    </script>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
 </body>
+
 </html>

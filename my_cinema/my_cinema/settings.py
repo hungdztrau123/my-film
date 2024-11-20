@@ -84,12 +84,26 @@ WSGI_APPLICATION = 'my_cinema.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+ENV_FILE = os.path.join(BASE_DIR, '.env')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config("DB_NAME", default="default_db_name") ,
+        'USER': config("DB_USER", default="default_db_user") ,
+        'PASSWORD': config("DB_PASSWORD", default="default_db_password"),
+        'HOST': config("HOST", default="default_host"),
+        'PORT': '5432'
+ }
 }
+
 
 
 # Password validation

@@ -45,13 +45,13 @@
 
                 `;
 
-                if (daysRemaining === 0) {
+                if (daysRemaining <= 0 && daysRemaining > -14) {
                     updateFilmStatus(film.id, 'Now');
                    
                    
                 }
     
-                if (daysRemaining === -14){
+                if (daysRemaining <= -14){
                     updateFilmStatus(film.id, 'Stop');
                     updateStatusScheduleFilm(film.id, 'Hết hạn');
                     getSlideFilm();
@@ -177,7 +177,7 @@
                                 </div>
                                 
                                 <div class="box-film-item-time-coming">
-                                    ${daysRemaining === -14 ? 'Ngừng chiếu' : (daysRemaining > 0 ? daysRemaining + ' - ngày nữa' : 'Đang chiếu')}
+                                    ${daysRemaining <= -14 ? 'Ngừng chiếu' : (daysRemaining > 0 ? daysRemaining + ' - ngày nữa' : 'Đang chiếu')}
                                 </div>
                             </div>
 
@@ -202,13 +202,13 @@
             `;
 
             // Gọi hàm cập nhật trạng thái nếu daysRemaining bằng 0
-            if (daysRemaining === 0) {
+            if (daysRemaining <= 0 && daysRemaining > -14) {
                 updateFilmStatus(film.id, 'Now');
                 
                
             }
 
-            if (daysRemaining === -14){
+            if (daysRemaining <= -14){
                 updateFilmStatus(film.id, 'Stop');
                 updateStatusScheduleFilm(film.id, 'Hết hạn');
                 getFilms();
@@ -303,7 +303,7 @@
                                 </div>
                                 
                                 <div class="box-film-item-time-coming">
-                                    ${daysRemaining === -14 ? 'Ngừng chiếu' : (daysRemaining > 0 ? daysRemaining + ' - ngày nữa' : 'Đang chiếu')}
+                                    ${daysRemaining <= -14 ? 'Ngừng chiếu' : (daysRemaining > 0 ? daysRemaining + ' - ngày nữa' : 'Đang chiếu')}
                                 </div>
                             </div>
 
@@ -328,13 +328,13 @@
             `;
 
             // Gọi hàm cập nhật trạng thái nếu daysRemaining bằng 0
-            if (daysRemaining === 0) {
+            if (daysRemaining <= 0 && daysRemaining > -14) {
                 updateFilmStatus(film.id, 'Now');
                 
                
             }
 
-            if (daysRemaining === -14){
+            if (daysRemaining <= -14){
                 updateFilmStatus(film.id, 'Stop');
                 updateStatusScheduleFilm(film.id, 'Hết hạn');
                 getFilms();

@@ -99,6 +99,29 @@ body {
     animation: loadingturn 1s infinite linear;
 }
 
+.icon-back-base{
+    position: fixed;
+    top: 620px; 
+    right: 30px;
+    padding: 5px 10px;
+    box-shadow: 0px 0px 3px 2px #cdc197;
+    border: 2px solid #d5a12c;
+    cursor: pointer;
+    border-radius: 0px;
+    text-decoration: none;
+    color: #d5a12c;
+    z-index: 10000;
+    transition: all 0.2s linear;
+    border-radius: 5px;
+
+}
+.icon-back-base:hover{
+    border-color: #cdc197;
+    box-shadow: 0px 0px 3px 2px #d5a12c;
+    color: #cdc197;
+    
+}
+
 
 
 .button-toggle {
@@ -437,4 +460,12 @@ body {
     color: #171213; /* Màu sắc khi được chọn */
     text-shadow: 1px 1px 1px #d2a02f;
     
+}
+
+
+
+/* table */
+
+td{
+    max-width: 200px;
 }

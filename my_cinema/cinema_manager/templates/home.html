@@ -56,9 +56,15 @@
                     
                 `;
 
-                if (daysRemaining === 0) {
+                if (daysRemaining <= 0 && daysRemaining > -14) {
                     updateFilmStatus(film.id, 'Now');
                     getFilmSlide();
+                }
+
+                if (daysRemaining <= -14){
+                    updateFilmStatus(film.id, 'Stop');
+                    updateStatusScheduleFilm(film.id, 'Hết hạn');
+                    getFilms();
                 }
 
                 carouselItem.addEventListener('click', () => {
@@ -186,13 +192,13 @@
 
 
                 // Gọi hàm cập nhật trạng thái nếu daysRemaining bằng 0
-                if (daysRemaining === 0) {
+                if (daysRemaining <= 0 && daysRemaining > -14) {
                     updateFilmStatus(film.id, 'Now');
                     
 
                 }
 
-                if (daysRemaining === -14){
+                if (daysRemaining <= -14){
                     updateFilmStatus(film.id, 'Stop');
                     updateStatusScheduleFilm(film.id, 'Hết hạn');
                     getFilms();

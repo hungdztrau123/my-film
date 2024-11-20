@@ -59,7 +59,7 @@ let hideTimeout;
 let hideTimeoutFilm;
 
 document.addEventListener('scroll', function () {
-    const navbar = document.getElementById('header-box-navbar');
+    const navbar = document.getElementById('header-base');
     const backButton = document.querySelector('.icon-back-base');
     const promoFilm = document.querySelector('.promotion-image-film-base-list');
     const btnCancelFilm = document.querySelector('.box-cancel-promotion-image-film-base');
@@ -102,7 +102,7 @@ backButton.addEventListener('mouseover', function () {
 
 backButton.addEventListener('mouseout', function () {
     // Kiểm tra điều kiện để ẩn lại thẻ back button
-    if (window.scrollY >= document.getElementById('header-box-navbar').offsetHeight) {
+    if (window.scrollY >= document.getElementById('header-base').offsetHeight) {
         hideTimeout = setTimeout(() => {
             backButton.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
         }, 3000);
@@ -122,7 +122,7 @@ promoFilm.addEventListener('mouseover', function () {
 
 promoFilm.addEventListener('mouseout', function () {
     // Kiểm tra điều kiện để ẩn lại thẻ back button
-    if (window.scrollY >= document.getElementById('header-box-navbar').offsetHeight) {
+    if (window.scrollY >= document.getElementById('header-base').offsetHeight) {
         hideTimeoutFilm = setTimeout(() => {
             promoFilm.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
             btnCancelFilm.style.display = 'none';
@@ -140,7 +140,7 @@ btnCancelFilm.addEventListener('mouseover', function () {
 
 btnCancelFilm.addEventListener('mouseout', function () {
     // Kiểm tra điều kiện để ẩn lại thẻ back button
-    if (window.scrollY >= document.getElementById('header-box-navbar').offsetHeight) {
+    if (window.scrollY >= document.getElementById('header-base').offsetHeight) {
         hideTimeoutFilm = setTimeout(() => {
             promoFilm.style.display = 'none'; // Ẩn thẻ back button sau 3 giây
             btnCancelFilm.style.display = 'none';
