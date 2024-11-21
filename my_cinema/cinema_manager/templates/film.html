@@ -3,16 +3,17 @@
 
 {% block filmDetail %}
 <style>
-    .container-film-detail{
+    .container-film-detail {
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        
-       
+
+
     }
-    .box-swiper-film{
+
+    .box-swiper-film {
         width: 100%;
         display: flex;
         align-items: center;
@@ -20,61 +21,66 @@
         height: 500px;
         padding: 40px 0px;
         border-bottom: 1px dashed #cdc197;
-        
-    }
-    .swiper-container{
-        width: 100%;
-        height: 100%;
-        
-    }
-    .swiper-wrapper{
-        width: 100%;
-        height: 100%;
-       
+
     }
 
-    .image-film-detail{
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .swiper-wrapper {
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .image-film-detail {
         width: 100%;
         height: 100%;
         object-fit: contain;
 
     }
-    .video-film-detail{
+
+    .video-film-detail {
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
 
-    .swiper-button-prev{
+    .swiper-button-prev {
         color: rgb(217 217 217) !important;
         top: 500px !important;
         text-shadow: none;
         transition: all 0.2s linear;
     }
 
-    .swiper-button-prev:hover{
+    .swiper-button-prev:hover {
         color: rgb(151, 151, 151) !important;
     }
-    .swiper-button-next{
+
+    .swiper-button-next {
         color: rgb(217 217 217) !important;
         top: 500px !important;
         text-shadow: none;
         transition: all 0.2s linear;
     }
 
-    .swiper-button-next:hover{
+    .swiper-button-next:hover {
         color: rgb(151, 151, 151) !important;
     }
 
 
-    .box-film-detail-content{
+    .box-film-detail-content {
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
 
     }
-    .film-detail-content{
+
+    .film-detail-content {
         width: 60%;
         display: flex;
         flex-direction: column;
@@ -83,37 +89,40 @@
 
     }
 
-    .box-film-detail-content-top{
+    .box-film-detail-content-top {
         width: 100%;
         display: flex;
         justify-content: center;
         padding: 30px 30px 20px 30px;
-        
+
         border-radius: 7px;
         box-shadow: 0px 0px 0px 3px #cdc197;
 
     }
-    .box-film-detail-content-poster{
+
+    .box-film-detail-content-poster {
         width: 20%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        
+
 
     }
-    .film-detail-content-poster{
+
+    .film-detail-content-poster {
         width: 100%;
-        
+
         box-shadow: 0px 0px 3px 2px #cdc197;
 
     }
-    .btn-booking-film-detail{
+
+    .btn-booking-film-detail {
         display: flex;
         width: 100%;
         align-items: center;
         justify-content: center;
-        padding: 5px 0px 7px 0px; 
+        padding: 5px 0px 7px 0px;
         border: 2px solid #d5a12c;
         box-shadow: 0px 0px 0px 3px #cdc197;
         margin: 10px;
@@ -126,7 +135,7 @@
 
     }
 
-    .btn-booking-film-detail:hover{
+    .btn-booking-film-detail:hover {
         color: #cdc197;
         border-color: #cdc197;
         box-shadow: 0px 0px 0px 3px #d5a12c;
@@ -134,17 +143,17 @@
     }
 
 
-    .box-film-detail-content-info{
+    .box-film-detail-content-info {
         width: 80%;
         display: flex;
         flex-direction: column;
         padding: 0px 30px;
-        
 
-    
+
+
     }
 
-    .film-detail-content-name{
+    .film-detail-content-name {
         display: flex;
         align-items: center;
         font-size: 24px;
@@ -154,7 +163,7 @@
 
     }
 
-    .film-detail-content-age{
+    .film-detail-content-age {
         width: 60px;
         border-radius: 3px;
 
@@ -166,13 +175,14 @@
 
     }
 
-    .film-detail-content-imdb{
+    .film-detail-content-imdb {
         font-size: 20px;
         font-weight: bold;
         margin-bottom: 10px;
 
     }
-    .film-detail-content-imdb-built{
+
+    .film-detail-content-imdb-built {
         background-color: #f5c518;
         font-weight: 1000;
         color: #000;
@@ -184,55 +194,55 @@
     }
 
 
-    .text-infor-film{
+    .text-infor-film {
         font-weight: bold;
         margin-right: 7px;
     }
 
-    .film-detail-content-producer{
-        margin-bottom: 5px;
-
-
-    }
-    .film-detail-content-duration{
-        margin-bottom: 5px;
-
-
-    }
-    .film-detail-content-release{
-        margin-bottom: 5px;
-
-
-    }
-    .film-detail-content-view{
+    .film-detail-content-producer {
         margin-bottom: 5px;
 
 
     }
 
-    .box-list-category{
+    .film-detail-content-duration {
+        margin-bottom: 5px;
+
+
+    }
+
+    .film-detail-content-release {
+        margin-bottom: 5px;
+
+
+    }
+
+    .film-detail-content-view {
+        margin-bottom: 5px;
+
+
+    }
+
+    .box-list-category {
         display: flex;
         align-items: center;
     }
 
-    .box-list-category-film{
+    .box-list-category-film {
         margin-left: 5px;
         display: flex;
         align-items: center;
 
     }
 
-    .category-film-item{
+    .category-film-item {}
 
-    }
-    .category-film-name{
-
-    }
-
-    
+    .category-film-name {}
 
 
-    .box-film-detail-content-bottom{
+
+
+    .box-film-detail-content-bottom {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -242,19 +252,20 @@
         padding: 20px 0px;
     }
 
-    .detail-content-description-title{
+    .detail-content-description-title {
         font-size: 24px;
         font-weight: bold;
         margin-bottom: 10px;
-        
+
     }
-    .detail-content-description{
+
+    .detail-content-description {
         font-size: 14px;
         padding-left: 10px;
         margin: 0px;
     }
 
-    .list-actor-film-content-bottom{
+    .list-actor-film-content-bottom {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -262,36 +273,38 @@
         padding: 20px 0px;
         border-bottom: 1px dashed #cdc197;
     }
-    .detail-content-actor-title{
+
+    .detail-content-actor-title {
         font-size: 24px;
         font-weight: bold;
         margin-bottom: 10px;
     }
 
-    .box-list-actor-btn-left-right{
+    .box-list-actor-btn-left-right {
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .box-btn-nav-bar-film-left{
+    .box-btn-nav-bar-film-left {
         display: flex;
         width: 50px;
         height: 50px;
         align-items: center;
         justify-content: right;
+        
     }
-    
-    .box-btn-nav-bar-film-right{
+
+    .box-btn-nav-bar-film-right {
         display: flex;
         width: 50px;
         height: 50px;
         align-items: center;
         justify-content: left;
     }
-    
-    .btn-nav-bar-film-left{
+
+    .btn-nav-bar-film-left {
         width: 25px;
         height: 45px;
         border-top-left-radius: 50%;
@@ -306,17 +319,18 @@
         cursor: pointer;
         color: #d5a12c;
         transition: all 0.2s linear;
-        
+
     }
-    .btn-nav-bar-film-left:hover{
+
+    .btn-nav-bar-film-left:hover {
         color: #cdc197;
         border-color: #cdc197;
         box-shadow: 0px 0px 0px 3px #d5a12c;
-    
+
     }
-    
-    
-    .btn-nav-bar-film-right{
+
+
+    .btn-nav-bar-film-right {
         width: 25px;
         height: 45px;
         border-top-right-radius: 50%;
@@ -331,25 +345,26 @@
         cursor: pointer;
         color: #d5a12c;
         transition: all 0.2s linear;
-        
+
     }
-    .btn-nav-bar-film-right:hover{
+
+    .btn-nav-bar-film-right:hover {
         color: #cdc197;
         border-color: #cdc197;
         box-shadow: 0px 0px 0px 3px #d5a12c;
-    
+
     }
 
 
-    .box-list-actor-film{
+    .box-list-actor-film {
         width: 89%;
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
     }
 
-    .actor-film-item{
-        min-width: 150px;
+    .actor-film-item {
+        min-width: 151.5px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -360,16 +375,18 @@
         margin: 5px;
 
     }
-    .actor-film-item-img{
-        width: 150px;
+
+    .actor-film-item-img {
+        width: 100%;
         height: 150px;
         object-fit: contain;
-    
-        
+
+
 
 
     }
-    .actor-film-item-name{
+
+    .actor-film-item-name {
         border-top: 1px solid #cdc197;
         width: 100%;
         padding-top: 5px;
@@ -380,14 +397,15 @@
     }
 
 
-    .box-container-comment{
+    .box-container-comment {
         width: 60%;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
     }
-    .box-comment-post{
+
+    .box-comment-post {
         width: 100%;
         height: 90px;
         display: flex;
@@ -397,7 +415,7 @@
 
     }
 
-    .box-rating-star{
+    .box-rating-star {
         width: 20%;
         display: flex;
         flex-direction: column;
@@ -406,14 +424,14 @@
 
     }
 
-    .rating-title{
+    .rating-title {
         font-size: 18px;
         font-weight: bold;
         margin-bottom: 5px;
 
     }
 
-    .box-choose-star{
+    .box-choose-star {
         width: 100%;
         display: flex;
         align-items: center;
@@ -423,34 +441,35 @@
 
     }
 
-    .box-choose-star i{
+    .box-choose-star i {
         cursor: pointer;
     }
 
-    .color-star{
+    .color-star {
         color: yellow;
-        
+
     }
 
-    .box-input-rating{
+    .box-input-rating {
         width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    
 
-    .comment-input-rate{
+
+    .comment-input-rate {
         outline: none;
         border: none;
         width: 13px;
         padding: 0px;
-        color:#d5a12c;
+        color: #d5a12c;
         text-shadow: 1px 1px 1px #000;
         background-color: transparent;
     }
-    .comment-input-text{
+
+    .comment-input-text {
         width: 65%;
         height: 100%;
         display: flex;
@@ -459,10 +478,11 @@
         border-bottom: none;
         border-right: none;
         outline: none;
-        padding: 5px 10px; 
+        padding: 5px 10px;
 
     }
-    .btn-comment{
+
+    .btn-comment {
         width: 15%;
         height: 100%;
         display: flex;
@@ -474,25 +494,26 @@
         font-size: 25px;
         cursor: pointer;
         transition: all 0.2s linear;
-            
+
 
     }
 
-    .btn-comment:hover{
+    .btn-comment:hover {
         color: #cdc197;
         border-color: #cdc197;
         box-shadow: 0px 0px 0px 3px #d5a12c;
     }
 
 
-    .box-comment-view{
+    .box-comment-view {
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
     }
-    .comment-list{
+
+    .comment-list {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -500,7 +521,8 @@
         padding: 30px 0px;
 
     }
-    .comment-item{
+
+    .comment-item {
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -509,32 +531,35 @@
         border-bottom: 1px dashed #cdc197;
 
     }
-    .box-comment-info-user{
+
+    .box-comment-info-user {
         font-weight: bold;
         width: 100%;
         display: flex;
         align-items: center;
     }
-    .comment-username{
-        padding: 0px 5px 2px 5px; 
+
+    .comment-username {
+        padding: 0px 5px 2px 5px;
         border: 1px solid #cdc197;
         box-shadow: 0px 0px 2px 1px #d5a12c;
         border-radius: 3px;
         margin-right: 20px;
-        
+
     }
 
-    .box-comment-rate{
+    .box-comment-rate {
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
     }
-    .icon-star-comment{
+
+    .icon-star-comment {
         position: absolute;
         width: 100%;
-        height:100%;
+        height: 100%;
         font-size: 27px;
 
         display: flex;
@@ -542,22 +567,24 @@
         justify-content: center;
     }
 
-    .comment-rate{
+    .comment-rate {
         position: absolute;
         font-size: 14px;
         font-weight: 400;
     }
-    .comment-content{
-        padding:10px 7px;
+
+    .comment-content {
+        padding: 10px 7px;
         margin: 0px;
         font-size: 15px;
 
     }
-    .comment-date{
+
+    .comment-date {
         font-size: 13px;
     }
 
-    .pagination-comment{
+    .pagination-comment {
         width: 100%;
         display: flex;
         align-items: center;
@@ -565,12 +592,6 @@
         padding-bottom: 30px;
 
     }
-    
-
-
-
-
-
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
 
@@ -578,28 +599,28 @@
 
     <div class="box-swiper-film">
         <div class="swiper-container">
-            <div class="swiper-wrapper" >
+            <div class="swiper-wrapper">
                 <!-- Slides will be created dynamically -->
             </div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
         </div>
     </div>
-    
-    
-    
+
+
+
     <div class="box-film-detail-content">
         <div id="film-detail" class="film-detail-content">
-    
+
         </div>
 
     </div>
-    
-    
+
+
     <div id="category-film-list">
-    
+
     </div>
-    
+
     <div class="box-container-comment">
         <div id="comment-post" class="box-comment-post">
             <div class="box-rating-star">
@@ -612,17 +633,17 @@
                     <i class="fa-solid fa-star" data-value="5"></i>
                 </div>
                 <div class="box-input-rating">
-                    <input type="text" id="comment-rate" class="comment-input-rate" placeholder="" readonly/>
+                    <input type="text" id="comment-rate" class="comment-input-rate" placeholder="" readonly />
                     <span>điểm</span>
                 </div>
-        
+
             </div>
-            
+
 
             <textarea id="comment-content" class="comment-input-text" placeholder="Nội dung bình luận"></textarea>
             <span id="submit-comment" class="btn-comment"><i class="fa-solid fa-paper-plane"></i></span>
         </div>
-        
+
         <div id="box-comment" class="box-comment-view">
 
             <div id="comment-list" class="comment-list">
@@ -636,7 +657,7 @@
 
         </div>
     </div>
-    
+
 
 </div>
 
@@ -692,23 +713,23 @@
     const url = new URL(window.location.href);
     const filmId = url.pathname.split('/')[2];
 
-    
+
 
     // Fetch the film details
     fetch(`/api/films/${filmId}/`)
-    .then(response => response.json())
-    .then(data => {
-        const filmDetailContainer = document.getElementById('film-detail');
+        .then(response => response.json())
+        .then(data => {
+            const filmDetailContainer = document.getElementById('film-detail');
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
-            const year = date.getFullYear(); // Lấy năm
-            return `${day}/${month}/${year}`; // Định dạng ngày
-        }
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+                const year = date.getFullYear(); // Lấy năm
+                return `${day}/${month}/${year}`; // Định dạng ngày
+            }
 
-        filmDetailContainer.innerHTML = `
+            filmDetailContainer.innerHTML = `
             
                 
                     <div class="box-film-detail-content-top">
@@ -769,91 +790,67 @@
                 </div>
             </div>
         `;
-        
-        getCategoryByFilmId(data.id,`category-${data.id}`);
-        getActorByFilmId(data.id,`actor-${data.id}`);
-        
 
-        getMultimediaData(data.id);
-        filmDetailContainer.querySelector('.btn-booking-film-detail').addEventListener('click', () => {
-            window.location.href = `/bookfilm/${data.id}/`
+            getCategoryByFilmId(data.id, `category-${data.id}`);
+            getActorByFilmId(data.id, `actor-${data.id}`);
+
+
+            getMultimediaData(data.id);
+            filmDetailContainer.querySelector('.btn-booking-film-detail').addEventListener('click', () => {
+                window.location.href = `/bookfilm/${data.id}/`
+            });
+
+        })
+        .catch(error => {
+            console.error('Error fetching film details:', error);
         });
-
-    })
-    .catch(error => {
-        console.error('Error fetching film details:', error);
-    });
 
     function getCategoryByFilmId(filmIdCategory, categoryListId) {
         fetch(`/api/categoryfilms/?film=${filmIdCategory}`)
-        .then(response => response.json())
-        .then(data => {
-          const categoryFilmList = document.getElementById(categoryListId);
-          categoryFilmList.innerHTML = ''; // Xóa nội dung cũ
-    
-          const categoryNames = data.results.map(categoryFilm => categoryFilm.category.name).join(', ');
+            .then(response => response.json())
+            .then(data => {
+                const categoryFilmList = document.getElementById(categoryListId);
+                categoryFilmList.innerHTML = ''; // Xóa nội dung cũ
 
-          
-          const categoryFilmItem = document.createElement('div');
-          categoryFilmItem.classList.add('category-film-item');
-          categoryFilmItem.innerHTML = `
+                const categoryNames = data.results.map(categoryFilm => categoryFilm.category.name).join(', ');
+
+
+                const categoryFilmItem = document.createElement('div');
+                categoryFilmItem.classList.add('category-film-item');
+                categoryFilmItem.innerHTML = `
                 
                 
                 <span class="category-film-name">${categoryNames}</span>
 
                 
           `;
-          categoryFilmList.appendChild(categoryFilmItem);
-        
-        })
-        .catch(error => {
-          console.error('Error fetching categoryfilm list:', error);
-        });
+                categoryFilmList.appendChild(categoryFilmItem);
+
+            })
+            .catch(error => {
+                console.error('Error fetching categoryfilm list:', error);
+            });
 
     }
 
-    
 
 
-    let currentActorPage = 0;
-    const actorsPerPage = 5;
+
+    //let currentActorPage = 0;
+    //const actorsPerPage = 5;
     let actorsData = [];
+    let startIndex = 0;
 
-    function getActorByFilmId(filmIdActor, actorListId) {
-        fetch(`/api/actors/?film=${filmIdActor}`)
-        .then(response => response.json())
-        .then(data => {
-            actorsData = data.results; // Lưu danh sách diễn viên
-            renderActors(actorListId); // Hiển thị diễn viên đầu tiên
-
-            // Thêm sự kiện cho nút Left
-            document.getElementById('btn-left').addEventListener('click', () => {
-                if (currentActorPage > 0) {
-                    currentActorPage--;
-                    renderActors(actorListId);
-                }
-            });
-
-            // Thêm sự kiện cho nút Right
-            document.getElementById('btn-right').addEventListener('click', () => {
-                if ((currentActorPage + 1) * actorsPerPage < actorsData.length) {
-                    currentActorPage++;
-                    renderActors(actorListId);
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching actor film list:', error);
-        });
-    }
 
     function renderActors(actorListId) {
         const actorFilmList = document.getElementById(actorListId);
         actorFilmList.innerHTML = ''; // Xóa nội dung cũ
 
-        const start = currentActorPage * actorsPerPage;
-        const end = start + actorsPerPage;
-        const actorsToShow = actorsData.slice(start, end);
+        //const start = currentActorPage * actorsPerPage;
+        //const end = start + actorsPerPage;
+        //const actorsToShow = actorsData.slice(start, end);
+
+        const actorsToShow = actorsData.slice(startIndex, startIndex + 5);
 
         actorsToShow.forEach(actorFilm => {
             const actorFilmItem = document.createElement('div');
@@ -864,20 +861,65 @@
             `;
             actorFilmList.appendChild(actorFilmItem);
         });
+
+        const btnLeft = document.getElementById('btn-left');
+        btnLeft.style.display = 'none';
+
+        const btnRight = document.getElementById('btn-right');
+
+
+        btnLeft.style.display = startIndex > 0 ? 'flex' : 'none';
+
+        // Kiểm tra để ẩn nút "Tiếp theo" nếu đã đến cuối dữ liệu
+        if (startIndex + 5 >= actorsData.length) {
+            btnRight.style.display = 'none'; // Ẩn nút "Tiếp theo"
+        } else {
+            btnRight.style.display = 'flex'; // Hiện nút "Tiếp theo"
+        }
+    }
+
+    function getActorByFilmId(filmIdActor, actorListId) {
+        fetch(`/api/actors/?film=${filmIdActor}`)
+            .then(response => response.json())
+            .then(data => {
+                actorsData = data.results; // Lưu danh sách diễn viên
+                renderActors(actorListId); // Hiển thị diễn viên đầu tiên
+
+                // Thêm sự kiện cho nút Left
+                document.getElementById('btn-left').addEventListener('click', () => {
+                    if (startIndex > 0) {
+                        startIndex--; // Giảm chỉ số bắt đầu
+                        renderActors(actorListId);
+                    }
+                });
+
+                // Thêm sự kiện cho nút Right
+                document.getElementById('btn-right').addEventListener('click', () => {
+                    if (startIndex + 5 < actorsData.length) {
+                        startIndex++; // Tăng chỉ số bắt đầu
+                        renderActors(actorListId);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching actor film list:', error);
+            });
     }
 
 
-    
-    document.getElementById('submit-comment').addEventListener('click', function() {
 
-        
+
+
+    document.getElementById('submit-comment').addEventListener('click', function () {
+
+
 
         const accessToken = localStorage.getItem('access_token');
 
         if (!accessToken) {
             window.location.href = '/login/';
         }
-        
+
         else if (!isAccessTokenValid()) {
             alert('Token đã hết hạn. Vui lòng đăng nhập.');
             localStorage.removeItem('access_token');
@@ -900,7 +942,7 @@
             alert('Vui lòng nhập bình luận.');
             return;
         }
-        
+
         // Gửi bình luận lên server
         fetch(`/api/comments/`, {
             method: 'POST',
@@ -914,26 +956,26 @@
                 content: content,
             }),
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            // Làm sạch ô nhập liệu sau khi gửi
-            document.getElementById('comment-rate').value = '';
-            document.getElementById('comment-content').value = '';
-            // Xóa class color-star khỏi tất cả các sao
-            const stars = document.querySelectorAll('.box-choose-star i');
-            stars.forEach(star => star.classList.remove('color-star'));
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                // Làm sạch ô nhập liệu sau khi gửi
+                document.getElementById('comment-rate').value = '';
+                document.getElementById('comment-content').value = '';
+                // Xóa class color-star khỏi tất cả các sao
+                const stars = document.querySelectorAll('.box-choose-star i');
+                stars.forEach(star => star.classList.remove('color-star'));
 
-            // Cập nhật danh sách bình luận
-            getComments(filmId,page = 1);
-        })
-        .catch(error => {
-            console.error('Error posting comment:', error);
-        });
+                // Cập nhật danh sách bình luận
+                getComments(filmId, page = 1);
+            })
+            .catch(error => {
+                console.error('Error posting comment:', error);
+            });
     });
 
 
@@ -942,7 +984,7 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
+
 
     function renderComments(comments) {
         commentList.innerHTML = '';
@@ -970,8 +1012,8 @@
 
 
             `;
-           
-            
+
+
             commentList.appendChild(commentItem);
         });
     }
@@ -985,28 +1027,28 @@
     getComments(filmId);
     function getComments(filmId, page = 1) {
         let url = `/api/comments/?page=${page}&film=${filmId}&ordering=-created_at`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderComments(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching comment data:', error);
-        });
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderComments(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching comment data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
         getComments(filmId, currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
         getComments(filmId, currentPage + 1);
     });
@@ -1014,7 +1056,7 @@
     getComments(filmId);
 
 
-   
+
 
     let dataArray = [];
 
@@ -1040,7 +1082,7 @@
                                 alt: image.id
                             });
                         });
-                        
+
                         initSwiper(dataArray);
                     })
                     .catch(error => {
@@ -1055,11 +1097,11 @@
     function initSwiper(dataArray) {
         const swiperContainer = document.querySelector('.swiper-container');
         const swiperWrapper = swiperContainer.querySelector('.swiper-wrapper');
-    
+
         dataArray.forEach(data => {
             const swiperSlide = document.createElement('div');
             swiperSlide.classList.add('swiper-slide');
-    
+
             if (data.type === 'image') {
                 swiperSlide.innerHTML = `
                     <img src="${data.src}" alt="${data.alt}" class="image-film-detail">
@@ -1071,10 +1113,10 @@
                     </video>
                 `;
             }
-    
+
             swiperWrapper.appendChild(swiperSlide);
         });
-    
+
         new Swiper('.swiper-container', {
             loop: true,
 
@@ -1090,7 +1132,7 @@
 
 
 
-    
+
 
 </script>
 {% endblock filmDetail %}

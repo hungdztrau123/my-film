@@ -119,8 +119,33 @@
     height: 100px;
     font-size: 14px;
     margin: 0px;
+    overflow: hidden;
+    transition: all 0.2s linear;
     
 
+}
+
+
+.service-detail-description:hover{
+    overflow-y: auto;
+}
+
+.service-detail-description::-webkit-scrollbar {
+    width: 5px; /* Set the width of the scrollbar */
+}
+
+.service-detail-description::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0.2); /* Set the color of the scrollbar track */
+    border-radius: 3px;
+}
+
+.service-detail-description::-webkit-scrollbar-thumb {
+    background-color: #d5a12c; /* Set the color of the scrollbar thumb */
+    border-radius: 3px;
+}
+
+.service-detail-description::-webkit-scrollbar-thumb:hover {
+    background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
 }
 
 
@@ -196,7 +221,7 @@
     border-bottom-right-radius: 10px;
     margin: 7px;
     cursor: pointer;
-    font-weight: 1000;
+    font-weight: bold;
     font-size: 18px;
     transition: all 0.2s linear;
 }

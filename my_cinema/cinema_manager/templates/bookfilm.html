@@ -61,8 +61,34 @@
         display: flex;
         align-items: center;
         flex-wrap: nowrap;
+        overflow: hidden;
+        padding-bottom: 2px;
+        transition: all 0.2s linear;
         
         
+    }
+
+    #day-show-list:hover{
+        overflow-x: auto;
+    }
+    
+    #day-show-list::-webkit-scrollbar {
+        height: 7px; /* Set the width of the scrollbar */
+    }
+    
+    #day-show-list::-webkit-scrollbar-track {
+        background-color: rgba(0,0,0,0.2); /* Set the color of the scrollbar track */
+        border-radius: 3px;
+        
+    }
+    
+    #day-show-list::-webkit-scrollbar-thumb {
+        background-color: #d5a12c; /* Set the color of the scrollbar thumb */
+        border-radius: 3px;
+    }
+    
+    #day-show-list::-webkit-scrollbar-thumb:hover {
+        background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
     }
 
     .day-show-item{
@@ -535,14 +561,14 @@ function renderDayShows(placeDetailId) {
     });
 
     // Kiểm tra chiều rộng của dayShowList
-    const totalWidth = [...dayShowList.children].reduce((acc, item) => acc + item.offsetWidth, 0);
-    const dayShowListWidth = dayShowList.clientWidth;
+    //const totalWidth = [...dayShowList.children].reduce((acc, item) => acc + item.offsetWidth, 0);
+    //const dayShowListWidth = dayShowList.clientWidth;
 
-    if (totalWidth > dayShowListWidth) {
-        dayShowList.style.overflowX = 'scroll';
-    } else {
-        dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
-    }
+    //if (totalWidth > dayShowListWidth) {
+    //    dayShowList.style.overflowX = 'scroll';
+    //} else {
+    //    dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
+    //}
 }
 
 

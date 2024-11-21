@@ -1,28 +1,30 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 
-{% block area %} 
+{% block area %}
 <style>
-  .container-area{
+  .container-area {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+
   }
-  .box-area-list-area{
+
+  .box-area-list-area {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px 0px;
-    
+
     border-bottom: 1px solid #cdc197;
 
 
   }
-  .area-list-area{
+
+  .area-list-area {
     width: 100%;
     display: flex;
     align-items: center;
@@ -30,7 +32,7 @@
 
   }
 
-  .area-item{
+  .area-item {
     padding: 4px 14px;
     margin: 0px 5px;
     font-weight: bold;
@@ -39,36 +41,37 @@
     cursor: pointer;
     text-shadow: 1px 1px 1px #000;
     transition: all 0.2s linear;
-    
+
   }
-  .area-item:hover{
+
+  .area-item:hover {
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
 
   }
-  .area-name{
 
-  }
+  .area-name {}
 
 
-  .box-place-list-area{
+  .box-place-list-area {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    
+
+
 
   }
-  .place-list-area{
+
+  .place-list-area {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .place-item{
+  .place-item {
     padding: 4px 14px;
     border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 2px #cdc197;
@@ -80,25 +83,25 @@
 
   }
 
-  .place-item:hover{
+  .place-item:hover {
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
 
   }
-  .place-name{
-    
-  }
+
+  .place-name {}
 
 
-  .box-place-detail-area{
+  .box-place-detail-area {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 
   }
-  .place-detail-area{
+
+  .place-detail-area {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -107,18 +110,18 @@
 
   }
 
-  .box-place-image{
+  .box-place-image {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .place-image{
+  .place-image {
     width: 100%;
   }
 
-  .box-place-info{
+  .box-place-info {
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -126,25 +129,29 @@
     padding: 20px;
 
   }
-  .box-place-info .place-name{
+
+  .box-place-info .place-name {
     font-size: 28px;
     font-weight: bold;
 
   }
-  .place-address{
+
+  .place-address {
     font-size: 14px;
 
   }
-  .box-place-map{
+
+  .box-place-map {
     width: 70%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    
+
 
   }
-  .place-map{
+
+  .place-map {
     width: 100%;
     height: 400px;
     border: 1px solid #cdc197;
@@ -153,7 +160,7 @@
   }
 
 
-  .box-day-show-list-area{
+  .box-day-show-list-area {
     width: 70%;
     display: flex;
     align-items: center;
@@ -162,95 +169,120 @@
     text-shadow: 1px 1px 1px #000;
     padding: 10px 0px;
     display: none;
-    
 
-  }
-  .day-show-list-area{
-    
-    
-  }
-
-
-  .box-btn-nav-bar-dayshow-left{
-      display: flex;
-      width: 25px;
-      height: 40px;
-      align-items: center;
-      justify-content: right;
-  }
-
-  .box-btn-nav-bar-dayshow-right{
-      display: flex;
-      width: 25px;
-      height: 40px;
-      align-items: center;
-      justify-content: left;
-  }
-
-  .btn-nav-bar-dayshow-left{
-      width: 20px;
-      height: 33px;
-      border-top-left-radius: 50%;
-      border-bottom-left-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: right;
-      border: 2px solid #d5a12c;
-      box-shadow: 0px 0px 0px 3px #cdc197;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #d5a12c;
-      transition: all 0.2s linear;
-      
-  }
-  .btn-nav-bar-dayshow-left:hover{
-      color: #cdc197;
-      border-color: #cdc197;
-      box-shadow: 0px 0px 0px 3px #d5a12c;
 
   }
 
+  .day-show-list-area {}
 
-  .btn-nav-bar-dayshow-right{
-      width: 20px;
-      height: 33px;
-      border-top-right-radius: 50%;
-      border-bottom-right-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: left;
-      border: 2px solid #d5a12c;
-      box-shadow: 0px 0px 0px 3px #cdc197;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #d5a12c;
-      transition: all 0.2s linear;
-      
-  }
-  .btn-nav-bar-dayshow-right:hover{
-      color: #cdc197;
-      border-color: #cdc197;
-      box-shadow: 0px 0px 0px 3px #d5a12c;
 
+  .box-btn-nav-bar-dayshow-left {
+    display: flex;
+    width: 25px;
+    height: 40px;
+    align-items: center;
+    justify-content: right;
   }
 
+  .box-btn-nav-bar-dayshow-right {
+    display: flex;
+    width: 25px;
+    height: 40px;
+    align-items: center;
+    justify-content: left;
+  }
 
-  #day-show-list{
-    width: 100%;
-    z-index: 1000;
-    
+  .btn-nav-bar-dayshow-left {
+    width: 20px;
+    height: 33px;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
     display: flex;
     align-items: center;
-    
-    flex-wrap: nowrap;
-    
-    
+    justify-content: right;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 3px #cdc197;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #d5a12c;
+    transition: all 0.2s linear;
 
   }
 
-  .day-show-item{
+  .btn-nav-bar-dayshow-left:hover {
+    color: #cdc197;
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 3px #d5a12c;
+
+  }
+
+
+  .btn-nav-bar-dayshow-right {
+    width: 20px;
+    height: 33px;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 3px #cdc197;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #d5a12c;
+    transition: all 0.2s linear;
+
+  }
+
+  .btn-nav-bar-dayshow-right:hover {
+    color: #cdc197;
+    border-color: #cdc197;
+    box-shadow: 0px 0px 0px 3px #d5a12c;
+
+  }
+
+
+  #day-show-list {
+
+    width: 100%;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    padding-bottom: 2px;
+    transition: all 0.2s linear;
+
+
+  }
+
+  #day-show-list:hover {
+    overflow-x: auto;
+  }
+
+  #day-show-list::-webkit-scrollbar {
+    height: 7px;/* Set the width of the scrollbar */
+  }
+
+  #day-show-list::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.2);/* Set the color of the scrollbar track */
+    border-radius: 3px;
+
+  }
+
+  #day-show-list::-webkit-scrollbar-thumb {
+    background-color: #d5a12c;/* Set the color of the scrollbar thumb */
+    border-radius: 3px;
+  }
+
+  #day-show-list::-webkit-scrollbar-thumb:hover {
+    background-color: #f0aa08;/* Set the color of the scrollbar thumb on hover */
+  }
+
+  .day-show-item {
     font-size: 14px;
     min-width: 205px;
     display: flex;
@@ -267,24 +299,24 @@
 
   }
 
-  .day-show-item:hover{
+  .day-show-item:hover {
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
 
   }
-  .day-show-day{
 
-  }
+  .day-show-day {}
 
-  .box-film-list-area{
+  .box-film-list-area {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
   }
-  .film-list-area{
+
+  .film-list-area {
     width: 70%;
     display: flex;
     flex-direction: column;
@@ -292,15 +324,15 @@
 
   }
 
-  .film-day-show-item{
+  .film-day-show-item {
     display: flex;
     align-items: start;
     border-top: 1px solid #cdc197;
     padding: 10px 10px 30px 10px;
-    
+
   }
 
-  .box-info-film-day-show{
+  .box-info-film-day-show {
     display: flex;
     width: 16%;
     flex-direction: column;
@@ -311,13 +343,14 @@
 
   }
 
-  .box-info-film-in-dayshow{
+  .box-info-film-in-dayshow {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: 10px;
   }
-  .film-day-show-age{
+
+  .film-day-show-age {
     font-weight: bold;
     width: 40px;
     display: flex;
@@ -327,7 +360,8 @@
 
 
   }
-  .film-day-show-name{
+
+  .film-day-show-name {
     margin-left: 7px;
     width: 125px;
     text-transform: uppercase;
@@ -338,20 +372,20 @@
 
   }
 
-  .film-detail-content-poster-area{
+  .film-detail-content-poster-area {
     width: 100%;
     box-shadow: 0px 0px 3px 2px #cdc197;
   }
 
-  .box-list-film-day-show-schedule{
+  .box-list-film-day-show-schedule {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     padding-top: 29px;
-    
+
   }
 
-  .schedule-item{
+  .schedule-item {
     cursor: pointer;
     margin: 5px;
     border: 1px solid #cdc197;
@@ -360,12 +394,12 @@
   }
 
   .schedule-item:hover {
-      box-shadow: 0px 0px 3px 2px #cdc197;
-      color: #cdc197;
-     
+    box-shadow: 0px 0px 3px 2px #cdc197;
+    color: #cdc197;
+
   }
-  
-  .box-schedule-room{
+
+  .box-schedule-room {
     font-size: 13px;
     border-bottom: 1px dashed #cdc197;
     display: flex;
@@ -374,13 +408,13 @@
     padding: 3px;
 
   }
-  .schedule-room-name{
 
-  }
-  .box-schedule-time{
+  .schedule-room-name {}
+
+  .box-schedule-time {
     font-size: 15px;
     font-weight: bold;
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -388,59 +422,60 @@
 
 
   }
-  .schedule-start-time{
+
+  .schedule-start-time {
     margin-right: 3px;
   }
-  .schedule-end-time{
+
+  .schedule-end-time {
     margin-left: 3px;
   }
 
-  .box-shadow{
+  .box-shadow {
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
-    
-  }
 
+  }
 </style>
 
 <div class="container-area">
 
-    <div class="box-area-list-area">
-      <div class="area-list-area"  id="area-list">
-
-      </div>
-    </div>
-    
-    <div class="box-place-list-area">
-      <div class="place-list-area" id="place-list">
-        
-      </div>
+  <div class="box-area-list-area">
+    <div class="area-list-area" id="area-list">
 
     </div>
-    
-    <div class="box-place-detail-area">
-      <div class="place-detail-area" id="place-detail">
+  </div>
 
-      </div>
-    </div>
-    
+  <div class="box-place-list-area">
+    <div class="place-list-area" id="place-list">
 
-    <div class="box-day-show-list-area">
-      
-      <div class="day-show-list-area" id="day-show-list">
-
-      </div>
-      
     </div>
 
-    <div class="box-film-list-area">
-      <div class="film-list-area"  id="film-list">
-      
-      </div>
+  </div>
+
+  <div class="box-place-detail-area">
+    <div class="place-detail-area" id="place-detail">
+
     </div>
-   
-    
+  </div>
+
+
+  <div class="box-day-show-list-area">
+
+    <div class="day-show-list-area" id="day-show-list">
+
+    </div>
+
+  </div>
+
+  <div class="box-film-list-area">
+    <div class="film-list-area" id="film-list">
+
+    </div>
+  </div>
+
+
 
 
 </div>
@@ -449,53 +484,53 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
 <script>
-// Lấy danh sách phim từ API
-fetch('/api/areas/')
-.then(response => response.json())
-.then(data => {
-const areaList = document.getElementById('area-list');
-let activeAreaItem = null; 
+  // Lấy danh sách phim từ API
+  fetch('/api/areas/')
+    .then(response => response.json())
+    .then(data => {
+      const areaList = document.getElementById('area-list');
+      let activeAreaItem = null;
 
-// Tạo các phần tử phim
-data.results.forEach(area => {
-    const areaItem = document.createElement('div');
-    areaItem.classList.add('area-item');
-    areaItem.innerHTML = `
+      // Tạo các phần tử phim
+      data.results.forEach(area => {
+        const areaItem = document.createElement('div');
+        areaItem.classList.add('area-item');
+        areaItem.innerHTML = `
         
         <span class="area-name">${area.name}</span>
            
     `;
-    areaItem.addEventListener('click', () => {
-        getAreaDetails(area.id);
+        areaItem.addEventListener('click', () => {
+          getAreaDetails(area.id);
 
-        // Nếu có một areaItem đang được chọn, xóa class khỏi nó
-        if (activeAreaItem && activeAreaItem !== areaItem) {
+          // Nếu có một areaItem đang được chọn, xóa class khỏi nó
+          if (activeAreaItem && activeAreaItem !== areaItem) {
             activeAreaItem.classList.remove('box-shadow');
-        }
+          }
 
-        // Thêm class vào areaItem được click
-        areaItem.classList.add('box-shadow');
+          // Thêm class vào areaItem được click
+          areaItem.classList.add('box-shadow');
 
-        // Cập nhật activeAreaItem
-        activeAreaItem = areaItem;
+          // Cập nhật activeAreaItem
+          activeAreaItem = areaItem;
 
+        });
+        areaList.appendChild(areaItem);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching area data:', error);
     });
-    areaList.appendChild(areaItem);
-});
-})
-.catch(error => {
-console.error('Error fetching area data:', error);
-});
 
-function getAreaDetails(areaId) {
+  function getAreaDetails(areaId) {
     fetch(`/api/places/?area=${areaId}`)
       .then(response => response.json())
       .then(data => {
-        
+
         const placeList = document.getElementById('place-list');
         placeList.innerHTML = ''; // Xóa nội dung cũ
-        let activePlaceItem = null; 
-  
+        let activePlaceItem = null;
+
         data.results.forEach(place => {
           const placeItem = document.createElement('div');
           placeItem.classList.add('place-item');
@@ -507,9 +542,9 @@ function getAreaDetails(areaId) {
             getDayShows(place.id);
             document.querySelector('.box-day-show-list-area').style.display = 'flex';
 
-            
+
             if (activePlaceItem && activePlaceItem !== placeItem) {
-                activePlaceItem.classList.remove('box-shadow');
+              activePlaceItem.classList.remove('box-shadow');
             }
 
             // Thêm class vào placeItem được click
@@ -526,13 +561,13 @@ function getAreaDetails(areaId) {
       .catch(error => {
         console.error('Error fetching area details:', error);
       });
-}
-      function getPlaceDetails(placeId) {
-        fetch(`/api/places/${placeId}/`)
-        .then(response => response.json())
-        .then(data => {
-            const placeDetailContainer = document.getElementById('place-detail');
-            placeDetailContainer.innerHTML = `
+  }
+  function getPlaceDetails(placeId) {
+    fetch(`/api/places/${placeId}/`)
+      .then(response => response.json())
+      .then(data => {
+        const placeDetailContainer = document.getElementById('place-detail');
+        placeDetailContainer.innerHTML = `
 
                     <div class="box-place-image">
                       <img id="place-image" class="place-image" src="${data.image}" alt="${data.name}">
@@ -551,116 +586,116 @@ function getAreaDetails(areaId) {
                     </div>
                 
             `;
-        
-            // Create the map
-            const map = L.map('map').setView([data.latitude, data.longitude], 16);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-        
-            // Add a marker for the place
-            const marker = L.marker([data.latitude, data.longitude])
-            marker.addTo(map);
-        
-            marker.bindPopup(data.name)
-            .on('mouseover', function() {
-                this.openPopup();
-            })
-            .on('mouseout', function() {
-                this.closePopup();
-            })
-            .closePopup();
 
-        })
-        .catch(error => {
-            console.error('Error fetching place details:', error);
-        });
-      }
+        // Create the map
+        const map = L.map('map').setView([data.latitude, data.longitude], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
+        // Add a marker for the place
+        const marker = L.marker([data.latitude, data.longitude])
+        marker.addTo(map);
 
-      
-      let dayShowsData = [];
-      
-      function getDayShows(placeDetailId) {
-          fetch(`/api/dayshows/?place=${placeDetailId}&ordering=day`)
-          .then(response => response.json())
-          .then(data => {
-              dayShowsData = data.results; 
-              renderDayShows(placeDetailId); 
-      
-              
+        marker.bindPopup(data.name)
+          .on('mouseover', function () {
+            this.openPopup();
           })
-          .catch(error => {
-              console.error('Error fetching dayshow film list:', error);
-          });
-      }
-      
-      function renderDayShows(placeDetailId) {
-          const dayShowList = document.getElementById('day-show-list');
-          dayShowList.innerHTML = '';
-          let activeDayShowItem = null;
-      
-          
-          const dayShowsToShow = dayShowsData;
-      
-          dayShowsToShow.forEach(dayshow => {
-              const dayShowItem = document.createElement('div');
-              dayShowItem.classList.add('day-show-item');
-      
-              const date = new Date(dayshow.day);
-              const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-              const formattedDate = date.toLocaleDateString('vi-VN', options);
-      
-              dayShowItem.innerHTML = `
+          .on('mouseout', function () {
+            this.closePopup();
+          })
+          .closePopup();
+
+      })
+      .catch(error => {
+        console.error('Error fetching place details:', error);
+      });
+  }
+
+
+
+  let dayShowsData = [];
+
+  function getDayShows(placeDetailId) {
+    fetch(`/api/dayshows/?place=${placeDetailId}&ordering=day`)
+      .then(response => response.json())
+      .then(data => {
+        dayShowsData = data.results;
+        renderDayShows(placeDetailId);
+
+
+      })
+      .catch(error => {
+        console.error('Error fetching dayshow film list:', error);
+      });
+  }
+
+  function renderDayShows(placeDetailId) {
+    const dayShowList = document.getElementById('day-show-list');
+    dayShowList.innerHTML = '';
+    let activeDayShowItem = null;
+
+
+    const dayShowsToShow = dayShowsData;
+
+    dayShowsToShow.forEach(dayshow => {
+      const dayShowItem = document.createElement('div');
+      dayShowItem.classList.add('day-show-item');
+
+      const date = new Date(dayshow.day);
+      const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const formattedDate = date.toLocaleDateString('vi-VN', options);
+
+      dayShowItem.innerHTML = `
               
                   <span class="day-show-day">${formattedDate}</span>
                  
               `;
-              dayShowItem.addEventListener('click', () => {
-                  getFilms(dayshow.id, placeDetailId);
-      
-                  if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
-                      activeDayShowItem.classList.remove('box-shadow');
-                  }
-                 
-                  dayShowItem.classList.add('box-shadow');
-      
-                  activeDayShowItem = dayShowItem;
-      
-      
-      
-              });
-              dayShowList.appendChild(dayShowItem);
-          });
+      dayShowItem.addEventListener('click', () => {
+        getFilms(dayshow.id, placeDetailId);
 
-          // Kiểm tra chiều rộng của dayShowList
-          const totalWidth = [...dayShowList.children].reduce((acc, item) => acc + item.offsetWidth, 0);
-          const dayShowListWidth = dayShowList.clientWidth;
+        if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
+          activeDayShowItem.classList.remove('box-shadow');
+        }
 
-          if (totalWidth > dayShowListWidth) {
-              dayShowList.style.overflowX = 'scroll';
-          } else {
-              dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
-          }
-      }
+        dayShowItem.classList.add('box-shadow');
+
+        activeDayShowItem = dayShowItem;
 
 
 
-        
+      });
+      dayShowList.appendChild(dayShowItem);
+    });
+
+    // Kiểm tra chiều rộng của dayShowList
+    //const totalWidth = [...dayShowList.children].reduce((acc, item) => acc + item.offsetWidth, 0);
+    //const dayShowListWidth = dayShowList.clientWidth;
+
+    //if (totalWidth > dayShowListWidth) {
+    //    dayShowList.style.overflowX = 'scroll';
+    //} else {
+    //    dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
+    //}
+  }
 
 
-        
-          function getFilms(dayShowId, placeDetailId){
-            fetch(`/api/films/?dayshow=${dayShowId}&place=${placeDetailId}&status__in=Now,Coming`)
-            .then(response => response.json())
-            .then(data => {
-              const filmList = document.getElementById('film-list');
-              filmList.innerHTML = ''; // Xóa nội dung cũ
-        
-              data.results.forEach(film => {
-                const filmItem = document.createElement('div');
-                filmItem.classList.add('film-day-show-item');
-                filmItem.innerHTML = `
+
+
+
+
+
+  function getFilms(dayShowId, placeDetailId) {
+    fetch(`/api/films/?dayshow=${dayShowId}&place=${placeDetailId}&status__in=Now,Coming`)
+      .then(response => response.json())
+      .then(data => {
+        const filmList = document.getElementById('film-list');
+        filmList.innerHTML = ''; // Xóa nội dung cũ
+
+        data.results.forEach(film => {
+          const filmItem = document.createElement('div');
+          filmItem.classList.add('film-day-show-item');
+          filmItem.innerHTML = `
                   
                     <div id="box-info-film-day-show" class="box-info-film-day-show" >
 
@@ -678,39 +713,39 @@ function getAreaDetails(areaId) {
                   
                 `;
 
-                filmItem.querySelector('#box-info-film-day-show').addEventListener('click', function() {
-                  window.location.href = `/film/${film.id}/`;
-                });
+          filmItem.querySelector('#box-info-film-day-show').addEventListener('click', function () {
+            window.location.href = `/film/${film.id}/`;
+          });
 
-                getSchedules(film.id, dayShowId, placeDetailId, `schedule-${film.id}`);
-                filmList.appendChild(filmItem);
-        
-              });
-            })
-            .catch(error => {
-              console.error('Error fetching film details:', error);
-            });
-          }
-            function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
-              fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}&status__iexact=Có hiệu lực`)
-                .then(response => response.json())
-                .then(data => {
-                  const scheduleList = document.getElementById(scheduleListId);
-                  
-                  scheduleList.innerHTML = '';
-            
-                  data.results.forEach(schedule => {
-                    const scheduleItem = document.createElement('div');
-                    scheduleItem.classList.add('schedule-item');
+          getSchedules(film.id, dayShowId, placeDetailId, `schedule-${film.id}`);
+          filmList.appendChild(filmItem);
 
-                    const startTime = new Date(schedule.start_time);
-                    const endTime = new Date(schedule.end_time);
-                    
-                    const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-                    const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-                    
-                    
-                    scheduleItem.innerHTML = `
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching film details:', error);
+      });
+  }
+  function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
+    fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}&status__iexact=Có hiệu lực`)
+      .then(response => response.json())
+      .then(data => {
+        const scheduleList = document.getElementById(scheduleListId);
+
+        scheduleList.innerHTML = '';
+
+        data.results.forEach(schedule => {
+          const scheduleItem = document.createElement('div');
+          scheduleItem.classList.add('schedule-item');
+
+          const startTime = new Date(schedule.start_time);
+          const endTime = new Date(schedule.end_time);
+
+          const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+          const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+
+          scheduleItem.innerHTML = `
                       <div class="box-schedule-room">
                         <span class="schedule-room-name">${schedule.room.name}</span>
                       </div>
@@ -721,23 +756,20 @@ function getAreaDetails(areaId) {
                           <span class="schedule-end-time">${formattedEndTime}</span>
                       </div>
                     `;
-                    scheduleItem.addEventListener('click', () => {
-                      window.location.href = `/room/${schedule.id}/`;
-                    });
-                    scheduleList.appendChild(scheduleItem);
-                  });
-                })
-                .catch(error => {
-                  console.error('Error fetching schedule details:', error);
-                });
+          scheduleItem.addEventListener('click', () => {
+            window.location.href = `/room/${schedule.id}/`;
+          });
+          scheduleList.appendChild(scheduleItem);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching schedule details:', error);
+      });
 
-                
-            }
-                
-        
+
+  }
+
+
 
 </script>
 {% endblock area %}
-
-
-

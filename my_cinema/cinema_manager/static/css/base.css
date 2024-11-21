@@ -129,6 +129,7 @@ body {
     left: 60px;
 
 }
+
 .box-cancel-promotion-image-film-base{
     cursor: pointer;
     position: absolute;
@@ -329,7 +330,11 @@ body {
 }
 
 .header-content-info{
-    padding: 5px 15px;
+    min-width: 148px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
     background-color: #cdc197;
     transition: all 0.2s linear;
 }
@@ -598,14 +603,41 @@ body {
     z-index: 9999999999;
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0px 0px 3px 0px #000;
     
 }
 #messages {
     height: 300px;
-    overflow-y: scroll;
     padding: 10px;
     border-bottom: 1px solid #d5a12c;
+    overflow: hidden;
+    transition: all 0.2s linear;
 }
+
+#messages:hover{
+    overflow-y: auto;
+}
+
+#messages::-webkit-scrollbar {
+    width: 5px; /* Set the width of the scrollbar */
+}
+
+#messages::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0.2); /* Set the color of the scrollbar track */
+    border-radius: 3px;
+}
+
+#messages::-webkit-scrollbar-thumb {
+    background-color: #d5a12c; /* Set the color of the scrollbar thumb */
+    border-radius: 3px;
+}
+
+#messages::-webkit-scrollbar-thumb:hover {
+    background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
+}
+
+
+
 .message {
     margin: 5px 0;
     padding: 8px;

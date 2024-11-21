@@ -249,12 +249,12 @@ body {
 }
 
 .item-tab-barleft:hover{
-    color: #171213; /* Màu sắc khi được chọn */
+    color: #cdc197; /* Màu sắc khi được chọn */
     text-shadow: 1px 1px 1px #d2a02f;
 }
 
 .item-tab-barleft-top:hover{
-    color: #171213; /* Màu sắc khi được chọn */
+    color: #cdc197; /* Màu sắc khi được chọn */
     text-shadow: 1px 1px 1px #d2a02f;
 }
 
@@ -308,12 +308,12 @@ body {
 }
 
 .item-tab-bar-right-top:hover{
-    color: #171213; /* Màu sắc khi được chọn */
+    color: #cdc197; /* Màu sắc khi được chọn */
     text-shadow: 1px 1px 1px #d2a02f;
 }
 
 .item-tab-bar-right:hover{
-    color: #171213; /* Màu sắc khi được chọn */
+    color: #cdc197; /* Màu sắc khi được chọn */
     text-shadow: 1px 1px 1px #d2a02f;
 }
 
@@ -457,7 +457,7 @@ body {
 }
 
 .text-color {
-    color: #171213; /* Màu sắc khi được chọn */
+    color: #cdc197; /* Màu sắc khi được chọn */
     text-shadow: 1px 1px 1px #d2a02f;
     
 }

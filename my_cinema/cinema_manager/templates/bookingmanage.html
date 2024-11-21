@@ -75,7 +75,7 @@
 <span class="title-manage">Quản lý booking</span>
 
 <div class="box-btn-manage">
-<span id="insert-manage" class="insert-manage">Thêm</span>
+<!-- <span id="insert-manage" class="insert-manage">Thêm</span> -->
 <button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
 </div>
 
@@ -155,6 +155,7 @@
         const headerRow = document.createElement('tr');
         headerRow.innerHTML = `
             <th>user</th>
+            <th>Created</th>
             <th>Thao tác</th>
 
             
@@ -165,8 +166,18 @@
         bookingManages.forEach(bookingManage => {
             const dataRow = document.createElement('tr');
 
+            const date = new Date(bookingManage.created_at);
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            const formattedDate = `${day}/${month}/${year} - ${hours}:${minutes}:${seconds}`; // Định dạng ngày
+
             dataRow.innerHTML = `
                 <td>${bookingManage.user ? bookingManage.user.username : ''}</td>
+                <td>${formattedDate}</td>
                 
                
                 <td>
