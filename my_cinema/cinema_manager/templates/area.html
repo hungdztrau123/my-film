@@ -33,6 +33,10 @@
   }
 
   .area-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
     padding: 4px 14px;
     margin: 0px 5px;
     font-weight: bold;
@@ -40,7 +44,7 @@
     box-shadow: 0px 0px 0px 2px #cdc197;
     cursor: pointer;
     text-shadow: 1px 1px 1px #000;
-    transition: all 0.2s linear;
+    transition: all 0.15s ease-in;
 
   }
 
@@ -48,6 +52,8 @@
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
+    transform: scale(1.05);
+
 
   }
 
@@ -72,6 +78,10 @@
   }
 
   .place-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
     padding: 4px 14px;
     border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 2px #cdc197;
@@ -79,7 +89,7 @@
     font-weight: bold;
     cursor: pointer;
     margin: 10px 5px;
-    transition: all 0.2s linear;
+    transition: all 0.15s ease-in;
 
   }
 
@@ -87,6 +97,8 @@
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
+    transform: scale(1.05);
+
 
   }
 
@@ -119,6 +131,7 @@
 
   .place-image {
     width: 100%;
+    height: 550px;
   }
 
   .box-place-info {
@@ -253,7 +266,7 @@
     align-items: center;
     flex-wrap: nowrap;
     overflow: hidden;
-    padding-bottom: 2px;
+    padding: 0px 3px 3px;
     transition: all 0.2s linear;
 
 
@@ -264,22 +277,26 @@
   }
 
   #day-show-list::-webkit-scrollbar {
-    height: 7px;/* Set the width of the scrollbar */
+    height: 7px;
+    /* Set the width of the scrollbar */
   }
 
   #day-show-list::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, 0.2);/* Set the color of the scrollbar track */
+    background-color: #cdc197;
+    /* Set the color of the scrollbar track */
     border-radius: 3px;
 
   }
 
   #day-show-list::-webkit-scrollbar-thumb {
-    background-color: #d5a12c;/* Set the color of the scrollbar thumb */
+    background-color: #d5a12c;
+    /* Set the color of the scrollbar thumb */
     border-radius: 3px;
   }
 
   #day-show-list::-webkit-scrollbar-thumb:hover {
-    background-color: #f0aa08;/* Set the color of the scrollbar thumb on hover */
+    background-color: #f0aa08;
+    /* Set the color of the scrollbar thumb on hover */
   }
 
   .day-show-item {
@@ -295,7 +312,7 @@
     font-weight: bold;
     margin: 5px;
     text-shadow: 1px 1px 1px #000;
-    transition: all 0.2s linear;
+    transition: all 0.15s ease-in;
 
   }
 
@@ -303,6 +320,8 @@
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
+    transform: scale(1.05);
+
 
   }
 
@@ -389,13 +408,15 @@
     cursor: pointer;
     margin: 5px;
     border: 1px solid #cdc197;
-    transition: all 0.2s linear;
+    transition: all 0.15s ease-in;
+
 
   }
 
   .schedule-item:hover {
     box-shadow: 0px 0px 3px 2px #cdc197;
-    color: #cdc197;
+    transform: scale(1.05);
+
 
   }
 
@@ -435,6 +456,8 @@
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
+    transform: scale(1.05);
+
 
   }
 </style>
@@ -635,6 +658,7 @@
     dayShowList.innerHTML = '';
     let activeDayShowItem = null;
 
+    const idDayShowsAutoDelete = [];
 
     const dayShowsToShow = dayShowsData;
 
@@ -646,11 +670,17 @@
       const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
       const formattedDate = date.toLocaleDateString('vi-VN', options);
 
+      const currentDate = new Date();
+      const timeDifference = currentDate - date;
+      const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
       dayShowItem.innerHTML = `
               
                   <span class="day-show-day">${formattedDate}</span>
                  
               `;
+
+
       dayShowItem.addEventListener('click', () => {
         getFilms(dayshow.id, placeDetailId);
 
@@ -666,6 +696,11 @@
 
       });
       dayShowList.appendChild(dayShowItem);
+
+      if (daysRemaining > 0) {
+        idDayShowsAutoDelete.push(dayshow.id);
+      }
+
     });
 
     // Kiểm tra chiều rộng của dayShowList
@@ -677,7 +712,44 @@
     //} else {
     //    dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
     //}
+    
+    if (idDayShowsAutoDelete.length > 0) {
+      deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId);
+    }
   }
+
+
+  function deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId) {
+    const accessToken = localStorage.getItem('access_token');
+    const body = {
+      objects: idDayShowsAutoDelete, // Sử dụng mảng ID đã lấy từ API
+      object_type: "dayshows",
+      operation: "delete"
+    };
+
+    fetch('/api/bulk_edit_objects/', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log(`Đã xóa các dayshow thành công!`);
+
+          getDayShows(placeDetailId); // Tải lại danh sách
+        } else {
+          alert('Có lỗi xảy ra!');
+        }
+      })
+      .catch(error => {
+        console.error('Error deleting dayshows:', error);
+      });
+  }
+
+
 
 
 

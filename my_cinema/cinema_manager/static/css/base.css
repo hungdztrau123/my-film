@@ -113,7 +113,6 @@ body {
     color: #d5a12c;
     z-index: 10000;
     transition: all 0.2s linear;
-    border-radius: 5px;
 
 }
 .icon-back-base:hover{
@@ -156,23 +155,25 @@ body {
 
 
 .button-toggle {
-    max-width: 100px;
+    min-width: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 14px;
     background-color: #000;
     border: none;
     cursor: pointer;
     padding: 0px 5px;
-    margin-right: 5px;
-    border-radius: 4px;
-    
+    margin: 0px 10px;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 2px #cdc197;
     transition: all 0.3s, color 0.3s;
 }
 
 .button-toggle:hover {
-    box-shadow: 0px 0px 3px 2px #d5a12c;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    color: #cdc197 !important;
+    border-color: #cdc197;
 }
 
 .header-base{
@@ -182,38 +183,47 @@ body {
 }
 .header-base-top{
     display: flex;
-    width: 100%;
     align-items: center;
     justify-content: end;
-    padding: 8px 10px;
-    background-color: #efebdb;
+    
 
 }
 
 .btn-logout{
-    font-size: 12px;
-    max-width: 73px;
+    font-size: 14px;
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0px 5px;
     cursor: pointer;
     transition: all 0.2s linear;
-
-    border-radius: 3px;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 2px #cdc197;
 }
 
 .btn-logout:hover{
-    box-shadow: 0px 0px 3px 2px #d5a12c;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    color: #cdc197;
+    border-color: #cdc197;
 }
 
 .btn-login{
-    font-size: 12px;
-    max-width: 73px;
+    font-size: 14px;
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0px 5px;
     cursor: pointer;
-    border-radius: 3px;
+    border: 2px solid #d5a12c;
+    box-shadow: 0px 0px 0px 2px #cdc197;
     transition: all 0.2s linear;
 }
 .btn-login:hover{
-    box-shadow: 0px 0px 3px 2px #d5a12c;
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    color: #cdc197;
+    border-color: #cdc197;
 }
 
 
@@ -226,16 +236,14 @@ body {
   
 }
 .header-box-logo{
-    width: 100%;
     display: flex;
+    width: 14%;
+    padding: 12px 0px 12px 30px;
     align-items: center;
     justify-content: center;
-    padding-bottom: 20px;
 }
 .logo-item{
-    width: 21%; 
-    height: 100px;
-    margin-top: 25px;
+    width: 100%;
     cursor: pointer;
 
 }
@@ -262,12 +270,14 @@ body {
 }
 
 .box-content-user{
+    font-size: 14px;
     position: absolute;
     display: flex;
     align-items: center;
-    top: -77px;
-    left: 3px;
+    top: 35px;
+    left: 4px;
     display: none;
+    z-index: 9999999;
 
 
 }
@@ -291,14 +301,14 @@ body {
     margin-bottom: 7px;
     cursor: pointer;
     font-weight: bold;
-    background-color:rgba(0, 0, 0, 0.5);
+    background-color:rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
     transition: all 0.2s linear;
 
 }
 
 .content-user-item-info:hover{
-    color: #fdfcf0;
+    color: #cdc197;
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 3px #d5a12c;
     
@@ -314,7 +324,7 @@ body {
     border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 3px #cdc197;
     font-weight: bold;
-    background-color:rgba(0, 0, 0, 0.5);
+    background-color:rgba(0, 0, 0, 0.8);
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.2s linear;
@@ -322,7 +332,7 @@ body {
 }
 
 .content-user-item-ticket:hover{
-    color: #fdfcf0;
+    color: #cdc197;
     border-color: #cdc197;
     box-shadow: 0px 0px 0px 3px #d5a12c;
     
@@ -331,17 +341,23 @@ body {
 
 .header-content-info{
     min-width: 148px;
+    max-width: 155px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 5px 10px;
-    background-color: #cdc197;
+    padding: 3px 10px;
+    font-size: 14px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px solid #cdc197;
     transition: all 0.2s linear;
 }
 
 .header-content-info:hover{
-    background-color: #d5a12c;
-    color: #fdfcf0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #cdc197;
+    border-color: #d5a12c;
 }
 
 
@@ -357,8 +373,7 @@ body {
     display: flex;
     width: 100%;
     align-items: center;
-    justify-content: center;
-    padding: 10px;
+    padding: 0px 10px;
     border-bottom: 1px solid #cdc197;
     position: sticky;
     position: -webkit-sticky;
@@ -367,7 +382,7 @@ body {
     z-index: 9999;
     background-color: rgba(0,0,0,0.7);
     box-shadow: 0px 3px 3px 0px #cdc197;
-   
+    justify-content: space-around;
     
 }
 .box-navbar{
@@ -376,16 +391,18 @@ body {
     margin: 0px;
     display: flex;
     align-items: center;
+    background-color: rgba(0,0,0,0.7);
 }
 .content-navbar{
-    font-size: 16px;
+    font-size: 17px;
     display: flex;
+    min-width: 210px;
     align-items: center;
     justify-content: center;
     position: relative;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid #cdc197;
     cursor: pointer;
-    padding: 0px 15px;
+    padding: 26px 0px;
     letter-spacing: 1px;
     font-weight: bold;
     transition: all 0.2s linear;
@@ -400,16 +417,16 @@ body {
     position: absolute;
     
     width: 0px;
-    height: 15%;
-    border-radius: 2px;
-    bottom: -4px;
+    height: 7%;
+    border-radius: 3px;
+    bottom: 15px;
     background-color: #cdc197;
     transition: all 0.2s linear;
     
 }
 
 .content-navbar:hover::after{
-    width: 85%;
+    width: 75%;
     
 }
 
@@ -443,6 +460,7 @@ body {
     margin: 10px 0px;
     transition: all 0.2s linear;
     cursor: pointer;
+    overflow: hidden;
     
 }
 
@@ -451,11 +469,16 @@ body {
     
 }
 
+.promotion-item:hover .promotion-img{
+    transform: scale(1.05);
+}
+
 .box-promotion-img{
     width: 100%;
 }
 .promotion-img{
     width: 100%;
+    transition: all 0.2s ease-in;
 }
 
 .footer-base{
@@ -597,13 +620,12 @@ body {
     z-index: 100000;
     width: 250px;
     background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     z-index: 9999999999;
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
-    box-shadow: 0px 0px 3px 0px #000;
+    box-shadow: 0px 0px 3px 1px #cdc197;
     
 }
 #messages {
@@ -661,7 +683,6 @@ body {
     width: 100%;
     padding: 5px;
     border: 1px solid #d5a12c;
-    border-radius: 5px;
     margin: 0px;
     color: #d5a12c;
     outline-color: #d5a12c;
@@ -675,7 +696,6 @@ body {
     color: #d5a12c;
     border: 2px solid #d5a12c;
     text-shadow: -1px 1px 1px #000;
-    border-radius: 5px;
     cursor: pointer;
     transition: all 0.2s linear;
 }

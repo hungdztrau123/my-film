@@ -469,7 +469,6 @@ document.getElementById('btn-sent-chat').addEventListener('click', () => {
 const toggleButton = document.getElementById('toggle-button');
 const baseDiv = document.getElementById('base');
 const headerBaseDiv = document.getElementById('header-base');
-const headerBoxNavbarDiv = document.getElementById('header-box-navbar');
 
 
 

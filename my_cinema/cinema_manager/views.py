@@ -1210,7 +1210,7 @@ class UserQueryViewSet(ModelViewSet):
 
 
 class BulkEditObjectsView(APIView):
-    permission_classes = [AdminPermission]
+    permission_classes = [AccessTokenPermission]
     serializer_class = BulkEditObjectsSerializer
     parser_classes = [parsers.JSONParser]
     

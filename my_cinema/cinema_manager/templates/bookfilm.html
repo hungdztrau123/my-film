@@ -4,7 +4,7 @@
 {% block bookFilm %}
 
 <style>
-    .container-booking-film{
+    .container-booking-film {
         width: 100%;
         display: flex;
         align-items: center;
@@ -12,86 +12,93 @@
         padding: 30px 0px;
 
     }
-    .box-booking-film{
+
+    .box-booking-film {
         width: 60%;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
     }
-    .box-position-booking-film{
+
+    .box-position-booking-film {
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: center;
 
     }
-    .box-day-show-booking-film{
+
+    .box-day-show-booking-film {
         width: 100%;
         height: 74px;
         display: flex;
         align-items: center;
         justify-content: center;
         margin: 20px 0px;
-        
+
         border-top: 1px dashed #cdc197;
         border-bottom: 1px dashed #cdc197;
         display: none;
 
     }
 
-    .btn-nav-bar-dayshow{
+    .btn-nav-bar-dayshow {
         font-size: 30px;
         cursor: pointer;
         transition: all 0.2s linear;
-        
+
     }
 
-    .btn-nav-bar-dayshow:hover{
+    .btn-nav-bar-dayshow:hover {
         color: #cdc197;
     }
 
-    
 
-    #day-show-list{
-       
+
+    #day-show-list {
+
         width: 100%;
         z-index: 1000;
-        
+
         display: flex;
         align-items: center;
         flex-wrap: nowrap;
         overflow: hidden;
-        padding-bottom: 2px;
+        padding: 0px 3px 3px;
         transition: all 0.2s linear;
-        
-        
+
+
     }
 
-    #day-show-list:hover{
+    #day-show-list:hover {
         overflow-x: auto;
     }
-    
+
     #day-show-list::-webkit-scrollbar {
-        height: 7px; /* Set the width of the scrollbar */
-    }
-    
-    #day-show-list::-webkit-scrollbar-track {
-        background-color: rgba(0,0,0,0.2); /* Set the color of the scrollbar track */
-        border-radius: 3px;
-        
-    }
-    
-    #day-show-list::-webkit-scrollbar-thumb {
-        background-color: #d5a12c; /* Set the color of the scrollbar thumb */
-        border-radius: 3px;
-    }
-    
-    #day-show-list::-webkit-scrollbar-thumb:hover {
-        background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
+        height: 7px;
+        /* Set the width of the scrollbar */
     }
 
-    .day-show-item{
+    #day-show-list::-webkit-scrollbar-track {
+        background-color: #cdc197;
+        /* Set the color of the scrollbar track */
+        border-radius: 3px;
+
+    }
+
+    #day-show-list::-webkit-scrollbar-thumb {
+        background-color: #d5a12c;
+        /* Set the color of the scrollbar thumb */
+        border-radius: 3px;
+    }
+
+    #day-show-list::-webkit-scrollbar-thumb:hover {
+        background-color: #f0aa08;
+        /* Set the color of the scrollbar thumb on hover */
+    }
+
+    .day-show-item {
         font-size: 14px;
         min-width: 205px;
         display: flex;
@@ -104,43 +111,44 @@
         font-weight: bold;
         margin: 5px;
         text-shadow: 1px 1px 1px #000;
-        transition: all 0.2s linear;
-    
+        transition: all 0.15s ease-in;
+
     }
 
-    .day-show-item:hover{
+    .day-show-item:hover {
         border-color: #cdc197;
         box-shadow: 0px 0px 0px 2px #d5a12c;
         color: #cdc197;
+        transform: scale(1.05);
     }
 
 
-    .day-show-day{
+    .day-show-day {
         margin: 0px;
     }
 
 
-    .cinema-title{
+    .cinema-title {
         font-size: 24px;
         font-weight: bold;
         padding-bottom: 15px;
         text-transform: uppercase;
         border-bottom: 1px dashed #cdc197;
         margin: 20px;
-        
+
 
     }
-    .box-area-place-booking-film{
+
+    .box-area-place-booking-film {
         width: 100%;
         display: flex;
         align-items: start;
-        
         padding: 10px 0px;
-        border-radius: 7px;
-        box-shadow: 0px 0px 0px 3px #cdc197;
+        box-shadow: 0px 0px 3px 2px #cdc197;
 
     }
-    .box-area-booking-film{
+
+    .box-area-booking-film {
         display: flex;
         width: 20%;
         flex-direction: column;
@@ -149,16 +157,18 @@
         border-right: 1px solid #cdc197;
 
     }
-    .area-booking-film-title{
+
+    .area-booking-film-title {
         display: flex;
         width: 100%;
         font-weight: bold;
         align-items: center;
         justify-content: center;
-        padding: 10px 0px ;
+        padding: 10px 0px;
 
     }
-    .box-area-list-booking-film{
+
+    .box-area-list-booking-film {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -170,10 +180,10 @@
 
     }
 
-    .area-item-booking-film{
+    .area-item-booking-film {
         display: flex;
         font-weight: bold;
-        min-width: 130px;
+        min-width: 140px;
         align-items: center;
         justify-content: center;
         padding: 4px 0px;
@@ -181,23 +191,23 @@
         box-shadow: 0px 0px 0px 2px #cdc197;
         cursor: pointer;
         margin: 5px;
-        transition: all 0.2s linear;
+        transition: all 0.15s ease-in;
 
 
     }
 
     .area-item-booking-film:hover {
         border-color: #cdc197;
-        box-shadow: 0px 0px 0px 2px #d5a12c ;
+        box-shadow: 0px 0px 0px 2px #d5a12c;
         color: #cdc197;
+        transform: scale(1.05);
+
 
     }
 
-    .area-booking-film-name{
+    .area-booking-film-name {}
 
-    }
-    
-    .box-place-booking-film{
+    .box-place-booking-film {
         display: flex;
         width: 80%;
         flex-direction: column;
@@ -205,16 +215,18 @@
         padding: 0px 20px;
 
     }
-    .place-booking-film-title{
+
+    .place-booking-film-title {
         display: flex;
         width: 100%;
         font-weight: bold;
         align-items: center;
         justify-content: center;
-        padding: 10px 0px ;
+        padding: 10px 0px;
 
     }
-    .box-place-list-booking-film{
+
+    .box-place-list-booking-film {
         display: flex;
         width: 100%;
         flex-wrap: wrap;
@@ -226,10 +238,10 @@
 
     }
 
-    .place-item-booking-film{
+    .place-item-booking-film {
         display: flex;
         font-size: 14px;
-        min-width: 110px;
+        min-width: 140px;
         font-weight: bold;
         align-items: center;
         justify-content: center;
@@ -238,8 +250,8 @@
         box-shadow: 0px 0px 0px 2px #cdc197;
         cursor: pointer;
         margin: 5px;
-        transition: all 0.2s linear;
-       
+        transition: all 0.15s ease-in;
+
 
     }
 
@@ -247,28 +259,26 @@
         border-color: #cdc197;
         box-shadow: 0px 0px 0px 2px #d5a12c;
         color: #cdc197;
-
+        transform: scale(1.05);
     }
 
-    .place-booking-film-name{
+    .place-booking-film-name {}
 
-    }
-
-    .box-film-list-booking-film{
+    .box-film-list-booking-film {
         padding: 20px 0px;
 
     }
 
 
-    .film-day-show-item{
+    .film-day-show-item {
         display: flex;
         align-items: start;
         border-top: 1px dashed #cdc197;
         padding: 10px 10px 30px 10px;
-    
+
     }
 
-    .box-info-film-day-show{
+    .box-info-film-day-show {
         display: flex;
         width: 16%;
         flex-direction: column;
@@ -279,13 +289,14 @@
 
     }
 
-    .box-info-film-in-dayshow{
+    .box-info-film-in-dayshow {
         display: flex;
         align-items: center;
         justify-content: center;
         padding-bottom: 10px;
     }
-    .film-day-show-age{
+
+    .film-day-show-age {
         width: 40px;
         display: flex;
         justify-content: center;
@@ -294,7 +305,8 @@
         font-weight: bold;
 
     }
-    .film-day-show-name{
+
+    .film-day-show-name {
         margin-left: 7px;
         width: 125px;
         text-transform: uppercase;
@@ -305,51 +317,51 @@
 
     }
 
-    .film-detail-content-poster-area{
+    .film-detail-content-poster-area {
         width: 100%;
         box-shadow: 0px 0px 3px 2px #cdc197;
     }
 
-    .box-list-film-day-show-schedule{
+    .box-list-film-day-show-schedule {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         padding-top: 29px;
-    
+
     }
 
-    .schedule-item{
+    .schedule-item {
         cursor: pointer;
         margin: 5px;
         border: 1px solid #cdc197;
-        transition: all 0.2s linear;
+        transition: all 0.15s ease-in;
 
     }
 
     .schedule-item:hover {
         box-shadow: 0px 0px 3px 2px #cdc197;
-        color: #cdc197;
-        
+        transform: scale(1.05);
+
     }
 
 
 
-    .box-schedule-room{
+    .box-schedule-room {
         font-size: 13px;
-        border-bottom:  1px dashed #cdc197;
+        border-bottom: 1px dashed #cdc197;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 3px;
 
     }
-    .schedule-room-name{
 
-    }
-    .box-schedule-time{
+    .schedule-room-name {}
+
+    .box-schedule-time {
         font-size: 15px;
         font-weight: bold;
-        
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -357,21 +369,22 @@
 
 
     }
-    .schedule-start-time{
+
+    .schedule-start-time {
         margin-right: 3px;
     }
-    .schedule-end-time{
+
+    .schedule-end-time {
         margin-left: 3px;
     }
 
-    .box-shadow{
+    .box-shadow {
         box-shadow: 0px 0px 0px 2px #d5a12c;
         border-color: #cdc197;
         color: #cdc197;
-        
+        transform: scale(1.05);
+
     }
-
-
 </style>
 
 <div class="container-booking-film">
@@ -385,15 +398,15 @@
 
                 <div class="box-area-booking-film">
                     <span class="area-booking-film-title">Khu vực</span>
-                    <div  id="area-list" class="box-area-list-booking-film">
-    
+                    <div id="area-list" class="box-area-list-booking-film">
+
                     </div>
                 </div>
 
                 <div class="box-place-booking-film">
                     <span class="place-booking-film-title">Địa điểm</span>
-                    <div  id="place-list" class="box-place-list-booking-film">
-                    
+                    <div id="place-list" class="box-place-list-booking-film">
+
                     </div>
                 </div>
 
@@ -401,175 +414,221 @@
         </div>
 
         <div class="box-day-show-booking-film">
-            
+
 
             <div id="day-show-list" class="box-day-show-list-booking-film">
 
             </div>
 
-            
+
         </div>
 
 
-        <div  id="film-list" class="box-film-list-booking-film">
-      
+        <div id="film-list" class="box-film-list-booking-film">
+
         </div>
 
     </div>
 
-    
+
 </div>
 
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
 <script>
-// Lấy danh sách phim từ API
-const url = new URL(window.location.href);
-var filmIdTrans = url.pathname.split('/')[2];
+    // Lấy danh sách phim từ API
+    const url = new URL(window.location.href);
+    var filmIdTrans = url.pathname.split('/')[2];
 
-fetch('/api/areas/')
-.then(response => response.json())
-.then(data => {
-const areaList = document.getElementById('area-list');
-let activeAreaItem = null; 
+    fetch('/api/areas/')
+        .then(response => response.json())
+        .then(data => {
+            const areaList = document.getElementById('area-list');
+            let activeAreaItem = null;
 
 
-// Tạo các phần tử phim
-data.results.forEach(area => {
-    const areaItem = document.createElement('div');
-    areaItem.classList.add('area-item-booking-film');
-    areaItem.innerHTML = `
+            // Tạo các phần tử phim
+            data.results.forEach(area => {
+                const areaItem = document.createElement('div');
+                areaItem.classList.add('area-item-booking-film');
+                areaItem.innerHTML = `
         
         <span class="area-booking-film-name">${area.name}</span>
             
     `;
-    areaItem.addEventListener('click', () => {
-        getAreaDetails(area.id);
-        // Nếu có một areaItem đang được chọn, xóa class khỏi nó
-        if (activeAreaItem && activeAreaItem !== areaItem) {
-            activeAreaItem.classList.remove('box-shadow');
-        }
+                areaItem.addEventListener('click', () => {
+                    getAreaDetails(area.id);
+                    // Nếu có một areaItem đang được chọn, xóa class khỏi nó
+                    if (activeAreaItem && activeAreaItem !== areaItem) {
+                        activeAreaItem.classList.remove('box-shadow');
+                    }
 
-        // Thêm class vào areaItem được click
-        areaItem.classList.add('box-shadow');
+                    // Thêm class vào areaItem được click
+                    areaItem.classList.add('box-shadow');
 
-        // Cập nhật activeAreaItem
-        activeAreaItem = areaItem;
-    });
-    areaList.appendChild(areaItem);
-});
-})
-.catch(error => {
-console.error('Error fetching area data:', error);
-});
+                    // Cập nhật activeAreaItem
+                    activeAreaItem = areaItem;
+                });
+                areaList.appendChild(areaItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching area data:', error);
+        });
 
-function getAreaDetails(areaId) {
-    fetch(`/api/places/?area=${areaId}`)
-      .then(response => response.json())
-      .then(data => {
-        const placeList = document.getElementById('place-list');
-        let activePlaceItem = null;
-        placeList.innerHTML = ''; // Xóa nội dung cũ
-  
-        data.results.forEach(place => {
-          const placeItem = document.createElement('div');
-          placeItem.classList.add('place-item-booking-film');
-          placeItem.innerHTML = `
+    function getAreaDetails(areaId) {
+        fetch(`/api/places/?area=${areaId}`)
+            .then(response => response.json())
+            .then(data => {
+                const placeList = document.getElementById('place-list');
+                let activePlaceItem = null;
+                placeList.innerHTML = ''; // Xóa nội dung cũ
+
+                data.results.forEach(place => {
+                    const placeItem = document.createElement('div');
+                    placeItem.classList.add('place-item-booking-film');
+                    placeItem.innerHTML = `
            
                 <span class="place-booking-film-name">${place.name}</span>
                
           `;
-          placeItem.addEventListener('click', () => {
-            getDayShows(place.id);
-            document.querySelector('.box-day-show-booking-film').style.display = 'flex';
+                    placeItem.addEventListener('click', () => {
+                        getDayShows(place.id);
+                        document.querySelector('.box-day-show-booking-film').style.display = 'flex';
 
-            if (activePlaceItem && activePlaceItem !== placeItem) {
-                activePlaceItem.classList.remove('box-shadow');
-            }
+                        if (activePlaceItem && activePlaceItem !== placeItem) {
+                            activePlaceItem.classList.remove('box-shadow');
+                        }
 
-            // Thêm class vào placeItem được click
-            placeItem.classList.add('box-shadow');
+                        // Thêm class vào placeItem được click
+                        placeItem.classList.add('box-shadow');
 
-            // Cập nhật activePlaceItem
-            activePlaceItem = placeItem;
+                        // Cập nhật activePlaceItem
+                        activePlaceItem = placeItem;
 
-          });
-          placeList.appendChild(placeItem);
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching area details:', error);
-      });
-}
-
-
+                    });
+                    placeList.appendChild(placeItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching area details:', error);
+            });
+    }
 
 
-let dayShowsData = [];
 
-function getDayShows(placeDetailId) {
-    fetch(`/api/dayshows/?place=${placeDetailId}`)
-    .then(response => response.json())
-    .then(data => {
-        dayShowsData = data.results; 
-        renderDayShows(placeDetailId); 
 
-        
-    })
-    .catch(error => {
-        console.error('Error fetching dayshow film list:', error);
-    });
-}
+    let dayShowsData = [];
 
-function renderDayShows(placeDetailId) {
-    const dayShowList = document.getElementById('day-show-list');
-    dayShowList.innerHTML = '';
-    let activeDayShowItem = null;
+    function getDayShows(placeDetailId) {
+        fetch(`/api/dayshows/?place=${placeDetailId}&ordering=day`)
+            .then(response => response.json())
+            .then(data => {
+                dayShowsData = data.results;
+                renderDayShows(placeDetailId);
 
-    
-    const dayShowsToShow = dayShowsData;
 
-    dayShowsToShow.forEach(dayshow => {
-        const dayShowItem = document.createElement('div');
-        dayShowItem.classList.add('day-show-item');
+            })
+            .catch(error => {
+                console.error('Error fetching dayshow film list:', error);
+            });
+    }
 
-        const date = new Date(dayshow.day);
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        const formattedDate = date.toLocaleDateString('vi-VN', options);
+    function renderDayShows(placeDetailId) {
+        const dayShowList = document.getElementById('day-show-list');
+        dayShowList.innerHTML = '';
+        let activeDayShowItem = null;
 
-        dayShowItem.innerHTML = `
+        const idDayShowsAutoDelete = [];
+
+        const dayShowsToShow = dayShowsData;
+
+        dayShowsToShow.forEach(dayshow => {
+            const dayShowItem = document.createElement('div');
+            dayShowItem.classList.add('day-show-item');
+
+            const date = new Date(dayshow.day);
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = date.toLocaleDateString('vi-VN', options);
+
+            const currentDate = new Date();
+            const timeDifference = currentDate - date;
+            const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+            dayShowItem.innerHTML = `
         
             <p class="day-show-day">${formattedDate}</p>
            
         `;
-        dayShowItem.addEventListener('click', () => {
-            getFilms(dayshow.id, filmIdTrans, placeDetailId);
 
-            if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
-                activeDayShowItem.classList.remove('box-shadow');
+
+
+            dayShowItem.addEventListener('click', () => {
+                getFilms(dayshow.id, filmIdTrans, placeDetailId);
+
+                if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
+                    activeDayShowItem.classList.remove('box-shadow');
+                }
+
+                dayShowItem.classList.add('box-shadow');
+
+                activeDayShowItem = dayShowItem;
+
+
+
+            });
+            dayShowList.appendChild(dayShowItem);
+
+            if (daysRemaining > 0) {
+                idDayShowsAutoDelete.push(dayshow.id);
             }
-           
-            dayShowItem.classList.add('box-shadow');
-
-            activeDayShowItem = dayShowItem;
-
-
-
         });
-        dayShowList.appendChild(dayShowItem);
-    });
 
-    // Kiểm tra chiều rộng của dayShowList
-    //const totalWidth = [...dayShowList.children].reduce((acc, item) => acc + item.offsetWidth, 0);
-    //const dayShowListWidth = dayShowList.clientWidth;
+        // Kiểm tra chiều rộng của dayShowList
+        //const totalWidth = [...dayShowList.children].reduce((acc, item) => acc + item.offsetWidth, 0);
+        //const dayShowListWidth = dayShowList.clientWidth;
 
-    //if (totalWidth > dayShowListWidth) {
-    //    dayShowList.style.overflowX = 'scroll';
-    //} else {
-    //    dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
-    //}
-}
+        //if (totalWidth > dayShowListWidth) {
+        //    dayShowList.style.overflowX = 'scroll';
+        //} else {
+        //    dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
+        //}
+        
+        if (idDayShowsAutoDelete.length > 0) {
+            deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId);
+        }
+    }
+
+    function deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId) {
+        const accessToken = localStorage.getItem('access_token');
+        const body = {
+            objects: idDayShowsAutoDelete, // Sử dụng mảng ID đã lấy từ API
+            object_type: "dayshows",
+            operation: "delete"
+        };
+
+        fetch('/api/bulk_edit_objects/', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa các dayshow thành công!`);
+                    
+                    getDayShows(placeDetailId); // Tải lại danh sách
+                } else {
+                    alert('Có lỗi xảy ra!');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting dayshows:', error);
+            });
+    }
 
 
 
@@ -577,17 +636,24 @@ function renderDayShows(placeDetailId) {
 
 
 
-function getFilms(dayShowId,filmIdTrans,placeDetailId){
-fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}&ordering=day`)
-.then(response => response.json())
-.then(data => {
-    const filmList = document.getElementById('film-list');
-    filmList.innerHTML = ''; // Xóa nội dung cũ
 
-    data.results.forEach(film => {
-    const filmItem = document.createElement('div');
-    filmItem.classList.add('film-day-show-item');
-    filmItem.innerHTML = `
+
+
+
+
+
+
+    function getFilms(dayShowId, filmIdTrans, placeDetailId) {
+        fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}&ordering=day`)
+            .then(response => response.json())
+            .then(data => {
+                const filmList = document.getElementById('film-list');
+                filmList.innerHTML = ''; // Xóa nội dung cũ
+
+                data.results.forEach(film => {
+                    const filmItem = document.createElement('div');
+                    filmItem.classList.add('film-day-show-item');
+                    filmItem.innerHTML = `
         
                 <div id="box-info-film-day-show" class="box-info-film-day-show" >
                     <div class="box-info-film-in-dayshow" >
@@ -601,39 +667,39 @@ fetch(`/api/films/?dayshow=${dayShowId}&id=${filmIdTrans}&place=${placeDetailId}
                     <!-- Danh sách lịch chiếu của phim này sẽ được hiển thị ở đây -->
                 </div>
     `;
-        
-    filmItem.querySelector('#box-info-film-day-show').addEventListener('click', function() {
-        window.location.href = `/film/${film.id}/`;
-    });
 
-    getSchedules(film.id, dayShowId, placeDetailId, `schedule-${film.id}`);
-    filmList.appendChild(filmItem);
+                    filmItem.querySelector('#box-info-film-day-show').addEventListener('click', function () {
+                        window.location.href = `/film/${film.id}/`;
+                    });
 
-    });
-})
-.catch(error => {
-    console.error('Error fetching film details:', error);
-});
-}
-function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
-    fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}&status__iexact=Có hiệu lực`)
-    .then(response => response.json())
-    .then(data => {
-        const scheduleList = document.getElementById(scheduleListId);
-        scheduleList.innerHTML = '';
+                    getSchedules(film.id, dayShowId, placeDetailId, `schedule-${film.id}`);
+                    filmList.appendChild(filmItem);
 
-        data.results.forEach(schedule => {
-        const scheduleItem = document.createElement('div');
-        scheduleItem.classList.add('schedule-item');
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching film details:', error);
+            });
+    }
+    function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
+        fetch(`/api/schedules/?film=${filmId}&dayshow=${dayShowId}&place=${placeDetailId}&status__iexact=Có hiệu lực`)
+            .then(response => response.json())
+            .then(data => {
+                const scheduleList = document.getElementById(scheduleListId);
+                scheduleList.innerHTML = '';
 
-        const startTime = new Date(schedule.start_time);
-        const endTime = new Date(schedule.end_time);
-        
-        const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-        const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-        
+                data.results.forEach(schedule => {
+                    const scheduleItem = document.createElement('div');
+                    scheduleItem.classList.add('schedule-item');
 
-        scheduleItem.innerHTML = `
+                    const startTime = new Date(schedule.start_time);
+                    const endTime = new Date(schedule.end_time);
+
+                    const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+                    const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+
+                    scheduleItem.innerHTML = `
             <div class="box-schedule-room">
             <span class="schedule-room-name">${schedule.room.name}</span>
             </div>
@@ -644,20 +710,20 @@ function getSchedules(filmId, dayShowId, placeDetailId, scheduleListId) {
                 <span class="schedule-end-time">${formattedEndTime}</span>
             </div>
         `;
-        scheduleItem.addEventListener('click', () => {
-            window.location.href = `/room/${schedule.id}/`;
+                    scheduleItem.addEventListener('click', () => {
+                        window.location.href = `/room/${schedule.id}/`;
 
-        });
-        scheduleList.appendChild(scheduleItem);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching area details:', error);
-    });
-}
+                    });
+                    scheduleList.appendChild(scheduleItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching area details:', error);
+            });
+    }
 
-                
-             
-      
+
+
+
 </script>
 {% endblock bookFilm %}

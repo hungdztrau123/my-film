@@ -25,7 +25,6 @@
     justify-content: start;
     padding: 0px 10px;
     margin: 0px 0px 30px;
-    border-radius: 7px;
     background-color: rgba(0,0,0,0.05);
     transition: all 0.2s linear;
 }
@@ -94,6 +93,10 @@
     box-shadow: 0px 0px 3px 2px #cdc197 ;
 }
 
+.promotion-item-box:hover .promotion-item-img{
+    transform: scale(1.05);
+}
+
 .promotion-item-box:hover .box-promotion-time{
     transform: translateY(-35px);
 }
@@ -118,6 +121,7 @@
 .promotion-item-img{
     width: 100%;
     height: 100%;
+    transition: all 0.2s linear;
 
 }
 .box-promotion-time{

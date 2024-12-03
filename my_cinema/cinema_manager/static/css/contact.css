@@ -189,10 +189,11 @@
     padding: 5px 10px;
     outline-color: #cdc197 !important;
     color: #d5a12c !important;
+    background-color: transparent;
     text-shadow: 1px 1px 1px #000;
     box-shadow: 0px 0px 0px 2px #cdc197;
     border: 2px solid #d5a12c !important;
-    border-radius: 3px;
+    border-radius: 0px;
     transition: all 0.2s linear;
 }
 
@@ -212,6 +213,7 @@
     min-width: 200px;
     display: flex;
     color: #d5a12c;
+    background-color: transparent;
     text-shadow: 1px 1px 1px #000;
     justify-content: center;
     align-items: center;
