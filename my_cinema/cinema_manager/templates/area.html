@@ -131,7 +131,7 @@
 
   .place-image {
     width: 100%;
-    height: 550px;
+    height: 620px;
   }
 
   .box-place-info {
@@ -176,14 +176,44 @@
   .box-day-show-list-area {
     width: 70%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     border-top: 1px dashed #cdc197;
+    border-bottom: 1px dashed #cdc197;
     text-shadow: 1px 1px 1px #000;
-    padding: 10px 0px;
+    margin: 20px 0px;
     display: none;
 
 
+  }
+
+  .day-show-year-top {
+    display: none;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 25px;
+    border-bottom: 1px dashed #cdc197;
+
+  }
+
+  .day-show-month-top-content {
+    font-size: 30px;
+    min-width: 45px;
+    text-align: center;
+    line-height: 35px;
+    font-weight: bold;
+    border-bottom: 3px solid #d5a12c;
+  }
+
+  .day-show-year-top-content {
+    margin: 0px 10px;
+  }
+
+  .day-show-month-name-top-content {
+    font-size: 19px;
+    font-weight: bold;
   }
 
   .day-show-list-area {}
@@ -261,12 +291,11 @@
 
     width: 100%;
     z-index: 1000;
-
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
     overflow: hidden;
-    padding: 0px 3px 3px;
+    padding: 3px 3px 3px;
     transition: all 0.2s linear;
 
 
@@ -301,13 +330,14 @@
 
   .day-show-item {
     font-size: 14px;
-    min-width: 205px;
+    min-width: 90px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4px 0px;
-    border: 2px solid #d5a12c;
-    box-shadow: 0px 0px 0px 2px #cdc197;
+    padding: 10px;
+    border: 2px solid transparent;
+    box-shadow: 0px 0px 0px 2px transparent;
     cursor: pointer;
     font-weight: bold;
     margin: 5px;
@@ -321,11 +351,18 @@
     box-shadow: 0px 0px 0px 2px #d5a12c;
     color: #cdc197;
     transform: scale(1.05);
-
-
   }
 
-  .day-show-day {}
+  .day-show-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 30px;
+    border: 1px solid #cdc197;
+    border-radius: 50%;
+    transition: all 0.2s linear;
+  }
 
   .box-film-list-area {
     width: 100%;
@@ -452,12 +489,17 @@
     margin-left: 3px;
   }
 
-  .box-shadow {
+  .day-show-day-auto {
     border-color: #cdc197;
-    box-shadow: 0px 0px 0px 2px #d5a12c;
-    color: #cdc197;
-    transform: scale(1.05);
+    background-color: #281c01;
+  }
 
+  .box-shadow {
+    box-shadow: 0px 0px 0px 2px #d5a12c;
+    border-color: #cdc197;
+    color: #cdc197;
+    background-color: #513a03;
+    transform: scale(1.05);
 
   }
 </style>
@@ -485,6 +527,10 @@
 
 
   <div class="box-day-show-list-area">
+
+    <div id="day-show-year-top" class="day-show-year-top">
+
+    </div>
 
     <div class="day-show-list-area" id="day-show-list">
 
@@ -525,6 +571,9 @@
     `;
         areaItem.addEventListener('click', () => {
           getAreaDetails(area.id);
+          document.querySelector('.box-place-detail-area').style.display = 'none';
+          document.querySelector('.box-day-show-list-area').style.display = 'none';
+          document.querySelector('.box-film-list-area').style.display = 'none';
 
           // Nếu có một areaItem đang được chọn, xóa class khỏi nó
           if (activeAreaItem && activeAreaItem !== areaItem) {
@@ -562,8 +611,11 @@
           `;
           placeItem.addEventListener('click', () => {
             getPlaceDetails(place.id);
+            document.querySelector('.box-place-detail-area').style.display = 'flex';
             getDayShows(place.id);
             document.querySelector('.box-day-show-list-area').style.display = 'flex';
+            document.querySelector('.day-show-year-top').style.display = 'none';
+            document.querySelector('.box-film-list-area').style.display = 'none';
 
 
             if (activePlaceItem && activePlaceItem !== placeItem) {
@@ -667,8 +719,14 @@
       dayShowItem.classList.add('day-show-item');
 
       const date = new Date(dayshow.day);
-      const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-      const formattedDate = date.toLocaleDateString('vi-VN', options);
+
+      const options = { weekday: 'long' }; // 'long' để lấy tên đầy đủ
+      const dayOfWeek = new Intl.DateTimeFormat('vi-VN', options).format(date);
+
+      // Lấy ngày, tháng, năm
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = `Th.${String(date.getMonth() + 1).padStart(2, '0')}`;
+      const year = date.getFullYear();
 
       const currentDate = new Date();
       const timeDifference = currentDate - date;
@@ -676,19 +734,33 @@
 
       dayShowItem.innerHTML = `
               
-                  <span class="day-show-day">${formattedDate}</span>
+        
+                  <span class="day-show-day">${day}</span>
+                  <span class="day-show-day-of-week">${dayOfWeek}</span>
                  
               `;
 
 
       dayShowItem.addEventListener('click', () => {
+        getYearDayShowId(dayshow.id);
+        document.querySelector('.day-show-year-top').style.display = 'flex';
         getFilms(dayshow.id, placeDetailId);
+        document.querySelector('.box-film-list-area').style.display = 'flex';
+
 
         if (activeDayShowItem && activeDayShowItem !== dayShowItem) {
           activeDayShowItem.classList.remove('box-shadow');
+          const activeDayShowDay = activeDayShowItem.querySelector('.day-show-day');
+          if (activeDayShowDay) {
+            activeDayShowDay.classList.remove('day-show-day-auto');
+          }
         }
 
         dayShowItem.classList.add('box-shadow');
+        const dayShowDay = dayShowItem.querySelector('.day-show-day');
+        if (dayShowDay) {
+          dayShowDay.classList.add('day-show-day-auto');
+        }
 
         activeDayShowItem = dayShowItem;
 
@@ -712,15 +784,72 @@
     //} else {
     //    dayShowList.style.overflowX = 'hidden'; // Hoặc không cần dòng này
     //}
-    
+
     if (idDayShowsAutoDelete.length > 0) {
       deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId);
     }
   }
 
 
+  function getYearDayShowId(dayShowId) {
+    fetch(`/api/dayshows/${dayShowId}/`)
+      .then(response => response.json())
+      .then(data => {
+        const dayshowYearTopContainer = document.getElementById('day-show-year-top');
+
+        const date = new Date(data.day);
+        const month = `${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+        const monthNamesEnglish = [
+          "January", "February", "March", "April",
+          "May", "June", "July", "August",
+          "September", "October", "November", "December"
+        ];
+
+        const monthNameEnglish = monthNamesEnglish[date.getMonth()];
+
+        const year = date.getFullYear();
+
+        dayshowYearTopContainer.innerHTML = `
+                      <span id="day-show-month-top-content" class="day-show-month-top-content">${month}</span>
+                      <span id="day-show-year-top-content" class="day-show-year-top-content" >${year}</span>
+                      <span id="day-show-month-name-top-content" class="day-show-month-name-top-content" >${monthNameEnglish}</span>
+
+                
+            `;
+
+
+
+      })
+      .catch(error => {
+        console.error('Error fetching place details:', error);
+      });
+  }
+
+
   function deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId) {
     const accessToken = localStorage.getItem('access_token');
+
+    if (!accessToken) {
+      // Nếu không có token, chuyển hướng về trang đăng nhập
+      localStorage.removeItem('activeTabBase');
+      window.location.href = '/login/';
+      return;
+    } else {
+      const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      // Kiểm tra xem token đã hết hạn chưa
+      if (tokenPayload.exp < currentTime) {
+        // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+        alert('token het han vui long login');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('activeTabBase');
+        window.location.href = '/login/';
+      }
+    }
+
+
     const body = {
       objects: idDayShowsAutoDelete, // Sử dụng mảng ID đã lấy từ API
       object_type: "dayshows",
@@ -758,7 +887,7 @@
 
 
   function getFilms(dayShowId, placeDetailId) {
-    fetch(`/api/films/?dayshow=${dayShowId}&place=${placeDetailId}&status__in=Now,Coming`)
+    fetch(`/api/films/?dayshow=${dayShowId}&place=${placeDetailId}&status__in=Now,Coming&ordering=created_at`)
       .then(response => response.json())
       .then(data => {
         const filmList = document.getElementById('film-list');
@@ -786,6 +915,7 @@
                 `;
 
           filmItem.querySelector('#box-info-film-day-show').addEventListener('click', function () {
+            localStorage.removeItem('activeTabBase');
             window.location.href = `/film/${film.id}/`;
           });
 

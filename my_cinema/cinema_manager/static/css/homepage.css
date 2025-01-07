@@ -33,13 +33,14 @@
 }
 
 .btn-now:hover{
-    color: #cdc197;
-    border-color: #cdc197;
-    box-shadow: 0px 0px 0px 3px #d5a12c;
+    color: #cdc197 !important;
+    border-color: #cdc197 !important;
+    box-shadow: 0px 0px 0px 3px #d5a12c !important;
+   
 }
 
 
-.btn-comming{
+.btn-coming{
     padding: 5px 10px; 
     border: 2px solid #d5a12c;
     box-shadow: 0px 0px 0px 3px #cdc197;
@@ -54,10 +55,12 @@
     justify-content: center;
     
 }
-.btn-comming:hover{
-    color: #cdc197;
-    border-color: #cdc197;
-    box-shadow: 0px 0px 0px 3px #d5a12c;
+.btn-coming:hover{
+    color: #cdc197 !important;
+    border-color: #cdc197 !important;
+    box-shadow: 0px 0px 0px 3px #d5a12c !important;
+   
+
 }
 
 .box-search-film{
@@ -225,7 +228,7 @@
 }
 
 .film-item:hover .film-item-content{
-    transform: translateY(-74px);
+    transform: translateY(-70px);
 }
 
 
@@ -269,7 +272,6 @@
     font-size: 14px;
     letter-spacing: 1px;
     padding: 0px 7px 0px 7px;
-    border-radius: 10px;
     bottom: 10px;
     
     color: #fff; 

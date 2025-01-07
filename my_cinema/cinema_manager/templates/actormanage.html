@@ -254,7 +254,7 @@
 
     
     function getActorManage( page = 1) {
-        let url = `/api/actors/?page=${page}`;
+        let url = `/api/actors/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

@@ -249,7 +249,7 @@
 
     
     function getComboManage( page = 1) {
-        let url = `/api/combos/?page=${page}`;
+        let url = `/api/combos/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

@@ -1,166 +1,168 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 
-{% block sliderHome %} 
-    <!-- <link rel="stylesheet" href="/static/css/home.css"> -->
-    <link href="{% static 'css/home.css' %}" rel="stylesheet" />
+{% block sliderHome %}
+<!-- <link rel="stylesheet" href="/static/css/home.css"> -->
+<link href="{% static 'css/home.css' %}" rel="stylesheet" />
 
-    <div class="box-all-full-screen-promo">
-        <div class="box-content-full-screen-promo">
-            <div id="promo-full-list" class="promo-full-list">
+<div class="box-all-full-screen-promo">
+    <div class="box-content-full-screen-promo">
+        <div id="promo-full-list" class="promo-full-list">
 
-            </div>
-            
-            <div class="cancel-promo-full-screen"><i class="fa-solid fa-xmark icon-cancelmove"></i></div>
         </div>
+
+        <div class="cancel-promo-full-screen"><i class="fa-solid fa-xmark icon-cancelmove"></i></div>
     </div>
-    
-    <div>
-        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <!-- Nội dung các slide sẽ được tạo động bằng JavaScript -->
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+</div>
+
+<div>
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <!-- Nội dung các slide sẽ được tạo động bằng JavaScript -->
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    <script>
-        
-        // Lấy danh sách phim từ API
-        
+</div>
+<script>
 
-        // Hiển thị danh sách phim lên carousel
-        function renderFilmSlide(films) {
-            const carouselInner = document.querySelector('.carousel-inner');
-            carouselInner.innerHTML = ''; // Xóa nội dung cũ
+    // Lấy danh sách phim từ API
 
-            films.forEach((film, index) => {
-                const date = new Date(film.release);
-                const currentDate = new Date();
-                const timeDifference = date - currentDate;
-                const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-                const carouselItem = document.createElement('div');
-                carouselItem.classList.add('carousel-item');
-                if (index === 0) {
-                    carouselItem.classList.add('active');
-                }
-                carouselItem.innerHTML = `
-                    <img src="${film.banner}" style="width: 100%; height: 550px; cursor: pointer;" alt="${film.name}">
+    // Hiển thị danh sách phim lên carousel
+    function renderFilmSlide(films) {
+        const carouselInner = document.querySelector('.carousel-inner');
+        carouselInner.innerHTML = ''; // Xóa nội dung cũ
+
+        films.forEach((film, index) => {
+            const date = new Date(film.release);
+            const currentDate = new Date();
+            const timeDifference = date - currentDate;
+            const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+            const carouselItem = document.createElement('div');
+            carouselItem.classList.add('carousel-item');
+            if (index === 0) {
+                carouselItem.classList.add('active');
+            }
+            carouselItem.innerHTML = `
+                    <img src="${film.banner}" style="width: 100%; height: 620px; cursor: pointer;" alt="${film.name}">
                     
                 `;
 
-                if (daysRemaining <= 0 && daysRemaining > -14) {
-                    updateFilmStatus(film.id, 'Now');
-                    getFilmSlide();
-                }
+            if (daysRemaining <= 0 && daysRemaining > -14) {
+                updateFilmStatus(film.id, 'Now');
+                getFilmSlide();
+            }
 
-                if (daysRemaining <= -14){
-                    updateFilmStatus(film.id, 'Stop');
-                    updateStatusScheduleFilm(film.id, 'Hết hạn');
-                    getFilms();
-                }
+            if (daysRemaining <= -14) {
+                updateFilmStatus(film.id, 'Stop');
+                updateStatusScheduleFilm(film.id, 'Hết hạn');
+                getFilms();
+            }
 
-                carouselItem.addEventListener('click', () => {
-                    window.location.href = `/film/${film.id}/`;
-                });
-                carouselInner.appendChild(carouselItem);
+            carouselItem.addEventListener('click', () => {
+                window.location.href = `/film/${film.id}/`;
             });
-        }
-
-        function getFilmSlide() {
-            fetch('/api/films/?status__iexact=Coming&ordering=release')
-                .then(response => response.json())
-                .then(data => {
-                    renderFilmSlide(data.results.slice(0, 5));
-                })
-                .catch(error => {
-                    console.error('Error fetching film data:', error);
-                });
-        }
-
-        getFilmSlide();
-        
-
-        // Tự động dừng carousel khi di chuột vào, chạy lại khi di chuột ra
-        const carousel = document.getElementById('carouselExampleInterval');
-        carousel.addEventListener('mouseenter', () => {
-            carousel.pause();
+            carouselInner.appendChild(carouselItem);
         });
-        carousel.addEventListener('mouseleave', () => {
-            carousel.cycle();
-        });
-    </script>
+    }
+
+    function getFilmSlide() {
+        fetch('/api/films/?status__iexact=Coming&ordering=release')
+            .then(response => response.json())
+            .then(data => {
+                renderFilmSlide(data.results.slice(0, 5));
+            })
+            .catch(error => {
+                console.error('Error fetching film data:', error);
+            });
+    }
+
+    getFilmSlide();
+
+
+    // Tự động dừng carousel khi di chuột vào, chạy lại khi di chuột ra
+    const carousel = document.getElementById('carouselExampleInterval');
+    carousel.addEventListener('mouseenter', () => {
+        carousel.pause();
+    });
+    carousel.addEventListener('mouseleave', () => {
+        carousel.cycle();
+    });
+</script>
 
 {% endblock sliderHome %}
 
 {% block contentHome %}
 
 
-    
 
-    <div class="container-film-list">
-        <img src="../static/images/moviecon.png" alt="" class="film-list-home-img">
-        
-        <div class="box-film-list">
-            <div class="box-btn-nav-bar-home-left">
-                <span id="btn-left" class="btn-nav-bar-home-left"><i class="fa-solid fa-chevron-left"></i></span>
-            </div>
-            <div class="film-list" id="film-list">
-                <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
-            </div>
-            <div class="box-btn-nav-bar-home-right">
-                <span id="btn-right" class="btn-nav-bar-home-right"><i class="fa-solid fa-chevron-right"></i></span>
-            </div>
+
+<div class="container-film-list">
+    <img src="../static/images/moviecon.png" alt="" class="film-list-home-img">
+
+    <div class="box-film-list">
+        <div class="box-btn-nav-bar-home-left">
+            <span id="btn-left" class="btn-nav-bar-home-left"><i class="fa-solid fa-chevron-left"></i></span>
+        </div>
+        <div class="film-list" id="film-list">
+            <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
+        </div>
+        <div class="box-btn-nav-bar-home-right">
+            <span id="btn-right" class="btn-nav-bar-home-right"><i class="fa-solid fa-chevron-right"></i></span>
         </div>
     </div>
+</div>
 
-    <script>
-        //let currentPage = 0;
-        //const filmsPerPage = 4;
-        let filmsData = [];
-        let startIndex = 0; // Chỉ số bắt đầu
+<script>
+    //let currentPage = 0;
+    //const filmsPerPage = 4;
+    let filmsData = [];
+    let startIndex = 0; // Chỉ số bắt đầu
 
-        const btnLeft = document.getElementById('btn-left');
-        btnLeft.style.display = 'none'; 
+    const btnLeft = document.getElementById('btn-left');
+    btnLeft.style.display = 'none';
 
-        const btnRight = document.getElementById('btn-right');
-        
+    const btnRight = document.getElementById('btn-right');
 
-    
-        function renderFilms() {
-            const filmList = document.getElementById('film-list');
-            filmList.innerHTML = ''; // Xóa nội dung hiện tại
 
-            //const start = currentPage * filmsPerPage;
-            //const end = start + filmsPerPage;
-            //const filmsToShow = filmsData.slice(start, end);
-    
-            // Lấy 4 phim bắt đầu từ startIndex
-            const filmsToShow = filmsData.slice(startIndex, startIndex + 4);
-    
-            filmsToShow.forEach(film => {
-                const filmItem = document.createElement('div');
-                filmItem.classList.add('film-item');
-    
-                const date = new Date(film.release);
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
-                const formattedDate = `${day}/${month}/${year}`;
 
-                 // Tính số ngày còn lại
-                const currentDate = new Date();
-                const timeDifference = date - currentDate; // Tính chênh lệch thời gian
-                const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Chuyển đổi sang ngày
-    
-                filmItem.innerHTML = `
+    function renderFilms() {
+        const filmList = document.getElementById('film-list');
+        filmList.innerHTML = ''; // Xóa nội dung hiện tại
+
+        //const start = currentPage * filmsPerPage;
+        //const end = start + filmsPerPage;
+        //const filmsToShow = filmsData.slice(start, end);
+
+        // Lấy 4 phim bắt đầu từ startIndex
+        const filmsToShow = filmsData.slice(startIndex, startIndex + 4);
+
+        filmsToShow.forEach(film => {
+            const filmItem = document.createElement('div');
+            filmItem.classList.add('film-item');
+
+            const date = new Date(film.release);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const formattedDate = `${day}/${month}/${year}`;
+
+            // Tính số ngày còn lại
+            const currentDate = new Date();
+            const timeDifference = date - currentDate; // Tính chênh lệch thời gian
+            const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Chuyển đổi sang ngày
+
+            filmItem.innerHTML = `
                     <span class="box-film-item-content-imdb">
                         <span class="film-home-content-imdb"> <span class="film-home-detail-content-imdb">IMDb</span> ${film.imdb}</span>
                     </span>
@@ -191,64 +193,83 @@
                 `;
 
 
-                // Gọi hàm cập nhật trạng thái nếu daysRemaining bằng 0
-                if (daysRemaining <= 0 && daysRemaining > -14) {
-                    updateFilmStatus(film.id, 'Now');
-                    
+            // Gọi hàm cập nhật trạng thái nếu daysRemaining bằng 0
+            if (daysRemaining <= 0 && daysRemaining > -14) {
+                updateFilmStatus(film.id, 'Now');
 
-                }
 
-                if (daysRemaining <= -14){
-                    updateFilmStatus(film.id, 'Stop');
-                    updateStatusScheduleFilm(film.id, 'Hết hạn');
-                    getFilms();
-                }
-
-                //if (daysRemaining > 0){
-                //    updateFilmStatus(film.id, 'Coming');
-                    
-                //}
-    
-                filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
-                    window.location.href = `/film/${film.id}/`;
-                });
-                filmItem.querySelector('.btn-booking').addEventListener('click', () => {
-                    window.location.href = `/bookfilm/${film.id}/`;
-                });
-                
-                filmList.appendChild(filmItem);
-            });
-
-            // Cập nhật trạng thái hiển thị cho nút "Trở lại"
-            btnLeft.style.display = startIndex > 0 ? 'flex' : 'none';
-
-            // Kiểm tra để ẩn nút "Tiếp theo" nếu đã đến cuối dữ liệu
-            if (startIndex + 4 >= filmsData.length) {
-                btnRight.style.display = 'none'; // Ẩn nút "Tiếp theo"
-            } else {
-                btnRight.style.display = 'flex'; // Hiện nút "Tiếp theo"
             }
 
+            if (daysRemaining <= -14) {
+                updateFilmStatus(film.id, 'Stop');
+                updateStatusScheduleFilm(film.id, 'Hết hạn');
+                getFilms();
+            }
+
+            //if (daysRemaining > 0){
+            //    updateFilmStatus(film.id, 'Coming');
+
+            //}
+
+            filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
+                window.location.href = `/film/${film.id}/`;
+            });
+            filmItem.querySelector('.btn-booking').addEventListener('click', () => {
+                window.location.href = `/bookfilm/${film.id}/`;
+            });
+
+            filmList.appendChild(filmItem);
+        });
+
+        // Cập nhật trạng thái hiển thị cho nút "Trở lại"
+        btnLeft.style.display = startIndex > 0 ? 'flex' : 'none';
+
+        // Kiểm tra để ẩn nút "Tiếp theo" nếu đã đến cuối dữ liệu
+        if (startIndex + 4 >= filmsData.length) {
+            btnRight.style.display = 'none'; // Ẩn nút "Tiếp theo"
+        } else {
+            btnRight.style.display = 'flex'; // Hiện nút "Tiếp theo"
         }
 
-        function updateFilmStatus(filmId, status) {
-            const data = { status: status };
-            const accessToken = localStorage.getItem('access_token');
-        
-            fetch(`/api/films/${filmId}/`, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            })
+    }
+
+    function updateFilmStatus(filmId, status) {
+        const data = { status: status };
+        const accessToken = localStorage.getItem('access_token');
+
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            localStorage.removeItem('activeTabBase');
+            window.location.href = '/login/';
+            return;
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('activeTabBase');
+                window.location.href = '/login/';
+            }
+        }
+
+        fetch(`/api/films/${filmId}/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
             .then(response => {
                 if (response.ok) {
                     console.log(`Film ${filmId} updated to ${status}.`);
                     // Có thể gọi lại getFilms() để làm mới danh sách phim
-                    
-                    
+
+
                 } else {
                     console.error('Failed to update film status:', response.statusText);
                 }
@@ -256,27 +277,46 @@
             .catch(error => {
                 console.error('Error updating film status:', error);
             });
+    }
+
+
+    function updateStatusScheduleFilm(filmId, status) {
+        const data = { status: status };
+        const accessToken = localStorage.getItem('access_token');
+
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            localStorage.removeItem('activeTabBase');
+            window.location.href = '/login/';
+            return;
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('activeTabBase');
+                window.location.href = '/login/';
+            }
         }
 
-
-        function updateStatusScheduleFilm(filmId, status) {
-            const data = { status: status };
-            const accessToken = localStorage.getItem('access_token');
-        
-            fetch(`/api/schedules/update-by-film/?film=${filmId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data),
-            })
+        fetch(`/api/schedules/update-by-film/?film=${filmId}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
             .then(response => {
                 if (response.ok) {
                     console.log(`Film ${filmId} updated to ${status}.`);
                     // Có thể gọi lại getFilms() để làm mới danh sách phim
-                    
-                    
+
+
                 } else {
                     console.error('Failed to update film status:', response.statusText);
                 }
@@ -284,120 +324,120 @@
             .catch(error => {
                 console.error('Error updating film status:', error);
             });
+    }
+
+
+    btnRight.addEventListener('click', () => {
+        // Kiểm tra xem có đủ dữ liệu để hiển thị không
+        if (startIndex + 4 < filmsData.length) {
+            startIndex++; // Tăng chỉ số bắt đầu
+            renderFilms(); // Render lại phim
         }
-
-        
-        btnRight.addEventListener('click', () => {
-            // Kiểm tra xem có đủ dữ liệu để hiển thị không
-            if (startIndex + 4 < filmsData.length) {
-                startIndex++; // Tăng chỉ số bắt đầu
-                renderFilms(); // Render lại phim
-            }
-        });
-
-       
-        btnLeft.addEventListener('click', () => {
-            // Kiểm tra xem có đủ dữ liệu để hiển thị không
-            if (startIndex > 0) {
-                startIndex--; // Giảm chỉ số bắt đầu
-                renderFilms(); // Render lại phim
-            }
-        });
+    });
 
 
-        // Xử lý sự kiện cho nút Left
-        //document.getElementById('btn-left').addEventListener('click', () => {
-        //    if (currentPage > 0) {
-        //        currentPage--;
-        //        renderFilms();
-        //    }
-        //});
+    btnLeft.addEventListener('click', () => {
+        // Kiểm tra xem có đủ dữ liệu để hiển thị không
+        if (startIndex > 0) {
+            startIndex--; // Giảm chỉ số bắt đầu
+            renderFilms(); // Render lại phim
+        }
+    });
 
-        // Xử lý sự kiện cho nút Right
-        //document.getElementById('btn-right').addEventListener('click', () => {
-        //    if ((currentPage + 1) * filmsPerPage < filmsData.length) {
-        //        currentPage++;
-        //        renderFilms();
-        //    }
-        //});
 
-        
-        function getFilms() {
-            // Lấy danh sách phim từ API
-            fetch('/api/films/?status__in=Now,Coming&ordering=-release')
+    // Xử lý sự kiện cho nút Left
+    //document.getElementById('btn-left').addEventListener('click', () => {
+    //    if (currentPage > 0) {
+    //        currentPage--;
+    //        renderFilms();
+    //    }
+    //});
+
+    // Xử lý sự kiện cho nút Right
+    //document.getElementById('btn-right').addEventListener('click', () => {
+    //    if ((currentPage + 1) * filmsPerPage < filmsData.length) {
+    //        currentPage++;
+    //        renderFilms();
+    //    }
+    //});
+
+
+    function getFilms() {
+        // Lấy danh sách phim từ API
+        fetch('/api/films/?status__in=Now,Coming&ordering=-release')
             .then(response => response.json())
             .then(data => {
-                filmsData = data.results.slice(0,20); // Lưu dữ liệu phim
+                filmsData = data.results.slice(0, 20); // Lưu dữ liệu phim
                 renderFilms(); // Hiển thị phim đầu tiên
             })
             .catch(error => {
                 console.error('Error fetching film data:', error);
             });
-        }
+    }
 
-        getFilms();
-    
-        
-    </script>
+    getFilms();
+
+
+</script>
 
 {% endblock contentHome %}
 
 
 {% block topFilm %}
-    
-    <div class="box-top-film-main">
-        
-        <div class="box-top-film" id="box-top-film">
-            <div class="box-office">
-                <img class="box-office-img" src="../static/images/top5555.png" alt="">
-            </div>
-            <div id="top-film" class="top-film">
-    
-            </div>
-        </div>
-        <div class="button-click-top-film" id="button-click-top-film">
-            <i class="fa-solid fa-film"></i>
-       </div>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const button = document.getElementById('button-click-top-film');
-            const boxTopFilm = document.getElementById('box-top-film');
-    
-            button.addEventListener('click', function() {
-                if (boxTopFilm.style.display === 'none' || boxTopFilm.style.display === '') {
-                    boxTopFilm.style.display = 'block';  
-                } else {
-                    boxTopFilm.style.display = 'none'; 
-                }
-            });
-    
-            // Thiết lập trạng thái ban đầu cho box-top-film
-            boxTopFilm.style.display = 'flex'; 
+<div class="box-top-film-main">
+
+    <div class="box-top-film" id="box-top-film">
+        <div class="box-office">
+            <img class="box-office-img" src="../static/images/top5555.png" alt="">
+        </div>
+        <div id="top-film" class="top-film">
+
+        </div>
+    </div>
+    <div class="button-click-top-film" id="button-click-top-film">
+        <i class="fa-solid fa-film"></i>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const button = document.getElementById('button-click-top-film');
+        const boxTopFilm = document.getElementById('box-top-film');
+
+        button.addEventListener('click', function () {
+            if (boxTopFilm.style.display === 'none' || boxTopFilm.style.display === '') {
+                boxTopFilm.style.display = 'block';
+            } else {
+                boxTopFilm.style.display = 'none';
+            }
         });
-    </script>
-    
+
+        // Thiết lập trạng thái ban đầu cho box-top-film
+        boxTopFilm.style.display = 'flex';
+    });
+</script>
+
 
 <script>
     // Lấy danh sách phim từ API
     fetch('/api/films/?status__iexact=Now&ordering=-view')
-    .then(response => response.json())
-    .then(data => {
-    const filmList = document.getElementById('top-film');
+        .then(response => response.json())
+        .then(data => {
+            const filmList = document.getElementById('top-film');
 
-    // Tạo các phần tử phim
-    data.results.slice(0,5).forEach((film, index) => {
-        const filmItem = document.createElement('div');
-        filmItem.classList.add('top-film-item');
+            // Tạo các phần tử phim
+            data.results.slice(0, 5).forEach((film, index) => {
+                const filmItem = document.createElement('div');
+                filmItem.classList.add('top-film-item');
 
-        const date = new Date(film.release);
-        const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
-        const year = date.getFullYear(); // Lấy năm
-        const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
+                const date = new Date(film.release);
+                const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+                const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+                const year = date.getFullYear(); // Lấy năm
+                const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày
 
-        filmItem.innerHTML = `
+                filmItem.innerHTML = `
             <div class="content-top-film-item">
                 <div class="box-info-top-film">
                     <span class="film-index">${index + 1}.</span>
@@ -410,20 +450,20 @@
                 </div>
             </div>
         `;
-        filmItem.addEventListener('click', () => {
-            window.location.href = `/film/${film.id}/`;
+                filmItem.addEventListener('click', () => {
+                    window.location.href = `/film/${film.id}/`;
 
+                });
+                filmList.appendChild(filmItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching film data:', error);
         });
-        filmList.appendChild(filmItem);
-    });
-    })
-    .catch(error => {
-    console.error('Error fetching film data:', error);
-    });
 
 
 
-    
+
 </script>
 
 
@@ -441,26 +481,26 @@
         <div class="box-promotion-list-home-left">
             <div class="box-promotion-list-home-left-top">
                 <div id="promotion-list-home" class="promotion-list-home">
-    
+
                 </div>
-        
+
                 <div id="promotion-list-home1" class="promotion-list-home1">
-            
+
                 </div>
             </div>
             <div class="box-promotion-list-home-left-bottom">
                 <div id="promotion-list-home2" class="promotion-list-home2">
-    
+
                 </div>
             </div>
 
         </div>
 
-    
+
 
         <div class="box-promotion-list-home-right">
             <div id="promotion-list-home3" class="promotion-list-home3">
-    
+
             </div>
 
         </div>
@@ -473,75 +513,75 @@
 <script>
     // Lấy danh sách phim từ API
     fetch('/api/promotions/')
-    .then(response => response.json())
-    .then(data => {
-    const promotionList = document.getElementById('promotion-list-home');
-    const promotionList1 = document.getElementById('promotion-list-home1');
-    const promotionList2 = document.getElementById('promotion-list-home2');
-    const promotionList3 = document.getElementById('promotion-list-home3');
+        .then(response => response.json())
+        .then(data => {
+            const promotionList = document.getElementById('promotion-list-home');
+            const promotionList1 = document.getElementById('promotion-list-home1');
+            const promotionList2 = document.getElementById('promotion-list-home2');
+            const promotionList3 = document.getElementById('promotion-list-home3');
 
-    // Tạo các phần tử phim
-    data.results.slice(0,2).forEach(promotion => {
-        const promotionItem = document.createElement('div');
-        promotionItem.classList.add('promotion-item-home');
-        promotionItem.innerHTML = `
+            // Tạo các phần tử phim
+            data.results.slice(0, 2).forEach(promotion => {
+                const promotionItem = document.createElement('div');
+                promotionItem.classList.add('promotion-item-home');
+                promotionItem.innerHTML = `
                     <img class="promotion-item-img-home" src="${promotion.imgevent}" alt="${promotion.name}">
         `;
-        promotionItem.addEventListener('click', () => {
-            window.location.href = `/promotion/${promotion.id}/`;
-        });
-        promotionList.appendChild(promotionItem);
-    });
+                promotionItem.addEventListener('click', () => {
+                    window.location.href = `/promotion/${promotion.id}/`;
+                });
+                promotionList.appendChild(promotionItem);
+            });
 
-    data.results.slice(2,4).forEach(promotion => {
-        const promotionItem = document.createElement('div');
-        promotionItem.classList.add('promotion-item-home');
-        promotionItem.innerHTML = `
+            data.results.slice(2, 4).forEach(promotion => {
+                const promotionItem = document.createElement('div');
+                promotionItem.classList.add('promotion-item-home');
+                promotionItem.innerHTML = `
                     <img class="promotion-item-img-home" src="${promotion.imgevent}" alt="${promotion.name}">
         `;
-        promotionItem.addEventListener('click', () => {
-            window.location.href = `/promotion/${promotion.id}/`;
-        });
-        promotionList1.appendChild(promotionItem);
-    });
+                promotionItem.addEventListener('click', () => {
+                    window.location.href = `/promotion/${promotion.id}/`;
+                });
+                promotionList1.appendChild(promotionItem);
+            });
 
-    data.results.slice(4,5).forEach(promotion => {
-        const promotionItem = document.createElement('div');
-        promotionItem.classList.add('promotion-item-home');
-        promotionItem.innerHTML = `
+            data.results.slice(4, 5).forEach(promotion => {
+                const promotionItem = document.createElement('div');
+                promotionItem.classList.add('promotion-item-home');
+                promotionItem.innerHTML = `
                     <img class="promotion-item-img-home" src="${promotion.imgevent}" alt="${promotion.name}">
         `;
-        promotionItem.addEventListener('click', () => {
-            window.location.href = `/promotion/${promotion.id}/`;
-        });
-        promotionList2.appendChild(promotionItem);
-    });
+                promotionItem.addEventListener('click', () => {
+                    window.location.href = `/promotion/${promotion.id}/`;
+                });
+                promotionList2.appendChild(promotionItem);
+            });
 
-    data.results.slice(5,7).forEach(promotion => {
-        const promotionItem = document.createElement('div');
-        promotionItem.classList.add('promotion-item-home');
-        promotionItem.innerHTML = `
+            data.results.slice(5, 7).forEach(promotion => {
+                const promotionItem = document.createElement('div');
+                promotionItem.classList.add('promotion-item-home');
+                promotionItem.innerHTML = `
                     <img class="promotion-item-img-home" src="${promotion.imgevent}" alt="${promotion.name}">
         `;
-        promotionItem.addEventListener('click', () => {
-            window.location.href = `/promotion/${promotion.id}/`;
+                promotionItem.addEventListener('click', () => {
+                    window.location.href = `/promotion/${promotion.id}/`;
+                });
+                promotionList3.appendChild(promotionItem);
+            });
+
+
+        })
+        .catch(error => {
+            console.error('Error fetching promotion list data:', error);
         });
-        promotionList3.appendChild(promotionItem);
-    });
 
 
-    })
-    .catch(error => {
-    console.error('Error fetching promotion list data:', error);
-    });
 
 
-    
 
 
-    
 
-    
+
 
 </script>
 
@@ -550,7 +590,7 @@
     const btnCancelPromoFull = document.querySelector('.cancel-promo-full-screen');
     const boxPromoFull = document.querySelector('.box-all-full-screen-promo');
     const boxContentPromoFull = document.querySelector('.box-content-full-screen-promo');
-    
+
     btnCancelPromoFull.addEventListener('click', (event) => {
         boxPromoFull.style.display = 'none';
     });
@@ -562,7 +602,7 @@
         }
     });
 
-    
+
 
     document.addEventListener('DOMContentLoaded', function () {
         boxPromoFull.style.display = 'flex';
@@ -573,43 +613,31 @@
         fetch('/api/promotions/?ordering=-updated_at')
             .then(response => response.json())
             .then(data => {
-            const promoFullList = document.getElementById('promo-full-list');
-    
-            data.results.slice(0,1).forEach(promoFull => {
-                const promoFullItem = document.createElement('div');
-                promoFullItem.classList.add('promotion-full-screen-item');
-                promoFullItem.innerHTML = `
+                const promoFullList = document.getElementById('promo-full-list');
+
+                data.results.slice(0, 1).forEach(promoFull => {
+                    const promoFullItem = document.createElement('div');
+                    promoFullItem.classList.add('promotion-full-screen-item');
+                    promoFullItem.innerHTML = `
                     
                     <img src="${promoFull.image}" alt="${promoFull.name}" class="img-full-screen-promo">
                     
                     
                 `;
-                promoFullItem.addEventListener('click', () => {
-                    window.location.href = `/promotion/${promoFull.id}/`;
+                    promoFullItem.addEventListener('click', () => {
+                        window.location.href = `/promotion/${promoFull.id}/`;
+                    });
+                    promoFullList.appendChild(promoFullItem);
                 });
-                promoFullList.appendChild(promoFullItem);
-            });
             })
             .catch(error => {
-            console.error('Error fetching promotion data:', error);
+                console.error('Error fetching promotion data:', error);
             });
-    
+
     }
-    
+
     getPromoFullScreen();
 
-</script>   
+</script>
 
 {% endblock promotionHome %}
-
-
-
-
-
-
-
-
-
-
-
-

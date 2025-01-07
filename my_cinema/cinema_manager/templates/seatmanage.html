@@ -1,45 +1,120 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block seatManage %} 
+{% block seatManage %}
 
 <style>
- 
-
-    .box-btn-manage{
+    .box-btn-manage {
         width: 100%;
         display: flex;
-    
+        justify-content: space-between;
+        align-items: center;
+
     }
 
-    
+    .box-add-delete {
+        display: flex;
+    }
+
+    .box-search-choose {
+        display: flex;
+        align-items: center;
+        min-width: 500px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film {
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+
+    }
+
+    .icon-search-name {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film {
+
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-search-name-film::placeholder {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color: #d5a12c;
+
+    }
+
+    .box-search-name-film:hover .icon-search-name {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film {
+        color: #d5a12c;
+    }
 
 
-    .manage-list{
+
+    .input-choose-status-film {
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
+    }
+
+
+
+
+    .manage-list {
         width: 100%;
         display: flex;
         font-size: 14px;
         margin-top: 20px;
-        
+
 
     }
-    .manage-list .table{
+
+    .manage-list .table {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
-    .manage-list .table tr{
+
+    .manage-list .table tr {
         width: 100%;
         display: flex;
         align-items: center;
-        
+
         border-bottom: 1px solid #cdc197;
-        
+
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         min-width: 200px;
         display: flex;
         align-items: center;
@@ -47,19 +122,19 @@
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         min-width: 200px;
         display: flex;
         align-items: center;
         justify-content: center;
         border-left: 1px solid #cdc197;
 
-        
-        
+
+
     }
 
-    .btn-update-manage{
-        
+    .btn-update-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
         display: flex;
@@ -74,11 +149,12 @@
         padding: 4px 10px !important;
         background-color: transparent !important;
         margin: 5px 10px 5px 10px;
-        
+
 
     }
-    .btn-delete-manage{
-        
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
         display: flex;
@@ -95,14 +171,54 @@
         margin: 5px 0px;
 
     }
-
-
 </style>
 <span class="title-manage">Quản lý ghế</span>
 
 <div class="box-btn-manage">
-    <span id="insert-manage" class="insert-manage">Thêm</span>
-    <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    <div class="box-add-delete">
+        <span id="insert-manage" class="insert-manage">Thêm</span>
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    </div>
+
+    <div class="box-search-choose">
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film" id="room" room="room" placeholder="Chọn phòng" readonly>
+            <input type="hidden" id="room-id" value="">
+            <div id="room-list" class="dropdown-menu">
+
+            </div>
+        </div>
+
+
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-magnifying-glass icon-search-name"></i>
+            <input type="text" id="name-film-input" class="input-search-name-film" placeholder="Nhập tên ghế">
+        </div>
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-filter icon-search-name"></i>
+            <select id="status-film-select" class="input-choose-status-film">
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="I">I</option>
+                <option value="K">K</option>
+                <option value="L">L</option>
+
+
+            </select>
+        </div>
+
+
+
+    </div>
 </div>
 
 <div id="manage-list" class="manage-list">
@@ -138,7 +254,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -155,9 +271,58 @@
         return tokenPayload.exp >= currentTime;
     }
 
+    fetch('/api/rooms/')
+        .then(response => response.json())
+        .then(data => {
+            const roomList = document.getElementById('room-list');
+            data.results.forEach(room => {
+                const option = document.createElement('a');
+                option.classList.add('dropdown-item');
+                option.href = '#';
+                option.textContent = room.name;
+                option.dataset.roomId = room.id;
+                option.addEventListener('click', () => {
+                    document.getElementById('room').value = room.name;
+                    document.getElementById('room-id').value = room.id;
+
+                    idRoom = document.getElementById('room-id').value;
+                    kindSeat = document.getElementById('status-film-select').value;
+                    nameSeat = document.getElementById('name-film-input').value;
+
+                    if (idRoom) {
+                        currentPage = 1; // Đặt lại trang hiện tại về 1
+                        getSeatManage(currentPage);
+                    } else if (kindSeat && nameSeat && idRoom) {
+                        currentPage = 1; // Đặt lại trang hiện tại về 1
+                        getSeatManage(currentPage);
+
+                    } else {
+                        getSeatManage(currentPage);
+                    }
+
+                });
+                roomList.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+
+    // Thêm sự kiện click vào ô "room" để hiển thị danh sách room
+    document.getElementById('room').addEventListener('click', () => {
+        document.getElementById('room-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách room khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#room, #room-list a')) {
+            document.getElementById('room-list').classList.remove('show');
+        }
+    });
+
+
+
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -169,8 +334,12 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
-    document.getElementById('insert-manage').addEventListener('click', function() {
+
+    let idRoom = '';
+    let nameSeat = '';
+    let kindSeat = '';
+
+    document.getElementById('insert-manage').addEventListener('click', function () {
         window.location.href = '/seatinsert/';
     });
 
@@ -195,7 +364,7 @@
         seatManages.forEach(seatManage => {
             const dataRow = document.createElement('tr');
 
-            
+
             dataRow.innerHTML = `
                 <td>${seatManage.room ? seatManage.room.name : ''}</td>
                 <td>${seatManage.name}</td>
@@ -209,20 +378,20 @@
             `;
 
             // Sự kiện toggle chọn
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = seatManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
+                    console.log("delete id:", selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
+                    console.log("add id:", selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                
 
-                if(selectedIds.size > 0){
+
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
@@ -231,13 +400,13 @@
 
             });
 
-            dataRow.querySelector('#seat-delete').addEventListener('click', function() {
+            dataRow.querySelector('#seat-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa seat này?')) {
                     getDeleteSeat(seatManage.id);
                 }
             });
-            
-            dataRow.querySelector('#seat-update').addEventListener('click', function() {
+
+            dataRow.querySelector('#seat-update').addEventListener('click', function () {
                 window.location.href = `/seatupdate/?seatId=${seatManage.id}`;
             });
 
@@ -256,35 +425,87 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    function getSeatManage( page = 1) {
-        let url = `/api/seats/?page=${page}`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderSeatManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
+    function getSeatManage(page = 1) {
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching seat data:', error);
-        });
+        const queryParamsRoom = idRoom ? { room: idRoom } : {};
+        const queryStringRoom = new URLSearchParams(queryParamsRoom).toString();
+
+        const queryParams = nameSeat ? { name__icontains: nameSeat } : {};
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const queryParamsKind = kindSeat ? { kind__iexact: kindSeat } : {};
+        const queryStringKind = new URLSearchParams(queryParamsKind).toString();
+
+        let url = `/api/seats/?page=${page}&ordering=-created_at&${queryStringRoom}&${queryString}&${queryStringKind}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderSeatManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching seat data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getSeatManage( currentPage - 1);
+        getSeatManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getSeatManage( currentPage + 1);
+        getSeatManage(currentPage + 1);
     });
 
     getSeatManage();
+
+
+    document.getElementById('name-film-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            nameSeat = document.getElementById('name-film-input').value;
+            kindSeat = document.getElementById('status-film-select').value;
+            idRoom = document.getElementById('room-id').value;
+            if (nameSeat) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getSeatManage(currentPage);
+            } else if (kindSeat && nameSeat && idRoom) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getSeatManage(currentPage);
+            } else {
+                getSeatManage(currentPage);
+            }
+        }
+
+    });
+
+    document.getElementById('status-film-select').addEventListener('change', (event) => {
+
+        kindSeat = document.getElementById('status-film-select').value;
+        nameSeat = document.getElementById('name-film-input').value;
+        idRoom = document.getElementById('room-id').value;
+
+        if (kindSeat) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getSeatManage(currentPage);
+        } else if (kindSeat && nameSeat && idRoom) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getSeatManage(currentPage);
+
+        } else {
+            getSeatManage(currentPage);
+        }
+
+
+    });
+
+
+
 
 
 
@@ -297,24 +518,24 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa seat có ID ${seatId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getSeatManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa seat có ID ${seatId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa seat có ID ${seatId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa seat có ID ${seatId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getSeatManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa seat có ID ${seatId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa seat có ID ${seatId}: ${error}`);
+            });
     }
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -327,7 +548,7 @@
                     object_type: "seats",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -336,23 +557,23 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các seat thành công!`);
-                        getSeatManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting seats:', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các seat thành công!`);
+                            getSeatManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting seats:', error);
+                    });
             }
         }
     });
 
 </script>
 
-{% endblock seatManage %} 
+{% endblock seatManage %}

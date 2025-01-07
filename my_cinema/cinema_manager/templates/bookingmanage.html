@@ -233,7 +233,7 @@
 
     
     function getBookingManage( page = 1) {
-        let url = `/api/bookings/?page=${page}`;
+        let url = `/api/bookings/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

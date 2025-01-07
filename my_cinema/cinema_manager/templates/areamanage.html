@@ -242,7 +242,7 @@
 
     
     function getAreaManage( page = 1) {
-        let url = `/api/areas/?page=${page}`;
+        let url = `/api/areas/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

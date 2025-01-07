@@ -18,8 +18,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 500px;
-        padding: 40px 0px;
+        height: 620px;
+        padding: 80px 0px;
         position: relative;
 
     }
@@ -58,14 +58,14 @@
     }
 
     .image-film-detail {
-        width: 50%;
+        
         height: 100%;
         object-fit: contain;
 
     }
 
     .video-film-detail {
-        width: 50%;
+        
         height: 100%;
         object-fit: contain;
     }
@@ -241,7 +241,36 @@
     .film-detail-content-description{
         margin-top: 15px;
         margin-bottom: 0px;
+        padding-right: 5px;
         text-align: justify;
+        display: flex;
+        max-height: 180px;
+        overflow: hidden;
+        transition: all 0.2s linear;
+    }
+
+
+    .film-detail-content-description:hover{
+        overflow-y: auto;
+    }
+    
+    .film-detail-content-description::-webkit-scrollbar {
+        width: 7px; 
+    }
+    
+    .film-detail-content-description::-webkit-scrollbar-track {
+        background-color: #cdc197; /* Set the color of the scrollbar track */
+        border-radius: 3px;
+        
+    }
+    
+    .film-detail-content-description::-webkit-scrollbar-thumb {
+        background-color: #d5a12c; /* Set the color of the scrollbar thumb */
+        border-radius: 3px;
+    }
+    
+    .film-detail-content-description::-webkit-scrollbar-thumb:hover {
+        background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
     }
 
     .box-list-category {
@@ -732,7 +761,7 @@
             if (data) {
                 const imageUrl = data.banner; // Lấy image từ phần tử đầu tiên
                 backgroundBanner.style.background = `url(${imageUrl})`;
-                backgroundBanner.style.backgroundSize = 'cover';
+                backgroundBanner.style.backgroundSize = '100% 100%';
                 backgroundBanner.style.backgroundRepeat = 'no-repeat'; // Không lặp lại ảnh
                 backgroundBanner.style.backgroundPosition = 'center'; // Căn giữa ảnh
                 

@@ -197,6 +197,10 @@
     transition: all 0.2s linear;
 }
 
+.form-control:focus {
+    background-color: transparent !important;
+}
+
 .form-control::placeholder{
     color: #cdc197;
     opacity: 0.6;

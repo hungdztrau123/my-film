@@ -646,12 +646,12 @@ body {
 
 #messages::-webkit-scrollbar-track {
     background-color: rgba(0,0,0,0.2); /* Set the color of the scrollbar track */
-    border-radius: 3px;
+    
 }
 
 #messages::-webkit-scrollbar-thumb {
     background-color: #d5a12c; /* Set the color of the scrollbar thumb */
-    border-radius: 3px;
+    
 }
 
 #messages::-webkit-scrollbar-thumb:hover {

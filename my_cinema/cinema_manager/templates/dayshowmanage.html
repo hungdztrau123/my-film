@@ -250,7 +250,7 @@
 
     
     function getDayShowManage( page = 1) {
-        let url = `/api/dayshows/?page=${page}`;
+        let url = `/api/dayshows/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

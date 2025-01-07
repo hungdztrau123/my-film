@@ -13,4 +13,28 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        // Hàm kiểm tra access token
+        function checkAccessToken() {
+            const accessToken = localStorage.getItem('access_token');
+            if (!accessToken) {
+                // Nếu không có token, chuyển hướng về trang đăng nhập
+                window.location.href = '/login/';
+            } else {
+                const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                // Kiểm tra xem token đã hết hạn chưa
+                if (tokenPayload.exp < currentTime) {
+                    // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                    alert('token het han vui long login');
+                    localStorage.removeItem('access_token');
+                    window.location.href = '/login/';
+                } 
+            }
+        }
+
+        checkAccessToken();
+    </script>
 {% endblock %}

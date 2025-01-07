@@ -624,7 +624,7 @@ class PayViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = PayFilterSet
-    ordering_fields = ("id","booking","status","schedule","total_amount" )
+    ordering_fields = ("id","booking","status","schedule","total_amount","updated_at" )
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -646,7 +646,7 @@ class BillViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = BillFilterSet
-    ordering_fields = ("id","pay","user","status","ticket_code","created_at")
+    ordering_fields = ("id","pay","user","status","ticket_code","created_at","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -691,7 +691,7 @@ class BookingViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = BookingFilterSet
-    ordering_fields = ("id","user",)
+    ordering_fields = ("id","user","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -733,7 +733,7 @@ class SeatViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = SeatFilterSet
-    ordering_fields = ("id","name","room","type","kind", "created_at")
+    ordering_fields = ("id","name","room","type","kind", "created_at","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -755,7 +755,7 @@ class TicketViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = TicketFilterSet
-    ordering_fields = ("id","price","schedule","type",)
+    ordering_fields = ("id","price","schedule","type","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -777,7 +777,7 @@ class RoomViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = RoomFilterSet
-    ordering_fields = ("id","name",)
+    ordering_fields = ("id","name","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -799,7 +799,7 @@ class DayShowViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = DayShowFilterSet
-    ordering_fields = ("id","place","day",)
+    ordering_fields = ("id","place","day","updated_at",)
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -861,7 +861,7 @@ class ImageViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = ImageFilterSet
-    ordering_fields = ("id","film",)
+    ordering_fields = ("id","film","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -903,7 +903,7 @@ class CategoryViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = CategoryFilterSet
-    ordering_fields = ("id","name",)
+    ordering_fields = ("id","name","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -924,7 +924,7 @@ class CategoryFilmViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = CategoryFilmFilterSet
-    ordering_fields = ("id","category","film",)
+    ordering_fields = ("id","category","film","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -946,7 +946,7 @@ class ActorViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = ActorFilterSet
-    ordering_fields = ("id","name","description","film",)
+    ordering_fields = ("id","name","description","film","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -967,7 +967,7 @@ class CommentViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = CommentFilterSet
-    ordering_fields = ("id","user", "film", "rate","created_at")
+    ordering_fields = ("id","user", "film", "rate","created_at","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -988,7 +988,7 @@ class ComboViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = ComboFilterSet
-    ordering_fields = ("id","name", "price")
+    ordering_fields = ("id","name", "price","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -1031,7 +1031,7 @@ class ServiceViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = ServiceFilterSet
-    ordering_fields = ("id","name","title","description")
+    ordering_fields = ("id","name","title","description","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -1053,7 +1053,7 @@ class ContactViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = ContactFilterSet
-    ordering_fields = ("id","name","phone","email","service","area","place")
+    ordering_fields = ("id","name","phone","email","service","area","place","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -1074,7 +1074,7 @@ class ScheduleViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = ScheduleFilterSet
-    ordering_fields = ("id","film","room","start_time","end_time", "status",)
+    ordering_fields = ("id","film","room","start_time","end_time", "status","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]
@@ -1149,7 +1149,7 @@ class AreaViewSet(ModelViewSet):
         OrderingFilter,
     )
     filterset_class = AreaFilterSet
-    ordering_fields = ("id","name",)
+    ordering_fields = ("id","name","updated_at")
     
     def get_permissions(self):
         return [permission() for permission in self.permission_classes]

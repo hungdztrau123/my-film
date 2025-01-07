@@ -237,7 +237,7 @@ async function getBotResponse(input) {
                 const scheduleListClass = `.message.bot.chatfilm${messageCount}`;
                 console.log("kjdslfjsdfj", scheduleListClass);
                 const scheduleList = document.querySelector(scheduleListClass);
-                scheduleList.innerHTML = `<span class="chat-response-top">Các lịch trình, ngày đang chiếu phim:</span> `;
+                scheduleList.innerHTML = `<span class="chat-response-top">Các lịch trình chiếu phim:</span> `;
 
                 // Tạo các phần tử phim
                 data.results.forEach((schedule, index) => {
@@ -589,6 +589,7 @@ document.getElementById('navbar-contact').addEventListener('click', function () 
 });
 
 document.getElementById('login-btn').addEventListener('click', function () {
+    localStorage.removeItem('activeTabBase');
     window.location.href = '/login/';
 });
 

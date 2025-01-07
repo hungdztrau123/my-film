@@ -250,7 +250,7 @@
 
     
     function getServiceManage( page = 1) {
-        let url = `/api/services/?page=${page}`;
+        let url = `/api/services/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

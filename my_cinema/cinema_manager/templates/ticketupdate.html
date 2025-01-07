@@ -83,7 +83,7 @@
 
 
    
-    fetch('/api/schedules/')
+    fetch('/api/schedules/?ordering=-updated_at')
     .then(response => response.json())
     .then(data => {
         const scheduleList = document.getElementById('schedule-list');

@@ -1,134 +1,136 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 
-{% block slider %} 
-    <!-- <link rel="stylesheet" href="/static/css/home.css"> -->
-    <link href="{% static 'css/homepage.css' %}" rel="stylesheet" />
-    <div>
-        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <!-- Nội dung các slide sẽ được tạo động bằng JavaScript -->
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+{% block slider %}
+<!-- <link rel="stylesheet" href="/static/css/home.css"> -->
+<link href="{% static 'css/homepage.css' %}" rel="stylesheet" />
+<div>
+    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <!-- Nội dung các slide sẽ được tạo động bằng JavaScript -->
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-    <script>
-        
+</div>
+<script>
 
-        // Hiển thị danh sách phim lên carousel
-        function renderSlideFilm(films) {
-            const carouselInner = document.querySelector('.carousel-inner');
-            carouselInner.innerHTML = ''; // Xóa nội dung cũ
 
-            films.forEach((film, index) => {
+    // Hiển thị danh sách phim lên carousel
+    function renderSlideFilm(films) {
+        const carouselInner = document.querySelector('.carousel-inner');
+        carouselInner.innerHTML = ''; // Xóa nội dung cũ
 
-                const date = new Date(film.release);
-                const currentDate = new Date();
-                const timeDifference = date - currentDate;
-                const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        films.forEach((film, index) => {
 
-                const carouselItem = document.createElement('div');
-                carouselItem.classList.add('carousel-item');
-                if (index === 0) {
-                    carouselItem.classList.add('active');
-                }
-                carouselItem.innerHTML = `
-                    <img src="${film.banner}" style="width: 100%; height: 550px; cursor: pointer;" alt="${film.name}">
+            const date = new Date(film.release);
+            const currentDate = new Date();
+            const timeDifference = date - currentDate;
+            const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24));
+
+            const carouselItem = document.createElement('div');
+            carouselItem.classList.add('carousel-item');
+            if (index === 0) {
+                carouselItem.classList.add('active');
+            }
+            carouselItem.innerHTML = `
+                    <img src="${film.banner}" style="width: 100%; height: 620px; cursor: pointer;" alt="${film.name}">
                     
 
                 `;
 
-                if (daysRemaining <= 0 && daysRemaining > -14) {
-                    updateFilmStatus(film.id, 'Now');
-                   
-                   
-                }
-    
-                if (daysRemaining <= -14){
-                    updateFilmStatus(film.id, 'Stop');
-                    updateStatusScheduleFilm(film.id, 'Hết hạn');
-                    getSlideFilm();
-                }
-    
-                if (daysRemaining > 0){
-                    updateFilmStatus(film.id, 'Coming');
-                    
-                }
+            if (daysRemaining <= 0 && daysRemaining > -14) {
+                updateFilmStatus(film.id, 'Now');
+
+
+            }
+
+            if (daysRemaining <= -14) {
+                updateFilmStatus(film.id, 'Stop');
+                updateStatusScheduleFilm(film.id, 'Hết hạn');
+                getSlideFilm();
+            }
+
+            if (daysRemaining > 0) {
+                updateFilmStatus(film.id, 'Coming');
+
+            }
 
 
 
-                carouselItem.addEventListener('click', () => {
-                    window.location.href = `/film/${film.id}/`;
-                });
-                carouselInner.appendChild(carouselItem);
+            carouselItem.addEventListener('click', () => {
+                window.location.href = `/film/${film.id}/`;
             });
-        }
-
-        function getSlideFilm() {
-            fetch('/api/films/?status__iexact=Now&ordering=-view')
-                .then(response => response.json())
-                .then(data => {
-                    renderSlideFilm(data.results.slice(0, 5));
-                })
-                .catch(error => {
-                    console.error('Error fetching film data:', error);
-                });
-        }
-
-        getSlideFilm();
-        
-
-
-
-
-        // Tự động dừng carousel khi di chuột vào, chạy lại khi di chuột ra
-        const carousel = document.getElementById('carouselExampleInterval');
-        carousel.addEventListener('mouseenter', () => {
-            carousel.pause();
+            carouselInner.appendChild(carouselItem);
         });
-        carousel.addEventListener('mouseleave', () => {
-            carousel.cycle();
-        });
-    </script>
+    }
+
+    function getSlideFilm() {
+        fetch('/api/films/?status__iexact=Now&ordering=-view')
+            .then(response => response.json())
+            .then(data => {
+                renderSlideFilm(data.results.slice(0, 5));
+            })
+            .catch(error => {
+                console.error('Error fetching film data:', error);
+            });
+    }
+
+    getSlideFilm();
+
+
+
+
+
+    // Tự động dừng carousel khi di chuột vào, chạy lại khi di chuột ra
+    const carousel = document.getElementById('carouselExampleInterval');
+    carousel.addEventListener('mouseenter', () => {
+        carousel.pause();
+    });
+    carousel.addEventListener('mouseleave', () => {
+        carousel.cycle();
+    });
+</script>
 
 {% endblock slider %}
 
 {% block content %}
-   
-    <div class="container-film-list">
 
-        <div class="box-search-film">
-            <span id="search-button-film" class="btn-search-film"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <input type="text" id="name-film-input" class="input-search-film" placeholder="Nhập tên phim">
-        </div>
+<div class="container-film-list">
 
-        <div class="box-btn-show">
-            <span class="btn-now" id="btn-now">Phim đang chiếu</span>
-            <span class="btn-comming" id="btn-coming">Phim sắp chiếu</span>
-        </div>
+    <div class="box-search-film">
+        <span id="search-button-film" class="btn-search-film"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="text" id="name-film-input" class="input-search-film" placeholder="Nhập tên phim">
+    </div>
 
-        
+    <div class="box-btn-show">
+        <span class="btn-now" id="btn-now">Phim đang chiếu</span>
+        <span class="btn-coming" id="btn-coming">Phim sắp chiếu</span>
+    </div>
 
-        <div class="box-film-list">
-            <div class="film-list" id="film-list">
-                <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
-            </div>
-        </div>
-        
-        <div class="box-pagination">
-            <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
+
+
+    <div class="box-film-list">
+        <div class="film-list" id="film-list">
+            <!-- Nội dung các phim sẽ được tạo động bằng JavaScript -->
         </div>
     </div>
 
-    <script>
+    <div class="box-pagination">
+        <button class="prev-page" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+</div>
+
+<script>
 
 
     const filmList = document.getElementById('film-list');
@@ -137,11 +139,11 @@
     let currentPage = 1;
     let totalPages;
     let status = null;
-    
+
 
     function renderFilms(films) {
         filmList.innerHTML = '';
-        films.slice(0,8).forEach(film => {
+        films.slice(0, 8).forEach(film => {
             const filmItem = document.createElement('div');
             filmItem.classList.add('film-item');
 
@@ -150,14 +152,14 @@
             const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
             const year = date.getFullYear(); // Lấy năm
             const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày  
-            
 
-             // Tính số ngày còn lại
+
+            // Tính số ngày còn lại
             const currentDate = new Date();
             const timeDifference = date - currentDate; // Tính chênh lệch thời gian
             const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Chuyển đổi sang ngày
 
-            
+
 
             filmItem.innerHTML = `
 
@@ -204,11 +206,11 @@
             // Gọi hàm cập nhật trạng thái nếu daysRemaining bằng 0
             if (daysRemaining <= 0 && daysRemaining > -14) {
                 updateFilmStatus(film.id, 'Now');
-                
-               
+
+
             }
 
-            if (daysRemaining <= -14){
+            if (daysRemaining <= -14) {
                 updateFilmStatus(film.id, 'Stop');
                 updateStatusScheduleFilm(film.id, 'Hết hạn');
                 getFilms();
@@ -216,10 +218,10 @@
 
             //if (daysRemaining > 0){
             //    updateFilmStatus(film.id, 'Coming');
-                
+
             //}
 
-            
+
 
             filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
                 window.location.href = `/film/${film.id}/`;
@@ -243,10 +245,10 @@
             seeMoreSpan.classList.add('text-see-more-button')
             seeMoreSpan.textContent = 'Xem thêm';
 
-            
+
             const seeMoreIcon = document.createElement('i');
             seeMoreIcon.classList.add('fa-solid', 'fa-caret-down', 'icon-see-more');
-            
+
 
             seeMoreButton.addEventListener('click', () => {
                 renderAllFilms(films); // Gọi hàm để render tất cả phim
@@ -257,10 +259,10 @@
             boxSeeMore.appendChild(seeMoreButton);
             boxSeeMore.appendChild(seeMoreIcon);
 
-            
+
 
             filmList.appendChild(boxSeeMore);
-            
+
         }
     }
 
@@ -276,14 +278,14 @@
             const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
             const year = date.getFullYear(); // Lấy năm
             const formattedDate = `${day}/${month}/${year}`; // Định dạng ngày  
-            
 
-             // Tính số ngày còn lại
+
+            // Tính số ngày còn lại
             const currentDate = new Date();
             const timeDifference = date - currentDate; // Tính chênh lệch thời gian
             const daysRemaining = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Chuyển đổi sang ngày
 
-            
+
 
             filmItem.innerHTML = `
 
@@ -330,11 +332,11 @@
             // Gọi hàm cập nhật trạng thái nếu daysRemaining bằng 0
             if (daysRemaining <= 0 && daysRemaining > -14) {
                 updateFilmStatus(film.id, 'Now');
-                
-               
+
+
             }
 
-            if (daysRemaining <= -14){
+            if (daysRemaining <= -14) {
                 updateFilmStatus(film.id, 'Stop');
                 updateStatusScheduleFilm(film.id, 'Hết hạn');
                 getFilms();
@@ -342,10 +344,10 @@
 
             //if (daysRemaining > 0){
             //    updateFilmStatus(film.id, 'Coming');
-                
+
             //}
 
-            
+
 
             filmItem.querySelector('.btn-film-details').addEventListener('click', () => {
                 window.location.href = `/film/${film.id}/`;
@@ -355,7 +357,7 @@
             });
             filmList.appendChild(filmItem);
         });
-        
+
     }
 
 
@@ -363,7 +365,26 @@
     function updateFilmStatus(filmId, status) {
         const data = { status: status };
         const accessToken = localStorage.getItem('access_token');
-    
+
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            localStorage.removeItem('activeTabBase');
+            window.location.href = '/login/';
+            return;
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('activeTabBase');
+                window.location.href = '/login/';
+            }
+        }
+
         fetch(`/api/films/${filmId}/`, {
             method: 'PATCH',
             headers: {
@@ -372,25 +393,44 @@
             },
             body: JSON.stringify(data),
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Film ${filmId} updated to ${status}.`);
-                // Có thể gọi lại getFilms() để làm mới danh sách phim
-                
-                
-            } else {
-                console.error('Failed to update film status:', response.statusText);
-            }
-        })
-        .catch(error => {
-            console.error('Error updating film status:', error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Film ${filmId} updated to ${status}.`);
+                    // Có thể gọi lại getFilms() để làm mới danh sách phim
+
+
+                } else {
+                    console.error('Failed to update film status:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating film status:', error);
+            });
     }
 
     function updateStatusScheduleFilm(filmId, status) {
         const data = { status: status };
         const accessToken = localStorage.getItem('access_token');
-    
+
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            localStorage.removeItem('activeTabBase');
+            window.location.href = '/login/';
+            return;
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('activeTabBase');
+                window.location.href = '/login/';
+            }
+        }
+
         fetch(`/api/schedules/update-by-film/?film=${filmId}`, {
             method: 'PATCH',
             headers: {
@@ -399,30 +439,30 @@
             },
             body: JSON.stringify(data),
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Film ${filmId} updated to ${status}.`);
-                // Có thể gọi lại getFilms() để làm mới danh sách phim
-                
-                
-            } else {
-                console.error('Failed to update film status:', response.statusText);
-            }
-        })
-        .catch(error => {
-            console.error('Error updating film status:', error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Film ${filmId} updated to ${status}.`);
+                    // Có thể gọi lại getFilms() để làm mới danh sách phim
+
+
+                } else {
+                    console.error('Failed to update film status:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating film status:', error);
+            });
     }
 
 
-    
+
 
     function updatePaginationButtons() {
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    function getFilms( page = 1) {
+    function getFilms(page = 1) {
 
         const nameInput = document.getElementById('name-film-input').value.trim();
 
@@ -436,62 +476,67 @@
         }
 
         fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderFilms(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
+            .then(response => response.json())
+            .then(data => {
+                renderFilms(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching film data:', error);
-        });
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching film data:', error);
+            });
     }
 
-    
-    
+
+
     prevPageBtn.addEventListener('click', () => {
-        getFilms( currentPage - 1);
+        getFilms(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getFilms( currentPage + 1);
+        getFilms(currentPage + 1);
     });
-    
+
 
     document.getElementById('btn-now').addEventListener('click', () => {
         const btnNow = document.getElementById('btn-now');
         const btnComing = document.getElementById('btn-coming');
 
-        if (btnNow.style.opacity === '0.5') {
+        // Lấy màu nền thực tế của btnComing
+        const btnComingBgColor = getComputedStyle(btnComing).backgroundColor;
+
+        if (btnNow.style.backgroundColor === 'rgb(81, 58, 3)') {
             // Nếu đang được chọn, bỏ chọn
-            btnNow.style.opacity = '1';
+            btnNow.style.backgroundColor = 'transparent';
             btnNow.style.color = '#d5a12c';
             btnNow.style.borderColor = '#d5a12c';
             btnNow.style.boxShadow = '0px 0px 0px 3px #cdc197';
-             
+            btnNow.style.transform = 'scale(1)';
             status = ''; // Reset status
             getFilms();
         } else {
             // Nếu không được chọn, chọn nó
-            btnNow.style.opacity = '0.5';
+            btnNow.style.backgroundColor = 'rgb(81, 58, 3)';
             btnNow.style.color = '#cdc197';
             btnNow.style.borderColor = '#cdc197';
             btnNow.style.boxShadow = '0px 0px 0px 3px #d5a12c';
+            btnNow.style.transform = 'scale(1.05)';
             status = 'Now';
             getFilms();
             // Nếu btn-coming đang được chọn, bỏ chọn nó
-            if (btnComing.style.opacity === '0.5') {
-                btnComing.style.opacity = '1';
+            if (btnComingBgColor === 'rgb(81, 58, 3)') {
+                btnComing.style.backgroundColor = 'transparent';
                 btnComing.style.color = '#d5a12c';
                 btnComing.style.borderColor = '#d5a12c';
                 btnComing.style.boxShadow = '0px 0px 0px 3px #cdc197';
+                btnComing.style.transform = 'scale(1)';
                 status = 'Now'; // Reset status cho btn-coming
             }
-    
+
         }
     });
 
@@ -499,29 +544,34 @@
         const btnComing = document.getElementById('btn-coming');
         const btnNow = document.getElementById('btn-now');
 
-        if (btnComing.style.opacity === '0.5') {
+        const btnNowBgColor = getComputedStyle(btnNow).backgroundColor;
+
+        if (btnComing.style.backgroundColor === 'rgb(81, 58, 3)') {
             // Nếu đang được chọn, bỏ chọn
-            btnComing.style.opacity = '1';
+            btnComing.style.backgroundColor = 'transparent';
             btnComing.style.color = '#d5a12c';
             btnComing.style.borderColor = '#d5a12c';
             btnComing.style.boxShadow = '0px 0px 0px 3px #cdc197';
-
+            btnComing.style.transform = 'scale(1)';
             status = ''; // Reset status
             getFilms();
         } else {
             // Nếu không được chọn, chọn nó
-            btnComing.style.opacity = '0.5';
+            btnComing.style.backgroundColor = 'rgb(81, 58, 3)';
             btnComing.style.color = '#cdc197';
             btnComing.style.borderColor = '#cdc197';
             btnComing.style.boxShadow = '0px 0px 0px 3px #d5a12c';
+            btnComing.style.transform = 'scale(1.05)';
+
             status = 'Coming';
             getFilms();
             // Nếu btn-now đang được chọn, bỏ chọn nó
-            if (btnNow.style.opacity === '0.5') {
-                btnNow.style.opacity = '1';
+            if (btnNowBgColor === 'rgb(81, 58, 3)') {
+                btnNow.style.backgroundColor = 'transparent';
                 btnNow.style.color = '#d5a12c';
                 btnNow.style.borderColor = '#d5a12c';
                 btnNow.style.boxShadow = '0px 0px 0px 3px #cdc197';
+                btnNow.style.transform = 'scale(1)';
                 status = 'Coming'; // Reset status cho btn-now
             }
 
@@ -536,29 +586,14 @@
 
     document.getElementById('name-film-input').addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            currentPage = 1; 
-            getFilms(); 
+            currentPage = 1;
+            getFilms();
         }
     });
 
     getFilms();
 
 
-    </script>
+</script>
 
 {% endblock content %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

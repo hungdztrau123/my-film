@@ -249,7 +249,7 @@
 
     
     function getTicketManage( page = 1) {
-        let url = `/api/tickets/?page=${page}`;
+        let url = `/api/tickets/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

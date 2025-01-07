@@ -245,7 +245,7 @@
 
     
     function getCommentManage( page = 1) {
-        let url = `/api/comments/?page=${page}`;
+        let url = `/api/comments/?page=${page}&ordering=-updated_at`;
         
         fetch(url)
         .then(response => response.json())

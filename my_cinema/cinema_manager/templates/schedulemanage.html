@@ -1,19 +1,91 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block scheduleManage %} 
+{% block scheduleManage %}
 
 
 <style>
-    
-
-    .box-btn-manage{
+    .box-btn-manage {
         width: 100%;
         display: flex;
-    
+        justify-content: space-between;
+        align-items: center;
+
     }
 
-    
+    .box-add-delete {
+        display: flex;
+    }
+
+    .box-search-choose {
+        display: flex;
+        align-items: center;
+        min-width: 935px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film {
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+
+    }
+
+    .icon-search-name {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film {
+
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-search-name-film::placeholder {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color: #d5a12c;
+
+    }
+
+    .box-search-name-film:hover .icon-search-name {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film {
+        color: #d5a12c;
+    }
+
+
+
+    .input-choose-status-film {
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
+    }
+
+
 
     .manage-list {
         max-width: 100%;
@@ -25,27 +97,31 @@
 
     }
 
-    .manage-list:hover{
+    .manage-list:hover {
         overflow-x: auto;
     }
-    
+
     .manage-list::-webkit-scrollbar {
-        height: 7px; /* Set the width of the scrollbar */
+        height: 7px;
+        /* Set the width of the scrollbar */
     }
-    
+
     .manage-list::-webkit-scrollbar-track {
-        background-color: #cdc197; /* Set the color of the scrollbar track */
+        background-color: #cdc197;
+        /* Set the color of the scrollbar track */
         border-radius: 3px;
-        
+
     }
-    
+
     .manage-list::-webkit-scrollbar-thumb {
-        background-color: #d5a12c; /* Set the color of the scrollbar thumb */
+        background-color: #d5a12c;
+        /* Set the color of the scrollbar thumb */
         border-radius: 3px;
     }
-    
+
     .manage-list::-webkit-scrollbar-thumb:hover {
-        background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
+        background-color: #f0aa08;
+        /* Set the color of the scrollbar thumb on hover */
     }
 
     .manage-list .table {
@@ -53,33 +129,34 @@
         margin-bottom: 5px;
 
     }
-    
-    .manage-list .table tr{
+
+    .manage-list .table tr {
         border-bottom: 1px solid #cdc197;
-        
+
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         min-width: 200px;
         text-align: center;
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         min-width: 200px;
         text-align: center;
         border-left: 1px solid #cdc197;
         padding: 10px;
 
-        
-        
-    }
- 
 
-    .btn-update-manage{
+
+    }
+
+
+    .btn-update-manage {
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
         margin-right: 5px;
@@ -89,14 +166,15 @@
         border-bottom-left-radius: 3px;
         padding: 2px 10px !important;
         background-color: transparent !important;
-        
+
 
     }
-    .btn-delete-manage{
-       
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
 
@@ -109,17 +187,68 @@
         margin: 10px 0px;
 
     }
-
-    
-
-
 </style>
 
 <span class="title-manage">Quản lý lịch trình</span>
 
 <div class="box-btn-manage">
-    <span id="insert-manage" class="insert-manage">Thêm</span>
-    <button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
+    <div class="box-add-delete">
+        <span id="insert-manage" class="insert-manage">Thêm</span>
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    </div>
+
+    <div class="box-search-choose">
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film" id="place" place="place" placeholder="Chọn địa điểm"
+                readonly>
+            <input type="hidden" id="place-id" value="">
+            <div id="place-list" class="dropdown-menu">
+
+            </div>
+        </div>
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film" id="dayshow" dayshow="dayshow"
+                placeholder="Chọn ngay chieu" readonly>
+            <input type="hidden" id="dayshow-id" value="">
+            <div id="dayshow-list" class="dropdown-menu">
+
+            </div>
+
+        </div>
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film" id="film" film="film" placeholder="Chọn Film" readonly>
+            <input type="hidden" id="film-id" value="">
+            <div id="film-list" class="dropdown-menu">
+
+            </div>
+
+        </div>
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film" id="room" room="room" placeholder="Chọn phòng" readonly>
+            <input type="hidden" id="room-id" value="">
+            <div id="room-list" class="dropdown-menu">
+
+            </div>
+        </div>
+
+
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-filter icon-search-name"></i>
+            <select id="status-film-select" class="input-choose-status-film">
+                <option value="Có hiệu lực">Có hiệu lực</option>
+                <option value="Hết hạn">Hết hạn</option>
+
+            </select>
+        </div>
+
+
+
+    </div>
 </div>
 
 <div id="manage-list" class="manage-list">
@@ -156,7 +285,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -173,9 +302,248 @@
         return tokenPayload.exp >= currentTime;
     }
 
+    fetch('/api/places/')
+        .then(response => response.json())
+        .then(data => {
+            const placeList = document.getElementById('place-list');
+            data.results.forEach(place => {
+                const option = document.createElement('a');
+                option.classList.add('dropdown-item');
+                option.href = '#';
+                option.textContent = place.name;
+                option.dataset.placeId = place.id;
+                option.addEventListener('click', () => {
+
+                    document.getElementById('dayshow').value = '';
+                    document.getElementById('dayshow-id').value = '';
+
+                    document.getElementById('film').value = '';
+                    document.getElementById('film-id').value = '';
+
+                    document.getElementById('room').value = '';
+                    document.getElementById('room-id').value = '';
+
+                    document.getElementById('place').value = place.name;
+                    document.getElementById('place-id').value = place.id;
+
+                    idPlace = document.getElementById('place-id').value;
+                    idDayShow = document.getElementById('dayshow-id').value;
+                    idFilm = document.getElementById('film-id').value;
+                    idRoom = document.getElementById('room-id').value;
+                    statusSchedule = document.getElementById('status-film-select').value;
+
+
+                    if (idPlace) {
+                        currentPage = 1; // Đặt lại trang hiện tại về 1
+                        getScheduleManage(currentPage);
+                    } else if (idPlace && idDayShow && idFilm && idRoom && statusSchedule) {
+                        currentPage = 1; // Đặt lại trang hiện tại về 1
+                        getScheduleManage(currentPage);
+
+                    } else {
+                        getScheduleManage(currentPage);
+                    }
+
+                    getDayShows(place.id);
+                    getRooms(place.id);
+                });
+                placeList.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+
+    // Thêm sự kiện click vào ô "place" để hiển thị danh sách place
+    document.getElementById('place').addEventListener('click', () => {
+        document.getElementById('place-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách place khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#place, #place-list a')) {
+            document.getElementById('place-list').classList.remove('show');
+        }
+    });
+
+    function getDayShows(placeId) {
+        fetch(`/api/dayshows/?place=${placeId}`)
+            .then(response => response.json())
+            .then(data => {
+                const dayshowList = document.getElementById('dayshow-list');
+
+                dayshowList.innerHTML = '';
+                data.results.forEach(dayshow => {
+                    const option = document.createElement('a');
+                    option.classList.add('dropdown-item');
+                    option.href = '#';
+                    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    const dateString = new Date(dayshow.day).toLocaleDateString('vi-VN', dateOptions);
+                    option.textContent = dateString;
+                    option.dataset.dayshowId = dayshow.id; // Lưu ID của dịch vụ vào thuộc tính data-dayshow-id
+                    option.addEventListener('click', () => {
+                        document.getElementById('film').value = '';
+                        document.getElementById('film-id').value = '';
+
+                        document.getElementById('room').value = '';
+                        document.getElementById('room-id').value = '';
+
+                        document.getElementById('dayshow').value = dateString;
+                        document.getElementById('dayshow-id').value = dayshow.id;
+
+                        idPlace = document.getElementById('place-id').value;
+                        idDayShow = document.getElementById('dayshow-id').value;
+                        idFilm = document.getElementById('film-id').value;
+                        idRoom = document.getElementById('room-id').value;
+                        statusSchedule = document.getElementById('status-film-select').value;
+
+
+                        if (idDayShow) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getScheduleManage(currentPage);
+                        } else if (idPlace && idDayShow && idFilm && idRoom && statusSchedule) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getScheduleManage(currentPage);
+
+                        } else {
+                            getScheduleManage(currentPage);
+                        }
+
+                        getFilms(placeId, dayshow.id);
+                    });
+                    dayshowList.appendChild(option);
+                });
+            })
+            .catch(error => console.error(error));
+
+    }
+
+    // Thêm sự kiện click vào ô "dayshow" để hiển thị danh sách dayshow
+    document.getElementById('dayshow').addEventListener('click', () => {
+        document.getElementById('dayshow-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách dayshow khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#dayshow, #dayshow-list a')) {
+            document.getElementById('dayshow-list').classList.remove('show');
+        }
+    });
+
+    function getFilms(placeId, dayShowId) {
+        fetch(`/api/films/?place=${placeId}&dayshow=${dayShowId}`)
+            .then(response => response.json())
+            .then(data => {
+                const filmList = document.getElementById('film-list');
+
+                filmList.innerHTML = '';
+                data.results.forEach(film => {
+                    const option = document.createElement('a');
+                    option.classList.add('dropdown-item');
+                    option.href = '#';
+                    option.textContent = film.name;
+                    option.dataset.filmId = film.id;
+                    option.addEventListener('click', () => {
+                        document.getElementById('room').value = '';
+                        document.getElementById('room-id').value = '';
+
+                        document.getElementById('film').value = film.name;
+                        document.getElementById('film-id').value = film.id;
+
+                        idPlace = document.getElementById('place-id').value;
+                        idDayShow = document.getElementById('dayshow-id').value;
+                        idFilm = document.getElementById('film-id').value;
+                        idRoom = document.getElementById('room-id').value;
+                        statusSchedule = document.getElementById('status-film-select').value;
+
+
+                        if (idFilm) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getScheduleManage(currentPage);
+                        } else if (idPlace && idDayShow && idFilm && idRoom && statusSchedule) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getScheduleManage(currentPage);
+
+                        } else {
+                            getScheduleManage(currentPage);
+                        }
+                    });
+                    filmList.appendChild(option);
+                });
+            })
+            .catch(error => console.error(error));
+
+    }
+
+    // Thêm sự kiện click vào ô "film" để hiển thị danh sách film
+    document.getElementById('film').addEventListener('click', () => {
+        document.getElementById('film-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách film khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#film, #film-list a')) {
+            document.getElementById('film-list').classList.remove('show');
+        }
+    });
+
+
+    function getRooms(placeId) {
+        fetch(`/api/rooms/?place=${placeId}`)
+            .then(response => response.json())
+            .then(data => {
+                const roomList = document.getElementById('room-list');
+
+                roomList.innerHTML = '';
+                data.results.forEach(room => {
+                    const option = document.createElement('a');
+                    option.classList.add('dropdown-item');
+                    option.href = '#';
+                    option.textContent = room.name;
+                    option.dataset.roomId = room.id;
+                    option.addEventListener('click', () => {
+                        document.getElementById('room').value = room.name;
+                        document.getElementById('room-id').value = room.id;
+
+                        idPlace = document.getElementById('place-id').value;
+                        idDayShow = document.getElementById('dayshow-id').value;
+                        idFilm = document.getElementById('film-id').value;
+                        idRoom = document.getElementById('room-id').value;
+                        statusSchedule = document.getElementById('status-film-select').value;
+
+
+                        if (idRoom) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getScheduleManage(currentPage);
+                        } else if (idPlace && idDayShow && idFilm && idRoom && statusSchedule) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getScheduleManage(currentPage);
+
+                        } else {
+                            getScheduleManage(currentPage);
+                        }
+                    });
+                    roomList.appendChild(option);
+                });
+            })
+            .catch(error => console.error(error));
+
+    }
+
+    // Thêm sự kiện click vào ô "room" để hiển thị danh sách room
+    document.getElementById('room').addEventListener('click', () => {
+        document.getElementById('room-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách room khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#room, #room-list a')) {
+            document.getElementById('room-list').classList.remove('show');
+        }
+    });
+
+
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -186,8 +554,14 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
-    document.getElementById('insert-manage').addEventListener('click', function() {
+
+    let idPlace = '';
+    let idDayShow = '';
+    let idFilm = '';
+    let idRoom = '';
+    let statusSchedule = '';
+
+    document.getElementById('insert-manage').addEventListener('click', function () {
         window.location.href = '/scheduleinsert/';
     });
 
@@ -214,7 +588,7 @@
         scheduleManages.forEach(scheduleManage => {
             const dataRow = document.createElement('tr');
 
-            
+
 
             const date = new Date(scheduleManage.dayshow ? scheduleManage.dayshow.day : '');
             const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
@@ -247,20 +621,20 @@
             `;
 
             // Sự kiện toggle chọn
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = scheduleManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
+                    console.log("delete id:", selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
+                    console.log("add id:", selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                
 
-                if(selectedIds.size > 0){
+
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
@@ -269,13 +643,13 @@
 
             });
 
-            dataRow.querySelector('#schedule-delete').addEventListener('click', function() {
+            dataRow.querySelector('#schedule-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa schedule này?')) {
                     getDeleteSchedule(scheduleManage.id);
                 }
             });
-            
-            dataRow.querySelector('#schedule-update').addEventListener('click', function() {
+
+            dataRow.querySelector('#schedule-update').addEventListener('click', function () {
                 window.location.href = `/scheduleupdate/?scheduleId=${scheduleManage.id}`;
             });
 
@@ -294,36 +668,76 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    
-    function getScheduleManage( page = 1) {
-        let url = `/api/schedules/?page=${page}`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderScheduleManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching schedule data:', error);
-        });
+    function getScheduleManage(page = 1) {
+
+        const queryParamsPlace = idPlace ? { place: idPlace } : {};
+        const queryStringPlace = new URLSearchParams(queryParamsPlace).toString();
+
+        const queryParamsDayShow = idDayShow ? { dayshow: idDayShow } : {};
+        const queryStringDayShow = new URLSearchParams(queryParamsDayShow).toString();
+
+        const queryParamsFilm = idFilm ? { film: idFilm } : {};
+        const queryStringFilm = new URLSearchParams(queryParamsFilm).toString();
+
+        const queryParamsRoom = idRoom ? { room: idRoom } : {};
+        const queryStringRoom = new URLSearchParams(queryParamsRoom).toString();
+
+        const queryParamsStatus = statusSchedule ? { status__iexact: statusSchedule } : {};
+        const queryStringStatus = new URLSearchParams(queryParamsStatus).toString();
+
+
+        let url = `/api/schedules/?page=${page}&ordering=-updated_at&${queryStringPlace}&${queryStringDayShow}&${queryStringFilm}&${queryStringRoom}&${queryStringStatus}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderScheduleManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching schedule data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getScheduleManage( currentPage - 1);
+        getScheduleManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getScheduleManage( currentPage + 1);
+        getScheduleManage(currentPage + 1);
     });
 
     getScheduleManage();
+
+    document.getElementById('status-film-select').addEventListener('change', (event) => {
+
+        idPlace = document.getElementById('place-id').value;
+        idDayShow = document.getElementById('dayshow-id').value;
+        idFilm = document.getElementById('film-id').value;
+        idRoom = document.getElementById('room-id').value;
+        statusSchedule = document.getElementById('status-film-select').value;
+
+
+        if (statusSchedule) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getScheduleManage(currentPage);
+        } else if (idPlace && idDayShow && idFilm && idRoom && statusSchedule) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getScheduleManage(currentPage);
+
+        } else {
+            getScheduleManage(currentPage);
+        }
+
+
+    });
 
 
 
@@ -336,24 +750,24 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa schedule có ID ${scheduleId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getScheduleManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa schedule có ID ${scheduleId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa schedule có ID ${scheduleId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa schedule có ID ${scheduleId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getScheduleManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa schedule có ID ${scheduleId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa schedule có ID ${scheduleId}: ${error}`);
+            });
     }
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -366,7 +780,7 @@
                     object_type: "schedules",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -375,23 +789,23 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các schedule thành công!`);
-                        getScheduleManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting schedules:', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các schedule thành công!`);
+                            getScheduleManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting schedules:', error);
+                    });
             }
         }
     });
 
 </script>
 
-{% endblock scheduleManage %} 
+{% endblock scheduleManage %}
