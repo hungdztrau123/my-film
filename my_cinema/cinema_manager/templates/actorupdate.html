@@ -98,7 +98,7 @@
 
 
 
-    fetch('/api/films/')
+    fetch('/api/films/?status__in=Now,Coming')
     .then(response => response.json())
     .then(data => {
         const filmList = document.getElementById('film-list');

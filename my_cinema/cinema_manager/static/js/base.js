@@ -17,7 +17,7 @@ window.addEventListener('load', function() {
 
 
 function getPromoFilm() {
-    fetch('/api/films/?status__iexact=Now&ordering=-updated_at')
+    fetch('/api/films/?status__iexact=Now&ordering=-release')
         .then(response => response.json())
         .then(data => {
         const filmList = document.getElementById('promotion-image-film-base-list');

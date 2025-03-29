@@ -73,6 +73,10 @@ class ChoiceStatusSchedule(Enum):
     valid = 'Có hiệu lực'
     expire = 'Hết hạn'
 
+class ChoiceStatusDayShow(Enum):
+    valid = 'Có hiệu lực'
+    expire = 'Hết hạn'
+
 class ChoiceConfirm(Enum):
     confirmed = 'Đã xác nhận'
     unconfirmed = 'Chưa xác nhận'
@@ -115,6 +119,7 @@ class Place(Base):
 class DayShow(Base):
     place = models.ManyToManyField(Place,null=True, blank=True)
     day = models.DateTimeField(null=True,blank=True)
+    status = models.CharField(max_length=100, choices=[(tag.value, tag.name) for tag in ChoiceStatusDayShow], default=ChoiceStatusDayShow.valid.value)
     
 
 class Rooms(Base):

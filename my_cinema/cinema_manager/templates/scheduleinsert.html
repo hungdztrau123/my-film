@@ -154,7 +154,7 @@
         }
     });
     function getDayShows(placeId) {
-        fetch(`/api/dayshows/?place=${placeId}`)
+        fetch(`/api/dayshows/?place=${placeId}&status__iexact=Có hiệu lực`)
             .then(response => response.json())
             .then(data => {
                 const dayshowList = document.getElementById('dayshow-list');
@@ -199,7 +199,7 @@
     });
 
     function getFilms(placeId, dayShowId) {
-        fetch(`/api/films/?place=${placeId}&dayshow=${dayShowId}`)
+        fetch(`/api/films/?place=${placeId}&dayshow=${dayShowId}&status__in=Now,Coming`)
             .then(response => response.json())
             .then(data => {
                 const filmList = document.getElementById('film-list');

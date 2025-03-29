@@ -1,42 +1,114 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block userManage %} 
+{% block userManage %}
 
 <style>
-    
-
-    .box-btn-manage{
+    .box-btn-manage {
         width: 100%;
         display: flex;
-    
+        justify-content: space-between;
+        align-items: center;
+
     }
 
-    
+    .box-add-delete {
+        display: flex;
+    }
+
+    .box-search-choose {
+        display: flex;
+        align-items: center;
+        min-width: 100px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film {
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+
+    }
+
+    .icon-search-name {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film {
+
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-search-name-film::placeholder {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color: #d5a12c;
+
+    }
+
+    .box-search-name-film:hover .icon-search-name {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film {
+        color: #d5a12c;
+    }
 
 
-    .manage-list{
+
+    .input-choose-status-film {
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
+    }
+
+
+
+
+    .manage-list {
         width: 100%;
         display: flex;
         font-size: 14px;
         margin-top: 20px;
-        
+
 
     }
 
-    .manage-list .table{
+    .manage-list .table {}
 
-    }
-    .manage-list .table tr{
+    .manage-list .table tr {
         border-bottom: 1px solid #cdc197;
         width: 100%;
-        display: flex; 
+        display: flex;
         align-items: center;
-        
-        
+
+
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         display: flex;
         min-width: 200px;
         align-items: center;
@@ -44,7 +116,7 @@
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         display: flex;
         min-width: 200px;
         align-items: center;
@@ -52,15 +124,15 @@
         border-left: 1px solid #cdc197;
         padding: 10px;
 
-        
-        
-    }
- 
 
-    .btn-update-manage{
+
+    }
+
+
+    .btn-update-manage {
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
         margin-left: 5px;
@@ -70,14 +142,15 @@
         border-bottom-right-radius: 3px;
         padding: 2px 10px !important;
         background-color: transparent !important;
-        
+
 
     }
-    .btn-delete-manage{
-       
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
 
@@ -90,7 +163,7 @@
 
     }
 
-    .is_active-checkbox{
+    .is_active-checkbox {
         cursor: pointer;
         width: 20px;
         height: 20px;
@@ -98,9 +171,10 @@
         transition: all 0.2s linear;
         box-shadow: 0px 0px 0px 2px #cdc197 !important;
 
-        
+
     }
-    .is_staff-checkbox{
+
+    .is_staff-checkbox {
         cursor: pointer;
         width: 20px;
         height: 20px;
@@ -109,13 +183,33 @@
         box-shadow: 0px 0px 0px 2px #cdc197 !important;
 
     }
-
 </style>
 
 <span class="title-manage">Quản lý người dùng</span>
 
 <div class="box-btn-manage">
-    <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    <div class="box-add-delete">
+
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    </div>
+
+    <div class="box-search-choose">
+
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-filter icon-search-name"></i>
+            <select id="status-film-select" class="input-choose-status-film">
+                <option value="">All</option>
+                <option value="true">true</option>
+                <option value="false">false</option>
+                
+
+
+            </select>
+        </div>
+
+    </div>
+
 </div>
 
 <div id="manage-list" class="manage-list">
@@ -152,7 +246,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -171,7 +265,7 @@
 
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -181,7 +275,9 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
+
+    let isActive = '';
+
 
     function renderUserManage(userManages) {
         const userManageTable = document.createElement('table');
@@ -217,9 +313,9 @@
                     <span id="user-delete" class="btn-delete-manage"><i class="fa-solid fa-trash-can"></i></span>
                 </td>
             `;
-    
+
             // Sự kiện toggle chọn hàng
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = userManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
@@ -228,34 +324,34 @@
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
                     dataRow.classList.add('selected');
                 }
-    
-                if(selectedIds.size > 0){
+
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
                     deleteMultiBtn.style.display = 'none';
                 }
-                
+
             });
-    
-            dataRow.querySelector('#user-delete').addEventListener('click', function() {
+
+            dataRow.querySelector('#user-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa user này?')) {
                     getDeleteUser(userManage.id);
                 }
             });
-    
-            dataRow.querySelector('.user-update-is_active').addEventListener('click', function() {
+
+            dataRow.querySelector('.user-update-is_active').addEventListener('click', function () {
                 const isActiveCheckbox = dataRow.querySelector('.is_active-checkbox');
                 const newIsActive = isActiveCheckbox.checked;
                 getUpdateUserIsActive(userManage.id, newIsActive);
             });
-    
-            dataRow.querySelector('.user-update-is_staff').addEventListener('click', function() {
+
+            dataRow.querySelector('.user-update-is_staff').addEventListener('click', function () {
                 const isStaffCheckbox = dataRow.querySelector('.is_staff-checkbox');
                 const newIsStaff = isStaffCheckbox.checked;
                 getUpdateUserIsStaff(userManage.id, newIsStaff);
             });
-    
+
             userManageTable.appendChild(dataRow);
         });
 
@@ -271,36 +367,53 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    
-    function getUserManage( page = 1) {
-        let url = `/api/users/?page=${page}&is_staff=false`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderUserManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-        });
+    function getUserManage(page = 1) {
+
+        const queryParams = isActive ? { is_active: isActive } : {};
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        let url = `/api/users/?page=${page}&is_staff=false&${queryString}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderUserManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getUserManage( currentPage - 1);
+        getUserManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getUserManage( currentPage + 1);
+        getUserManage(currentPage + 1);
     });
 
     getUserManage();
+
+    document.getElementById('status-film-select').addEventListener('change', (event) => {
+
+        isActive = document.getElementById('status-film-select').value;
+        
+        if (isActive) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getUserManage(currentPage);
+        } else {
+            getUserManage(currentPage);
+        }
+
+    });
 
 
     function getUpdateUserIsActive(userId, newIsActive) {
@@ -310,9 +423,9 @@
         const formData = new FormData();
 
         formData.append('is_active', newIsActive);
-        
-        
-        
+
+
+
         fetch(`/api/users/${userId}/`, {
             method: 'PATCH',
             headers: {
@@ -320,31 +433,31 @@
             },
             body: formData,
         })
-        .then(response => {
-            if (response.ok) {
-                alert('update user is_active  thành công!');
-                getUserManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                alert('Lỗi khi udate user is_active . Vui lòng thử lại.');
-            }
-        })
-        .catch(error => {
-            alert('Lỗi khi udate user is_active : ' + error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    alert('update user is_active  thành công!');
+                    getUserManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    alert('Lỗi khi udate user is_active . Vui lòng thử lại.');
+                }
+            })
+            .catch(error => {
+                alert('Lỗi khi udate user is_active : ' + error);
+            });
     }
 
     function getUpdateUserIsStaff(userId, newIsStaff) {
 
         const accessToken = localStorage.getItem('access_token');
-        
+
         const formData = new FormData();
 
         formData.append('is_staff', newIsStaff);
-        
-        
-        
+
+
+
         fetch(`/api/users/${userId}/`, {
             method: 'PATCH',
             headers: {
@@ -352,19 +465,19 @@
             },
             body: formData,
         })
-        .then(response => {
-            if (response.ok) {
-                alert('update user is_staff thành công!');
-                getUserManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                alert('Lỗi khi udate user is_staff. Vui lòng thử lại.');
-            }
-        })
-        .catch(error => {
-            alert('Lỗi khi udate user is_staff: ' + error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    alert('update user is_staff thành công!');
+                    getUserManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    alert('Lỗi khi udate user is_staff. Vui lòng thử lại.');
+                }
+            })
+            .catch(error => {
+                alert('Lỗi khi udate user is_staff: ' + error);
+            });
     }
 
 
@@ -378,24 +491,24 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa user có ID ${userId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getUserManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa user có ID ${userId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa user có ID ${userId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa user có ID ${userId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getUserManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa user có ID ${userId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa user có ID ${userId}: ${error}`);
+            });
     }
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -408,7 +521,7 @@
                     object_type: "users",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -417,23 +530,23 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các user thành công!`);
-                        getUserManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting user :', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các user thành công!`);
+                            getUserManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting user :', error);
+                    });
             }
         }
     });
 
 </script>
 
-{% endblock userManage %} 
+{% endblock userManage %}

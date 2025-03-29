@@ -50,13 +50,14 @@
             <input type="text" class="form-control" id="end_time" end_time="end_time" readonly>
         </div>
 
-        <div class="form-group"></div>
-        <label for="country">Status</label>
-        <select class="form-control" id="status" name="status" required>
-            {% for status in statuses %}
-            <option value="{{ status }}">{{ status }}</option>
-            {% endfor %}
-        </select>
+        <div class="form-group">
+            <label for="country">Status</label>
+            <select class="form-control" id="status" name="status" required>
+                {% for status in statuses %}
+                <option value="{{ status }}">{{ status }}</option>
+                {% endfor %}
+            </select>
+        </div>
 </div>
 
 <button type="submit" class="btn btn-primary">Update</button>
@@ -154,7 +155,7 @@
     });
 
     function getDayShows(placeId) {
-        fetch(`/api/dayshows/?place=${placeId}`)
+        fetch(`/api/dayshows/?place=${placeId}&status__iexact=Có hiệu lực`)
             .then(response => response.json())
             .then(data => {
                 const dayshowList = document.getElementById('dayshow-list');
@@ -202,7 +203,7 @@
     });
 
     function getFilms(placeId, dayShowId) {
-        fetch(`/api/films/?place=${placeId}&dayshow=${dayShowId}`)
+        fetch(`/api/films/?place=${placeId}&dayshow=${dayShowId}&status__in=Now,Coming`)
             .then(response => response.json())
             .then(data => {
                 const filmList = document.getElementById('film-list');
@@ -296,24 +297,24 @@
 
     function getRooms(placeId) {
         fetch(`/api/rooms/?place=${placeId}`)
-        .then(response => response.json())
-        .then(data => {
-            const roomList = document.getElementById('room-list');
-            roomList.innerHTML = '';
-            data.results.forEach(room => {
-                const option = document.createElement('a');
-                option.classList.add('dropdown-item');
-                option.href = '#';
-                option.textContent = room.name;
-                option.dataset.roomId = room.id;
-                option.addEventListener('click', () => {
-                    document.getElementById('room').value = room.name;
-                    document.getElementById('room-id').value = room.id;
+            .then(response => response.json())
+            .then(data => {
+                const roomList = document.getElementById('room-list');
+                roomList.innerHTML = '';
+                data.results.forEach(room => {
+                    const option = document.createElement('a');
+                    option.classList.add('dropdown-item');
+                    option.href = '#';
+                    option.textContent = room.name;
+                    option.dataset.roomId = room.id;
+                    option.addEventListener('click', () => {
+                        document.getElementById('room').value = room.name;
+                        document.getElementById('room-id').value = room.id;
+                    });
+                    roomList.appendChild(option);
                 });
-                roomList.appendChild(option);
-            });
-        })
-        .catch(error => console.error(error));
+            })
+            .catch(error => console.error(error));
     }
 
     // Thêm sự kiện click vào ô "room" để hiển thị danh sách room

@@ -135,6 +135,7 @@ from cinema_manager.models import ChoiceVideoType
 from cinema_manager.models import ChoiceTypeTicket
 from cinema_manager.models import ChoiceStatusPay
 from cinema_manager.models import ChoiceStatusSchedule
+from cinema_manager.models import ChoiceStatusDayShow
 from cinema_manager.models import ChoiceGender
 from cinema_manager.models import ChoiceStatusBill, ChoiceConfirm
 
@@ -245,12 +246,21 @@ def dayshowmanage(request):
     context = {}
     return render(request, '../templates/dayshowmanage.html', context)
 
+
 def dayshowinsert(request):
-    context = {}
+    statuses = [s.value for s in ChoiceStatusDayShow]
+    context = {
+        
+        'statuses': statuses,
+    }
     return render(request, '../templates/dayshowinsert.html', context)
 
 def dayshowupdate(request):
-    context = {}
+    statuses = [s.value for s in ChoiceStatusDayShow]
+    context = {
+        
+        'statuses': statuses,
+    }
     return render(request, '../templates/dayshowupdate.html', context)
 
 
@@ -808,6 +818,8 @@ class DayShowViewSet(ModelViewSet):
         serializer.save(create_by=self.request.user)
     def perform_update(self, serializer):
         serializer.save(editor=self.request.user)
+    
+    
 
 class FilmViewSet(ModelViewSet):
     model = Films
@@ -1104,6 +1116,28 @@ class ScheduleViewSet(ModelViewSet):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(updated_schedules, status=status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['patch'], url_path='update-by-dayshow')
+    def update_schedule_by_dayshow(self, request):
+        dayshow_id = request.query_params.get('dayshow')
+        if not dayshow_id:
+            return Response({"error": "Dayshow ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        schedules = self.queryset.filter(dayshow=dayshow_id)
+        if not schedules.exists():
+            return Response({"error": "No schedules found for the given dayshow ID."}, status=status.HTTP_404_NOT_FOUND)
+
+        updated_schedules = []
+        for schedule in schedules:
+            serializer = self.get_serializer(schedule, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                updated_schedules.append(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(updated_schedules, status=status.HTTP_200_OK)
+    
    
 class PromotionViewSet(ModelViewSet):
     model = Promotion

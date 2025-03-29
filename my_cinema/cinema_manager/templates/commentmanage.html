@@ -1,59 +1,136 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block commentManage %} 
+{% block commentManage %}
 
 
 <style>
-    
-
-    .box-btn-manage{
+    .box-btn-manage {
         width: 100%;
         display: flex;
-    
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    .box-add-delete {
+        display: flex;
+    }
+
+    .box-search-choose {
+        display: flex;
+        align-items: center;
+        min-width: 250px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film {
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+
+    }
+
+    .icon-search-name {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film {
+
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-choose-film {
+        min-width: 300px;
+    }
+
+    .input-search-name-film::placeholder {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color: #d5a12c;
+
+    }
+
+    .box-search-name-film:hover .icon-search-name {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film {
+        color: #d5a12c;
+    }
+
+
+
+    .input-choose-status-film {
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
     }
 
 
 
 
-    .manage-list{
+
+    .manage-list {
         width: 100%;
         display: flex;
         font-size: 14px;
         margin-top: 20px;
-        
+
 
     }
 
-    .manage-list .table{
+    .manage-list .table {}
 
-    }
-    .manage-list .table tr{
+    .manage-list .table tr {
         border-bottom: 1px solid #cdc197;
-        
+
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         min-width: 200px;
         text-align: center;
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         min-width: 200px;
         text-align: center;
         border-left: 1px solid #cdc197;
         padding: 10px;
 
-        
-        
-    }
- 
 
-    .btn-update-manage{
+
+    }
+
+
+    .btn-update-manage {
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
         margin-right: 5px;
@@ -63,14 +140,15 @@
         border-bottom-left-radius: 3px;
         padding: 2px 10px !important;
         background-color: transparent !important;
-        
+
 
     }
-    .btn-delete-manage{
-       
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
 
@@ -83,18 +161,30 @@
         margin: 10px 0px;
 
     }
-
-    
-
-
 </style>
 
 <span class="title-manage">Quản lý comment</span>
 
 
 <div class="box-btn-manage">
+    <div class="box-add-delete">
 
-    <button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    </div>
+
+    <div class="box-search-choose">
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film input-choose-film" id="film" film="film"
+                placeholder="Chọn Film" readonly>
+            <input type="hidden" id="film-id" value="">
+            <div id="film-list" class="dropdown-menu">
+
+            </div>
+        </div>
+
+    </div>
+
 </div>
 
 <div id="manage-list" class="manage-list">
@@ -131,7 +221,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -148,9 +238,50 @@
         return tokenPayload.exp >= currentTime;
     }
 
+    fetch('/api/films/')
+        .then(response => response.json())
+        .then(data => {
+            const filmList = document.getElementById('film-list');
+            data.results.forEach(film => {
+                const option = document.createElement('a');
+                option.classList.add('dropdown-item');
+                option.href = '#';
+                option.textContent = film.name;
+                option.dataset.filmId = film.id;
+                option.addEventListener('click', () => {
+                    document.getElementById('film').value = film.name;
+                    document.getElementById('film-id').value = film.id;
+
+                    idFilm = document.getElementById('film-id').value;
+
+                    if (idFilm) {
+                        currentPage = 1; // Đặt lại trang hiện tại về 1
+                        getCommentManage(currentPage);
+                    } else {
+                        getCommentManage(currentPage);
+                    }
+                });
+                filmList.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+
+    // Thêm sự kiện click vào ô "film" để hiển thị danh sách film
+    document.getElementById('film').addEventListener('click', () => {
+        document.getElementById('film-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách film khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#film, #film-list a')) {
+            document.getElementById('film-list').classList.remove('show');
+        }
+    });
+
+
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -161,8 +292,8 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
-    
+
+    let idFilm = '';
 
     function renderCommentManage(commentManages) {
         const commentManageTable = document.createElement('table');
@@ -199,19 +330,19 @@
             `;
 
             // Sự kiện toggle chọn
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = commentManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
+                    console.log("delete id:", selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
+                    console.log("add id:", selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                
-                if(selectedIds.size > 0){
+
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
@@ -220,13 +351,13 @@
 
             });
 
-            dataRow.querySelector('#comment-delete').addEventListener('click', function() {
+            dataRow.querySelector('#comment-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa comment này?')) {
                     getDeleteComment(commentManage.id);
                 }
             });
-            
-            
+
+
 
             commentManageTable.appendChild(dataRow);
         });
@@ -243,33 +374,37 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    
-    function getCommentManage( page = 1) {
-        let url = `/api/comments/?page=${page}&ordering=-updated_at`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderCommentManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching comment data:', error);
-        });
+    function getCommentManage(page = 1) {
+
+        const queryParamsFilm = idFilm ? { film: idFilm } : {};
+        const queryStringFilm = new URLSearchParams(queryParamsFilm).toString();
+
+        let url = `/api/comments/?page=${page}&ordering=-updated_at&${queryStringFilm}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderCommentManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching comment data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getCommentManage( currentPage - 1);
+        getCommentManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getCommentManage( currentPage + 1);
+        getCommentManage(currentPage + 1);
     });
 
     getCommentManage();
@@ -285,24 +420,24 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa comment có ID ${commentId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getCommentManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa comment có ID ${commentId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa comment có ID ${commentId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa comment có ID ${commentId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getCommentManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa comment có ID ${commentId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa comment có ID ${commentId}: ${error}`);
+            });
     }
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -315,7 +450,7 @@
                     object_type: "comments",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -324,23 +459,23 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các comment thành công!`);
-                        getCommentManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting comments:', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các comment thành công!`);
+                            getCommentManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting comments:', error);
+                    });
             }
         }
     });
 
 </script>
 
-{% endblock commentManage %} 
+{% endblock commentManage %}

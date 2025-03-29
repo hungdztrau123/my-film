@@ -81,6 +81,7 @@ class DayShowFilterSet(FilterSet):
             "id": ID_KWARGS,
             "place": ID_KWARGS,
             "day": DATE_KWARGS,
+            "status": CHAR_KWARGS,
         }
 
 class FilmFilterSet(FilterSet):
@@ -311,6 +312,9 @@ class BillFilterSet(FilterSet):
             "user": ID_KWARGS,
             "status": CHAR_KWARGS,
             "ticket_code": CHAR_KWARGS,
+            "confirm": CHAR_KWARGS,
+            "number_transaction": CHAR_KWARGS,
+            
             
              
         }

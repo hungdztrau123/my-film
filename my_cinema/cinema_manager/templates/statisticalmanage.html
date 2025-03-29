@@ -142,7 +142,7 @@
 </div>
 
 <script>
-  fetch('/api/films/?ordering=-view')
+  fetch('/api/films/?ordering=-view&status__in=Now')
       .then(response => response.json())
       .then(data => {
           
@@ -184,7 +184,7 @@
                       },
                       title: {
                           display: true,
-                          text: 'BIỂU ĐỒ LƯỢT XEM PHIM',
+                          text: 'BIỂU ĐỒ LƯỢT XEM PHIM ĐANG CHIẾU',
                           font: {
                             size: 20,
                             weight: 'bold',

@@ -45,7 +45,7 @@ from my_cinema.vnpay import vnpay
 
 
 class StandardPagination(PageNumberPagination):
-    page_size = 25   
+    page_size = 48   
     page_size_query_param = "page_size"
     max_page_size = 100000
 

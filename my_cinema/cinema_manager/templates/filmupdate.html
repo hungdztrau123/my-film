@@ -229,7 +229,7 @@
         }
     });
 
-    fetch('/api/dayshows/')
+    fetch('/api/dayshows/?status__iexact=Có hiệu lực')
     .then(response => response.json())
     .then(data => {
         const dayshowList = document.getElementById('dayshow-list');

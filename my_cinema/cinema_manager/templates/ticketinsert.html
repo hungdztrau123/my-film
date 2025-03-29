@@ -83,7 +83,7 @@
 
 
    
-    fetch('/api/schedules/?ordering=-updated_at')
+    fetch('/api/schedules/?ordering=-updated_at&status__iexact=Có hiệu lực')
     .then(response => response.json())
     .then(data => {
         const scheduleList = document.getElementById('schedule-list');

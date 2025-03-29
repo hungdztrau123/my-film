@@ -1,7 +1,7 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block dayShowUpdate %} 
+{% block dayShowUpdate %}
 
 <div class="container my-5">
     <h2>Cập Nhật day show</h2>
@@ -15,12 +15,21 @@
 
             </div>
         </div>
-        
+
         <div class="form-group">
             <label for="day">day</label>
             <input type="text" class="form-control" id="day" day="day" required>
         </div>
-        
+
+        <div class="form-group">
+            <label for="country">Status</label>
+            <select class="form-control" id="status" name="status" required>
+                {% for status in statuses %}
+                <option value="{{ status }}">{{ status }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
 
         <button type="submit" class="btn btn-primary">Cập Nhật</button>
     </form>
@@ -50,7 +59,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -72,50 +81,50 @@
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search); // Lấy các tham số trong query string
     const dayShowId = params.get('dayShowId'); // Lấy giá trị của dayShowId
-    
-    
+
+
 
     fetch('/api/places/')
-    .then(response => response.json())
-    .then(data => {
-        const placeList = document.getElementById('place-list');
-        data.results.forEach(place => {
-            const option = document.createElement('a');
-            option.classList.add('dropdown-item');
-            option.href = '#';
-            option.textContent = place.name;
-            option.dataset.placeId = place.id;
-            option.addEventListener('click', () => {
-                // Kiểm tra xem đã có giá trị được chọn chưa
-                let selectedPlaces = document.getElementById('place').value.split(', ');
-                let selectedPlacesIds = document.getElementById('place-id').value.split(',');
-                
-                if (selectedPlaces.indexOf(place.name) === -1) {
-                    // Nếu chưa có, thêm vào
-                    selectedPlaces.push(place.name);
-                    selectedPlacesIds.push(place.id);
-                    document.getElementById('place').value = selectedPlaces.join(', ');
-                    document.getElementById('place-id').value = selectedPlacesIds.join(',');
-                    console.log("place", document.getElementById('place').value = selectedPlaces.join(', '))
-                    console.log("place-id", document.getElementById('place-id').value = selectedPlacesIds.join(','))
+        .then(response => response.json())
+        .then(data => {
+            const placeList = document.getElementById('place-list');
+            data.results.forEach(place => {
+                const option = document.createElement('a');
+                option.classList.add('dropdown-item');
+                option.href = '#';
+                option.textContent = place.name;
+                option.dataset.placeId = place.id;
+                option.addEventListener('click', () => {
+                    // Kiểm tra xem đã có giá trị được chọn chưa
+                    let selectedPlaces = document.getElementById('place').value.split(', ');
+                    let selectedPlacesIds = document.getElementById('place-id').value.split(',');
 
-                    
-                } else {
-                    // Nếu đã có, xóa đi
-                    let index = selectedPlaces.indexOf(place.name);
-                    selectedPlaces.splice(index, 1);
-                    selectedPlacesIds.splice(index, 1);
-                    document.getElementById('place').value = selectedPlaces.join(', ');
-                    document.getElementById('place-id').value = selectedPlacesIds.join(',');
-                    console.log("place---", document.getElementById('place').value = selectedPlaces.join(', '))
-                    console.log("place-id---", document.getElementById('place-id').value = selectedPlacesIds.join(','))
-                    
-                }
+                    if (selectedPlaces.indexOf(place.name) === -1) {
+                        // Nếu chưa có, thêm vào
+                        selectedPlaces.push(place.name);
+                        selectedPlacesIds.push(place.id);
+                        document.getElementById('place').value = selectedPlaces.join(', ');
+                        document.getElementById('place-id').value = selectedPlacesIds.join(',');
+                        console.log("place", document.getElementById('place').value = selectedPlaces.join(', '))
+                        console.log("place-id", document.getElementById('place-id').value = selectedPlacesIds.join(','))
+
+
+                    } else {
+                        // Nếu đã có, xóa đi
+                        let index = selectedPlaces.indexOf(place.name);
+                        selectedPlaces.splice(index, 1);
+                        selectedPlacesIds.splice(index, 1);
+                        document.getElementById('place').value = selectedPlaces.join(', ');
+                        document.getElementById('place-id').value = selectedPlacesIds.join(',');
+                        console.log("place---", document.getElementById('place').value = selectedPlaces.join(', '))
+                        console.log("place-id---", document.getElementById('place-id').value = selectedPlacesIds.join(','))
+
+                    }
+                });
+                placeList.appendChild(option);
             });
-            placeList.appendChild(option);
-        });
-    })
-    .catch(error => console.error(error));
+        })
+        .catch(error => console.error(error));
 
     // Thêm sự kiện click vào ô "place" để hiển thị danh sách place
     document.getElementById('place').addEventListener('click', () => {
@@ -129,7 +138,7 @@
         }
     });
 
-   
+
 
     // Lấy thông tin dayshow hiện tại
     fetch(`/api/dayshows/${dayShowId}/`)
@@ -139,33 +148,39 @@
             document.getElementById('place').value = data.place_names;
             console.log("place-get", document.getElementById('place').value = data.place_names)
             document.getElementById('place-id').value = data.place;
-            console.log("place-id-get",document.getElementById('place-id').value = data.place)
+            console.log("place-id-get", document.getElementById('place-id').value = data.place)
 
             document.getElementById('day').value = data.day;
-             
-            
+            document.getElementById('status').value = data.status;
+
+
+
         })
         .catch(error => {
             alert('Lỗi khi lấy thông tin dayshow: ' + error);
         });
 
     // Xử lý sự kiện submit form
-    document.getElementById('form-manage').addEventListener('submit', function(event) {
+    document.getElementById('form-manage').addEventListener('submit', function (event) {
         event.preventDefault();
 
         const accessToken = localStorage.getItem('access_token');
 
         const placeIds = document.getElementById('place-id').value.split(',').filter(id => id !== '');
         const day = document.getElementById('day').value;
-        
+        const status = document.getElementById('status').value;
+
+
 
         const formData = new FormData();
-        
+
         placeIds.forEach(placeId => {
             formData.append('place', parseInt(placeId, 10));
         });
         formData.append('day', day);
-        
+        formData.append('status', status);
+
+
 
         fetch(`/api/dayshows/${dayShowId}/`, {
             method: 'PUT',
@@ -174,21 +189,21 @@
             },
             body: formData,
         })
-        .then(response => {
-            if (response.ok) {
-                alert('Cập nhật dayshow thành công!');
-                this.reset();
-                window.location.href = '/dayshowmanage/';
-            } else {
-                alert('Lỗi khi cập nhật dayshow. Vui lòng thử lại.');
-            }
-        })
-        .catch(error => {
-            alert('Lỗi khi cập nhật dayshow: ' + error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    alert('Cập nhật dayshow thành công!');
+                    this.reset();
+                    window.location.href = '/dayshowmanage/';
+                } else {
+                    alert('Lỗi khi cập nhật dayshow. Vui lòng thử lại.');
+                }
+            })
+            .catch(error => {
+                alert('Lỗi khi cập nhật dayshow: ' + error);
+            });
     });
 
 </script>
 
 
-{% endblock dayShowUpdate %} 
+{% endblock dayShowUpdate %}

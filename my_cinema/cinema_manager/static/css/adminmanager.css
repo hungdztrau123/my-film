@@ -220,6 +220,7 @@ body {
     display: flex;
     font-size: 14px;
     border-right: 1px solid #cdc197;
+    background-color: #efebdb;
 
 }
 
@@ -369,6 +370,21 @@ body {
     background-color: transparent;
 
 }
+
+
+.manage-list{
+ background-color: #efebdb;
+}
+
+.manage-list .table{
+    margin-bottom: 0px !important;
+}
+
+.manage-list .table th{
+    padding: 7px 0px;
+}
+
+
 
 
 

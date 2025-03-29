@@ -582,7 +582,7 @@
     let dayShowsData = [];
 
     function getDayShows(placeDetailId) {
-        fetch(`/api/dayshows/?place=${placeDetailId}&ordering=day`)
+        fetch(`/api/dayshows/?place=${placeDetailId}&ordering=day&status__iexact=Có hiệu lực`)
             .then(response => response.json())
             .then(data => {
                 dayShowsData = data.results;
@@ -660,7 +660,7 @@
             });
             dayShowList.appendChild(dayShowItem);
 
-            if (daysRemaining > 0) {
+            if (daysRemaining > 1) {
                 idDayShowsAutoDelete.push(dayshow.id);
             }
         });
@@ -676,8 +676,103 @@
         //}
 
         if (idDayShowsAutoDelete.length > 0) {
-            deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId);
+            //deleteMultipleDayShows(idDayShowsAutoDelete, placeDetailId);
+            idDayShowsAutoDelete.forEach(id => {
+                updateStatusDayShow(id, 'Hết hạn', placeDetailId);
+                updateStatusScheduleDayShow(id, 'Hết hạn');
+            });
         }
+    }
+
+    function updateStatusDayShow(dayShowId, status, placeDetailId) {
+        const data = { status: status };
+        const accessToken = localStorage.getItem('access_token');
+
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            localStorage.removeItem('activeTabBase');
+            window.location.href = '/login/';
+            return;
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('activeTabBase');
+                window.location.href = '/login/';
+            }
+        }
+
+        fetch(`/api/dayshows/${dayShowId}/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`dayshows ${dayShowId} updated to ${status}.`);
+                    getDayShows(placeDetailId);
+
+                } else {
+                    console.error('Failed to update dayshows status:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating dayshows status:', error);
+            });
+    }
+
+    function updateStatusScheduleDayShow(dayShowId, status) {
+        const data = { status: status };
+        const accessToken = localStorage.getItem('access_token');
+
+        if (!accessToken) {
+            // Nếu không có token, chuyển hướng về trang đăng nhập
+            localStorage.removeItem('activeTabBase');
+            window.location.href = '/login/';
+            return;
+        } else {
+            const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            // Kiểm tra xem token đã hết hạn chưa
+            if (tokenPayload.exp < currentTime) {
+                // Nếu token hết hạn, chuyển hướng về trang đăng nhập
+                alert('token het han vui long login');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('activeTabBase');
+                window.location.href = '/login/';
+            }
+        }
+
+        fetch(`/api/schedules/update-by-dayshow/?dayshow=${dayShowId}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log(`DayShow ${dayShowId} updated to ${status}.`);
+                    
+
+
+                } else {
+                    console.error('Failed to update dayshow status:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating dayshow status:', error);
+            });
     }
 
 

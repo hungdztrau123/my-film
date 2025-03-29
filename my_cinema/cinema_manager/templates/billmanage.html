@@ -1,18 +1,90 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block billManage %} 
+{% block billManage %}
 
 <style>
-   
-
-    .box-btn-manage{
+    .box-btn-manage {
         width: 100%;
         display: flex;
-    
+        justify-content: space-between;
+        align-items: center;
+
     }
 
-    
+    .box-add-delete {
+        display: flex;
+    }
+
+    .box-search-choose {
+        display: flex;
+        align-items: center;
+        min-width: 530px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film {
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+
+    }
+
+    .icon-search-name {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film {
+
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-search-name-film::placeholder {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color: #d5a12c;
+
+    }
+
+    .box-search-name-film:hover .icon-search-name {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film {
+        color: #d5a12c;
+    }
+
+
+
+    .input-choose-status-film {
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
+    }
+
+
 
 
     .manage-list {
@@ -25,65 +97,71 @@
 
     }
 
-    .manage-list:hover{
+    .manage-list:hover {
         overflow-x: auto;
     }
-    
+
     .manage-list::-webkit-scrollbar {
-        height: 7px; /* Set the width of the scrollbar */
-    }
-    
-    .manage-list::-webkit-scrollbar-track {
-        background-color: #cdc197; /* Set the color of the scrollbar track */
-        border-radius: 3px;
-        
-    }
-    
-    .manage-list::-webkit-scrollbar-thumb {
-        background-color: #d5a12c; /* Set the color of the scrollbar thumb */
-        border-radius: 3px;
-    }
-    
-    .manage-list::-webkit-scrollbar-thumb:hover {
-        background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
+        height: 7px;
+        /* Set the width of the scrollbar */
     }
 
-    .manage-list .table{
+    .manage-list::-webkit-scrollbar-track {
+        background-color: #cdc197;
+        /* Set the color of the scrollbar track */
+        border-radius: 3px;
+
+    }
+
+    .manage-list::-webkit-scrollbar-thumb {
+        background-color: #d5a12c;
+        /* Set the color of the scrollbar thumb */
+        border-radius: 3px;
+    }
+
+    .manage-list::-webkit-scrollbar-thumb:hover {
+        background-color: #f0aa08;
+        /* Set the color of the scrollbar thumb on hover */
+    }
+
+    .manage-list .table {
         width: 100%;
         margin-bottom: 5px;
 
     }
-    .manage-list .table tr{
+
+    .manage-list .table tr {
         border-bottom: 1px solid #cdc197;
-        
+
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         min-width: 200px;
         font-weight: bold;
         text-align: center;
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         min-width: 200px;
         text-align: center;
         border-left: 1px solid #cdc197;
         padding: 10px;
-        
-        
+
+
     }
 
     .qr-code-ticket {
         width: 50%;
         padding: 0px !important;
     }
- 
 
-    .btn-update-manage{
+
+    .btn-update-manage {
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
         margin-left: 5px;
@@ -93,14 +171,15 @@
         border-bottom-right-radius: 3px;
         padding: 2px 10px !important;
         background-color: transparent !important;
-        
+
 
     }
-    .btn-delete-manage{
-       
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
 
@@ -113,20 +192,7 @@
 
     }
 
-    .status-select{
-        padding: 3px 5px !important;
-        border: 1px solid #cdc197;
-        outline-color: #cdc197;
-        color: #d5a12c !important;
-        text-shadow: 1px 1px 1px #000;
-        border-radius: 3px;
-        box-shadow: 0px 0px 2px 2px #d5a12c !important;
-        
-
-
-        
-    }
-    .confirm-select{
+    .status-select {
         padding: 3px 5px !important;
         border: 1px solid #cdc197;
         outline-color: #cdc197;
@@ -135,15 +201,57 @@
         border-radius: 3px;
         box-shadow: 0px 0px 2px 2px #d5a12c !important;
 
+
+
+
     }
 
+    .confirm-select {
+        padding: 3px 5px !important;
+        border: 1px solid #cdc197;
+        outline-color: #cdc197;
+        color: #d5a12c !important;
+        text-shadow: 1px 1px 1px #000;
+        border-radius: 3px;
+        box-shadow: 0px 0px 2px 2px #d5a12c !important;
 
+    }
 </style>
 
 <span class="title-manage">Quản lý vé</span>
 
 <div class="box-btn-manage">
-    <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    <div class="box-add-delete">
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    </div>
+
+    <div class="box-search-choose">
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-magnifying-glass icon-search-name"></i>
+            <input type="text" id="name-film-input" class="input-search-name-film" placeholder="Nhập mã vé">
+        </div>
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-filter icon-search-name"></i>
+            <select id="status-film-select" class="input-choose-status-film">
+                <option value="">All</option>
+                <option value="Có hiệu lực">Có hiệu lực</option>
+                <option value="Hết hạn">Hết hạn</option>
+            </select>
+        </div>
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-filter icon-search-name"></i>
+            <select id="confirm-film-select" class="input-choose-status-film">
+                <option value="">All</option>
+                <option value="Đã xác nhận">Đã xác nhận</option>
+                <option value="Chưa xác nhận">Chưa xác nhận</option>
+            </select>
+        </div>
+
+    </div>
+
 </div>
 
 <div id="manage-list" class="manage-list">
@@ -180,7 +288,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -199,7 +307,7 @@
 
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -209,7 +317,11 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
+
+    let ticketCode = '';
+    let statusBill = '';
+    let confirmBill = '';
+
 
     function renderBillManage(billManages) {
         const billManageTable = document.createElement('table');
@@ -265,19 +377,19 @@
             `;
 
             // Sự kiện toggle chọn
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = billManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
+                    console.log("delete id:", selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
+                    console.log("add id:", selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
-                
-                if(selectedIds.size > 0){
+
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
@@ -286,26 +398,26 @@
 
             });
 
-            dataRow.querySelector('#bill-delete').addEventListener('click', function() {
+            dataRow.querySelector('#bill-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa bill này?')) {
                     getDeleteBill(billManage.id);
                 }
             });
 
-            dataRow.querySelector('.bill-update-status').addEventListener('click', function() {
-                    const statusSelect = dataRow.querySelector('.status-select');
-                    const newStatus = statusSelect.value;
-                    getUpdateBillStatus(billManage.id, newStatus);
-                
+            dataRow.querySelector('.bill-update-status').addEventListener('click', function () {
+                const statusSelect = dataRow.querySelector('.status-select');
+                const newStatus = statusSelect.value;
+                getUpdateBillStatus(billManage.id, newStatus);
+
             });
 
-            dataRow.querySelector('.bill-update-confirm').addEventListener('click', function() {
-                    const confirmSelect = dataRow.querySelector('.confirm-select');
-                    const newConfirm = confirmSelect.value;
-                    getUpdateBillConfirm(billManage.id, newConfirm);
-                
+            dataRow.querySelector('.bill-update-confirm').addEventListener('click', function () {
+                const confirmSelect = dataRow.querySelector('.confirm-select');
+                const newConfirm = confirmSelect.value;
+                getUpdateBillConfirm(billManage.id, newConfirm);
+
             });
-            
+
 
             billManageTable.appendChild(dataRow);
         });
@@ -322,36 +434,108 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    
-    function getBillManage( page = 1) {
-        let url = `/api/bills/?page=${page}&ordering=-updated_at`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderBillManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching bill data:', error);
-        });
+    function getBillManage(page = 1) {
+
+        const queryParams = ticketCode ? { ticket_code__icontains: ticketCode } : {};
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const queryParamsStatus = statusBill ? { status__iexact: statusBill } : {};
+        const queryStringStatus = new URLSearchParams(queryParamsStatus).toString();
+
+        const queryParamsConfirm = confirmBill ? { confirm__iexact: confirmBill } : {};
+        const queryStringConfirm = new URLSearchParams(queryParamsConfirm).toString();
+
+        let url = `/api/bills/?page=${page}&ordering=-updated_at&${queryString}&${queryStringStatus}&${queryStringConfirm}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderBillManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching bill data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getBillManage( currentPage - 1);
+        getBillManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getBillManage( currentPage + 1);
+        getBillManage(currentPage + 1);
     });
 
     getBillManage();
+
+
+    document.getElementById('name-film-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            ticketCode = document.getElementById('name-film-input').value;
+            statusBill = document.getElementById('status-film-select').value;
+            confirmBill = document.getElementById('confirm-film-select').value;
+
+            if (ticketCode) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getBillManage(currentPage);
+            } else if (confirmBill && statusBill && ticketCode) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getBillManage(currentPage);
+
+            } else {
+                getBillManage(currentPage);
+            }
+        }
+
+    });
+
+
+
+    document.getElementById('status-film-select').addEventListener('change', (event) => {
+
+        statusBill = document.getElementById('status-film-select').value;
+        confirmBill = document.getElementById('confirm-film-select').value;
+        ticketCode = document.getElementById('name-film-input').value;
+
+        if (statusBill) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getBillManage(currentPage);
+        } else if (confirmBill && statusBill && ticketCode) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getBillManage(currentPage);
+
+        } else {
+            getBillManage(currentPage);
+        }
+
+    });
+
+    document.getElementById('confirm-film-select').addEventListener('change', (event) => {
+
+        statusBill = document.getElementById('status-film-select').value;
+        confirmBill = document.getElementById('confirm-film-select').value;
+        ticketCode = document.getElementById('name-film-input').value;
+
+        if (confirmBill) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getBillManage(currentPage);
+        } else if (confirmBill && statusBill && ticketCode) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getBillManage(currentPage);
+
+        } else {
+            getBillManage(currentPage);
+        }
+
+    });
+
 
 
     function getUpdateBillStatus(billId, newStatus) {
@@ -361,9 +545,9 @@
         const formData = new FormData();
 
         formData.append('status', newStatus);
-        
-        
-        
+
+
+
         fetch(`/api/bills/${billId}/`, {
             method: 'PATCH',
             headers: {
@@ -371,31 +555,31 @@
             },
             body: formData,
         })
-        .then(response => {
-            if (response.ok) {
-                alert('update billstatus  thành công!');
-                getBillManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                alert('Lỗi khi udate billstatus . Vui lòng thử lại.');
-            }
-        })
-        .catch(error => {
-            alert('Lỗi khi udate billstatus : ' + error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    alert('update billstatus  thành công!');
+                    getBillManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    alert('Lỗi khi udate billstatus . Vui lòng thử lại.');
+                }
+            })
+            .catch(error => {
+                alert('Lỗi khi udate billstatus : ' + error);
+            });
     }
 
     function getUpdateBillConfirm(billId, newConfirm) {
 
         const accessToken = localStorage.getItem('access_token');
-        
+
         const formData = new FormData();
 
         formData.append('confirm', newConfirm);
-        
-        
-        
+
+
+
         fetch(`/api/bills/${billId}/`, {
             method: 'PATCH',
             headers: {
@@ -403,19 +587,19 @@
             },
             body: formData,
         })
-        .then(response => {
-            if (response.ok) {
-                alert('update billconfirm thành công!');
-                getBillManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                alert('Lỗi khi udate billconfirm. Vui lòng thử lại.');
-            }
-        })
-        .catch(error => {
-            alert('Lỗi khi udate billconfirm: ' + error);
-        });
+            .then(response => {
+                if (response.ok) {
+                    alert('update billconfirm thành công!');
+                    getBillManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    alert('Lỗi khi udate billconfirm. Vui lòng thử lại.');
+                }
+            })
+            .catch(error => {
+                alert('Lỗi khi udate billconfirm: ' + error);
+            });
     }
 
 
@@ -429,24 +613,24 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa bill có ID ${billId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getBillManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa bill có ID ${billId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa bill có ID ${billId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa bill có ID ${billId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getBillManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa bill có ID ${billId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa bill có ID ${billId}: ${error}`);
+            });
     }
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -459,7 +643,7 @@
                     object_type: "bills",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -468,23 +652,23 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các bill thành công!`);
-                        getBillManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting bill :', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các bill thành công!`);
+                            getBillManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting bill :', error);
+                    });
             }
         }
     });
 
 </script>
 
-{% endblock billManage %} 
+{% endblock billManage %}

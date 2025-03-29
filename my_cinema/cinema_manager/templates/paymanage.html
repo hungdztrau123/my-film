@@ -1,56 +1,128 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block payManage %} 
+{% block payManage %}
 
 <style>
-   
-
-    .box-btn-manage{
+    .box-btn-manage {
         width: 100%;
         display: flex;
-    
+        justify-content: space-between;
+        align-items: center;
+
     }
 
-    
+    .box-add-delete {
+        display: flex;
+    }
+
+    .box-search-choose {
+        display: flex;
+        align-items: center;
+        min-width: 560px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film {
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+
+    }
+
+    .icon-search-name {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film {
+
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-search-name-film::placeholder {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color: #d5a12c;
+
+    }
+
+    .box-search-name-film:hover .icon-search-name {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film {
+        color: #d5a12c;
+    }
 
 
-    .manage-list{
+
+    .input-choose-status-film {
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
+    }
+
+
+
+
+    .manage-list {
         width: 100%;
         display: flex;
         font-size: 14px;
         margin-top: 20px;
-        
+
 
     }
 
-    .manage-list .table{
+    .manage-list .table {}
 
-    }
-    .manage-list .table tr{
+    .manage-list .table tr {
         border-bottom: 1px solid #cdc197;
-        
+
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         text-align: center;
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         text-align: center;
         border-left: 1px solid #cdc197;
         padding: 10px 0px;
 
-        
-        
-    }
- 
 
-    .btn-update-manage{
+
+    }
+
+
+    .btn-update-manage {
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
         margin-left: 5px;
@@ -60,14 +132,15 @@
         border-bottom-right-radius: 3px;
         padding: 2px 10px !important;
         background-color: transparent !important;
-        
+
 
     }
-    .btn-delete-manage{
-       
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
 
@@ -81,7 +154,7 @@
 
     }
 
-    .status-select{
+    .status-select {
         padding: 3px 5px !important;
         border: 1px solid #cdc197;
         outline-color: #cdc197;
@@ -89,20 +162,53 @@
         text-shadow: 1px 1px 1px #000;
         border-radius: 3px;
         box-shadow: 0px 0px 2px 2px #d5a12c !important;
-        
 
 
-        
+
+
     }
-    
-
-
 </style>
 
 <span class="title-manage">Quản lý thanh toán</span>
 
 <div class="box-btn-manage">
-    <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    <div class="box-add-delete">
+
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    </div>
+
+    <div class="box-search-choose">
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film" id="dayshow" dayshow="dayshow"
+                placeholder="Chọn ngay chieu" readonly>
+            <input type="hidden" id="dayshow-id" value="">
+            <div id="dayshow-list" class="dropdown-menu">
+
+            </div>
+
+        </div>
+
+        <div class="box-search-name-film">
+            <input type="text" class="input-search-name-film input-schedule-id" id="schedule" schedule="schedule"
+                placeholder="Chọn schedule" readonly>
+            <input type="hidden" id="schedule-id" value="">
+            <div id="schedule-list" class="dropdown-menu">
+
+            </div>
+        </div>
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-filter icon-search-name"></i>
+            <select id="status-film-select" class="input-choose-status-film">
+                <option value="">All</option>
+                <option value="Đã thanh toán">Đã thanh toán</option>
+                <option value="Đang chờ">Đang chờ</option>
+            </select>
+        </div>
+
+    </div>
+
 </div>
 
 <div id="manage-list" class="manage-list">
@@ -139,7 +245,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -156,9 +262,113 @@
         return tokenPayload.exp >= currentTime;
     }
 
+
+
+    fetch('/api/dayshows/')
+        .then(response => response.json())
+        .then(data => {
+            const dayshowList = document.getElementById('dayshow-list');
+            data.results.forEach(dayshow => {
+                const option = document.createElement('a');
+                option.classList.add('dropdown-item');
+                option.href = '#';
+                const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                const dateString = new Date(dayshow.day).toLocaleDateString('vi-VN', dateOptions);
+                option.textContent = dateString;
+                option.dataset.dayshowId = dayshow.id; // Lưu ID của dịch vụ vào thuộc tính data-dayshow-id
+                option.addEventListener('click', () => {
+
+
+                    document.getElementById('schedule').value = '';
+                    document.getElementById('schedule-id').value = '';
+
+
+                    document.getElementById('dayshow').value = dateString;
+                    document.getElementById('dayshow-id').value = dayshow.id;
+
+
+                    getSchedules(dayshow.id);
+                });
+                dayshowList.appendChild(option);
+            });
+        })
+        .catch(error => console.error(error));
+
+
+
+    // Thêm sự kiện click vào ô "dayshow" để hiển thị danh sách dayshow
+    document.getElementById('dayshow').addEventListener('click', () => {
+        document.getElementById('dayshow-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách dayshow khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#dayshow, #dayshow-list a')) {
+            document.getElementById('dayshow-list').classList.remove('show');
+        }
+    });
+
+
+    function getSchedules(dayShowIdSchedule) {
+        fetch(`/api/schedules/?dayshow=${dayShowIdSchedule}&ordering=-updated_at`)
+            .then(response => response.json())
+            .then(data => {
+                const scheduleList = document.getElementById('schedule-list');
+
+                scheduleList.innerHTML = '';
+                data.results.forEach(schedule => {
+                    const option = document.createElement('a');
+                    option.classList.add('dropdown-item');
+                    option.href = '#';
+                    option.textContent = schedule.start_time + ' - ' + schedule.end_time;
+                    option.dataset.scheduleId = schedule.id;
+                    option.addEventListener('click', () => {
+                        document.getElementById('schedule').value = schedule.start_time + ' - ' + schedule.end_time;
+                        document.getElementById('schedule-id').value = schedule.id;
+
+
+                        idSchedule = document.getElementById('schedule-id').value;
+
+                        statusPay = document.getElementById('status-film-select').value;
+
+
+                        if (idSchedule) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getPayManage(currentPage);
+                        } else if (idSchedule && statusPay) {
+                            currentPage = 1; // Đặt lại trang hiện tại về 1
+                            getPayManage(currentPage);
+
+                        } else {
+                            getPayManage(currentPage);
+                        }
+
+
+                    });
+                    scheduleList.appendChild(option);
+                });
+            })
+            .catch(error => console.error(error));
+
+    }
+
+    // Thêm sự kiện click vào ô "schedule" để hiển thị danh sách schedule
+    document.getElementById('schedule').addEventListener('click', () => {
+        document.getElementById('schedule-list').classList.toggle('show');
+    });
+
+    // Đóng danh sách schedule khi nhấn ra ngoài
+    window.addEventListener('click', event => {
+        if (!event.target.matches('#schedule, #schedule-list a')) {
+            document.getElementById('schedule-list').classList.remove('show');
+        }
+    });
+
+
+
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -169,7 +379,10 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
+
+
+    let idSchedule = '';
+    let statusPay = '';
 
     function renderPayManage(payManages) {
         const payManageTable = document.createElement('table');
@@ -180,6 +393,7 @@
         headerRow.innerHTML = `
             <th>booking</th>
             <th>status</th>
+            <th>dayshow</th>
             <th>schedule</th>
             <th>total_amount</th>
             <th>Thao tác</th>
@@ -192,15 +406,21 @@
         payManages.forEach(payManage => {
             const dataRow = document.createElement('tr');
 
+            const date = new Date(payManage.schedule ? payManage.schedule.dayshow.day : '');
+            const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và thêm số 0 nếu cần
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)
+            const year = date.getFullYear(); // Lấy năm
+            const formattedDayShow = `${day}/${month}/${year}`; // Định dạng ngày
+
             const startTime = new Date(payManage.schedule ? payManage.schedule.start_time : '');
             const endTime = new Date(payManage.schedule ? payManage.schedule.end_time : '');
-            
+
             const formattedStartTime = startTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
             const formattedEndTime = endTime.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
             dataRow.innerHTML = `
             
-                <td>${payManage.booking ? payManage.booking.user.username : ''}</td>
+                <td>${payManage.booking ? payManage.booking.user.username : ''}-${payManage.booking ? payManage.booking.id : ''}</td>
                 <td>
                     <select class="status-select" id="status" name="status">
                         <option value="Đang chờ" ${payManage.status === 'Đang chờ' ? 'selected' : ''}>Đang chờ</option>
@@ -209,6 +429,8 @@
                     
                     <span id="pay-update-status" class="pay-update-status btn-update-manage"><i class="fa-regular fa-pen-to-square"></i></span>
                 </td>
+                <td>${formattedDayShow}</td>
+
                 <td>${formattedStartTime} - ${formattedEndTime} </td>
 
                 
@@ -220,20 +442,20 @@
             `;
 
             // Sự kiện toggle chọn
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = payManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
+                    console.log("delete id:", selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
+                    console.log("add id:", selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
 
 
-                if(selectedIds.size > 0){
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
@@ -242,19 +464,19 @@
 
             });
 
-            dataRow.querySelector('.pay-update-status').addEventListener('click', function() {
-                    const statusSelect = dataRow.querySelector('.status-select');
-                    const newStatus = statusSelect.value; 
-                    getUpdatePayStatus(payManage.id, newStatus);
+            dataRow.querySelector('.pay-update-status').addEventListener('click', function () {
+                const statusSelect = dataRow.querySelector('.status-select');
+                const newStatus = statusSelect.value;
+                getUpdatePayStatus(payManage.id, newStatus);
 
             });
 
-            dataRow.querySelector('#pay-delete').addEventListener('click', function() {
+            dataRow.querySelector('#pay-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa pay này?')) {
                     getDeletePay(payManage.id);
                 }
             });
-            
+
 
             payManageTable.appendChild(dataRow);
         });
@@ -271,36 +493,67 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    
-    function getPayManage( page = 1) {
-        let url = `/api/pays/?page=${page}&ordering=-updated_at`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderPayManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching pay data:', error);
-        });
+    function getPayManage(page = 1) {
+
+
+
+        const queryParamsSchedule = idSchedule ? { schedule: idSchedule } : {};
+        const queryStringSchedule = new URLSearchParams(queryParamsSchedule).toString();
+
+        const queryParamsStatus = statusPay ? { status__iexact: statusPay } : {};
+        const queryStringStatus = new URLSearchParams(queryParamsStatus).toString();
+
+        let url = `/api/pays/?page=${page}&ordering=-updated_at&${queryStringSchedule}&${queryStringStatus}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderPayManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching pay data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getPayManage( currentPage - 1);
+        getPayManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getPayManage( currentPage + 1);
+        getPayManage(currentPage + 1);
     });
 
     getPayManage();
+
+    document.getElementById('status-film-select').addEventListener('change', (event) => {
+
+
+        idSchedule = document.getElementById('schedule-id').value;
+        statusPay = document.getElementById('status-film-select').value;
+
+
+        if (statusPay) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getPayManage(currentPage);
+        } else if (idSchedule && statusPay) {
+            currentPage = 1; // Đặt lại trang hiện tại về 1
+            getPayManage(currentPage);
+
+        } else {
+            getPayManage(currentPage);
+        }
+
+    });
+
+
 
 
     function getUpdatePayStatus(payId, newStatus) {
@@ -310,9 +563,9 @@
         const formData = new FormData();
 
         formData.append('status', newStatus);
-        
-        
-        
+
+
+
         fetch(`/api/pays/${payId}/`, {
             method: 'PATCH',
             headers: {
@@ -320,20 +573,20 @@
             },
             body: formData,
         })
-        .then(response => {
-            if (response.ok) {
-                alert('update paystatus  thành công!');
-                getPayManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
+            .then(response => {
+                if (response.ok) {
+                    alert('update paystatus  thành công!');
+                    getPayManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
 
-            } else {
-                alert('Lỗi khi udate paystatus . Vui lòng thử lại.');
-            }
-        })
-        .catch(error => {
-            alert('Lỗi khi udate paystatus : ' + error);
-        });
+                } else {
+                    alert('Lỗi khi udate paystatus . Vui lòng thử lại.');
+                }
+            })
+            .catch(error => {
+                alert('Lỗi khi udate paystatus : ' + error);
+            });
     }
 
 
@@ -347,24 +600,24 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa pay có ID ${payId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getPayManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa pay có ID ${payId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa pay có ID ${payId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa pay có ID ${payId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getPayManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa pay có ID ${payId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa pay có ID ${payId}: ${error}`);
+            });
     }
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -377,7 +630,7 @@
                     object_type: "pays",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -386,23 +639,23 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các pay thành công!`);
-                        getPayManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting pay :', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các pay thành công!`);
+                            getPayManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting pay :', error);
+                    });
             }
         }
     });
 
 </script>
 
-{% endblock payManage %} 
+{% endblock payManage %}

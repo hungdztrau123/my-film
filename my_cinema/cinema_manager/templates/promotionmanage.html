@@ -1,18 +1,90 @@
-{% extends 'adminmanager.html' %} 
+{% extends 'adminmanager.html' %}
 {% load static %}
 
-{% block promotionManage %} 
+{% block promotionManage %}
 
 <style>
-    
-
-    .box-btn-manage{
+    .box-btn-manage {
         width: 100%;
         display: flex;
-    
+        justify-content: space-between;
+        align-items: center;
+
     }
 
-    
+    .box-add-delete {
+        display: flex;
+    }
+
+    .box-search-choose {
+        display: flex;
+        align-items: center;
+        min-width: 550px;
+        justify-content: space-between;
+        margin-right: 20px;
+    }
+
+    .box-search-name-film {
+        border: 2px solid #cdc197;
+        border-radius: 3px;
+        transition: all 0.2s linear;
+        padding: 2px 0px;
+
+    }
+
+    .icon-search-name {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        margin-left: 7px;
+    }
+
+    .input-search-name-film {
+
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #d5a12c;
+        padding-left: 5px;
+    }
+
+    .input-search-name-film::placeholder {
+        color: #cdc197;
+        transition: all 0.2s linear;
+        opacity: 0.7;
+    }
+
+    .box-search-name-film:hover {
+        border-color: #d5a12c;
+
+    }
+
+    .box-search-name-film:hover .icon-search-name {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-search-name-film::placeholder {
+        color: #d5a12c;
+    }
+
+    .box-search-name-film:hover .input-choose-status-film {
+        color: #d5a12c;
+    }
+
+
+
+    .input-choose-status-film {
+        background-color: transparent;
+        text-shadow: 1px 1px 1px #000;
+        outline: none;
+        border: none;
+        transition: all 0.2s linear;
+        color: #cdc197;
+        padding-left: 2px;
+    }
+
+
 
 
     .manage-list {
@@ -25,82 +97,89 @@
 
     }
 
-    .manage-list:hover{
+    .manage-list:hover {
         overflow-x: auto;
     }
-    
+
     .manage-list::-webkit-scrollbar {
-        height: 7px; /* Set the width of the scrollbar */
-    }
-    
-    .manage-list::-webkit-scrollbar-track {
-        background-color: #cdc197; /* Set the color of the scrollbar track */
-        border-radius: 3px;
-        
-    }
-    
-    .manage-list::-webkit-scrollbar-thumb {
-        background-color: #d5a12c; /* Set the color of the scrollbar thumb */
-        border-radius: 3px;
-    }
-    
-    .manage-list::-webkit-scrollbar-thumb:hover {
-        background-color: #f0aa08; /* Set the color of the scrollbar thumb on hover */
+        height: 7px;
+        /* Set the width of the scrollbar */
     }
 
-    .manage-list .table{
+    .manage-list::-webkit-scrollbar-track {
+        background-color: #cdc197;
+        /* Set the color of the scrollbar track */
+        border-radius: 3px;
+
+    }
+
+    .manage-list::-webkit-scrollbar-thumb {
+        background-color: #d5a12c;
+        /* Set the color of the scrollbar thumb */
+        border-radius: 3px;
+    }
+
+    .manage-list::-webkit-scrollbar-thumb:hover {
+        background-color: #f0aa08;
+        /* Set the color of the scrollbar thumb on hover */
+    }
+
+    .manage-list .table {
         width: 100%;
         margin-bottom: 5px;
 
     }
-    .manage-list .table tr{
+
+    .manage-list .table tr {
         border-bottom: 1px solid #cdc197;
         width: 100%;
-        
+
 
     }
-    .manage-list .table tr th{
+
+    .manage-list .table tr th {
         min-width: 200px;
         text-align: center;
         font-weight: bold;
         border-left: 1px solid #cdc197;
     }
 
-    .manage-list .table tr td{
+    .manage-list .table tr td {
         min-width: 200px;
         text-align: center;
         border-left: 1px solid #cdc197;
         padding: 10px;
 
-        
-        
-    }
 
-    .img-manage-promotion{
-        width: 50%;
-        padding: 0px !important;
-        object-fit: contain;
 
     }
-    .banner-manage-promotion{
+
+    .img-manage-promotion {
         width: 50%;
         padding: 0px !important;
         object-fit: contain;
 
     }
 
-    .imgevent-manage-promotion{
+    .banner-manage-promotion {
         width: 50%;
         padding: 0px !important;
         object-fit: contain;
 
     }
- 
 
-    .btn-update-manage{
+    .imgevent-manage-promotion {
+        width: 50%;
+        padding: 0px !important;
+        object-fit: contain;
+
+    }
+
+
+    .btn-update-manage {
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
         margin-right: 5px;
@@ -110,14 +189,15 @@
         border-bottom-left-radius: 3px;
         padding: 2px 10px !important;
         background-color: transparent !important;
-        
+
 
     }
-    .btn-delete-manage{
-       
+
+    .btn-delete-manage {
+
         border: 2px solid #d5a12c !important;
         box-shadow: 0px 0px 0px 3px #cdc197 !important;
-        
+
         font-size: 14px;
         font-weight: 1000;
 
@@ -130,18 +210,32 @@
         margin: 10px 0px;
 
     }
-
-    
-
-
 </style>
 
 <span class="title-manage">Quản lý quảng cáo</span>
 
 
 <div class="box-btn-manage">
-<span id="insert-manage" class="insert-manage">Thêm</span>
-<button id="delete-multi-manage" class="btn-delete-multi-manage" >Xóa nhiều</button>
+    <div class="box-add-delete">
+        <span id="insert-manage" class="insert-manage">Thêm</span>
+        <button id="delete-multi-manage" class="btn-delete-multi-manage">Xóa nhiều</button>
+    </div>
+
+    <div class="box-search-choose">
+
+        <div class="title-start">Nhập ngày bắt đầu</div>
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-magnifying-glass icon-search-name"></i>
+            <input type="date" id="start-date-input" class="input-search-name-film">
+        </div>
+
+        <div class="box-search-name-film">
+            <i class="fa-solid fa-magnifying-glass icon-search-name"></i>
+            <input type="text" id="name-film-input" class="input-search-name-film" placeholder="Nhập tên quảng cáo">
+        </div>
+
+    </div>
+
 </div>
 
 <div id="manage-list" class="manage-list">
@@ -178,7 +272,7 @@
                 localStorage.removeItem('is_admin');
 
                 window.location.href = '/login/';
-            } 
+            }
         }
     }
 
@@ -197,7 +291,7 @@
 
     const selectedIds = new Set();
     // Thêm nút "Xóa nhiều"
-    
+
     const deleteMultiBtn = document.getElementById('delete-multi-manage');
     deleteMultiBtn.style.textShadow = '1px 1px 1px #000';
     deleteMultiBtn.style.display = 'none';
@@ -208,8 +302,11 @@
     const nextPageBtn = document.querySelector('.next-page');
     let currentPage = 1;
     let totalPages;
-    
-    document.getElementById('insert-manage').addEventListener('click', function() {
+
+    let namePromotion = '';
+    let startDate = '';
+
+    document.getElementById('insert-manage').addEventListener('click', function () {
         window.location.href = '/promotioninsert/';
     });
 
@@ -260,19 +357,19 @@
             `;
 
             // Sự kiện toggle chọn
-            dataRow.addEventListener('click', function() {
+            dataRow.addEventListener('click', function () {
                 const id = promotionManage.id;
                 if (selectedIds.has(id)) {
                     selectedIds.delete(id); // Nếu đã chọn, bỏ chọn
-                    console.log("delete id:",selectedIds.delete(id))
+                    console.log("delete id:", selectedIds.delete(id))
                     dataRow.classList.remove('selected');
                 } else {
                     selectedIds.add(id); // Nếu chưa chọn, thêm vào
-                    console.log("add id:",selectedIds.add(id))
+                    console.log("add id:", selectedIds.add(id))
                     dataRow.classList.add('selected');
                 }
 
-                if(selectedIds.size > 0){
+                if (selectedIds.size > 0) {
                     deleteMultiBtn.style.display = 'flex';
                 }
                 else {
@@ -280,13 +377,13 @@
                 }
             });
 
-            dataRow.querySelector('#promotion-delete').addEventListener('click', function() {
+            dataRow.querySelector('#promotion-delete').addEventListener('click', function () {
                 if (confirm('Bạn có chắc chắn muốn xóa promotion này?')) {
                     getDeletePromotion(promotionManage.id);
                 }
             });
-            
-            dataRow.querySelector('#promotion-update').addEventListener('click', function() {
+
+            dataRow.querySelector('#promotion-update').addEventListener('click', function () {
                 window.location.href = `/promotionupdate/?promotionId=${promotionManage.id}`;
             });
 
@@ -305,36 +402,79 @@
         nextPageBtn.disabled = !totalPages || currentPage === totalPages;
     }
 
-    
-    function getPromotionManage( page = 1) {
-        let url = `/api/promotions/?page=${page}&ordering=-created_at`;
-        
-        fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            renderPromotionManage(data.results);
-            totalPages = Math.ceil(data.count / data.results.length);
-            currentPage = page;
-            updatePaginationButtons();
 
-            // Nếu không có next, ẩn nút next
-            nextPageBtn.disabled = !data.next;
-        })
-        .catch(error => {
-            console.error('Error fetching promotion data:', error);
-        });
+    function getPromotionManage(page = 1) {
+
+        const queryParamsStart = startDate ? { start_date: startDate } : {};
+        const queryStringStart = new URLSearchParams(queryParamsStart).toString();
+
+        const queryParams = namePromotion ? { name__icontains: namePromotion } : {};
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        let url = `/api/promotions/?page=${page}&ordering=-created_at&${queryStringStart}&${queryString}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                renderPromotionManage(data.results);
+                totalPages = Math.ceil(data.count / data.results.length);
+                currentPage = page;
+                updatePaginationButtons();
+
+                // Nếu không có next, ẩn nút next
+                nextPageBtn.disabled = !data.next;
+            })
+            .catch(error => {
+                console.error('Error fetching promotion data:', error);
+            });
     }
 
-    
+
     prevPageBtn.addEventListener('click', () => {
-        getPromotionManage( currentPage - 1);
+        getPromotionManage(currentPage - 1);
     });
-    
+
     nextPageBtn.addEventListener('click', () => {
-        getPromotionManage( currentPage + 1);
+        getPromotionManage(currentPage + 1);
     });
 
     getPromotionManage();
+
+    document.getElementById('name-film-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            namePromotion = document.getElementById('name-film-input').value;
+            startDate = document.getElementById('start-date-input').value;
+
+            if (namePromotion) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getPromotionManage(currentPage);
+            } else if (namePromotion && startDate) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getPromotionManage(currentPage);
+            } else {
+                getPromotionManage(currentPage);
+            }
+        }
+
+    });
+
+    document.getElementById('start-date-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            namePromotion = document.getElementById('name-film-input').value;
+            startDate = document.getElementById('start-date-input').value;
+
+            if (startDate) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getPromotionManage(currentPage);
+            } else if (namePromotion && startDate) {
+                currentPage = 1; // Đặt lại trang hiện tại về 1
+                getPromotionManage(currentPage);
+            } else {
+                getPromotionManage(currentPage);
+            }
+        }
+
+    });
 
 
 
@@ -347,25 +487,25 @@
                 'Content-Type': 'application/json',
             }
         })
-        .then(response => {
-            if (response.ok) {
-                console.log(`Đã xóa promotion có ID ${promotionId} thành công!`);
-                // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
-                getPromotionManage();
-                selectedIds.clear(); // Xóa danh sách đã chọn
-                deleteMultiBtn.style.display = 'none';
-            } else {
-                console.error(`Lỗi khi xóa promotion có ID ${promotionId}: ${response.status} - ${response.statusText}`);
-            }
-        })
-        .catch(error => {
-            console.error(`Lỗi khi xóa promotion có ID ${promotionId}: ${error}`);
-        });
+            .then(response => {
+                if (response.ok) {
+                    console.log(`Đã xóa promotion có ID ${promotionId} thành công!`);
+                    // Có thể thêm code để cập nhật lại giao diện, ví dụ như xóa dòng tương ứng trong bảng
+                    getPromotionManage();
+                    selectedIds.clear(); // Xóa danh sách đã chọn
+                    deleteMultiBtn.style.display = 'none';
+                } else {
+                    console.error(`Lỗi khi xóa promotion có ID ${promotionId}: ${response.status} - ${response.statusText}`);
+                }
+            })
+            .catch(error => {
+                console.error(`Lỗi khi xóa promotion có ID ${promotionId}: ${error}`);
+            });
     }
 
 
     // Sự kiện cho nút "Xóa nhiều"
-    
+
     deleteMultiBtn.addEventListener('click', () => {
 
         const accessToken = localStorage.getItem('access_token');
@@ -378,7 +518,7 @@
                     object_type: "promotions",
                     operation: "delete"
                 };
-                
+
                 fetch('/api/bulk_edit_objects/', {
                     method: 'POST',
                     headers: {
@@ -387,23 +527,23 @@
                     },
                     body: JSON.stringify(body)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        console.log(`Đã xóa các promotion thành công!`);
-                        getPromotionManage(); // Tải lại danh sách
-                        selectedIds.clear(); // Xóa danh sách đã chọn
-                        deleteMultiBtn.style.display = 'none';
-                    } else {
-                        alert('Có lỗi xảy ra!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error deleting promotion:', error);
-                });
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Đã xóa các promotion thành công!`);
+                            getPromotionManage(); // Tải lại danh sách
+                            selectedIds.clear(); // Xóa danh sách đã chọn
+                            deleteMultiBtn.style.display = 'none';
+                        } else {
+                            alert('Có lỗi xảy ra!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting promotion:', error);
+                    });
             }
         }
     });
 
 </script>
 
-{% endblock promotionManage %} 
+{% endblock promotionManage %}

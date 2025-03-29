@@ -512,7 +512,7 @@
 
 <script>
     // Lấy danh sách phim từ API
-    fetch('/api/promotions/')
+    fetch('/api/promotions/?ordering=created_at')
         .then(response => response.json())
         .then(data => {
             const promotionList = document.getElementById('promotion-list-home');
